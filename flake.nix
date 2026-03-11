@@ -22,7 +22,10 @@
     hmConfig = {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users.gars = import ./home/gars/home.nix;
+      home-manager.users.gars = { imports = [
+        ./home/gars/home.nix
+        ./modules/home/cli.nix  # CLI tools
+      ]; };
     };
 
     hmConfigGui = {
@@ -30,6 +33,7 @@
       home-manager.useUserPackages = true;
       home-manager.users.gars = { imports = [ 
         ./home/gars/home.nix 
+        ./modules/home/cli.nix  # CLI tools
         ./modules/home/gui.nix 
       ]; };
     };
@@ -40,6 +44,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/nixos-vm/configuration.nix
+	  ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
 	  hmConfig
         ];
@@ -50,6 +55,7 @@
         modules = [
 	  jetpack-nixos.nixosModules.default
           ./hosts/cyberdeck/configuration.nix
+	  ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
 	  hmConfig
         ];
@@ -59,6 +65,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/nixos-vm/configuration.nix
+	  ./modules/system/cli.nix
 	  ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
 	  hmConfigGui

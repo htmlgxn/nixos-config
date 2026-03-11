@@ -8,14 +8,10 @@
   home.username = "gars";
   home.homeDirectory = "/home/gars";
 
-  home.packages = with pkgs; [
-    htop
-    tree
-    ripgrep
-    fd
-    gh
-    glow
-  ];
+  # home.packages = with pkgs; [
+  #   add user-specific pkgs here
+  #   ...
+  # ];
 
   home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/nvim";
 
@@ -43,6 +39,8 @@
       cdc = "cd ~/nixos-config";
       ef = "nvim ~/nixos-config/flake.nix";
       eh = "nvim ~/nixos-config/home/gars/home.nix";
+      ecli = "nvim ~/nixos-config/modules/home/cli.nix";
+      egui = "nvim ~/nixos-config/modules/home/gui.nix";
       econfn = "nvim ~/nixos-config/hosts/nixos-vm/configuration.nix"; 
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
       nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";

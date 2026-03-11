@@ -79,37 +79,15 @@
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
+
   environment.systemPackages = with pkgs; [
-  # editors
-    vim 
-    neovim
-  # multiplexers
-    tmux
-    zellij
-  # networking
+    vim      # recovery editor before home-manager activates
+    git      # needed for flake operations
     wget
     curl
-  # system monitoring
-    htop
-    btop
-    bottom
-    systemctl-tui
-  # file management
-    lf
-    tree
-    ranger
     file
     unzip
     zip
-  # utilities
-    git 
-    ripgrep
-    fd
-    bat
-    fzf
-    fend
-  # extras / tui
-    ncspot
   ];
 
   # Flakes

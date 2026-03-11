@@ -16,18 +16,24 @@
     eza
     fzf
     zoxide
+    tree
+    ranger
     # System monitoring
     htop
     btop
-    nvtop
+    bottom
     powertop
     s-tui
+    systemctl-tui
     # Networking
-    wget
-    curl
     rsync
     nmap
     wireguard-tools
     mosh
+    # Utilities
+    fend
+    ncspot
+    gh   # github cli
+    glow # markdown reader
   ];
 }
