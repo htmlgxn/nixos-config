@@ -9,19 +9,20 @@
     tree
     ripgrep
     fd
+    glow
   ];
 
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/nvim";
+
   programs.bash = {
+
     enable = true;
 
     shellAliases = {
       c = "clear";
       h = "history";
       la = "ls -a";
-      lsa = "ls -a";
       ll = "ls -la";
-      lsla = "ls -la";
-      lsal = "ls -la";
       ".." = "cd ..";
       "..." = "cd ../..";
       grep = "grep --color=auto";
