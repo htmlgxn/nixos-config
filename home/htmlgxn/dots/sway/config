@@ -25,7 +25,7 @@ default_floating_border pixel 2
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-exec_always swaybg -i ~/Pictures/wallpapers/png/mtl-16.png -m fill
+exec_always swaybg -i ~/wallpapers/mtl-17.jpg -m fill
 #
 # wlsunset (redshift)
 exec wlsunset -t 2500 -T 3000
@@ -80,7 +80,7 @@ seat seat0 xcursor_theme catppuccin-mocha-yellow-cursors 26
 ### Key bindings
 #
 # Custom shortcuts:
-    bindsym $mod+F2 exec brave-beta
+    bindsym $mod+F2 exec brave
     bindsym $mod+F3 exec thunar
     bindsym $mod+Shift+a exec flameshot gui
     bindsym $mod+Shift+x exec swaylock -f -c 000000
