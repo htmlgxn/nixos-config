@@ -1,3 +1,7 @@
+#
+# ~/nixos-config/home/htmlgxn/home.nix
+#
+
 { config, pkgs, ... }:
 
 {
@@ -25,6 +29,7 @@
       ll = "ls -la";
       ".." = "cd ..";
       "..." = "cd ../..";
+      mkdir = "mkdir -pv";
       grep = "grep --color=auto";
       egrep = "egrep --color=auto";
       fgrep = "fgrep --color=auto";

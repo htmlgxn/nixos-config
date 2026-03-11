@@ -1,3 +1,7 @@
+#
+# ~/nixos-config/modules/home/gui.nix
+#
+
 { config, pkgs, ... }:
 
 {

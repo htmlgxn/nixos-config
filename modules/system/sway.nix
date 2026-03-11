@@ -1,3 +1,7 @@
+#
+# ~/nixos-config/modules/system/sway.nix
+#
+
 { config, pkgs, ... }:
 
 {

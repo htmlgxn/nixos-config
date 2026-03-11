@@ -1,3 +1,7 @@
+#
+# ~/nixos-config/flake.nix
+#
+
 {
   description = "My NixOS config";
 
