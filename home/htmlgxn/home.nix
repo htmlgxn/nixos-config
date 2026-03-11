@@ -39,6 +39,7 @@
       eh = "nvim ~/nixos-config/home/htmlgxn/home.nix";
       econfn = "nvim ~/nixos-config/hosts/nixos-vm/configuration.nix"; 
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
+      nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";
       calc = "fend";
     };
 
