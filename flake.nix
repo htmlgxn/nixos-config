@@ -11,21 +11,25 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jetpack-nixos = {
+      url = "github:anduril/jetpack-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, jetpack-nixos, ... }:
   let
     hmConfig = {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users.htmlgxn = import ./home/htmlgxn/home.nix;
+      home-manager.users.gars = import ./home/gars/home.nix;
     };
 
     hmConfigGui = {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users.htmlgxn = { imports = [ 
-        ./home/htmlgxn/home.nix 
+      home-manager.users.gars = { imports = [ 
+        ./home/gars/home.nix 
         ./modules/home/gui.nix 
       ]; };
     };
@@ -36,6 +40,16 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/nixos-vm/configuration.nix
+          home-manager.nixosModules.home-manager
+	  hmConfig
+        ];
+      };
+
+      cyberdeck = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+	  jetpack-nixos.nixosModules.default
+          ./hosts/cyberdeck/configuration.nix
           home-manager.nixosModules.home-manager
 	  hmConfig
         ];

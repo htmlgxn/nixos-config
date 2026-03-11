@@ -1,22 +1,23 @@
 #
-# ~/nixos-config/home/htmlgxn/home.nix
+# ~/nixos-config/home/gars/home.nix
 #
 
 { config, pkgs, ... }:
 
 {
-  home.username = "htmlgxn";
-  home.homeDirectory = "/home/htmlgxn";
+  home.username = "gars";
+  home.homeDirectory = "/home/gars";
 
   home.packages = with pkgs; [
     htop
     tree
     ripgrep
     fd
+    gh
     glow
   ];
 
-  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/nvim";
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/nvim";
 
   programs.bash = {
 
@@ -41,7 +42,7 @@
       gp = "git push";
       cdc = "cd ~/nixos-config";
       ef = "nvim ~/nixos-config/flake.nix";
-      eh = "nvim ~/nixos-config/home/htmlgxn/home.nix";
+      eh = "nvim ~/nixos-config/home/gars/home.nix";
       econfn = "nvim ~/nixos-config/hosts/nixos-vm/configuration.nix"; 
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
       nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";
