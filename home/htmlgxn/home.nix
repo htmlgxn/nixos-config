@@ -34,12 +34,12 @@
       gs = "git status";
       gc = "git commit";
       gp = "git push";
-      calc = "fend";
       cdc = "cd ~/nixos-config";
       ef = "nvim ~/nixos-config/flake.nix";
       eh = "nvim ~/nixos-config/home/htmlgxn/home.nix";
       econfn = "nvim ~/nixos-config/hosts/nixos-vm/configuration.nix"; 
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
+      calc = "fend";
     };
 
     sessionVariables = {
