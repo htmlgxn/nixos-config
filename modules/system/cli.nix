@@ -1,3 +1,6 @@
+#
+# ~/nixos-config/modules/system/cli.nix
+#
 { config, pkgs, ... }:
 
 {

@@ -41,8 +41,8 @@
       eh = "nvim ~/nixos-config/home/gars/home.nix";
       ecli = "nvim ~/nixos-config/modules/home/cli.nix";
       egui = "nvim ~/nixos-config/modules/home/gui.nix";
-      econfn = "nvim ~/nixos-config/hosts/nixos-vm/configuration.nix"; 
-      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
+      econfn = "nvim ~/nixos-config/hosts/boreal/configuration.nix"; 
+      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
       nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";
       calc = "fend";
     };

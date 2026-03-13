@@ -23,14 +23,14 @@
   # Symlink dotfiles into place
   home.file = {
     ".config/sway/config".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/dots/sway/config";
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/sway/config";
     ".config/waybar/config".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/dots/waybar/config";
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/config";
     ".config/waybar/style.css".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/dots/waybar/style.css";
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/style.css";
     ".config/fuzzel/fuzzel.ini".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/dots/fuzzel/fuzzel.ini";
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/fuzzel/fuzzel.ini";
     ".config/mako/config".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/htmlgxn/nixos-config/home/htmlgxn/dots/mako/config";
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/mako/config";
   };
 }

@@ -11,13 +11,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jetpack-nixos = {
-      url = "github:anduril/jetpack-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, jetpack-nixos, ... }:
+  outputs = { self, nixpkgs, home-manager, ... }:
   let
     hmConfig = {
       home-manager.useGlobalPkgs = true;
@@ -40,21 +36,21 @@
   in {
     nixosConfigurations = {
 
-      nixos-vm = nixpkgs.lib.nixosSystem {
+      boreal = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/nixos-vm/configuration.nix
 	  ./modules/system/cli.nix
+	  ./modules/system/gui.nix
           home-manager.nixosModules.home-manager
-	  hmConfig
+	  hmConfigGui
         ];
       };
 
-      cyberdeck = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
+      nixos-vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
-	  jetpack-nixos.nixosModules.default
-          ./hosts/cyberdeck/configuration.nix
+          ./hosts/nixos-vm/configuration.nix
 	  ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
 	  hmConfig
