@@ -17,7 +17,7 @@
     grim
     flameshot
     brave
-    xfce.thunar
+    thunar
   ];
 
   # Symlink dotfiles into place
