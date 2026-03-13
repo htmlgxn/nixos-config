@@ -17,10 +17,10 @@
 
   # AMD RX 570 — load amdgpu early for proper modesetting
   boot.initrd.kernelModules               = [ "amdgpu" ];
-  services.xserver.videoDrivers          = [ "amdgpu" ];
+  services.xserver.videoDrivers           = [ "amdgpu" ];
 
-  # Test for Resolve
-  hardware.amdgpu.opencl.enable = true;
+  # Test for Resolve (deprecated ?)
+  #hardware.amdgpu.opencl.enable = true;
 
   # ── Hardware ──────────────────────────────────────────────────────────
   hardware.graphics = {
@@ -32,7 +32,9 @@
   };
 
   environment.variables = {
-    RUSTICL_ENABLE = "radeonsi";
+    RUSTICL_ENABLE      = "radeonsi";
+    ROC_ENABLE_PRE_VEGA = "1";
+    QT_QPA_PLATFORM     = "xcb";
   };
 
   # ── Network ───────────────────────────────────────────────────────────

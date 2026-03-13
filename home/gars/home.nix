@@ -31,10 +31,12 @@
       calc    = "fend";
 
       # ── Git ──────────────────────────────────────────────────────────
-      ga  = "git add .";
-      gs  = "git status";
-      gc  = "git commit";
-      gp  = "git push";
+      ga   = "git add .";
+      gaa  = "git add -A";
+      gs   = "git status";
+      gc   = "git commit";
+      gcm  = "git commit -m";
+      gp   = "git push";
 
       # ── Config navigation ─────────────────────────────────────────────
       cdc     = "cd ~/nixos-config";
