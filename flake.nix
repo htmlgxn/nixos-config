@@ -74,6 +74,7 @@
       boreal = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/sway.nix

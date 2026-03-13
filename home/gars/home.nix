@@ -42,7 +42,7 @@
       eh      = "nvim ~/nixos-config/home/gars/home.nix";
       ecli    = "nvim ~/nixos-config/modules/home/cli.nix";
       egui    = "nvim ~/nixos-config/modules/home/gui.nix";
-      econfn  = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
+      enconf  = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)

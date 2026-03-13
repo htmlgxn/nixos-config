@@ -19,10 +19,20 @@
   boot.initrd.kernelModules               = [ "amdgpu" ];
   services.xserver.videoDrivers          = [ "amdgpu" ];
 
+  # Test for Resolve
+  hardware.amdgpu.opencl.enable = true;
+
   # ── Hardware ──────────────────────────────────────────────────────────
   hardware.graphics = {
     enable       = true;
     enable32Bit  = true;   # needed for Steam / 32-bit OpenGL
+    extraPackages = with pkgs; [
+      mesa.opencl # Rusticl OpenCL support for RX 570
+    ];  
+  };
+
+  environment.variables = {
+    RUSTICL_ENABLE = "radeonsi";
   };
 
   # ── Network ───────────────────────────────────────────────────────────
@@ -36,7 +46,7 @@
   # ── Users ─────────────────────────────────────────────────────────────
   users.users.gars = {
     isNormalUser    = true;
-    extraGroups     = [ "wheel" "networkmanager" "video" "audio" ];
+    extraGroups     = [ "wheel" "networkmanager" "video" "audio" "render" ];
     initialPassword = "changeme";
   };
 
