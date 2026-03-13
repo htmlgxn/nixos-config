@@ -41,7 +41,7 @@
         modules = [
           ./hosts/nixos-vm/configuration.nix
 	  ./modules/system/cli.nix
-	  ./modules/system/gui.nix
+	  ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
 	  hmConfigGui
         ];
