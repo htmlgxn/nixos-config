@@ -56,7 +56,7 @@
       nrn  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
 
       # ── Rebuild: VMs ─────────────────────────────────────────────────
-      nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";
+      nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
     };
 
     sessionVariables = {

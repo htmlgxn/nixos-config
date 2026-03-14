@@ -3,7 +3,7 @@
 #
 # Common GUI packages for all compositors.
 # No compositor-specific dotfile symlinks here — each compositor manages its own config.
-# Used by: COSMIC, Hyprland, Niri, River, Wayfire, LabWC, Sway.
+# Used by: Sway, and Niri.
 #
 
 { config, pkgs, ... }:

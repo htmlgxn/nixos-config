@@ -12,27 +12,10 @@
       url   = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # COSMIC — binary cache avoids compiling ~16 GB of Rust locally
-    nixos-cosmic = {
-      url   = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-cosmic, ... }:
+  outputs = { self, nixpkgs, home-manager, ... }:
   let
-
-    cosmicCache = {
-      nix.settings = {
-        substituters      = [ "https://cosmic.cachix.org/" ];
-        trusted-public-keys = [
-          "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-        ];
-      };
-    };
-
-    # Base: CLI only (headless / VM)
     hmBase = {
       home-manager.useGlobalPkgs    = true;
       home-manager.useUserPackages  = true;
@@ -49,10 +32,9 @@
       home-manager.users.gars = { imports = [
         ./home/gars/home.nix
         ./modules/home/cli.nix
-        ./modules/home/gui.nix       # imports gui-base.nix
+        ./modules/home/gui-base.nix
       ]; };
     };
-
   in {
     nixosConfigurations = {
 
@@ -60,11 +42,12 @@
       boreal = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
+          ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
+          ({ ... }: { imports = [ ./modules/home/sway.nix ]; })
           hmGui
         ];
       };
@@ -73,11 +56,12 @@
       boreal-niri = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
+          ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/niri.nix
           home-manager.nixosModules.home-manager
+          ({ ... }: { imports = [ ./modules/home/niri.nix ]; })
           hmGui
         ];
       };

@@ -36,6 +36,10 @@
     openmoji-color
   ];
 
+  environment.variables = {
+    GTK_THEME = "Adwaita-dark";
+  };
+
   xdg.portal = {
     enable       = true;
     extraPortals = [
