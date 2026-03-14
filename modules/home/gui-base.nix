@@ -74,6 +74,9 @@ in
     # ── Video ────────────────────────────────────────────────────
     mpv
 
+    # ── Documents / Notes ────────────────────────────────────────
+    obsidian
+
     # ── IDE / Code editor ────────────────────────────────────────
     (vscode-with-extensions.override {
       vscode = vscodium;
@@ -82,6 +85,7 @@ in
         ms-python.python
         ms-azuretools.vscode-docker
         ms-vscode-remote.remote-ssh
+	asvetliakov.vscode-neovim
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "remote-ssh-edit";

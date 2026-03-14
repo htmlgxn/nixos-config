@@ -32,18 +32,23 @@
     powertop
     s-tui
     systemctl-tui
-  # ── Networking ───────────────────────────────────────────────────────
+  # ── Networking ───────────────────────────────────────────────────
     rsync
     nmap
     wireguard-tools
     mosh
-  # ── Utilities ───────────────────────────────────────────────────────
+  # ── Utilities ────────────────────────────────────────────────────
     fend
     ncspot
-    gh   # github cli
-    glow # markdown reader
-    uv   # python manager
-  # ── Test ───────────────────────────────────────────────────────
+    gh      # github cli
+    glow    # markdown reader
+    uv      # python manager
+    yt-dlp  # youtube downloader cli 
+
+  # ── Documents / Notes ────────────────────────────────────────────────────
+    basalt  # Obsidian CLI
+
+  # ── Test ─────────────────────────────────────────────────────────
     ffmpeg
   ];
 }

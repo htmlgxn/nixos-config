@@ -15,7 +15,7 @@
     enable = true;
 
     shellAliases = {
-      # ── General ──────────────────────────────────────────────────────
+      # ── General ───────────────────────────────────────────────────────
       c       = "clear";
       h       = "history";
       la      = "ls -a";
@@ -31,8 +31,9 @@
       calc    = "fend";
       code    = "codium";
       weather = "outside -o detailed";
+      music   = "ncspot";
 
-      # ── Git ──────────────────────────────────────────────────────────
+      # ── Git ───────────────────────────────────────────────────────────
       ga    = "git add .";
       gaa   = "git add -A";
       gs    = "git status";
@@ -58,8 +59,12 @@
       # nrn   — Niri
       nrn  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
 
-      # ── Rebuild: VMs ─────────────────────────────────────────────────
+      # ── Rebuild: VMs ──────────────────────────────────────────────────
       nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
+
+      # ── yt-dlp ────────────────────────────────────────────────────────
+      ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
+
     };
 
     sessionVariables = {
