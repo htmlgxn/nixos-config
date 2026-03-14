@@ -26,6 +26,10 @@
     wlsunset
     wl-clipboard
 
+    # ── GTK theming ────────────────────────────────────────
+    gsettings-desktop-schemas
+    glib  # provides gsettings binary
+
     # ── Screenshot ───────────────────────────────────────────────
     grim
     flameshot
@@ -68,14 +72,11 @@
     })
 
     # ── Video editor ─────────────────────────────────────────────
-    davinci-resolve
     kdePackages.kdenlive
 
     # ── Funny ────────────────────────────────────────────────────
     anarchism
 
-    gsettings-desktop-schemas
-    glib  # provides gsettings binary
   ];
 
   # ── GTK / QT theming ───────────────────────────────────────────
