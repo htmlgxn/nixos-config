@@ -6,13 +6,16 @@
 
 {
   home.packages = with pkgs; [
-    # Shell & multiplexer
+  # ── Shell & multiplexer ──────────────────────────────────────────
     tmux
     zellij
-    # Editor
+  # ── Editor ───────────────────────────────────────────────────────
     neovim
     helix
-    # File management
+    # ── AI agent ───────────────────────────────────────────────────
+      opencode
+      # crush
+  # ── File management ──────────────────────────────────────────────
     lf
     fd
     ripgrep
@@ -22,22 +25,24 @@
     zoxide
     tree
     ranger
-    # System monitoring
+  # ── System monitoring ────────────────────────────────────────────
     htop
     btop
     bottom
     powertop
     s-tui
     systemctl-tui
-    # Networking
+  # ── Networking ───────────────────────────────────────────────────────
     rsync
     nmap
     wireguard-tools
     mosh
-    # Utilities
+  # ── Utilities ───────────────────────────────────────────────────────
     fend
     ncspot
     gh   # github cli
     glow # markdown reader
+    uv   # python manager
+  # ── Test ───────────────────────────────────────────────────────
   ];
 }

@@ -4,6 +4,8 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.

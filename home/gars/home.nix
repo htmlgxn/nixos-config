@@ -1,4 +1,4 @@
-#
+
 # ~/nixos-config/home/gars/home.nix
 #
 
@@ -29,6 +29,7 @@
       edit    = "nvim";
       e       = "nvim";
       calc    = "fend";
+      code    = "codium";
 
       # ── Git ──────────────────────────────────────────────────────────
       ga    = "git add .";
@@ -45,6 +46,7 @@
       eh      = "nvim ~/nixos-config/home/gars/home.nix";
       ecli    = "nvim ~/nixos-config/modules/home/cli.nix";
       egui    = "nvim ~/nixos-config/modules/home/gui.nix";
+      eguib   = "nvim ~/nixos-config/modules/home/gui-base.nix";
       enconf  = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────

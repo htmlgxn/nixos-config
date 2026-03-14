@@ -1,0 +1,58 @@
+// Niri config — gars-yellow theme (minimal)
+
+input {
+    keyboard {
+        xkb {
+            layout "us"
+            options "caps:escape"
+        }
+    }
+}
+
+xcursor-theme {
+    name "catppuccin-mocha-yellow-cursors"
+    size 26
+}
+
+focus {
+    follow-mouse false
+}
+
+layout {
+    gaps 2
+
+    focus-ring {
+        width 2
+        active-color e3c220ff
+        inactive-color 826f11ff
+    }
+}
+
+binds {
+    Mod+Return { spawn "alacritty"; }
+    Mod+Space { spawn "fuzzel"; }
+    Mod+Q { close; }
+
+    Mod+1 { workspace 1; }
+    Mod+2 { workspace 2; }
+    Mod+3 { workspace 3; }
+    Mod+4 { workspace 4; }
+    Mod+5 { workspace 5; }
+    Mod+6 { workspace 6; }
+    Mod+7 { workspace 7; }
+    Mod+8 { workspace 8; }
+    Mod+9 { workspace 9; }
+    Mod+0 { workspace 10; }
+
+    Mod+H { focus-left; }
+    Mod+J { focus-down; }
+    Mod+K { focus-up; }
+    Mod+L { focus-right; }
+
+    Mod+Left { focus-left; }
+    Mod+Down { focus-down; }
+    Mod+Up { focus-up; }
+    Mod+Right { focus-right; }
+
+    Mod+F { fullscreen; }
+}

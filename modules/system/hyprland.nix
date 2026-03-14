@@ -8,26 +8,22 @@
 { config, pkgs, ... }:
 
 {
-  # ── Hyprland ──────────────────────────────────────────────────────────
   programs.hyprland = {
     enable          = true;
     xwayland.enable = true;
   };
 
-  # ── Security ──────────────────────────────────────────────────────────
   security.polkit.enable  = true;
   security.rtkit.enable   = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # ── Audio ─────────────────────────────────────────────────────────────
   services.pipewire = {
     enable       = true;
     alsa.enable  = true;
     pulse.enable = true;
   };
 
-  # ── Greeter ───────────────────────────────────────────────────────────
   services.greetd = {
     enable = true;
     settings.default_session = {
@@ -36,14 +32,12 @@
     };
   };
 
-  # ── Fonts ─────────────────────────────────────────────────────────────
   fonts.packages = with pkgs; [
     roboto-mono
     noto-fonts
     openmoji-color
   ];
 
-  # ── XDG portals ───────────────────────────────────────────────────────
   xdg.portal = {
     enable       = true;
     extraPortals = [
@@ -52,18 +46,12 @@
     ];
   };
 
-  # ── Packages ──────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
     wayland
     xwayland
-    waybar
-    fuzzel        # launcher (same as sway setup)
-    wl-clipboard
-    grim          # screenshot
-    slurp         # region select
-    mako          # notifications
-    swww          # animated wallpaper daemon
-    hyprlock      # lockscreen
-    hypridle      # idle daemon
+    slurp
+    hyprlock
+    hypridle
+    swww
   ];
 }

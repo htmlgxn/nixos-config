@@ -23,7 +23,6 @@
   outputs = { self, nixpkgs, home-manager, nixos-cosmic, ... }:
   let
 
-    # ── Cachix binary cache for COSMIC ──────────────────────────────────
     cosmicCache = {
       nix.settings = {
         substituters      = [ "https://cosmic.cachix.org/" ];
@@ -33,7 +32,6 @@
       };
     };
 
-    # ── Home-manager configurations ──────────────────────────────────────
     # Base: CLI only (headless / VM)
     hmBase = {
       home-manager.useGlobalPkgs    = true;
@@ -44,26 +42,14 @@
       ]; };
     };
 
-    # Sway: CLI + GUI with sway dotfile symlinks
-    hmSway = {
-      home-manager.useGlobalPkgs    = true;
-      home-manager.useUserPackages  = true;
-      home-manager.users.gars = { imports = [
-        ./home/gars/home.nix
-        ./modules/home/cli.nix
-        ./modules/home/gui.nix       # includes sway dotfile symlinks
-      ]; };
-    };
-
-    # GUI base: CLI + GUI packages, no compositor-specific dotfiles
-    # Used for COSMIC, Hyprland, Niri, River, Wayfire, LabWC
+    # GUI: CLI + shared GUI packages (all compositors)
     hmGui = {
       home-manager.useGlobalPkgs    = true;
       home-manager.useUserPackages  = true;
       home-manager.users.gars = { imports = [
         ./home/gars/home.nix
         ./modules/home/cli.nix
-        ./modules/home/gui-base.nix  # no sway dotlinks
+        ./modules/home/gui.nix       # imports gui-base.nix
       ]; };
     };
 
@@ -79,7 +65,7 @@
           ./modules/system/cli.nix
           ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
-          hmSway
+          hmGui
         ];
       };
 
@@ -87,6 +73,7 @@
       boreal-cosmic = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           cosmicCache
           nixos-cosmic.nixosModules.default
           ./hosts/boreal/configuration.nix
@@ -101,6 +88,7 @@
       boreal-hyprland = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/hyprland.nix
@@ -113,6 +101,7 @@
       boreal-niri = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/niri.nix
@@ -125,6 +114,7 @@
       boreal-river = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/river.nix
@@ -137,6 +127,7 @@
       boreal-wayfire = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/wayfire.nix
@@ -149,6 +140,7 @@
       boreal-labwc = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
+	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/labwc.nix
@@ -157,7 +149,7 @@
         ];
       };
 
-      # ── VMs ────────────────────────────────────────────────────────────
+      # ── VM ──────────────────────────────────────────────────────────────
       nixos-vm = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         modules = [
@@ -165,17 +157,6 @@
           ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
           hmBase
-        ];
-      };
-
-      nixos-vm-gui = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-          ./hosts/nixos-vm/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/sway.nix
-          home-manager.nixosModules.home-manager
-          hmSway
         ];
       };
     };
