@@ -7,6 +7,7 @@
 let
   uvTools = [
     "ytdl-archiver"
+    "ruff"
     # add more here
   ];
 in
