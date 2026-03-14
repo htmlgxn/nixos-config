@@ -36,7 +36,6 @@ in
 
     # ── File & Web ──────────────────────────────────────────────────
     thunar
-    # brave
     firefox
 
     # ── Wayland Utilities ───────────────────────────────────────────
@@ -104,6 +103,7 @@ in
 
   ];
 
+  # ── Brave with Symlinks + Extensions ────────────────────────────────────────────────────────
   programs.chromium = {
     enable = true;
     package = pkgs.brave;
