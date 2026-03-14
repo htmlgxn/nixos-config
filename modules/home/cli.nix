@@ -6,6 +6,8 @@
 
 {
   home.packages = with pkgs; [
+    python315
+    python314
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
     zellij
@@ -30,7 +32,8 @@
     mistral-vibe
     # nanocoder - needs llm-agents repo
     kilocode-cli
-
+    # Local Chat
+    ollama-rocm
     # ── Git ─────────────────────────────────────────────────────────
     gh
     lazygit
