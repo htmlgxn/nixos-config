@@ -6,13 +6,15 @@
 
 {
   home.packages = with pkgs; [
-  # ── Shell & multiplexer ──────────────────────────────────────────
+    # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
     zellij
-  # ── Editor ───────────────────────────────────────────────────────
+
+    # ── Editor ──────────────────────────────────────────────────────
     neovim
     helix
-    # ── AI agent ───────────────────────────────────────────────────
+
+    # ── AI Agents ───────────────────────────────────────────────────
     opencode
     crush
     aichat
@@ -28,11 +30,13 @@
     mistral-vibe
     # nanocoder - needs llm-agents repo
     kilocode-cli
-    # ── Git ───────────────────────────────────────────────────────
-      gh
-      lazygit
-      gitui
-  # ── File management ──────────────────────────────────────────────
+
+    # ── Git ─────────────────────────────────────────────────────────
+    gh
+    lazygit
+    gitui
+
+    # ── File Management ─────────────────────────────────────────────
     lf
     fd
     ripgrep
@@ -42,29 +46,32 @@
     zoxide
     tree
     ranger
-  # ── System monitoring ────────────────────────────────────────────
+
+    # ── System Monitoring ───────────────────────────────────────────
     htop
     btop
     bottom
     powertop
     s-tui
     systemctl-tui
-  # ── Networking ───────────────────────────────────────────────────
+
+    # ── Networking ──────────────────────────────────────────────────
     rsync
     nmap
     wireguard-tools
     mosh
-  # ── Utilities ────────────────────────────────────────────────────
-    fend
-    ncspot
-    glow    # markdown reader
-    uv      # python manager
-    yt-dlp  # youtube downloader cli 
 
-  # ── Documents / Notes ────────────────────────────────────────────────────
+    # ── Media ───────────────────────────────────────────────────────
+    ncspot
+    yt-dlp
+    ffmpeg
+
+    # ── Calculator & Notes ──────────────────────────────────────────
+    fend
+    glow    # markdown reader
     basalt  # Obsidian CLI
 
-  # ── Test ─────────────────────────────────────────────────────────
-    ffmpeg
+    # ── Development ─────────────────────────────────────────────────
+    uv      # python manager
   ];
 }

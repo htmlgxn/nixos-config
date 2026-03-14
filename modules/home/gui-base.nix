@@ -27,58 +27,56 @@ let
 in
 {
   home.packages = with pkgs; [
+    # ── Custom Builds ────────────────────────────────────────────────
     outside
-    # ── Terminal ─────────────────────────────────────────────────
-    alacritty
 
-    # ── Launcher ─────────────────────────────────────────────────
+    # ── Terminal & Launcher ─────────────────────────────────────────
+    alacritty
     fuzzel
 
-    # ── File Explorer ────────────────────────────────────────────
+    # ── File & Web ──────────────────────────────────────────────────
     thunar
-
-    # ── Browser ──────────────────────────────────────────────────
     brave
 
-    # ── Wayland utilities ────────────────────────────────────────
+    # ── Wayland Utilities ───────────────────────────────────────────
     wlsunset
     wl-clipboard
 
-    # ── GTK theming ──────────────────────────────────────────────
+    # ── GTK Theming ─────────────────────────────────────────────────
     gsettings-desktop-schemas
     glib  # provides gsettings binary
 
-    # ── Screenshot ───────────────────────────────────────────────
+    # ── Screenshot ──────────────────────────────────────────────────
     grim
     flameshot
 
-    # ── Notifications ────────────────────────────────────────────
+    # ── Notifications ───────────────────────────────────────────────
     mako
 
-    # ── Status bar ───────────────────────────────────────────────
+    # ── Status Bar ──────────────────────────────────────────────────
     waybar
 
-    # ── Lock / Idle ──────────────────────────────────────────────
+    # ── Lock / Idle ─────────────────────────────────────────────────
     swaybg
     swaylock
     swayidle
 
-    # ── System utilities ─────────────────────────────────────────
+    # ── System Utilities ────────────────────────────────────────────
     polkit_gnome
     brightnessctl
     networkmanagerapplet
 
-    # ── Messengers ───────────────────────────────────────────────
+    # ── Messengers ──────────────────────────────────────────────────
     signal-desktop
 
-    # ── Video ────────────────────────────────────────────────────
+    # ── Media ───────────────────────────────────────────────────────
     mpv
 
-    # ── Documents / Notes ────────────────────────────────────────
+    # ── Documents & Notes ───────────────────────────────────────────
     obsidian
     libreoffice-fresh
 
-    # ── IDE / Code editor ────────────────────────────────────────
+    # ── IDE & Code Editor ───────────────────────────────────────────
     (vscode-with-extensions.override {
       vscode = vscodium;
       vscodeExtensions = with vscode-extensions; [
@@ -97,15 +95,15 @@ in
       ];
     })
 
-    # ── Video editor ─────────────────────────────────────────────
+    # ── Video Editor ────────────────────────────────────────────────
     kdePackages.kdenlive
 
-    # ── Funny ────────────────────────────────────────────────────
+    # ── Misc ────────────────────────────────────────────────────────
     anarchism
 
   ];
 
-  # ── GTK / QT theming ───────────────────────────────────────────
+  # ── GTK / QT Theming ──────────────────────────────────────────────
   gtk = {
     enable = true;
     theme = {
@@ -124,7 +122,7 @@ in
     style.name = "adwaita-dark";
   };
 
-  # ── Cursor theme ──────────────────────────────────────────────────────
+  # ── Cursor Theme ──────────────────────────────────────────────────
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.catppuccin-cursors.mochaYellow;
@@ -132,7 +130,7 @@ in
     size = 26;
   };
 
-  # ── Shared dotfile symlinks ─────────────────────────────────────
+  # ── Shared Dotfile Symlinks ───────────────────────────────────────
   home.file = {
     ".config/alacritty/alacritty.toml".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/alacritty/alacritty.toml";
