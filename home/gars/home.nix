@@ -30,6 +30,7 @@
       e       = "nvim";
       calc    = "fend";
       code    = "codium";
+      weather = "outside -o detailed";
 
       # ── Git ──────────────────────────────────────────────────────────
       ga    = "git add .";
