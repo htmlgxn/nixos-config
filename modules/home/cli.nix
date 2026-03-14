@@ -6,7 +6,6 @@
 
 {
   home.packages = with pkgs; [
-    python315
     python314
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
