@@ -33,6 +33,7 @@
         ./home/gars/home.nix
         ./modules/home/cli.nix
         ./modules/home/gui-base.nix
+        ./modules/home/sway.nix
       ]; };
     };
   in {
@@ -47,7 +48,7 @@
           ./modules/system/cli.nix
           ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
-          ({ ... }: { imports = [ ./modules/home/sway.nix ]; })
+          #({ ... }: { imports = [ ./modules/home/sway.nix ]; })
           hmGui
         ];
       };
@@ -61,8 +62,8 @@
           ./modules/system/cli.nix
           ./modules/system/niri.nix
           home-manager.nixosModules.home-manager
-          ({ ... }: { imports = [ ./modules/home/niri.nix ]; })
-          hmGui
+          #({ ... }: { imports = [ ./modules/home/niri.nix ]; })
+          #hmGui
         ];
       };
 
