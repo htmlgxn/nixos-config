@@ -52,17 +52,6 @@
     initialPassword = "changeme";
   };
 
-  # ── Base system packages ──────────────────────────────────────────────
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    curl
-    file
-    unzip
-    zip
-  ];
-
   # ── Nix ───────────────────────────────────────────────────────────────
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc = {

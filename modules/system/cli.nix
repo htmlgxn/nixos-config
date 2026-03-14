@@ -11,4 +11,14 @@
       PasswordAuthentication = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    wget
+    curl
+    file
+    unzip
+    zip
+  ];
 }

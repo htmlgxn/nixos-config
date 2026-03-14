@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
 
+# Note: Requires hardware-configuration.nix when physical hardware is acquired.
+# Currently configured for NVIDIA Jetson Orin Nano (aarch64).
+
 {
   hardware.nvidia-jetpack = {
     enable = true;
@@ -20,21 +23,6 @@
   };
 
   security.sudo.wheelNeedsPassword = true;
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = true;
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    curl
-  ];
 
   # Enable cross-compilation from x86 desktop
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

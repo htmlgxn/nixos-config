@@ -87,6 +87,17 @@
           hmBase
         ];
       };
+
+      # ── Cyberdeck (future) ─────────────────────────────────────────────
+      # cyberdeck = nixpkgs.lib.nixosSystem {
+      #   system  = "aarch64-linux";
+      #   modules = [
+      #     ./hosts/cyberdeck/configuration.nix
+      #     ./modules/system/cli.nix
+      #     home-manager.nixosModules.home-manager
+      #     hmBase
+      #   ];
+      # };
     };
   };
 }
