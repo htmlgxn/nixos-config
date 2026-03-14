@@ -1,3 +1,7 @@
+#
+# ~/nixos-config/hosts/cyberdeck/configuration.nix
+#
+
 { config, pkgs, lib, ... }:
 
 # Note: Requires hardware-configuration.nix when physical hardware is acquired.

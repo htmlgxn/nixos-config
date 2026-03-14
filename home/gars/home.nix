@@ -1,4 +1,4 @@
-
+#
 # ~/nixos-config/home/gars/home.nix
 #
 

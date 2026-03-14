@@ -86,7 +86,7 @@ in
         ms-python.python
         ms-azuretools.vscode-docker
         ms-vscode-remote.remote-ssh
-	asvetliakov.vscode-neovim
+        asvetliakov.vscode-neovim
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "remote-ssh-edit";
