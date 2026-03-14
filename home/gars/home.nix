@@ -45,14 +45,16 @@
       ef      = "nvim ~/nixos-config/flake.nix";
       eh      = "nvim ~/nixos-config/home/gars/home.nix";
       ecli    = "nvim ~/nixos-config/modules/home/cli.nix";
-      egui    = "nvim ~/nixos-config/modules/home/gui.nix";
-      eguib   = "nvim ~/nixos-config/modules/home/gui-base.nix";
+      egui    = "nvim ~/nixos-config/modules/home/gui-base.nix";
+      ehsway  = "nvim ~/nixos-config/modules/home/sway.nix";
+      ehniri  = "nvim ~/nixos-config/modules/home/niri.nix";
       enconf  = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
+      eswayc  = "nvim ~/nixos-config/home/gars/dots/sway/config";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
-      # nrn   — Niri
       nrs  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
+      # nrn   — Niri
       nrn  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
 
       # ── Rebuild: VMs ─────────────────────────────────────────────────
