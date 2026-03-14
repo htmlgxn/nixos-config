@@ -73,6 +73,9 @@
 
     # ── Funny ────────────────────────────────────────────────────
     anarchism
+
+    gsettings-desktop-schemas
+    glib  # provides gsettings binary
   ];
 
   # ── GTK / QT theming ───────────────────────────────────────────
