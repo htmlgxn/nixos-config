@@ -14,8 +14,7 @@
 
   home.packages = with pkgs; [
     # Niri-specific
-    grim
-    slurp
+    grim  # screenshot capture (used by niri's screenshot action)
   ];
 
   # ── Niri dotfile symlinks ───────────────────────────────────────────
