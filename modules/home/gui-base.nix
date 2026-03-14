@@ -26,7 +26,7 @@
     wlsunset
     wl-clipboard
 
-    # ── GTK theming ────────────────────────────────────────
+    # ── GTK theming ──────────────────────────────────────────────
     gsettings-desktop-schemas
     glib  # provides gsettings binary
 
@@ -34,13 +34,13 @@
     grim
     flameshot
 
-    # ── Notifications ─────────────────────────────────────────────
+    # ── Notifications ────────────────────────────────────────────
     mako
 
-    # ── Status bar ──────────────────────────────────────────────
+    # ── Status bar ───────────────────────────────────────────────
     waybar
 
-    # ── Lock / Idle ─────────────────────────────────────────────
+    # ── Lock / Idle ──────────────────────────────────────────────
     swaybg
     swaylock
     swayidle
@@ -52,6 +52,9 @@
 
     # ── Messengers ───────────────────────────────────────────────
     signal-desktop
+
+    # ── Video ────────────────────────────────────────────────────
+    mpv
 
     # ── IDE / Code editor ────────────────────────────────────────
     (vscode-with-extensions.override {

@@ -44,5 +44,6 @@
     glow # markdown reader
     uv   # python manager
   # ── Test ───────────────────────────────────────────────────────
+    ffmpeg
   ];
 }
