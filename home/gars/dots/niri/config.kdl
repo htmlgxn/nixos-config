@@ -9,26 +9,26 @@ input {
     }
 }
 
-xcursor-theme {
+/*xcursor-theme {
     name "catppuccin-mocha-yellow-cursors"
     size 26
-}
+}*/
 
-focus {
+/*focus {
     follow-mouse false
-}
+}*/
 
 layout {
-    gaps 2
+    gaps 10
 
     focus-ring {
         width 2
-        active-color e3c220ff
-        inactive-color 826f11ff
+        active-color "#e3c220"
+        inactive-color "#826f11"
     }
 }
 
-binds {
+/*binds {
     Mod+Return { spawn "alacritty"; }
     Mod+Space { spawn "fuzzel"; }
     Mod+Q { close; }
@@ -55,4 +55,4 @@ binds {
     Mod+Right { focus-right; }
 
     Mod+F { fullscreen; }
-}
+}*/
