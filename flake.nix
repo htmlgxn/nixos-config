@@ -69,34 +69,6 @@
         ];
       };
 
-      # ── COSMIC ─────────────────────────────────────────────────────────
-      boreal-cosmic = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
-          cosmicCache
-          nixos-cosmic.nixosModules.default
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/cosmic.nix
-          home-manager.nixosModules.home-manager
-          hmGui
-        ];
-      };
-
-      # ── Hyprland ───────────────────────────────────────────────────────
-      boreal-hyprland = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/hyprland.nix
-          home-manager.nixosModules.home-manager
-          hmGui
-        ];
-      };
-
       # ── Niri ───────────────────────────────────────────────────────────
       boreal-niri = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
@@ -105,45 +77,6 @@
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/niri.nix
-          home-manager.nixosModules.home-manager
-          hmGui
-        ];
-      };
-
-      # ── River ──────────────────────────────────────────────────────────
-      boreal-river = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/river.nix
-          home-manager.nixosModules.home-manager
-          hmGui
-        ];
-      };
-
-      # ── Wayfire ────────────────────────────────────────────────────────
-      boreal-wayfire = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/wayfire.nix
-          home-manager.nixosModules.home-manager
-          hmGui
-        ];
-      };
-
-      # ── LabWC ──────────────────────────────────────────────────────────
-      boreal-labwc = nixpkgs.lib.nixosSystem {
-        system  = "x86_64-linux";
-        modules = [
-	  ({ ... }: { nixpkgs.config.allowUnfree = true; })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/labwc.nix
           home-manager.nixosModules.home-manager
           hmGui
         ];

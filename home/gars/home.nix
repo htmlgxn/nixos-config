@@ -51,19 +51,9 @@
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
-      # nrc   — COSMIC
-      # nrh   — Hyprland
       # nrn   — Niri
-      # nrr   — River
-      # nrw   — Wayfire
-      # nrl   — LabWC
       nrs  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
-      nrc  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-cosmic";
-      nrh  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-hyprland";
       nrn  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
-      nrr  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-river";
-      nrw  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-wayfire";
-      nrl  = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-labwc";
 
       # ── Rebuild: VMs ─────────────────────────────────────────────────
       nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm-gui";
