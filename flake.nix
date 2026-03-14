@@ -25,8 +25,8 @@
       ]; };
     };
 
-    # GUI: CLI + shared GUI packages (all compositors)
-    hmGui = {
+    # GUI: CLI + shared GUI base + Sway specific
+    hmSway = {
       home-manager.useGlobalPkgs    = true;
       home-manager.useUserPackages  = true;
       home-manager.users.gars = { imports = [
@@ -34,6 +34,18 @@
         ./modules/home/cli.nix
         ./modules/home/gui-base.nix
         ./modules/home/sway.nix
+      ]; };
+    };
+
+    # GUI: CLI + shared GUI base + Niri specific
+    hmNiri = {
+      home-manager.useGlobalPkgs    = true;
+      home-manager.useUserPackages  = true;
+      home-manager.users.gars = { imports = [
+        ./home/gars/home.nix
+        ./modules/home/cli.nix
+        ./modules/home/gui-base.nix
+        ./modules/home/niri.nix
       ]; };
     };
   in {
@@ -48,8 +60,7 @@
           ./modules/system/cli.nix
           ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
-          #({ ... }: { imports = [ ./modules/home/sway.nix ]; })
-          hmGui
+          hmSway
         ];
       };
 
@@ -62,8 +73,7 @@
           ./modules/system/cli.nix
           ./modules/system/niri.nix
           home-manager.nixosModules.home-manager
-          #({ ... }: { imports = [ ./modules/home/niri.nix ]; })
-          #hmGui
+          hmNiri
         ];
       };
 
