@@ -127,8 +127,8 @@ binds {
     // XF86AudioMicMute { spawn wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle; }
 
     // Custom volume control
-    Mod+F11 { spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-; }
-    Mod+F12 { spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+; }
+    // Mod+F11 { spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-; }
+    // Mod+F12 { spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+; }
 
     // Brightness
     // XF86MonBrightnessDown { spawn brightnessctl set 5%-; }
