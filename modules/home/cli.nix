@@ -15,6 +15,14 @@
     # ── AI agent ───────────────────────────────────────────────────
       opencode
       # crush
+      aichat
+      mods       # Charmbracelet's AI pipe tool
+      shell-gpt  # invoked as `sgpt`
+      llm        # Simon Willison's LLM CLI
+    # ── Git ───────────────────────────────────────────────────────
+      gh
+      lazygit
+      gitui
   # ── File management ──────────────────────────────────────────────
     lf
     fd
@@ -40,7 +48,6 @@
   # ── Utilities ────────────────────────────────────────────────────
     fend
     ncspot
-    gh      # github cli
     glow    # markdown reader
     uv      # python manager
     yt-dlp  # youtube downloader cli 

@@ -76,6 +76,7 @@ in
 
     # ── Documents / Notes ────────────────────────────────────────
     obsidian
+    libreoffice-fresh
 
     # ── IDE / Code editor ────────────────────────────────────────
     (vscode-with-extensions.override {
