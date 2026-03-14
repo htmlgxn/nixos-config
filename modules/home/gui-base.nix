@@ -36,7 +36,7 @@ in
 
     # ── File & Web ──────────────────────────────────────────────────
     thunar
-    brave
+    # brave
     firefox
 
     # ── Wayland Utilities ───────────────────────────────────────────
@@ -104,6 +104,14 @@ in
 
   ];
 
+  programs.chromium = {
+    enable = true;
+    package = pkgs.brave;
+    extensions = [
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
+    ];
+  };
+
   # ── GTK / QT Theming ──────────────────────────────────────────────
   gtk = {
     enable = true;
@@ -143,5 +151,7 @@ in
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/fuzzel/fuzzel.ini";
     ".config/mako/config".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/mako/config";
+    ".config/BraveSoftware/Brave-Browser/Default/Bookmarks".source =
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/brave/Bookmarks";
   };
 }
