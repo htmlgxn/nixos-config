@@ -21,5 +21,7 @@
   home.file = {
     ".config/sway/config".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/sway/config";
+    ".config/waybar/config".source =
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/config";
   };
 }

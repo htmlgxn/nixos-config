@@ -136,8 +136,6 @@ in
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/alacritty/alacritty.toml";
     ".config/alacritty/themes/gars-yellow.toml".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/alacritty/themes/gars-yellow.toml";
-    ".config/waybar/config".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/config";
     ".config/waybar/style.css".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/style.css";
     ".config/fuzzel/fuzzel.ini".source =
