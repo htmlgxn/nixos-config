@@ -14,7 +14,8 @@
 
   home.packages = with pkgs; [
     # Niri-specific
-    grimshot
+    grim
+    slurp
   ];
 
   # ── Niri dotfile symlinks ───────────────────────────────────────────
