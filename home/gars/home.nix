@@ -74,6 +74,8 @@
 
     bashrcExtra = ''
       # manually add to .bashrc here
+      # uv
+      export PATH="/home/gars/.local/bin:$PATH"
     '';
 
     profileExtra = ''
