@@ -37,6 +37,7 @@ in
     # ── File & Web ──────────────────────────────────────────────────
     thunar
     brave
+    firefox
 
     # ── Wayland Utilities ───────────────────────────────────────────
     wlsunset

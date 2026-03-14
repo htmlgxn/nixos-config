@@ -11,10 +11,8 @@ input {
     }
 }
 
-// ── Focus ─────────────────────────────────────────────────────────────
-focus {
-    follow-mouse false
-}
+// ── Prefer no CSD (replaces draw-border-without-focus) ─────────────────
+prefer-no-csd
 
 // ── Layout & Colors ───────────────────────────────────────────────────
 layout {
@@ -30,17 +28,15 @@ layout {
 }
 
 // ── Window Rules ──────────────────────────────────────────────────────
+// Open pavucontrol and Volume Control as floating windows
 window-rule {
-    draw-border-without-focus true
+    match app-id=r#"^pavucontrol$"#
+    open-floating true
 }
 
-// ── Spawn Rules ───────────────────────────────────────────────────────
-spawn-float {
-    title ".*pavucontrol.*"
-}
-
-spawn-float {
-    title ".*Volume Control.*"
+window-rule {
+    match title="Volume Control"
+    open-floating true
 }
 
 // ── Key Bindings ──────────────────────────────────────────────────────
@@ -109,7 +105,7 @@ binds {
 
     // Fullscreen & floating
     Mod+F { fullscreen-window; }
-    Mod+Shift+Space { toggle-floating; }
+    Mod+Shift+Space { toggle-window-floating; }
 
     // Workspace navigation
     Mod+BracketRight { focus-workspace-down; }
@@ -136,9 +132,6 @@ binds {
 
     Mod+F9 { spawn "brightnessctl" "set" "5%-"; }
     Mod+F10 { spawn "brightnessctl" "set" "5%+"; }
-
-    // Reload config
-    Mod+Shift+C { reload-config; }
 
     // Quit
     Mod+Shift+E { quit; }
