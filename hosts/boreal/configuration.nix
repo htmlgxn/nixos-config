@@ -9,6 +9,9 @@
     ./hardware-configuration.nix
   ];
 
+  # To sort / organize
+  programs.nix-ld.enable = true;
+
   # ── Boot ──────────────────────────────────────────────────────────────
   boot.loader.systemd-boot.enable         = true;
   boot.loader.efi.canTouchEfiVariables    = true;
