@@ -103,12 +103,12 @@ in
 
   ];
 
-  # ── Brave with Symlinks + Extensions ────────────────────────────────────────────────────────
-  programs.chromium = {
+  # ── Brave with Symlinks + Extensions ──────────────────────────────
+  programs.brave = {
     enable = true;
-    package = pkgs.brave;
     extensions = [
       { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
+      { id = "aapbdbdomjkkjkaonfhkkikfgjllcleb"; } # Google Translate
     ];
   };
 
