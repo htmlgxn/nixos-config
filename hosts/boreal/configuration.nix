@@ -37,6 +37,10 @@
   };
 
   # ── Filesystems ───────────────────────────────────────────────────────
+  swapDevices = [
+    {device = "/home/swapfile"; size = 16384;}
+  ];
+
   fileSystems."/mnt/archive" = {
     device = "/dev/disk/by-uuid/316d561a-dfc9-4269-a887-8644819b207e";
     fsType = "ext4";
