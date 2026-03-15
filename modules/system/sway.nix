@@ -1,10 +1,11 @@
 #
 # ~/nixos-config/modules/system/sway.nix
 #
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -41,7 +42,7 @@
       nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
-      defaultFonts.emoji = [ "OpenMoji Color" ];
+      defaultFonts.emoji = ["OpenMoji Color"];
     };
   };
 
@@ -52,7 +53,7 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   environment.systemPackages = with pkgs; [

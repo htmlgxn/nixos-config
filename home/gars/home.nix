@@ -1,10 +1,11 @@
 #
 # ~/nixos-config/home/gars/home.nix
 #
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.username = "gars";
   home.homeDirectory = "/home/gars";
 
@@ -54,11 +55,11 @@
       eswayc = "nvim ~/nixos-config/home/gars/dots/sway/config";
 
       # ── Misc navigation ─────────────────────────────────────────────
-      cdd    = "cd ~/dev";
-      cdp    = "cd ~/dev/projects";
-      cdc    = "cd ~/nixos-config/home/gars/dots";
+      cdd = "cd ~/dev";
+      cdp = "cd ~/dev/projects";
+      cdc = "cd ~/nixos-config/home/gars/dots";
       cdarch = "cd /mnt/archive";
-      cdsea  = "cd /mnt/seagate6";
+      cdsea = "cd /mnt/seagate6";
       cdback = "cd /mnt/backup";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
@@ -72,7 +73,6 @@
 
       # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
-
     };
 
     sessionVariables = {

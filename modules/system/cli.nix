@@ -1,10 +1,11 @@
 #
 # ~/nixos-config/modules/system/cli.nix
 #
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   services.openssh = {
     enable = true;
     settings = {

@@ -1,10 +1,12 @@
 #
 # ~/nixos-config/hosts/boreal/configuration.nix
 #
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -19,8 +21,8 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # AMD RX 570 — load amdgpu early for proper modesetting
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  boot.initrd.kernelModules = ["amdgpu"];
+  services.xserver.videoDrivers = ["amdgpu"];
 
   # Test for Resolve (deprecated ?)
   #hardware.amdgpu.opencl.enable = true;
@@ -73,12 +75,12 @@
   # ── Users ─────────────────────────────────────────────────────────────
   users.users.gars = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "render" ];
+    extraGroups = ["wheel" "networkmanager" "video" "audio" "render"];
     initialPassword = "changeme";
   };
 
   # ── Nix ───────────────────────────────────────────────────────────────
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.gc = {
     automatic = true;
     dates = "weekly";

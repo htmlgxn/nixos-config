@@ -3,50 +3,46 @@
 #
 # Shared Waybar settings (used by sway + niri).
 #
-
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   disksScript = pkgs.writeShellScript "waybar-disks" ''
-    #!/usr/bin/env bash
-    # disks.sh — Waybar custom module for free/total per disk
-    # Uses Pango markup instead of Polybar color tags
+        #!/usr/bin/env bash
+        # disks.sh — Waybar custom module for free/total per disk
+        # Uses Pango markup instead of Polybar color tags
 
-    human() {
-      ${pkgs.coreutils}/bin/numfmt --to=iec --suffix=B --format="%.1f" "$1" | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]'
-    }
+        human() {
+          ${pkgs.coreutils}/bin/numfmt --to=iec --suffix=B --format="%.1f" "$1" | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]'
+        }
 
-    PRIMARY="#E3C220"
-    FOREGROUND="#F6EEC9"
-    DISABLED="#826F11"
-    output=""
-    for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk"{print $1}'); do
-      size=$(${pkgs.util-linux}/bin/lsblk -bndo SIZE /dev/$disk)
-      parts=$(${pkgs.util-linux}/bin/lsblk -lnpo NAME,TYPE /dev/$disk | ${pkgs.gawk}/bin/awk '$2=="part"{print $1}')
-      free=0
-      total=0
-      for p in $parts; do
-        mp=$(${pkgs.util-linux}/bin/lsblk -no MOUNTPOINT "$p")
-        if [ -n "$mp" ] && ${pkgs.util-linux}/bin/mountpoint -q -- "$mp"; then
-          read -r avail size <<EOF
-$(${pkgs.coreutils}/bin/df -B1 --output=avail,size "$mp" 2>/dev/null | ${pkgs.coreutils}/bin/tail -1)
-EOF
-          free=$((free + avail))
-          total=$((total + size))
-        fi
-      done
-      if [ "$total" -gt 0 ]; then
-        output+="[<span color='$PRIMARY'>$disk</span>]<span color='$FOREGROUND'>$(human "$free")/$(human "$total")</span> "
-      else
-        output+="<span color='$PRIMARY'>$disk</span> <span color='$DISABLED'>--</span>/<span color='$FOREGROUND'>$(human "$size")</span>  "
-      fi
-    done
+        PRIMARY="#E3C220"
+        FOREGROUND="#F6EEC9"
+        DISABLED="#826F11"
+        output=""
+        for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk"{print $1}'); do
+          size=$(${pkgs.util-linux}/bin/lsblk -bndo SIZE /dev/$disk)
+          parts=$(${pkgs.util-linux}/bin/lsblk -lnpo NAME,TYPE /dev/$disk | ${pkgs.gawk}/bin/awk '$2=="part"{print $1}')
+          free=0
+          total=0
+          for p in $parts; do
+            mp=$(${pkgs.util-linux}/bin/lsblk -no MOUNTPOINT "$p")
+            if [ -n "$mp" ] && ${pkgs.util-linux}/bin/mountpoint -q -- "$mp"; then
+              read -r avail size <<EOF
+    $(${pkgs.coreutils}/bin/df -B1 --output=avail,size "$mp" 2>/dev/null | ${pkgs.coreutils}/bin/tail -1)
+    EOF
+              free=$((free + avail))
+              total=$((total + size))
+            fi
+          done
+          if [ "$total" -gt 0 ]; then
+            output+="[<span color='$PRIMARY'>$disk</span>]<span color='$FOREGROUND'>$(human "$free")/$(human "$total")</span> "
+          else
+            output+="<span color='$PRIMARY'>$disk</span> <span color='$DISABLED'>--</span>/<span color='$FOREGROUND'>$(human "$size")</span>  "
+          fi
+        done
 
-    printf '%s\n' "$output"
+        printf '%s\n' "$output"
   '';
   quebecEmoji = pkgs.writeText "quebec-emoji.txt" "⚜️🏴󠁣󠁡󠁱󠁣󠁿⚜️\n";
-in
-{
+in {
   style = ''
     /* ==============================================
        Waybar — gars-yellow theme
@@ -261,7 +257,7 @@ in
       format = "{icon} / vol {volume}%";
       "format-muted" = "🔇 / muted";
       "format-icons" = {
-        default = [ "🔈" "🔉" "🔉" "🔊" ];
+        default = ["🔈" "🔉" "🔉" "🔊"];
       };
       "on-click" = "pavucontrol";
       "scroll-step" = 5;

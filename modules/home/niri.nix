@@ -4,14 +4,13 @@
 # Niri-specific home configuration.
 # Imports gui-base.nix for shared packages, adds niri-specific dotfiles.
 #
-
-{ config, pkgs, ... }:
-
-let
-  waybar = import ./waybar-settings.nix { inherit pkgs; };
-in
-
 {
+  config,
+  pkgs,
+  ...
+}: let
+  waybar = import ./waybar-settings.nix {inherit pkgs;};
+in {
   imports = [
     ./gui-base.nix
   ];
@@ -22,20 +21,22 @@ in
   ];
 
   programs.waybar.settings = {
-    mainBar = waybar.common // {
-      "modules-left" = [ "niri/workspaces" "niri/window" ];
+    mainBar =
+      waybar.common
+      // {
+        "modules-left" = ["niri/workspaces" "niri/window"];
 
-      "niri/workspaces" = {
-        "disable-scroll" = true;
-        "all-outputs" = true;
-        format = "{name}";
-      };
+        "niri/workspaces" = {
+          "disable-scroll" = true;
+          "all-outputs" = true;
+          format = "{name}";
+        };
 
-      "niri/window" = {
-        "max-length" = 60;
-        ellipsis = "...";
+        "niri/window" = {
+          "max-length" = 60;
+          ellipsis = "...";
+        };
       };
-    };
   };
 
   # ── Niri dotfile symlinks ───────────────────────────────────────────

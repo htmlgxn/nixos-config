@@ -5,10 +5,11 @@
 # Notable: no built-in XWayland. Use xwayland-satellite as a workaround.
 # Config lives at ~/.config/niri/config.kdl (KDL format).
 #
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.niri.enable = true;
 
   security.polkit.enable = true;

@@ -3,10 +3,7 @@
 #
 # Fuzzel configuration managed by Home Manager.
 #
-
-{ ... }:
-
-{
+{...}: {
   programs.fuzzel = {
     enable = true;
     settings = {

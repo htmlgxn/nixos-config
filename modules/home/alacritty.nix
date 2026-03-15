@@ -3,10 +3,7 @@
 #
 # Alacritty configuration managed by Home Manager.
 #
-
-{ config, ... }:
-
-{
+{config, ...}: {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -31,7 +28,10 @@
       };
 
       window = {
-        padding = { x = 4; y = 4; };
+        padding = {
+          x = 4;
+          y = 4;
+        };
       };
 
       colors = {

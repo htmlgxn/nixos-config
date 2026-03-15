@@ -5,9 +5,11 @@
 # No compositor-specific dotfile symlinks here — each compositor manages its own config.
 # Used by: Sway, and Niri.
 #
-
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   outside = pkgs.rustPlatform.buildRustPackage rec {
     pname = "outside";
     version = "0.5.0";
@@ -19,15 +21,14 @@ let
 
     cargoHash = "sha256-60wgt3/wJ+2lFQN+k2ev0KLSRxiFdxpHtnWILZfHQw0=";
 
-    nativeBuildInputs = [ pkgs.pkg-config ];
-    buildInputs = [ pkgs.openssl ];
+    nativeBuildInputs = [pkgs.pkg-config];
+    buildInputs = [pkgs.openssl];
 
     OPENSSL_NO_VENDOR = 1;
   };
 
-  waybarCfg = import ./waybar-settings.nix { inherit pkgs; };
-in
-{
+  waybarCfg = import ./waybar-settings.nix {inherit pkgs;};
+in {
   imports = [
     ./alacritty.nix
     ./fuzzel.nix
@@ -96,20 +97,22 @@ in
     # ── IDE & Code Editor ───────────────────────────────────────────
     (vscode-with-extensions.override {
       vscode = vscodium;
-      vscodeExtensions = with vscode-extensions; [
-        bbenoist.nix
-        ms-python.python
-        ms-azuretools.vscode-docker
-        ms-vscode-remote.remote-ssh
-        asvetliakov.vscode-neovim
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "remote-ssh-edit";
-          publisher = "ms-vscode-remote";
-          version = "0.47.2";
-          sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-        }
-      ];
+      vscodeExtensions = with vscode-extensions;
+        [
+          bbenoist.nix
+          ms-python.python
+          ms-azuretools.vscode-docker
+          ms-vscode-remote.remote-ssh
+          asvetliakov.vscode-neovim
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "remote-ssh-edit";
+            publisher = "ms-vscode-remote";
+            version = "0.47.2";
+            sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+          }
+        ];
     })
 
     # ── Video Editor ────────────────────────────────────────────────
@@ -117,16 +120,15 @@ in
 
     # ── Misc ────────────────────────────────────────────────────────
     anarchism
-
   ];
 
   # ── Brave with Symlinks + Extensions ──────────────────────────────
   programs.brave = {
     enable = true;
     extensions = [
-      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
-      { id = "aapbdbdomjkkjkaonfhkkikfgjllcleb"; } # Google Translate
-      { id = "bhlhnicpbhignbdhedgjhgdocnmhomnp"; } # ColorZilla
+      {id = "nngceckbapebfimnlniiiahkandclblb";} # Bitwarden
+      {id = "aapbdbdomjkkjkaonfhkkikfgjllcleb";} # Google Translate
+      {id = "bhlhnicpbhignbdhedgjhgdocnmhomnp";} # ColorZilla
     ];
   };
 
@@ -156,5 +158,4 @@ in
     name = "Catppuccin-Mocha-Yellow-Cursors";
     size = 26;
   };
-
 }

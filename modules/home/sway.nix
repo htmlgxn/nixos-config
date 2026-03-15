@@ -4,11 +4,12 @@
 # Sway-specific home configuration.
 # Imports gui-base.nix for shared packages, adds sway-specific dotfiles.
 #
-
-{ config, pkgs, ... }:
-
-let
-  waybar = import ./waybar-settings.nix { inherit pkgs; };
+{
+  config,
+  pkgs,
+  ...
+}: let
+  waybar = import ./waybar-settings.nix {inherit pkgs;};
   mod = "Mod4";
   left = "h";
   down = "j";
@@ -16,9 +17,7 @@ let
   right = "l";
   term = "alacritty";
   menu = "fuzzel";
-in
-
-{
+in {
   imports = [
     ./gui-base.nix
   ];
@@ -73,7 +72,7 @@ in
         smartBorders = "on";
       };
 
-      bars = [ ];
+      bars = [];
 
       colors = {
         focused = {
@@ -116,8 +115,7 @@ in
         "${mod}+d" = null;
 
         "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+e" =
-          "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
+        "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
 
         "${mod}+${left}" = "focus left";
         "${mod}+${down}" = "focus down";
@@ -257,24 +255,25 @@ in
   };
 
   programs.waybar.settings = {
-    mainBar = waybar.common // {
-      "modules-left" = [ "sway/workspaces" "sway/window" "sway/mode" ];
+    mainBar =
+      waybar.common
+      // {
+        "modules-left" = ["sway/workspaces" "sway/window" "sway/mode"];
 
-      "sway/workspaces" = {
-        "disable-scroll" = true;
-        "all-outputs" = true;
-        format = "{name}";
-      };
+        "sway/workspaces" = {
+          "disable-scroll" = true;
+          "all-outputs" = true;
+          format = "{name}";
+        };
 
-      "sway/window" = {
-        "max-length" = 60;
-        ellipsis = "...";
-      };
+        "sway/window" = {
+          "max-length" = 60;
+          ellipsis = "...";
+        };
 
-      "sway/mode" = {
-        format = "{}";
+        "sway/mode" = {
+          format = "{}";
+        };
       };
-    };
   };
-
 }

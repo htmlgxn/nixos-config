@@ -1,12 +1,14 @@
 #
 # ~/nixos-config/hosts/cyberdeck/configuration.nix
 #
-
-{ config, pkgs, lib, ... }:
-
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 # Note: Requires hardware-configuration.nix when physical hardware is acquired.
 # Currently configured for NVIDIA Jetson Orin Nano (aarch64).
-
 {
   hardware.nvidia-jetpack = {
     enable = true;
@@ -22,14 +24,14 @@
 
   users.users.gars = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = ["wheel" "networkmanager"];
     initialPassword = "changeme";
   };
 
   security.sudo.wheelNeedsPassword = true;
 
   # Enable cross-compilation from x86 desktop
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   system.stateVersion = "25.11";
 }

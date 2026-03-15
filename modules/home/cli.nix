@@ -1,16 +1,17 @@
 #
 # ~/nixos-config/modules/home/cli.nix
 #
-
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   uvTools = [
     "ytdl-archiver"
     # add more here
   ];
-in
-{
+in {
   home.packages = with pkgs; [
     python314
     # ── Shell & Multiplexer ─────────────────────────────────────────
@@ -88,14 +89,13 @@ in
     UV_PYTHON_DOWNLOADS = "never";
   };
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = ["$HOME/.local/bin"];
 
-  home.activation.installUvTools = lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ] ''
+  home.activation.installUvTools = lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
     for tool in ${lib.concatStringsSep " " uvTools}; do
       echo "uv: (re)installing $tool..."
       ${pkgs.uv}/bin/uv tool install "$tool" --force \
         --python ${pkgs.python314}/bin/python3
     done
   '';
-
 }

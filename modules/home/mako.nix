@@ -3,10 +3,7 @@
 #
 # Mako configuration managed by Home Manager.
 #
-
-{ ... }:
-
-{
+{...}: {
   services.mako = {
     enable = true;
     settings = {
