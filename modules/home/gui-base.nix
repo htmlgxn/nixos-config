@@ -44,7 +44,7 @@ in
 
     # ── GTK Theming ─────────────────────────────────────────────────
     gsettings-desktop-schemas
-    glib  # provides gsettings binary
+    glib # provides gsettings binary
 
     # ── Screenshot ──────────────────────────────────────────────────
     grim

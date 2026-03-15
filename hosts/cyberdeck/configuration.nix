@@ -10,7 +10,7 @@
 {
   hardware.nvidia-jetpack = {
     enable = true;
-    som = "orin-nano-16gb";    # change to orin-nano-16gb if that's your variant
+    som = "orin-nano-16gb"; # change to orin-nano-16gb if that's your variant
     carrierBoard = "devkit";
   };
 
