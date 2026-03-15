@@ -38,7 +38,7 @@ in {
     zoxide
     tree
     ranger
-    diskonaut
+    # diskonaut - to add
 
     # ── System Monitoring ───────────────────────────────────────────
     htop
@@ -62,23 +62,24 @@ in {
 
     # ── Calculator & Notes ──────────────────────────────────────────
     fend
-    glow # markdown reader
+    glow   # markdown reader
     basalt # Obsidian CLI
+    dijo   # habit tracker
 
     # ── Extra ───────────────────────────────────────────────────────
     countryfetch
 
     # ── Development ─────────────────────────────────────────────────
-    uv # python manager
-    alejandra # nix formatter
+    uv         # python manager
+    alejandra  # nix formatter
 
     # ── AI Agents ───────────────────────────────────────────────────
     opencode
     crush
     aichat
-    mods # Charmbracelet's AI pipe tool
-    shell-gpt # invoked as `sgpt`
-    llm # Simon Willison's LLM CLI
+    mods       # Charmbracelet's AI pipe tool
+    shell-gpt  # invoked as `sgpt`
+    llm        # Simon Willison's LLM CLI
     qwen-code
     plandex
     codex
