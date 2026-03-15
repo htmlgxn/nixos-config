@@ -33,6 +33,7 @@
       code = "codium";
       weather = "outside -o detailed";
       music = "ncspot";
+      swapstat = "swapon --show --bytes; free -h";
       br = "broot";
 
       # ── Git ───────────────────────────────────────────────────────────

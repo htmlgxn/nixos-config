@@ -38,8 +38,14 @@
 
   # ── Filesystems ───────────────────────────────────────────────────────
   swapDevices = [
-    {device = "/home/swapfile"; size = 16384;}
+    {device = "/home/swapfile"; size = 16384; priority = 10;}
   ];
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25; # ~8GB on a 32GB system
+    priority = 100;
+  };
 
   fileSystems."/mnt/archive" = {
     device = "/dev/disk/by-uuid/316d561a-dfc9-4269-a887-8644819b207e";
@@ -89,6 +95,11 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d"; # store can grow fast with multiple configs
+  };
+
+  # ── Memory ────────────────────────────────────────────────────────────
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 20;
   };
 
   # See: https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
