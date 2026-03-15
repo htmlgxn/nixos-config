@@ -90,7 +90,7 @@ in
 
     /* Left modules */
     #workspaces button {
-        padding: 0 12px;
+        padding: 0 10px;
         color: #A29C7F;                  /* overlay1 — inactive workspace label */
         background: transparent;
         border-right: 1px solid #826F11; /* gold-dark divider */
