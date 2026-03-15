@@ -14,18 +14,25 @@ in {
   home.file.".config/qBittorrent/qBittorrent.qbt".source =
     config.lib.file.mkOutOfStoreSymlink themePath;
 
-  home.activation.qbittorrentTheme = ''
-    if [ -f "${configPath}" ]; then
-      # Remove existing theme settings if present
-      sed -i '/^General\\UseCustomUITheme=/d' "${configPath}"
-      sed -i '/^General\\CustomUIThemePath=/d' "${configPath}"
-      
-      # Add theme settings under [Preferences] section
-      if grep -q '^\[Preferences\]' "${configPath}"; then
-        sed -i '/^\[Preferences\]/a General\\UseCustomUITheme=true\nGeneral\\CustomUIThemePath=${themePath}' "${configPath}"
-      else
-        printf '[Preferences]\nGeneral\\UseCustomUITheme=true\nGeneral\\CustomUIThemePath=%s\n' "${themePath}" >> "${configPath}"
+  home.activation.qbittorrentTheme = pkgs.writeShellApplication {
+    name = "qbittorrent-theme";
+    text = ''
+      if [ -f "${configPath}" ]; then
+        # Remove existing theme settings if present
+        sed -i '/^General\\UseCustomUITheme=/d' "${configPath}"
+        sed -i '/^General\\CustomUIThemePath=/d' "${configPath}"
+        
+        # Add theme settings after [Preferences] line
+        awk -v path="${themePath}" '
+          /^\[Preferences\]/ {
+            print
+            print "General\\UseCustomUITheme=true"
+            print "General\\CustomUIThemePath=" path
+            next
+          }
+          { print }
+        ' "${configPath}" > "${configPath}.tmp" && mv "${configPath}.tmp" "${configPath}"
       fi
-    fi
-  '';
+    '';
+  };
 }
