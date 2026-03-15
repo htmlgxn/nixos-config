@@ -29,6 +29,7 @@ in
   imports = [
     ./alacritty.nix
     ./fuzzel.nix
+    ./mako.nix
   ];
 
   home.packages = with pkgs; [
@@ -149,7 +150,5 @@ in
   home.file = {
     ".config/waybar/style.css".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/style.css";
-    ".config/mako/config".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/mako/config";
   };
 }
