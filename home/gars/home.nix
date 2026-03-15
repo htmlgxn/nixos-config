@@ -40,8 +40,7 @@
       gaa = "git add -A";
       gs = "git status";
       gc = "git commit";
-      gcm = "git commit -m";
-      gacm = "git add -A && git commit -m";
+      gcm = "git add -A && git commit -m";
       gp = "git push";
       gpom = "git push origin main";
 
