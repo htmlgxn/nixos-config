@@ -50,6 +50,7 @@ in {
     python314
     # ── Custom Builds ────────────────────────────────────────────────
     outside
+    diskonaut
 
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
