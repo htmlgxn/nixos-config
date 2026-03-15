@@ -152,7 +152,5 @@ in
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/fuzzel/fuzzel.ini";
     ".config/mako/config".source =
       config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/mako/config";
-    ".config/BraveSoftware/Brave-Browser/Default/Bookmarks".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/brave/Bookmarks";
   };
 }
