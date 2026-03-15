@@ -96,12 +96,14 @@ in {
     powertop
     s-tui
     systemctl-tui
+    gdu
 
     # ── Networking ──────────────────────────────────────────────────
     rsync
     nmap
     wireguard-tools
     mosh
+    k9s
 
     # ── Media ───────────────────────────────────────────────────────
     ncspot
@@ -122,6 +124,7 @@ in {
     # ── Development ─────────────────────────────────────────────────
     uv # python manager
     alejandra # nix formatter
+    nix-tree
 
     # ── AI Agents ───────────────────────────────────────────────────
     opencode
