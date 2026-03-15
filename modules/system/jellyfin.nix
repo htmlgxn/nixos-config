@@ -62,10 +62,12 @@
     ];
   };
 
-  systemd.services.jellyfin.requiresMountsFor = [
-    "/mnt/archive"
-    "/mnt/seagate6"
-  ];
+  systemd.services.jellyfin.unitConfig = {
+    RequiresMountsFor = [
+      "/mnt/archive"
+      "/mnt/seagate6"
+    ];
+  };
 
   # Hardware acceleration (AMD RX 570)
   hardware.graphics.enable = true;
