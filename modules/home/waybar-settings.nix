@@ -12,14 +12,13 @@ let
     # disks.sh — Waybar custom module for free/total per disk
     # Uses Pango markup instead of Polybar color tags
 
-    PRIMARY="#E3C220"
-    FOREGROUND="#F6EEC9"
-    DISABLED="#826F11"
-
     human() {
       numfmt --to=iec --suffix=B --format="%.1f" "$1" | tr '[:upper:]' '[:lower:]'
     }
 
+    PRIMARY="#E3C220"
+    FOREGROUND="#F6EEC9"
+    DISABLED="#826F11"
     output=""
     for disk in $(lsblk -ndo NAME,TYPE | awk '$2=="disk"{print $1}'); do
       size=$(lsblk -bndo SIZE /dev/$disk)
@@ -30,16 +29,16 @@ let
         mp=$(lsblk -no MOUNTPOINT "$p")
         if [ -n "$mp" ] && mountpoint -q -- "$mp"; then
           read -r avail size <<EOF
-    $(df -B1 --output=avail,size "$mp" 2>/dev/null | tail -1)
-    EOF
+$(df -B1 --output=avail,size "$mp" 2>/dev/null | tail -1)
+EOF
           free=$((free + avail))
           total=$((total + size))
         fi
       done
       if [ "$total" -gt 0 ]; then
-        output+="[<span color='$PRIMARY'>$disk</span>]<span color='$FOREGROUND'>$(human $free)/$(human $total)</span> "
+        output+="[<span color='${PRIMARY}'>${disk}</span>]<span color='${FOREGROUND}'>$(human ${free})/$(human ${total})</span> "
       else
-        output+="<span color='$PRIMARY'>$disk</span> <span color='$DISABLED'>--</span>/<span color='$FOREGROUND'>$(human $size)</span>  "
+        output+="<span color='${PRIMARY}'>${disk}</span> <span color='${DISABLED}'>--</span>/<span color='${FOREGROUND}'>$(human ${size})</span>  "
       fi
     done
 
@@ -156,6 +155,11 @@ in
     #custom-browser {
         font-size: 18px;
         border-left: 2px solid #826F11; /* gold-dark */
+    }
+
+    #custom-quebec {
+        font-family: "OpenMoji Color";
+        font-size: 18px;
     }
 
     #custom-quebec,
