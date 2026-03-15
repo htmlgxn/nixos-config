@@ -12,7 +12,7 @@
     settings = {
       main = {
         font = "Roboto Mono:size=13";
-        prompt = "⚜️ ";
+        prompt = "\"⚜️ \"";
         terminal = "alacritty";
         layer = "overlay";
         "exit-on-keyboard-focus-loss" = "yes";
