@@ -6,5 +6,6 @@
     python314
     uv # Python package/toolchain manager
     stdenv.cc.cc.lib # Runtime dependency for native Python packages (scrapling, etc.)
+    playwright-driver
   ];
 }
