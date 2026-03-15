@@ -44,13 +44,28 @@
 
     # OPENSSL_NO_VENDOR = 1;
   };
+  domain-check = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "domain-check";
+    version = "1.0.1";
 
+    src = pkgs.fetchCrate {
+      inherit pname version;
+      hash = "sha256-3FrdcJxImYpyn5jyJrZF4Haj0JKXNPlrLwIK8A02s1M=";
+    };
+
+    cargoHash = "sha256-+NwZbR3fRj8Wi95GtsUQFWOyaZ0ekC4chsoJ5rsH3Zg=";
+    nativeBuildInputs = [pkgs.pkg-config];
+    # buildInputs = [pkgs.openssl];
+
+    # OPENSSL_NO_VENDOR = 1;
+  };
 in {
   home.packages = with pkgs; [
     python314
     # ── Custom Builds ────────────────────────────────────────────────
     outside
     diskonaut
+    domain-check
 
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
