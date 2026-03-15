@@ -86,6 +86,8 @@
     sessionVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
+      UV_PYTHON_DOWNLOADS = "never";
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
     };
 
     bashrcExtra = ''
