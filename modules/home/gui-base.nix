@@ -109,6 +109,7 @@ in
     extensions = [
       { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
       { id = "aapbdbdomjkkjkaonfhkkikfgjllcleb"; } # Google Translate
+      { id = "bhlhnicpbhignbdhedgjhgdocnmhomnp"; } # ColorZilla
     ];
   };
 
