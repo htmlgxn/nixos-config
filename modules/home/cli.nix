@@ -76,7 +76,7 @@ in {
     zoxide
     tree
     ranger
-    # diskonaut - to add
+    dust
 
     # ── System Monitoring ───────────────────────────────────────────
     htop
