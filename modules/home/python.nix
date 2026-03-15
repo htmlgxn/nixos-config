@@ -9,8 +9,9 @@
     playwright-driver.browsers # Pre-built browsers for Playwright
   ];
 
-  # Environment variables for Playwright
-  home.sessionVariables = {
+  # Session variables for Python/Playwright
+  # Using programs.bash.sessionVariables to match home.nix pattern
+  programs.bash.sessionVariables = {
     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
