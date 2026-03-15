@@ -73,6 +73,8 @@ in
         smartBorders = "on";
       };
 
+      bars = [ ];
+
       colors = {
         focused = {
           border = "#E3C220";
@@ -224,7 +226,7 @@ in
       exec_always swaybg -i ~/Pictures/wallpapers/jpg/mtl-16.jpg -m fill
       exec wlsunset -t 2500 -T 3000
 
-      exec_always killall waybar; waybar
+      exec_always ${pkgs.procps}/bin/pkill -x waybar; ${pkgs.waybar}/bin/waybar
       exec eval $(gnome-keyring-daemon --start)
       exec export SSH_AUTH_SOCK
       exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
@@ -236,7 +238,7 @@ in
           -c ~/.config/swayidle/config \
           timeout 600 'swaylock -f -c 000000' \
           timeout 900 'swaymsg "output * power off"' \
-          resume 'swaymsg "output * power on"; killall waybar; waybar &' \
+          resume 'swaymsg "output * power on"; ${pkgs.procps}/bin/pkill -x waybar; ${pkgs.waybar}/bin/waybar &' \
           before-sleep 'swaylock -f -c 000000'
 
       bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle

@@ -231,7 +231,7 @@ in
     ];
 
     "custom/quebec" = {
-      exec = "printf '%s' '⚜️🏴⚜️'";
+      exec = "printf '%s\\n' '⚜️🏴⚜️'";
       interval = 3600;
       format = "{}";
       tooltip = false;
