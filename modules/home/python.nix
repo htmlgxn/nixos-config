@@ -6,11 +6,12 @@
     python314
     uv # Python package/toolchain manager
     stdenv.cc.cc.lib # Runtime dependency for native Python packages (scrapling, etc.)
-    playwright-driver # Playwright with NixOS-compatible browsers
+    playwright-driver.browsers # Pre-built browsers for Playwright
   ];
 
-  # Set PLAYWRIGHT_BROWSERS_PATH to use nixpkgs-provided browsers
+  # Environment variables for Playwright
   home.sessionVariables = {
     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+    PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 }
