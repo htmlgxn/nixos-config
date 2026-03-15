@@ -55,6 +55,8 @@
     };
 
     cargoHash = "sha256-KJR/WmSyv4v9ZLEFc/ksVGT3pMBeqAjKZBnvVoP30yk=";
+    # Tests hit the network and fail in sandboxed builds.
+    doCheck = false;
     nativeBuildInputs = [pkgs.pkg-config];
     # buildInputs = [pkgs.openssl];
 
