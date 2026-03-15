@@ -6,7 +6,13 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  # Helper for creating ext4 mount entries
+  mkExt4Mount = uuid: {
+    device = "/dev/disk/by-uuid/${uuid}";
+    fsType = "ext4";
+  };
+in {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -51,19 +57,10 @@
     priority = 100;
   };
 
-  fileSystems."/mnt/archive" = {
-    device = "/dev/disk/by-uuid/316d561a-dfc9-4269-a887-8644819b207e";
-    fsType = "ext4";
-  };
-
-  fileSystems."/mnt/seagate6" = {
-    device = "/dev/disk/by-uuid/f248cacf-47ad-4d45-bf3e-04d8a991153c";
-    fsType = "ext4";
-  };
-
-  fileSystems."/mnt/backup" = {
-    device = "/dev/disk/by-uuid/d3d01560-2003-4e11-88be-cc87f3448c83";
-    fsType = "ext4";
+  fileSystems = {
+    "/mnt/archive" = mkExt4Mount "316d561a-dfc9-4269-a887-8644819b207e";
+    "/mnt/seagate6" = mkExt4Mount "f248cacf-47ad-4d45-bf3e-04d8a991153c";
+    "/mnt/backup" = mkExt4Mount "d3d01560-2003-4e11-88be-cc87f3448c83";
   };
 
   systemd.tmpfiles.rules = [

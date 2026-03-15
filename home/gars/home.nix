@@ -45,7 +45,7 @@
       gp = "git push";
       gpom = "git push origin main";
 
-      # ── Config navigation ─────────────────────────────────────────────
+      # ── Config Navigation ──────────────────────────────────────────────
       cdn = "cd ~/nixos-config";
       ef = "nvim ~/nixos-config/flake.nix";
       eh = "nvim ~/nixos-config/home/gars/home.nix";
@@ -56,7 +56,7 @@
       enconf = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
       eswayc = "nvim ~/nixos-config/home/gars/dots/sway/config";
 
-      # ── Misc navigation ─────────────────────────────────────────────
+      # ── Misc Navigation ───────────────────────────────────────────────
       cdd = "cd ~/dev";
       cdp = "cd ~/dev/projects";
       cdc = "cd ~/nixos-config/home/gars/dots";

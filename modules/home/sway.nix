@@ -7,6 +7,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   waybar = import ./waybar-settings.nix {inherit pkgs;};
@@ -17,6 +18,21 @@
   right = "l";
   term = "alacritty";
   menu = "fuzzel";
+
+  # Generate workspace keybindings for numbers 1-9 (0 is workspace 10)
+  workspaceKeys = builtins.genList (x: x + 1) 9; # [1 2 3 4 5 6 7 8 9]
+  mkWorkspaceBindingsWithZero = prefix: fn: let
+    keys = (map toString workspaceKeys) ++ ["0"];
+    toWorkspace = k:
+      if k == "0"
+      then "10"
+      else k;
+  in
+    lib.listToAttrs (map (k: {
+        name = "${prefix}${k}";
+        value = fn (toWorkspace k);
+      })
+      keys);
 in {
   imports = [
     ./gui-base.nix
@@ -106,98 +122,70 @@ in {
         background = "#1E1904";
       };
 
-      keybindings = {
-        "${mod}+Return" = "exec ${term}";
-        "${mod}+q" = "kill";
-        "${mod}+Shift+q" = "exec swaymsg \"[workspace=__focused__] kill\"";
+      keybindings =
+        {
+          "${mod}+Return" = "exec ${term}";
+          "${mod}+q" = "kill";
+          "${mod}+Shift+q" = "exec swaymsg \"[workspace=__focused__] kill\"";
 
-        "${mod}+Space" = "exec ${menu}";
-        "${mod}+d" = null;
+          "${mod}+Space" = "exec ${menu}";
+          "${mod}+d" = null;
 
-        "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
+          "${mod}+Shift+c" = "reload";
+          "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
 
-        "${mod}+${left}" = "focus left";
-        "${mod}+${down}" = "focus down";
-        "${mod}+${up}" = "focus up";
-        "${mod}+${right}" = "focus right";
+          "${mod}+${left}" = "focus left";
+          "${mod}+${down}" = "focus down";
+          "${mod}+${up}" = "focus up";
+          "${mod}+${right}" = "focus right";
 
-        "${mod}+Left" = "focus left";
-        "${mod}+Down" = "focus down";
-        "${mod}+Up" = "focus up";
-        "${mod}+Right" = "focus right";
+          "${mod}+Left" = "focus left";
+          "${mod}+Down" = "focus down";
+          "${mod}+Up" = "focus up";
+          "${mod}+Right" = "focus right";
 
-        "${mod}+Shift+${left}" = "move left";
-        "${mod}+Shift+${down}" = "move down";
-        "${mod}+Shift+${up}" = "move up";
-        "${mod}+Shift+${right}" = "move right";
+          "${mod}+Shift+${left}" = "move left";
+          "${mod}+Shift+${down}" = "move down";
+          "${mod}+Shift+${up}" = "move up";
+          "${mod}+Shift+${right}" = "move right";
 
-        "${mod}+Shift+Left" = "move left";
-        "${mod}+Shift+Down" = "move down";
-        "${mod}+Shift+Up" = "move up";
-        "${mod}+Shift+Right" = "move right";
+          "${mod}+Shift+Left" = "move left";
+          "${mod}+Shift+Down" = "move down";
+          "${mod}+Shift+Up" = "move up";
+          "${mod}+Shift+Right" = "move right";
 
-        "${mod}+1" = "workspace number 1";
-        "${mod}+2" = "workspace number 2";
-        "${mod}+3" = "workspace number 3";
-        "${mod}+4" = "workspace number 4";
-        "${mod}+5" = "workspace number 5";
-        "${mod}+6" = "workspace number 6";
-        "${mod}+7" = "workspace number 7";
-        "${mod}+8" = "workspace number 8";
-        "${mod}+9" = "workspace number 9";
-        "${mod}+0" = "workspace number 10";
+          # Workspace bindings (1-10)
+          "${mod}+bracketright" = "workspace next";
+          "${mod}+bracketleft" = "workspace prev";
+          "${mod}+Ctrl+Right" = "workspace next";
+          "${mod}+Ctrl+Left" = "workspace prev";
 
-        "${mod}+Ctrl+1" = "move container to workspace number 1";
-        "${mod}+Ctrl+2" = "move container to workspace number 2";
-        "${mod}+Ctrl+3" = "move container to workspace number 3";
-        "${mod}+Ctrl+4" = "move container to workspace number 4";
-        "${mod}+Ctrl+5" = "move container to workspace number 5";
-        "${mod}+Ctrl+6" = "move container to workspace number 6";
-        "${mod}+Ctrl+7" = "move container to workspace number 7";
-        "${mod}+Ctrl+8" = "move container to workspace number 8";
-        "${mod}+Ctrl+9" = "move container to workspace number 9";
-        "${mod}+Ctrl+0" = "move container to workspace number 10";
+          "${mod}+b" = "splith";
+          "${mod}+v" = "splitv";
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e" = "layout toggle split";
 
-        "${mod}+Shift+1" = "move container to workspace number 1; workspace 1";
-        "${mod}+Shift+2" = "move container to workspace number 2; workspace 2";
-        "${mod}+Shift+3" = "move container to workspace number 3; workspace 3";
-        "${mod}+Shift+4" = "move container to workspace number 4; workspace 4";
-        "${mod}+Shift+5" = "move container to workspace number 5; workspace 5";
-        "${mod}+Shift+6" = "move container to workspace number 6; workspace 6";
-        "${mod}+Shift+7" = "move container to workspace number 7; workspace 7";
-        "${mod}+Shift+8" = "move container to workspace number 8; workspace 8";
-        "${mod}+Shift+9" = "move container to workspace number 9; workspace 9";
-        "${mod}+Shift+0" = "move container to workspace number 10; workspace 10";
+          "${mod}+f" = "fullscreen";
+          "${mod}+Shift+space" = "floating toggle";
+          "${mod}+Shift+f" = "focus mode_toggle";
+          "${mod}+a" = "focus parent";
 
-        "${mod}+bracketright" = "workspace next";
-        "${mod}+bracketleft" = "workspace prev";
-        "${mod}+Ctrl+Right" = "workspace next";
-        "${mod}+Ctrl+Left" = "workspace prev";
+          "${mod}+Shift+minus" = "move scratchpad";
+          "${mod}+minus" = "scratchpad show";
 
-        "${mod}+b" = "splith";
-        "${mod}+v" = "splitv";
-        "${mod}+s" = "layout stacking";
-        "${mod}+w" = "layout tabbed";
-        "${mod}+e" = "layout toggle split";
+          "${mod}+r" = "mode resize";
 
-        "${mod}+f" = "fullscreen";
-        "${mod}+Shift+space" = "floating toggle";
-        "${mod}+Shift+f" = "focus mode_toggle";
-        "${mod}+a" = "focus parent";
+          "${mod}+F2" = "exec brave";
+          "${mod}+F3" = "exec thunar";
+          "${mod}+Shift+a" = "exec flameshot gui";
+          "${mod}+Shift+x" = "exec swaylock -f -c 000000";
 
-        "${mod}+Shift+minus" = "move scratchpad";
-        "${mod}+minus" = "scratchpad show";
-
-        "${mod}+r" = "mode resize";
-
-        "${mod}+F2" = "exec brave";
-        "${mod}+F3" = "exec thunar";
-        "${mod}+Shift+a" = "exec flameshot gui";
-        "${mod}+Shift+x" = "exec swaylock -f -c 000000";
-
-        "Print" = "exec grim ~/Pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
-      };
+          "Print" = "exec grim ~/Pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
+        }
+        // mkWorkspaceBindingsWithZero "${mod}+" (n: "workspace number ${n}")
+        // mkWorkspaceBindingsWithZero "${mod}+Ctrl+" (n: "move container to workspace number ${n}")
+        // mkWorkspaceBindingsWithZero "${mod}+Shift+" (n: "move container to workspace number ${n}; workspace ${n}");
 
       modes = {
         resize = {

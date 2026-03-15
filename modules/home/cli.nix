@@ -12,55 +12,48 @@
     # add more here
   ];
 
-  outside = pkgs.rustPlatform.buildRustPackage rec {
+  # Helper for building Rust packages from crates.io with OpenSSL
+  mkRustPackage = {
+    pname,
+    version,
+    crateHash,
+    cargoHash,
+    doCheck ? false,
+    ...
+  } @ attrs:
+    pkgs.rustPlatform.buildRustPackage (attrs
+      // {
+        src = pkgs.fetchCrate {
+          inherit pname version;
+          hash = crateHash;
+        };
+        inherit cargoHash;
+        inherit doCheck;
+        nativeBuildInputs = [pkgs.pkg-config];
+        buildInputs = [pkgs.openssl];
+        OPENSSL_NO_VENDOR = 1;
+      });
+
+  outside = mkRustPackage {
     pname = "outside";
     version = "0.5.0";
-
-    src = pkgs.fetchCrate {
-      inherit pname version;
-      hash = "sha256-9qTW6xuLYwuNw3cahGdK6zXua8Qpu+NyIRjqsTAmsZI=";
-    };
-
+    crateHash = "sha256-9qTW6xuLYwuNw3cahGdK6zXua8Qpu+NyIRjqsTAmsZI=";
     cargoHash = "sha256-60wgt3/wJ+2lFQN+k2ev0KLSRxiFdxpHtnWILZfHQw0=";
-
-    nativeBuildInputs = [pkgs.pkg-config];
-    buildInputs = [pkgs.openssl];
-
-    OPENSSL_NO_VENDOR = 1;
   };
 
-  diskonaut = pkgs.rustPlatform.buildRustPackage rec {
+  diskonaut = mkRustPackage {
     pname = "diskonaut-ng";
     version = "0.13.2";
-
-    src = pkgs.fetchCrate {
-      inherit pname version;
-      hash = "sha256-3FrdcJxImYpyn5jyJrZF4Haj0JKXNPlrLwIK8A02s1M=";
-    };
-
+    crateHash = "sha256-3FrdcJxImYpyn5jyJrZF4Haj0JKXNPlrLwIK8A02s1M=";
     cargoHash = "sha256-+NwZbR3fRj8Wi95GtsUQFWOyaZ0ekC4chsoJ5rsH3Zg=";
-    nativeBuildInputs = [pkgs.pkg-config];
-    # buildInputs = [pkgs.openssl];
-
-    # OPENSSL_NO_VENDOR = 1;
   };
 
-  domain-check = pkgs.rustPlatform.buildRustPackage rec {
+  domain-check = mkRustPackage {
     pname = "domain-check";
     version = "1.0.1";
-
-    src = pkgs.fetchCrate {
-      inherit pname version;
-      hash = "sha256-z4UNTVGLnSLW9gyg4d9xWpLgNhl45rLlK9ARA/YMz3Y=";
-    };
-
+    crateHash = "sha256-z4UNTVGLnSLW9gyg4d9xWpLgNhl45rLlK9ARA/YMz3Y=";
     cargoHash = "sha256-KJR/WmSyv4v9ZLEFc/ksVGT3pMBeqAjKZBnvVoP30yk=";
-    # Tests hit the network and fail in sandboxed builds.
     doCheck = false;
-    nativeBuildInputs = [pkgs.pkg-config];
-    # buildInputs = [pkgs.openssl];
-
-    # OPENSSL_NO_VENDOR = 1;
   };
 in {
   home.packages = with pkgs; [

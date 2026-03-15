@@ -10,25 +10,15 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./gui-base.nix
+  ];
+
   programs.niri.enable = true;
 
-  security.polkit.enable = true;
-  security.rtkit.enable = true;
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.login.enableGnomeKeyring = true;
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
-  services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --cmd niri-session";
-      user = "greeter";
-    };
+  services.greetd.settings.default_session = {
+    command = "${pkgs.tuigreet}/bin/tuigreet --cmd niri-session";
+    user = "greeter";
   };
 
   fonts.packages = with pkgs; [
@@ -37,21 +27,12 @@
     openmoji-color
   ];
 
-  environment.variables = {
-    GTK_THEME = "Adwaita-dark";
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr
-    ];
-  };
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gnome
+    pkgs.xdg-desktop-portal-wlr
+  ];
 
   environment.systemPackages = with pkgs; [
-    wayland
     xwayland-satellite
     slurp
     swaybg

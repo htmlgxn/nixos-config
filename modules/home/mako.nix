@@ -55,7 +55,6 @@
       # ── High urgency (persistent) ─────────────────────────────────
       [urgency=high]
       background-color=#322F1F
-      text-color=#F6EEC9
       border-color=#EF9F76
       text-color=#EF9F76
       default-timeout=0

@@ -78,49 +78,49 @@ in {
     }
 
     window#waybar {
-        background-color: #262418;       /* crust */
-        color: #F6EEC9;                  /* text */
-        border-top: 2px solid #826F11;   /* gold-dark */
+        background-color: #262418;            /* crust */
+        color: #F6EEC9;                       /* text */
+        border-top: 2px solid #826F11;        /* gold-dark */
     }
 
     /* Left modules */
     #workspaces button {
         padding: 0 8px;
-        color: #A29C7F;                  /* overlay1 — inactive workspace label */
+        color: #A29C7F;                       /* overlay1 — inactive workspace label */
         background: transparent;
-        border-right: 1px solid #826F11; /* gold-dark divider */
+        border-right: 1px solid #826F11;      /* gold-dark divider */
     }
 
     #workspaces button:hover {
-        background: #322F1F;             /* mantle */
-        color: #F6EEC9;                  /* text */
-        border-top: 2px solid #EFDD84;   /* light-yellow accent */
+        background: #322F1F;                  /* mantle */
+        color: #F6EEC9;                       /* text */
+        border-top: 2px solid #EFDD84;        /* light-yellow accent */
     }
 
     #workspaces button.focused {
-        background: #3B3724;             /* base */
-        color: #F6EEC9;                  /* text */
-        border-top: 2px solid #E3C220;   /* brand gold */
+        background: #3B3724;                  /* base */
+        color: #F6EEC9;                       /* text */
+        border-top: 2px solid #E3C220;        /* brand gold */
     }
 
     #workspaces button.urgent {
-        background: #E3C220;         /* brand gold */
-        color: #1E1904;              /* background — dark text on bright bg */
+        background: #E3C220;                  /* brand gold */
+        color: #1E1904;                       /* background — dark text on bright bg */
     }
 
     #workspaces button.occupied {
-        color: #F6EEC9;              /* text */
+        color: #F6EEC9;                       /* text */
     }
 
     #window {
         padding: 0 8px;
-        color: #F6EEC9;              /* text */
+        color: #F6EEC9;                       /* text */
     }
 
     #mode {
         padding: 0 8px;
-        background: #E3C220;         /* brand gold */
-        color: #1E1904;              /* background */
+        background: #E3C220;                  /* brand gold */
+        color: #1E1904;                       /* background */
         font-weight: bold;
     }
 
@@ -134,15 +134,15 @@ in {
     #clock,
     #tray {
         padding: 0 8px;
-        color: #F6EEC9;              /* text */
-        border-left: 2px solid #826F11; /* gold-dark */
+        color: #F6EEC9;                       /* text */
+        border-left: 2px solid #826F11;       /* gold-dark */
     }
 
     #custom-sailscene {
         padding-right: 8px;
         padding-left: 16px;
-        color: #F6EEC9;              /* text */
-        border-left: 2px solid #826F11; /* gold-dark */
+        color: #F6EEC9;                       /* text */
+        border-left: 2px solid #826F11;       /* gold-dark */
     }
 
     #custom-quebec,
@@ -150,7 +150,7 @@ in {
     #custom-code,
     #custom-browser {
         font-size: 18px;
-        border-left: 2px solid #826F11; /* gold-dark */
+        border-left: 2px solid #826F11;       /* gold-dark */
     }
 
     #custom-quebec,
@@ -170,15 +170,15 @@ in {
     #memory,
     #cpu,
     #network {
-        color: #F6EEC9;              /* text */
+        color: #F6EEC9;                       /* text */
     }
 
     #pulseaudio.muted {
-        color: #5B5742;              /* surface0 — dimmed when muted */
+        color: #5B5742;                       /* surface0 — dimmed when muted */
     }
 
     #clock {
-        color: #F6EEC9;              /* text */
+        color: #F6EEC9;                       /* text */
     }
 
     #tray {
@@ -191,19 +191,19 @@ in {
 
     #tray > .needs-attention {
         -gtk-icon-effect: highlight;
-        background-color: #E3C220;   /* brand gold */
+        background-color: #E3C220;            /* brand gold */
     }
 
     /* Urgent/alert states */
     #cpu.warning,
     #memory.warning {
-        color: #EF9F76;              /* orange — warning */
+        color: #EF9F76;                       /* orange — warning */
     }
 
     #cpu.critical,
     #memory.critical {
-        color: #EF8484;              /* red — critical */
-        background: #322F1F;         /* mantle */
+        color: #EF8484;                       /* red — critical */
+        background: #322F1F;                  /* mantle */
     }
   '';
 

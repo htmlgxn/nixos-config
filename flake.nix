@@ -57,7 +57,9 @@
       boreal = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ({...}: {nixpkgs.config.allowUnfree = true;})
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/sway.nix
@@ -71,13 +73,15 @@
       boreal-niri = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ({...}: {nixpkgs.config.allowUnfree = true;})
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/niri.nix
           home-manager.nixosModules.home-manager
           hmNiri
-          # hmExtras
+          # hmExtras (disabled: niri build not yet stable)
         ];
       };
 
@@ -85,11 +89,14 @@
       nixos-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
           ./hosts/nixos-vm/configuration.nix
           ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
           hmBase
-          # hmExtras
+          # hmExtras (disabled: VM minimal config)
         ];
       };
 
