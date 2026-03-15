@@ -67,7 +67,7 @@
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
       # nrn   — Niri
       nrn = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
-      
+
       # ── Development: nixos-config ─────────────────────────────────────
       # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)
       fnix = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra";
