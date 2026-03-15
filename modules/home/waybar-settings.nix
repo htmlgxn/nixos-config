@@ -34,6 +34,7 @@ in
 
     "custom/quebec" = {
       exec = "cat ${cfgDir}/waybar/assets/quebec_emoji.txt";
+      interval = 3600;
       format = "{}";
       tooltip = false;
     };

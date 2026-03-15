@@ -19,10 +19,11 @@ for disk in $(lsblk -ndo NAME,TYPE | awk '$2=="disk"{print $1}'); do
   for p in $parts; do
     mp=$(lsblk -no MOUNTPOINT "$p")
     if [ -n "$mp" ] && mountpoint -q -- "$mp"; then
-      avail=$(df -B1 --output=avail "$p" 2>/dev/null | tail -1)
-      used=$(df -B1 --output=size "$p" 2>/dev/null | tail -1)
+      read -r avail size <<EOF
+$(df -B1 --output=avail,size "$mp" 2>/dev/null | tail -1)
+EOF
       free=$((free + avail))
-      total=$((total + used))
+      total=$((total + size))
     fi
   done
   if [ "$total" -gt 0 ]; then
@@ -33,4 +34,3 @@ for disk in $(lsblk -ndo NAME,TYPE | awk '$2=="disk"{print $1}'); do
 done
 
 echo "${output%"${output##*[![:space:]]}"}"
-
