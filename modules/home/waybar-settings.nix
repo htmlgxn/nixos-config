@@ -44,7 +44,7 @@ EOF
 
     printf '%s\n' "$output"
   '';
-  quebecEmoji = pkgs.writeText "quebec-emoji.txt" "⚜️🏴⚜️\n";
+  quebecEmoji = pkgs.writeText "quebec-emoji.txt" "⚜️🏴󠁣󠁡󠁱󠁣󠁿⚜️\n";
 in
 {
   style = ''
