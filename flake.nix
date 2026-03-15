@@ -63,6 +63,7 @@
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/sway.nix
+          ./modules/system/jellyfin.nix
           home-manager.nixosModules.home-manager
           hmSway
           hmExtras

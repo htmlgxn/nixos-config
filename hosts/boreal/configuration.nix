@@ -78,6 +78,10 @@ in {
   # ── Network ───────────────────────────────────────────────────────────
   networking.hostName = "boreal";
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [8096]; # Jellyfin
+  };
 
   # ── Locale & Time ─────────────────────────────────────────────────────
   time.timeZone = "America/Halifax";
