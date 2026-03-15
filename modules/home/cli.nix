@@ -9,7 +9,7 @@
 }: let
   uvTools = [
     "ytdl-archiver"
-    "playwright"
+    # "playwright"
     # add more here
   ];
 
