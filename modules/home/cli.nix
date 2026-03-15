@@ -57,7 +57,6 @@
   };
 in {
   home.packages = with pkgs; [
-    python314
     # ── Custom Builds ────────────────────────────────────────────────
     outside
     diskonaut
@@ -122,7 +121,6 @@ in {
     countryfetch
 
     # ── Development ─────────────────────────────────────────────────
-    uv # python manager
     alejandra # nix formatter
     nix-tree
 
@@ -145,10 +143,6 @@ in {
     # Local Chat
     ollama-rocm
   ];
-
-  home.sessionVariables = {
-    UV_PYTHON_DOWNLOADS = "never";
-  };
 
   home.sessionPath = ["$HOME/.local/bin"];
 

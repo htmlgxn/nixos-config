@@ -44,8 +44,8 @@
       where = "/var/lib/jellyfin/transcodes";
       type = "tmpfs";
       options = "size=4G,mode=0750,uid=jellyfin,gid=jellyfin";
-      wantedBy = [ "jellyfin.service" ];
-      before = [ "jellyfin.service" ];
+      wantedBy = ["jellyfin.service"];
+      before = ["jellyfin.service"];
     }
   ];
 

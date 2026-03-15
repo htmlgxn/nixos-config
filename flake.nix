@@ -23,6 +23,7 @@
   }: let
     hmCommonImports = [
       ./home/gars/home.nix
+      ./modules/home/python.nix
       ./modules/home/cli.nix
     ];
 
