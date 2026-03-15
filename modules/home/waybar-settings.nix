@@ -45,6 +45,7 @@ let
 
     printf '%s\n' "$output"
   '';
+  quebecEmoji = pkgs.writeText "quebec-emoji.txt" "⚜️🏴⚜️\n";
 in
 {
   style = ''
@@ -231,7 +232,7 @@ in
     ];
 
     "custom/quebec" = {
-      exec = "printf '%s\\n' '⚜️🏴⚜️'";
+      exec = "${pkgs.coreutils}/bin/cat ${quebecEmoji}";
       interval = 3600;
       format = "{}";
       tooltip = false;
