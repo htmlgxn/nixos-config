@@ -218,8 +218,8 @@ in {
     };
 
     extraConfig = ''
-      font pango:monospace 11
-      titlebar_padding 6 4
+      font pango:Roboto Mono 10
+      titlebar_padding 4 3
 
       exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
       exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
