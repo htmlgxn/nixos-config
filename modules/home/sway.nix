@@ -8,7 +8,7 @@
 { config, pkgs, ... }:
 
 let
-  waybar = import ./waybar-settings.nix { inherit config; };
+  waybar = import ./waybar-settings.nix { inherit pkgs; };
 in
 
 {

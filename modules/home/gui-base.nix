@@ -25,8 +25,7 @@ let
     OPENSSL_NO_VENDOR = 1;
   };
 
-  waybarCfg = import ./waybar-settings.nix { inherit config; };
-  waybarDotDir = ../../home/gars/dots/waybar;
+  waybarCfg = import ./waybar-settings.nix { inherit pkgs; };
 in
 {
   imports = [
@@ -39,14 +38,6 @@ in
     enable = true;
     style = waybarCfg.style;
   };
-
-  xdg.configFile."waybar/scripts/disks.sh" = {
-    text = builtins.readFile "${waybarDotDir}/scripts/disks.sh";
-    executable = true;
-  };
-
-  xdg.configFile."waybar/assets/quebec_emoji.txt".text =
-    builtins.readFile "${waybarDotDir}/assets/quebec_emoji.txt";
 
   home.packages = with pkgs; [
     # ── Custom Builds ────────────────────────────────────────────────
