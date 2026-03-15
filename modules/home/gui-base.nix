@@ -128,7 +128,9 @@ in {
     extensions = [
       {id = "nngceckbapebfimnlniiiahkandclblb";} # Bitwarden
       {id = "aapbdbdomjkkjkaonfhkkikfgjllcleb";} # Google Translate
+      {id = "cclelndahbckbenkjhflpdbgdldlbecc";} # Get cookies.txt LOCALLY
       {id = "bhlhnicpbhignbdhedgjhgdocnmhomnp";} # ColorZilla
+      {id = "ilehaonighjijnmpnagapkhpcdbhclfg";} # Grass Lite Node
     ];
   };
 
