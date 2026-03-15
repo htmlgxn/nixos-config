@@ -37,6 +37,8 @@
     "d /var/lib/jellyfin/transcodes 0750 jellyfin jellyfin - -"
     "A /mnt/seagate6 - - - - u:jellyfin:rx"
     "A /mnt/seagate6 - - - - d:u:jellyfin:rx"
+    "A /mnt/seagate6/Movies - - - - u:jellyfin:rx"
+    "A /mnt/seagate6/Movies - - - - d:u:jellyfin:rx"
   ];
 
   # Mount tmpfs for transcodes (4GB limit, RAM-based)
