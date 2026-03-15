@@ -6,6 +6,7 @@
     python314
     uv # Python package/toolchain manager
     stdenv.cc.cc.lib # Runtime dependency for native Python packages (scrapling, etc.)
+    playwright-driver # Playwright CLI and Python package
     playwright-driver.browsers # Pre-built browsers for Playwright
   ];
 
