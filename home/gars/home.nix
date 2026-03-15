@@ -43,7 +43,7 @@
       gpom  = "git push origin main";
 
       # ── Config navigation ─────────────────────────────────────────────
-      cdc     = "cd ~/nixos-config";
+      cdn     = "cd ~/nixos-config";
       ef      = "nvim ~/nixos-config/flake.nix";
       eh      = "nvim ~/nixos-config/home/gars/home.nix";
       ecli    = "nvim ~/nixos-config/modules/home/cli.nix";
@@ -52,6 +52,11 @@
       ehniri  = "nvim ~/nixos-config/modules/home/niri.nix";
       enconf  = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
       eswayc  = "nvim ~/nixos-config/home/gars/dots/sway/config";
+
+      # ── Misc navigation ─────────────────────────────────────────────
+      cdd     = "cd ~/dev";
+      cdp     = "cd ~/dev/projects";
+      cdc     = "cd ~/nixos-config/home/gars/dots";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)

@@ -34,11 +34,16 @@
     };
   };
 
-  fonts.packages = with pkgs; [
-    roboto-mono
-    noto-fonts
-    openmoji-color
-  ];
+  fonts = {
+    packages = with pkgs; [
+      roboto-mono
+      openmoji-color
+      nerd-fonts.jetbrains-mono
+    ];
+    fontconfig = {
+      defaultFonts.emoji = [ "OpenMoji Color" ];
+    };
+  };
 
   environment.variables = {
     GTK_THEME = "Adwaita-dark";
