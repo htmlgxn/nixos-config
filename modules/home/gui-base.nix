@@ -16,6 +16,7 @@ in {
     ./alacritty.nix
     ./fuzzel.nix
     ./mako.nix
+    ./qbittorrent.nix
   ];
 
   programs.waybar = {
