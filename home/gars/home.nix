@@ -33,6 +33,7 @@
       code = "codium";
       weather = "outside -o detailed";
       music = "ncspot";
+      br = "broot";
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
