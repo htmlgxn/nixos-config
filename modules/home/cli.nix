@@ -28,6 +28,22 @@
 
     OPENSSL_NO_VENDOR = 1;
   };
+  
+  diskonaut = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "diskonaut-ng";
+    version = "0.13.2";
+
+    src = pkgs.fetchCrate {
+      inherit pname version;
+      hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    };
+
+    cargoHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    nativeBuildInputs = [pkgs.pkg-config];
+    # buildInputs = [pkgs.openssl];
+
+    # OPENSSL_NO_VENDOR = 1;
+  };
 
 in {
   home.packages = with pkgs; [
