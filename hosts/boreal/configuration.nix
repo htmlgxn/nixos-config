@@ -50,6 +50,12 @@
     fsType = "ext4";
   };
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/archive 0755 gars users - -"
+    "d /mnt/seagate6 0755 gars users - -"
+    "d /mnt/backup 0755 gars users - -"
+  ];
+
   environment.variables = {
     RUSTICL_ENABLE = "radeonsi";
     ROC_ENABLE_PRE_VEGA = "1";
