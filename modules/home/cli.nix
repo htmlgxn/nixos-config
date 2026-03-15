@@ -11,9 +11,30 @@
     "ytdl-archiver"
     # add more here
   ];
+
+  outside = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "outside";
+    version = "0.5.0";
+
+    src = pkgs.fetchCrate {
+      inherit pname version;
+      hash = "sha256-9qTW6xuLYwuNw3cahGdK6zXua8Qpu+NyIRjqsTAmsZI=";
+    };
+
+    cargoHash = "sha256-60wgt3/wJ+2lFQN+k2ev0KLSRxiFdxpHtnWILZfHQw0=";
+
+    nativeBuildInputs = [pkgs.pkg-config];
+    buildInputs = [pkgs.openssl];
+
+    OPENSSL_NO_VENDOR = 1;
+  };
+
 in {
   home.packages = with pkgs; [
     python314
+    # ── Custom Builds ────────────────────────────────────────────────
+    outside
+
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
     zellij
