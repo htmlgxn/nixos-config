@@ -34,6 +34,22 @@
     ];
   };
 
+  # ── Filesystems ───────────────────────────────────────────────────────
+  fileSystems."/mnt/archive" = {
+    device = "/dev/disk/by-uuid/316d561a-dfc9-4269-a887-8644819b207e";
+    fsType = "ext4";
+  };
+
+  fileSystems."/mnt/seagate6" = {
+    device = "/dev/disk/by-uuid/f248cacf-47ad-4d45-bf3e-04d8a991153c";
+    fsType = "ext4";
+  };
+
+  fileSystems."/mnt/backup" = {
+    device = "/dev/disk/by-uuid/d3d01560-2003-4e11-88be-cc87f3448c83";
+    fsType = "ext4";
+  };
+
   environment.variables = {
     RUSTICL_ENABLE = "radeonsi";
     ROC_ENABLE_PRE_VEGA = "1";
