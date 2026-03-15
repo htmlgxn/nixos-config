@@ -54,20 +54,20 @@ in
 
     /*
       Palette reference:
-        background  #1E1904   darkest base
-        crust       #262418   bar background
-        mantle      #322F1F   hover background
-        base        #3B3724   focused background
-        metal       #413C1E   subtle fills
-        surface0    #5B5742   inactive/dim elements
-        overlay1    #A29C7F   subdued text / inactive workspace
-        text        #F6EEC9   primary text
+        background   #1E1904   darkest base
+        crust        #262418   bar background
+        mantle       #322F1F   hover background
+        base         #3B3724   focused background
+        metal        #413C1E   subtle fills
+        surface0     #5B5742   inactive/dim elements
+        overlay1     #A29C7F   subdued text / inactive workspace
+        text         #F6EEC9   primary text
         light-yellow #EFDD84  hover border accent
-        gold-dark   #826F11   borders / dividers
-        brand       #E3C220   focused accent / bright gold
-        brand-bg    #E3C220   urgent backgrounds
-        red         #EF8484   critical state
-        orange      #EF9F76   warning state
+        gold-dark    #826F11   borders / dividers
+        brand        #E3C220   focused accent / bright gold
+        brand-bg     #E3C220   urgent backgrounds
+        red          #EF8484   critical state
+        orange       #EF9F76   warning state
     */
 
     * {
