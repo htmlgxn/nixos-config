@@ -52,6 +52,7 @@ in {
     bat
     eza
     fzf
+    broot
     zoxide
     tree
     ranger
