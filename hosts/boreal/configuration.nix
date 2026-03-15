@@ -18,7 +18,36 @@ in {
   ];
 
   # To sort / organize
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      # Playwright browser dependencies
+      libxcb
+      libX11
+      libXext
+      libXrandr
+      libXcomposite
+      libXcursor
+      libXdamage
+      libXfixes
+      libXi
+      libxkbcommon
+      gtk3
+      pango
+      atk
+      cairo
+      gdk-pixbuf
+      glib
+      libGL
+      libdrm
+      dbus
+      alsa-lib
+      freetype
+      fontconfig
+      cups
+      expat
+    ];
+  };
 
   # ── Boot ──────────────────────────────────────────────────────────────
   boot.loader.systemd-boot.enable = true;
