@@ -38,6 +38,7 @@ in {
     zoxide
     tree
     ranger
+    diskonaut
 
     # ── System Monitoring ───────────────────────────────────────────
     htop
