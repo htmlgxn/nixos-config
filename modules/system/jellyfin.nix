@@ -30,10 +30,6 @@
   # Create Jellyfin data directory with correct ownership
   # and transcode directory (tmpfs will mount over it)
   systemd.tmpfiles.rules = [
-    "d /mnt/archive/jellyfin 0755 jellyfin jellyfin - -"
-    "d /mnt/archive/jellyfin/config 0750 jellyfin jellyfin - -"
-    "d /mnt/archive/jellyfin/cache 0750 jellyfin jellyfin - -"
-    "d /mnt/archive/jellyfin/data 0750 jellyfin jellyfin - -"
     "d /var/lib/jellyfin/transcodes 0750 jellyfin jellyfin - -"
     "A /mnt/seagate6 - - - - u:jellyfin:rx"
     "A /mnt/seagate6 - - - - d:u:jellyfin:rx"
@@ -58,6 +54,14 @@
       "LIBVA_DRIVER_NAME=radeonsi"
     ];
   };
+
+  systemd.services.jellyfin.preStart = ''
+    install -d -m 0755 -o jellyfin -g jellyfin /mnt/archive/jellyfin
+    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/config
+    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/cache
+    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/data
+    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/log
+  '';
 
   systemd.services.jellyfin.unitConfig = {
     RequiresMountsFor = [
