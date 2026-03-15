@@ -11,9 +11,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    bookokrat.url = "github:bugzmanov/bookokrat";
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
@@ -27,12 +29,16 @@
     mkHm = extraImports: {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = {inherit inputs;};
       home-manager.users.gars = {
         imports = hmCommonImports ++ extraImports;
       };
     };
 
     hmBase = mkHm [];
+    hmExtras = mkHm [
+      ./modules/home/cli-extras.nix
+    ];
 
     # GUI: CLI + shared GUI base + Sway specific
     hmSway = mkHm [
@@ -57,6 +63,7 @@
           ./modules/system/sway.nix
           home-manager.nixosModules.home-manager
           hmSway
+          hmExtras
         ];
       };
 
@@ -70,6 +77,7 @@
           ./modules/system/niri.nix
           home-manager.nixosModules.home-manager
           hmNiri
+          # hmExtras
         ];
       };
 
@@ -81,6 +89,7 @@
           ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
           hmBase
+          # hmExtras
         ];
       };
 
@@ -92,6 +101,7 @@
       #     ./modules/system/cli.nix
       #     home-manager.nixosModules.home-manager
       #     hmBase
+      #     # hmExtras: enable only after the first successful build.
       #   ];
       # };
     };

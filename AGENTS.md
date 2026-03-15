@@ -6,6 +6,7 @@
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
 - `modules/system/*.nix` holds reusable system modules (CLI base, window-manager specific modules).
 - `modules/home/*.nix` holds Home Manager modules (CLI, GUI base, Sway/Niri, Waybar, app configs).
+- `modules/home/cli-extras.nix` is for experimental or host-specific CLI packages; enable it per host by adding `hmExtras` in `flake.nix`.
 - `home/gars/home.nix` is the primary Home Manager entrypoint for user `gars`.
 - `home/gars/dots/` and `home/gars/nvim/` contain dotfiles and editor configuration referenced by Home Manager.
 
@@ -23,7 +24,9 @@
 - Prefer lower-case, hyphenated filenames (for example `gui-base.nix`, `waybar-settings.nix`).
 - Keep module names descriptive and scoped to their layer: `modules/system/<feature>.nix` vs `modules/home/<feature>.nix`.
 - Keep host names stable; they are referenced directly in `flake.nix` output keys.
-- Format Nix with `alejandra` once installed.
+- Format Nix with `alejandra`.
+- Format all Nix files except hardware configs:
+- `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`
 
 ## Testing Guidelines
 - There are no automated tests in this repository.
