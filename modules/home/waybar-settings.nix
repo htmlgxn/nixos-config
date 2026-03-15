@@ -37,9 +37,9 @@ let
         fi
       done
       if [ "$total" -gt 0 ]; then
-        output+="[<span color='${PRIMARY}'>${disk}</span>]<span color='${FOREGROUND}'>$(human $free)/$(human $total)</span> "
+        output+="[<span color='''${PRIMARY}'>''${disk}</span>]<span color='''${FOREGROUND}'>$(human ''${free})/$(human ''${total})</span> "
       else
-        output+="<span color='${PRIMARY}'>${disk}</span> <span color='${DISABLED}'>--</span>/<span color='${FOREGROUND}'>$(human $size)</span>  "
+        output+="<span color='''${PRIMARY}'>''${disk}</span> <span color='''${DISABLED}'>--</span>/<span color='''${FOREGROUND}'>$(human ''${size})</span>  "
       fi
     done
 
