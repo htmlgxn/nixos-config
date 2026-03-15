@@ -24,6 +24,8 @@ let
 
     OPENSSL_NO_VENDOR = 1;
   };
+
+  waybar = import ./waybar-settings.nix { inherit config; };
 in
 {
   imports = [
@@ -31,6 +33,19 @@ in
     ./fuzzel.nix
     ./mako.nix
   ];
+
+  programs.waybar = {
+    enable = true;
+    style = waybar.style;
+  };
+
+  xdg.configFile."waybar/scripts/disks.sh" = {
+    text = builtins.readFile /home/gars/nixos-config/home/gars/dots/waybar/scripts/disks.sh;
+    executable = true;
+  };
+
+  xdg.configFile."waybar/assets/quebec_emoji.txt".text =
+    builtins.readFile /home/gars/nixos-config/home/gars/dots/waybar/assets/quebec_emoji.txt;
 
   home.packages = with pkgs; [
     # ── Custom Builds ────────────────────────────────────────────────
@@ -71,6 +86,7 @@ in
     polkit_gnome
     brightnessctl
     networkmanagerapplet
+    pavucontrol
 
     # ── Messengers ──────────────────────────────────────────────────
     signal-desktop
@@ -146,9 +162,4 @@ in
     size = 26;
   };
 
-  # ── Shared Dotfile Symlinks ───────────────────────────────────────
-  home.file = {
-    ".config/waybar/style.css".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/waybar/style.css";
-  };
 }
