@@ -28,7 +28,7 @@
 
     OPENSSL_NO_VENDOR = 1;
   };
-  
+
   diskonaut = pkgs.rustPlatform.buildRustPackage rec {
     pname = "diskonaut-ng";
     version = "0.13.2";
@@ -62,7 +62,6 @@
 
     # OPENSSL_NO_VENDOR = 1;
   };
-
 in {
   home.packages = with pkgs; [
     python314
@@ -119,25 +118,25 @@ in {
 
     # ── Calculator & Notes ──────────────────────────────────────────
     fend
-    glow   # markdown reader
+    glow # markdown reader
     basalt # Obsidian CLI
-    dijo   # habit tracker
+    dijo # habit tracker
 
     # ── Fetch ───────────────────────────────────────────────────────
     fastfetch
     countryfetch
 
     # ── Development ─────────────────────────────────────────────────
-    uv         # python manager
-    alejandra  # nix formatter
+    uv # python manager
+    alejandra # nix formatter
 
     # ── AI Agents ───────────────────────────────────────────────────
     opencode
     crush
     aichat
-    mods       # Charmbracelet's AI pipe tool
-    shell-gpt  # invoked as `sgpt`
-    llm        # Simon Willison's LLM CLI
+    mods # Charmbracelet's AI pipe tool
+    shell-gpt # invoked as `sgpt`
+    llm # Simon Willison's LLM CLI
     qwen-code
     plandex
     codex

@@ -10,9 +10,7 @@
   pkgs,
   ...
 }: let
-
   waybarCfg = import ./waybar-settings.nix {inherit pkgs;};
-
 in {
   imports = [
     ./alacritty.nix

@@ -38,7 +38,11 @@
 
   # ── Filesystems ───────────────────────────────────────────────────────
   swapDevices = [
-    {device = "/home/swapfile"; size = 16384; priority = 10;}
+    {
+      device = "/home/swapfile";
+      size = 16384;
+      priority = 10;
+    }
   ];
 
   zramSwap = {
