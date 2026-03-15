@@ -81,6 +81,7 @@ in
 
     # ── Development ─────────────────────────────────────────────────
     uv # python manager
+    alejandra # nix formatter
   ];
 
   home.sessionVariables = {
