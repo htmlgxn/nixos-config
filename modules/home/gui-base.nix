@@ -25,7 +25,7 @@ let
     OPENSSL_NO_VENDOR = 1;
   };
 
-  waybar = import ./waybar-settings.nix { inherit config; };
+  waybarCfg = import ./waybar-settings.nix { inherit config; };
   waybarDotDir = ../../home/gars/dots/waybar;
 in
 {
@@ -37,7 +37,7 @@ in
 
   programs.waybar = {
     enable = true;
-    style = waybar.style;
+    style = waybarCfg.style;
   };
 
   xdg.configFile."waybar/scripts/disks.sh" = {
