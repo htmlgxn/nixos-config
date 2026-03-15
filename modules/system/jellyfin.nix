@@ -51,12 +51,7 @@
     }
   ];
 
-  # Ensure gars can manage Jellyfin files and logs
-  users.groups.jellyfin.members = [ "gars" ];
-
-  # Allow Jellyfin to access media on /mnt/seagate6
   systemd.services.jellyfin.serviceConfig = {
-    SupplementaryGroups = [ "gars" ];
     Environment = [
       "LIBVA_DRIVER_NAME=radeonsi"
     ];
