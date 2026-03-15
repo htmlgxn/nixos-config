@@ -43,7 +43,7 @@ let
       fi
     done
 
-    echo "${output%"${output##*[![:space:]]}"}"
+    printf '%s\n' "${output%"${output##*[![:space:]]}"}"
   '';
 in
 {
