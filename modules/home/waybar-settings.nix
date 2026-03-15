@@ -8,9 +8,10 @@
 
 let
   cfgDir = config.xdg.configHome;
+  waybarDotDir = ../../home/gars/dots/waybar;
 in
 {
-  style = builtins.readFile /home/gars/nixos-config/home/gars/dots/waybar/style.css;
+  style = builtins.readFile "${waybarDotDir}/style.css";
 
   common = {
     layer = "top";

@@ -26,6 +26,7 @@ let
   };
 
   waybar = import ./waybar-settings.nix { inherit config; };
+  waybarDotDir = ../../home/gars/dots/waybar;
 in
 {
   imports = [
@@ -40,12 +41,12 @@ in
   };
 
   xdg.configFile."waybar/scripts/disks.sh" = {
-    text = builtins.readFile /home/gars/nixos-config/home/gars/dots/waybar/scripts/disks.sh;
+    text = builtins.readFile "${waybarDotDir}/scripts/disks.sh";
     executable = true;
   };
 
   xdg.configFile."waybar/assets/quebec_emoji.txt".text =
-    builtins.readFile /home/gars/nixos-config/home/gars/dots/waybar/assets/quebec_emoji.txt;
+    builtins.readFile "${waybarDotDir}/assets/quebec_emoji.txt";
 
   home.packages = with pkgs; [
     # ── Custom Builds ────────────────────────────────────────────────
