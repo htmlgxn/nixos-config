@@ -54,7 +54,7 @@
       hash = "sha256-z4UNTVGLnSLW9gyg4d9xWpLgNhl45rLlK9ARA/YMz3Y=";
     };
 
-    cargoHash = "sha256-+NwZbR3fRj8Wi95GtsUQFWOyaZ0ekC4chsoJ5rsH3Zg=";
+    cargoHash = "sha256-KJR/WmSyv4v9ZLEFc/ksVGT3pMBeqAjKZBnvVoP30yk=";
     nativeBuildInputs = [pkgs.pkg-config];
     # buildInputs = [pkgs.openssl];
 
