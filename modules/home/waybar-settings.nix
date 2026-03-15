@@ -13,23 +13,23 @@ let
     # Uses Pango markup instead of Polybar color tags
 
     human() {
-      numfmt --to=iec --suffix=B --format="%.1f" "$1" | tr '[:upper:]' '[:lower:]'
+      ${pkgs.coreutils}/bin/numfmt --to=iec --suffix=B --format="%.1f" "$1" | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]'
     }
 
     PRIMARY="#E3C220"
     FOREGROUND="#F6EEC9"
     DISABLED="#826F11"
     output=""
-    for disk in $(lsblk -ndo NAME,TYPE | awk '$2=="disk"{print $1}'); do
-      size=$(lsblk -bndo SIZE /dev/$disk)
-      parts=$(lsblk -lnpo NAME,TYPE /dev/$disk | awk '$2=="part"{print $1}')
+    for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk"{print $1}'); do
+      size=$(${pkgs.util-linux}/bin/lsblk -bndo SIZE /dev/$disk)
+      parts=$(${pkgs.util-linux}/bin/lsblk -lnpo NAME,TYPE /dev/$disk | ${pkgs.gawk}/bin/awk '$2=="part"{print $1}')
       free=0
       total=0
       for p in $parts; do
-        mp=$(lsblk -no MOUNTPOINT "$p")
-        if [ -n "$mp" ] && mountpoint -q -- "$mp"; then
+        mp=$(${pkgs.util-linux}/bin/lsblk -no MOUNTPOINT "$p")
+        if [ -n "$mp" ] && ${pkgs.util-linux}/bin/mountpoint -q -- "$mp"; then
           read -r avail size <<EOF
-$(df -B1 --output=avail,size "$mp" 2>/dev/null | tail -1)
+$(${pkgs.coreutils}/bin/df -B1 --output=avail,size "$mp" 2>/dev/null | ${pkgs.coreutils}/bin/tail -1)
 EOF
           free=$((free + avail))
           total=$((total + size))
@@ -155,11 +155,6 @@ in
     #custom-browser {
         font-size: 18px;
         border-left: 2px solid #826F11; /* gold-dark */
-    }
-
-    #custom-quebec {
-        font-family: "OpenMoji Color";
-        font-size: 18px;
     }
 
     #custom-quebec,
