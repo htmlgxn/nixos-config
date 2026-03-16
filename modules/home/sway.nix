@@ -182,10 +182,12 @@ in {
 
           "${mod}+F2" = "exec brave";
           "${mod}+F3" = "exec thunar";
-          "${mod}+Shift+a" = "exec flameshot gui";
+          "${mod}+Shift+a" = "exec grimshot copy window";
           "${mod}+Shift+x" = "exec swaylock -f -c 000000";
 
-          "Print" = "exec grim ~/Pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
+          "Print" = "exec grim ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
+          "${mod}+Print" = "exec grimshot save window ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
+          "${mod}+Ctrl+Print" = "exec grimshot save area ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
         }
         // mkWorkspaceBindingsWithZero "${mod}+" (n: "workspace number ${n}")
         // mkWorkspaceBindingsWithZero "${mod}+Ctrl+" (n: "move container to workspace number ${n}")
