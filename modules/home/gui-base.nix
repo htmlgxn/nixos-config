@@ -105,6 +105,7 @@ in {
     # ── Misc ────────────────────────────────────────────────────────
     qbittorrent
     #kicad-testing
+    freecad
     anarchism
   ];
 
