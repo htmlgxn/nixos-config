@@ -1,12 +1,12 @@
 #
-# ~/nixos-config/modules/home/python.nix
+# ~/nixos-config/modules/home/packages/python/default.nix
 #
-{ pkgs, lib, ... }: let
-  uvTools = [
-    "ytdl-archiver"
-    # "playwright"
-    # add more here
-  ];
+{
+  pkgs,
+  lib,
+  ...
+}: let
+  uvTools = import ./uv-tools.nix;
 in {
   home.packages = with pkgs; [
     # ── Toolchain ────────────────────────────────────────────────────

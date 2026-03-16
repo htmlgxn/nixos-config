@@ -25,9 +25,7 @@
       ./home/gars/home.nix
       ./modules/home/cli.nix
       # Language toolchains & custom packages
-      ./modules/home/python.nix
-      ./modules/home/go.nix
-      ./modules/home/rust.nix
+      ./modules/home/packages
     ];
 
     mkHm = extraImports: {
