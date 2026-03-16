@@ -48,12 +48,14 @@
     hmSway = mkHm [
       ./modules/home/gui-base.nix
       ./modules/home/sway.nix
+      ./modules/home/flatpak.nix
     ];
 
     # GUI: CLI + shared GUI base + Niri specific
     hmNiri = mkHm [
       ./modules/home/gui-base.nix
       ./modules/home/niri.nix
+      ./modules/home/flatpak.nix
     ];
   in {
     nixosConfigurations = {
@@ -68,6 +70,7 @@
           ./modules/system/cli.nix
           ./modules/system/sway.nix
           ./modules/system/jellyfin.nix
+          ./modules/system/flatpak.nix
           home-manager.nixosModules.home-manager
           hmSway
           hmExtras
@@ -84,6 +87,7 @@
           ./hosts/boreal/configuration.nix
           ./modules/system/cli.nix
           ./modules/system/niri.nix
+          ./modules/system/flatpak.nix
           home-manager.nixosModules.home-manager
           hmNiri
           # hmExtras (disabled: niri build not yet stable)
