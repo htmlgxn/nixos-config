@@ -219,7 +219,7 @@ in {
       exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
       exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
-      exec_always swaybg -i ~/Pictures/wallpapers/jpg/mtl-16.jpg -m fill
+      exec_always swaybg -i ~/pictures/wallpapers/jpg/mtl-16.jpg -m fill
       exec wlsunset -t 2500 -T 3000
 
       exec_always ${pkgs.systemd}/bin/systemctl --user restart waybar
