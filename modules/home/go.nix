@@ -11,7 +11,7 @@
       rev = "v0.3.0";
       hash = "sha256-iLwWKn8csoRkr5H8R2kpZVZCxsL0LDWHNvNoxyM6y98=";
     };
-    vendorHash = "sha256-REPLACE_ME";
+    vendorHash = "sha256-Zxw0NyZfM42ytn+vDExLwRgNLWsdGVLC3iNVpQd8VMw=";
     subPackages = [ "cmd/bit" ];
     modVendor = true;
   };
