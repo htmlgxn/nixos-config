@@ -18,7 +18,7 @@
     repo = "cull";
     rev = "v0.6.1";
     hash = "sha256-F5DLpYaSktumgoXalKbO7fJjr3Mv/myYoTivvGaoYNY=";
-    vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    vendorHash = "sha256-1qfkALCIV6ikih0QpAxOXVzTFeRK9AxMbI99WYTlYeA=";
     modVendor = true;
   };
 }
