@@ -17,7 +17,7 @@
     owner = "legostin";
     repo = "cull";
     rev = "v0.6.1";
-    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    hash = "sha256-F5DLpYaSktumgoXalKbO7fJjr3Mv/myYoTivvGaoYNY=";
     vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
     modVendor = true;
   };
