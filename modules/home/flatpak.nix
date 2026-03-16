@@ -2,28 +2,23 @@
 # ~/nixos-config/modules/home/flatpak.nix
 #
 # User-level Flatpak configuration.
-# Adds Flathub remote and manages Flatpak applications via Home Manager.
+# Adds Flathub remote and installs Flatpak applications via Home Manager.
 #
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
-  services.flatpak = {
-    enable = true;
+{ pkgs, lib, ... }:
 
-    # Add Flathub as the default remote
-    remotes = {
-      "flathub" = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-    };
+let
+  flatpakPackages = import ./flatpak/packages.nix;
 
-    # Flatpak applications to install
-    packages = [
-      "org.flathub.Flathub"
-    ];
-  };
+in {
+  home.activation.installFlatpaks =
+    lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ] ''
+      ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists --user \
+        flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-  # Ensure Flatpak portal is available for sandboxed apps
-  xdg.portal.enable = true;
+      for app in ${lib.concatStringsSep " " flatpakPackages}; do
+        echo "flatpak: (re)installing $app..."
+        ${pkgs.flatpak}/bin/flatpak install --user --noninteractive --assumeyes \
+          flathub "$app"
+      done
+    '';
 }
