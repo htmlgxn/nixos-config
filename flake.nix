@@ -25,6 +25,8 @@
       ./home/gars/home.nix
       ./modules/home/python.nix
       ./modules/home/cli.nix
+      ./modules/home/go.nix
+      ./modules/home/rust.nix
     ];
 
     mkHm = extraImports: {
