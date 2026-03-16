@@ -2,7 +2,7 @@
 # ~/nixos-config/modules/home/packages/rust/crates.nix
 #
 {
-  outside = {
+  "outside" = {
     version = "0.5.0";
     crateHash = "sha256-9qTW6xuLYwuNw3cahGdK6zXua8Qpu+NyIRjqsTAmsZI=";
     cargoHash = "sha256-60wgt3/wJ+2lFQN+k2ev0KLSRxiFdxpHtnWILZfHQw0=";
