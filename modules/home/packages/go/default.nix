@@ -19,6 +19,7 @@
     pkgs.buildGoModule {
       inherit pname version subPackages vendorHash modVendor;
       src = pkgs.fetchFromGitHub {inherit owner repo rev hash;};
+      doCheck = false;
     };
 
   builtPkgs =
