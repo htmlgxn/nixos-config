@@ -46,6 +46,10 @@ in {
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false;
+    extraSessionCommands = ''
+      export XDG_DATA_DIRS="${config.home.homeDirectory}/.local/share/flatpak/exports/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+      ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
+    '';
     config = {
       modifier = mod;
       left = left;
