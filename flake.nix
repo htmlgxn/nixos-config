@@ -102,6 +102,7 @@
           ./modules/system/cli.nix
           ./modules/system/niri.nix
           ./modules/system/flatpak.nix
+          ./modules/system/jellyfin.nix
           home-manager.nixosModules.home-manager
           hmNiri
           # hmExtras (disabled: niri build not yet stable)

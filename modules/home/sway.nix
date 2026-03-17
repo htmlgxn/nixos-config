@@ -38,6 +38,11 @@ in {
     ./gui-base.nix
   ];
 
+  programs.waybar.systemd = {
+    enable = true;
+    target = "sway-session.target";
+  };
+
   home.packages = with pkgs; [
     sway-contrib.grimshot
   ];

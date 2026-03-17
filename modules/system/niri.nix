@@ -16,14 +16,22 @@
 
   programs.niri.enable = true;
 
+  programs.dconf.enable = true;
+
   services.greetd.settings.default_session = {
     command = "${pkgs.tuigreet}/bin/tuigreet --cmd niri-session";
     user = "greeter";
   };
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-  ];
+  fonts = {
+    packages = with pkgs; [
+      noto-fonts
+      nerd-fonts.jetbrains-mono
+    ];
+    fontconfig = {
+      defaultFonts.emoji = ["OpenMoji Color"];
+    };
+  };
 
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gnome

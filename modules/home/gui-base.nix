@@ -21,10 +21,6 @@ in {
   programs.waybar = {
     enable = true;
     style = waybarCfg.style;
-    systemd = {
-      enable = true;
-      target = "sway-session.target";
-    };
   };
 
   home.packages = with pkgs; [
