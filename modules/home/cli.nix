@@ -49,6 +49,7 @@
     wireguard-tools
     mosh
     k9s
+    bluetui
 
     # ── Media ───────────────────────────────────────────────────────
     ncspot
