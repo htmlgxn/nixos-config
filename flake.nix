@@ -75,6 +75,22 @@
         ];
       };
 
+      # ── TTY only — boreal ──────────────────────────────────────────────
+      boreal-tty = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
+          ./hosts/boreal/configuration.nix
+          ./modules/system/cli.nix
+          ./modules/system/jellyfin.nix
+          home-manager.nixosModules.home-manager
+          hmBase
+          hmExtras
+        ];
+      };
+
       # ── Niri ───────────────────────────────────────────────────────────
       boreal-niri = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
