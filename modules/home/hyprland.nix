@@ -27,7 +27,6 @@ in {
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = builtins.readFile "/home/gars/nixos-config/home/gars/dots/hypr/hyprland.conf";
   };
 
   programs.waybar.settings = {
@@ -47,5 +46,11 @@ in {
           ellipsis = "...";
         };
       };
+  };
+
+  # ── Hyprland dotfile symlink ─────────────────────────────────────
+  home.file = {
+    ".config/hypr/hyprland.conf".source =
+      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/hypr/hyprland.conf";
   };
 }
