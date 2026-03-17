@@ -35,7 +35,7 @@
       music = "ncspot";
       swapstat = "swapon --show --bytes; free -h";
       br = "broot";
-      wiki = "wiki-tui"
+      wiki = "wiki-tui";
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
