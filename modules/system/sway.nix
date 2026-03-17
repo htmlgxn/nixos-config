@@ -26,8 +26,6 @@
 
   fonts = {
     packages = with pkgs; [
-      roboto-mono
-      openmoji-color
       nerd-fonts.jetbrains-mono
     ];
     fontconfig = {

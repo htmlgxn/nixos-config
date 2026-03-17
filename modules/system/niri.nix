@@ -22,9 +22,7 @@
   };
 
   fonts.packages = with pkgs; [
-    roboto-mono
     noto-fonts
-    openmoji-color
   ];
 
   xdg.portal.extraPortals = [

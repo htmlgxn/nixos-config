@@ -39,7 +39,6 @@ in {
   ];
 
   home.packages = with pkgs; [
-    # Sway-specific
     sway-contrib.grimshot
   ];
 

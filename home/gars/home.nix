@@ -67,11 +67,11 @@
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
-      nrs   = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
-      # nrtty — tty-only mode 
+      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
+      # nrtty — tty-only mode
       nrtty = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty";
       # nrn   — Niri
-      nrn   = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
+      nrn = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
 
       # ── Development: nixos-config ─────────────────────────────────────
       # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)

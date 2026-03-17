@@ -32,6 +32,13 @@
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
+  fonts = {
+    packages = with pkgs; [
+      roboto-mono
+      openmoji-color
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     wayland
   ];
