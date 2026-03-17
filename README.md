@@ -6,6 +6,6 @@
 ### cyberdeck
 
 ## Modules
-### home/gui-base.bix
+### home/gui-base.nix
 ### home/cli.nix
 
