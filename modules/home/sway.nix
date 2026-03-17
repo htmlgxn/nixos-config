@@ -233,7 +233,6 @@ in {
       exec export SSH_AUTH_SOCK
       exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
       exec nm-applet --indicator
-      exec flameshot
       exec grass
 
       exec swayidle -w \

@@ -49,7 +49,6 @@ binds {
     // Apps
     Mod+F2 { spawn "brave"; }
     Mod+F3 { spawn "thunar"; }
-    Mod+Shift+A { spawn "flameshot" "gui"; }
     Mod+Shift+X { spawn "swaylock" "-f" "-c" "000000"; }
 
     // Workspaces 1-10

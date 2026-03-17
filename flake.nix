@@ -55,6 +55,13 @@
       ./modules/home/niri.nix
       ./modules/home/flatpak.nix
     ];
+
+    # GUI: CLI + shared GUI base + Hyprland specific
+    hmHyprland = mkHm [
+      ./modules/home/gui-base.nix
+      ./modules/home/hyprland.nix
+      ./modules/home/flatpak.nix
+    ];
   in {
     nixosConfigurations = {
       # ── Sway — production ──────────────────────────────────────────────
@@ -106,6 +113,24 @@
           home-manager.nixosModules.home-manager
           hmNiri
           # hmExtras (disabled: niri build not yet stable)
+        ];
+      };
+
+      # ── Hyprland ───────────────────────────────────────────────────────
+      boreal-hypr = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
+          ./hosts/boreal/configuration.nix
+          ./modules/system/cli.nix
+          ./modules/system/hyprland.nix
+          ./modules/system/flatpak.nix
+          ./modules/system/jellyfin.nix
+          home-manager.nixosModules.home-manager
+          hmHyprland
+          hmExtras
         ];
       };
 

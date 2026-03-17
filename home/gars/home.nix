@@ -72,6 +72,8 @@
       nrtty = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty";
       # nrn   — Niri
       nrn = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
+      # nrh   — Hyprland
+      nrh = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-hypr";
 
       # ── Development: nixos-config ─────────────────────────────────────
       # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)

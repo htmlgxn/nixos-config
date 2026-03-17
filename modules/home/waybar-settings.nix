@@ -1,7 +1,7 @@
 #
 # ~/nixos-config/modules/home/waybar-settings.nix
 #
-# Shared Waybar settings (used by sway + niri).
+# Shared Waybar settings (used by sway + niri + hyprland).
 #
 {pkgs, ...}: let
   disksScript = pkgs.writeShellScript "waybar-disks" ''
