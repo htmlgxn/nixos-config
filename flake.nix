@@ -93,7 +93,7 @@
         ./modules/system/jellyfin.nix
         home-manager.nixosModules.home-manager
         hmCLI
-        extraHmModules
+      ] ++ extraHmModules ++ [
         hmCLIExtras
       ];
     };
@@ -110,11 +110,13 @@
         ./modules/system/flatpak.nix
         ./modules/system/jellyfin.nix
         home-manager.nixosModules.home-manager
-        (mkHm [
+      ] ++ [
+        mkHm ([
           ./modules/home/gui-base.nix
           ./modules/home/${compositor}.nix
           ./modules/home/flatpak.nix
         ] ++ extraHmModules)
+      ] ++ [
         hmCLIExtras
       ];
     };
@@ -130,7 +132,7 @@
         ./modules/system/cli.nix
         home-manager.nixosModules.home-manager
         hmCLI
-        extraHmModules
+      ] ++ extraHmModules ++ [
         # hmCLIExtras: enable only after the first successful build.
       ];
     };
