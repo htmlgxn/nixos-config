@@ -42,6 +42,11 @@
       ./modules/home/cli-extras.nix
     ];
 
+    # Cyberdeck: CLI + cyberdeck-specific packages
+    hmCyberdeck = mkHm [
+      ./modules/home/cli-cyberdeck.nix
+    ];
+
     # GUI: CLI + shared GUI base + Sway specific
     hmSway = mkHm [
       ./modules/home/gui-base.nix
@@ -110,6 +115,7 @@
           ./modules/system/jellyfin.nix
           home-manager.nixosModules.home-manager
           hmBase
+          hmCyberdeck
           hmExtras
         ];
       };
