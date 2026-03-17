@@ -9,10 +9,6 @@ input {
             options "caps:escape"
         }
     }
-    cursor {
-        theme "Catppuccin-Mocha-Yellow-Cursors"
-        size 26
-    }
 }
 
 // ── Prefer no CSD (replaces draw-border-without-focus) ─────────────────

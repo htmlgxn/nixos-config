@@ -43,5 +43,11 @@
     slurp
     swaybg
     swaylock
+    catppuccin-cursors.mochaYellow
   ];
+
+  environment.variables = {
+    XCURSOR_THEME = "Catppuccin-Mocha-Yellow-Cursors";
+    XCURSOR_SIZE = "26";
+  };
 }
