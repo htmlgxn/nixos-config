@@ -1,6 +1,19 @@
 #
 # ~/nixos-config/flake.nix
 #
+# Configuration Hierarchy:
+#   TTY  → cli.nix + cli-extras.nix (+ optional cli-*.nix)
+#   GUI  → TTY + gui-base.nix + <compositor>.nix + flatpak.nix
+#
+# NixOS Configurations:
+#   boreal-tty         - TTY-only on boreal hardware
+#   boreal-tty-cyberdeck - TTY + cyberdeck packages (testing on boreal)
+#   boreal             - GUI (Sway) - production
+#   boreal-niri        - GUI (Niri)
+#   boreal-hypr        - GUI (Hyprland)
+#   nixos-vm           - TTY-only VM
+#   cyberdeck          - (future) TTY-only on aarch64 hardware
+#
 {
   description = "My NixOS config";
 
@@ -21,6 +34,7 @@
     home-manager,
     ...
   }: let
+    # ── Home Manager Base ────────────────────────────────────────────────
     hmCommonImports = [
       ./home/gars/home.nix
       ./modules/home/cli.nix
@@ -37,126 +51,98 @@
       };
     };
 
-    hmBase = mkHm [];
-    hmExtras = mkHm [
+    # ── Home Manager: CLI Base ──────────────────────────────────────────
+    hmCLI = mkHm [];
+
+    hmCLIExtras = mkHm [
       ./modules/home/cli-extras.nix
     ];
 
-    # Cyberdeck: CLI + cyberdeck-specific packages
-    hmCyberdeck = mkHm [
+    hmCLI_Cyberdeck = mkHm [
       ./modules/home/cli-cyberdeck.nix
     ];
 
-    # GUI: CLI + shared GUI base + Sway specific
-    hmSway = mkHm [
+    # ── Home Manager: GUI (extends CLI) ─────────────────────────────────
+    hmGUI_Sway = mkHm [
       ./modules/home/gui-base.nix
       ./modules/home/sway.nix
       ./modules/home/flatpak.nix
     ];
 
-    # GUI: CLI + shared GUI base + Niri specific
-    hmNiri = mkHm [
+    hmGUI_Niri = mkHm [
       ./modules/home/gui-base.nix
       ./modules/home/niri.nix
       ./modules/home/flatpak.nix
     ];
 
-    # GUI: CLI + shared GUI base + Hyprland specific
-    hmHyprland = mkHm [
+    hmGUI_Hyprland = mkHm [
       ./modules/home/gui-base.nix
       ./modules/home/hyprland.nix
       ./modules/home/flatpak.nix
     ];
+
+    # ── NixOS: Helper Functions (x86_64) ─────────────────────────────────
+    mkTTY_x86 = host: extraHmModules: nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ({...}: {
+          nixpkgs.config.allowUnfree = true;
+        })
+        ./hosts/${host}/configuration.nix
+        ./modules/system/cli.nix
+        ./modules/system/jellyfin.nix
+        home-manager.nixosModules.home-manager
+        hmCLI
+        extraHmModules
+        hmCLIExtras
+      ];
+    };
+
+    mkGUI_x86 = host: compositor: extraHmModules: nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ({...}: {
+          nixpkgs.config.allowUnfree = true;
+        })
+        ./hosts/${host}/configuration.nix
+        ./modules/system/cli.nix
+        ./modules/system/${compositor}.nix
+        ./modules/system/flatpak.nix
+        ./modules/system/jellyfin.nix
+        home-manager.nixosModules.home-manager
+        (mkHm [
+          ./modules/home/gui-base.nix
+          ./modules/home/${compositor}.nix
+          ./modules/home/flatpak.nix
+        ] ++ extraHmModules)
+        hmCLIExtras
+      ];
+    };
+
+    # ── NixOS: Helper Functions (aarch64) ────────────────────────────────
+    mkTTY_aarch64 = host: extraHmModules: nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      modules = [
+        ({...}: {
+          nixpkgs.config.allowUnfree = true;
+        })
+        ./hosts/${host}/configuration.nix
+        ./modules/system/cli.nix
+        home-manager.nixosModules.home-manager
+        hmCLI
+        extraHmModules
+        # hmCLIExtras: enable only after the first successful build.
+      ];
+    };
   in {
     nixosConfigurations = {
-      # ── Sway — production ──────────────────────────────────────────────
-      boreal = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/sway.nix
-          ./modules/system/jellyfin.nix
-          ./modules/system/flatpak.nix
-          home-manager.nixosModules.home-manager
-          hmSway
-          hmExtras
-        ];
-      };
+      # ── TTY Only (x86_64) ──────────────────────────────────────────────
+      boreal-tty = mkTTY_x86 "boreal" [];
 
-      # ── TTY only — boreal ──────────────────────────────────────────────
-      boreal-tty = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmBase
-          hmExtras
-        ];
-      };
+      boreal-tty-cyberdeck = mkTTY_x86 "boreal" [
+        ./modules/home/cli-cyberdeck.nix
+      ];
 
-      # ── TTY only — test cyberdeck pkgs - boreal ────────────────────────
-      boreal-tty-cyberdeck = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmBase
-          hmCyberdeck
-          hmExtras
-        ];
-      };
-
-      # ── Niri ───────────────────────────────────────────────────────────
-      boreal-niri = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/niri.nix
-          ./modules/system/flatpak.nix
-          ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmNiri
-          # hmExtras (disabled: niri build not yet stable)
-        ];
-      };
-
-      # ── Hyprland ───────────────────────────────────────────────────────
-      boreal-hypr = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/boreal/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/hyprland.nix
-          ./modules/system/flatpak.nix
-          ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmHyprland
-          hmExtras
-        ];
-      };
-
-      # ── VM ──────────────────────────────────────────────────────────────
       nixos-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -166,22 +152,20 @@
           ./hosts/nixos-vm/configuration.nix
           ./modules/system/cli.nix
           home-manager.nixosModules.home-manager
-          hmBase
-          # hmExtras (disabled: VM minimal config)
+          hmCLI
+          # hmCLIExtras (disabled: VM minimal config)
         ];
       };
 
-      # ── Cyberdeck (future) ─────────────────────────────────────────────
-      # cyberdeck = nixpkgs.lib.nixosSystem {
-      #   system  = "aarch64-linux";
-      #   modules = [
-      #     ./hosts/cyberdeck/configuration.nix
-      #     ./modules/system/cli.nix
-      #     home-manager.nixosModules.home-manager
-      #     hmBase
-      #     # hmExtras: enable only after the first successful build.
-      #   ];
-      # };
+      # ── GUI (x86_64) ───────────────────────────────────────────────────
+      boreal = mkGUI_x86 "boreal" "sway" [];
+
+      boreal-niri = mkGUI_x86 "boreal" "niri" [];
+
+      boreal-hypr = mkGUI_x86 "boreal" "hyprland" [];
+
+      # ── Future (aarch64) ───────────────────────────────────────────────
+      # cyberdeck = mkTTY_aarch64 "cyberdeck" [];
     };
   };
 }
