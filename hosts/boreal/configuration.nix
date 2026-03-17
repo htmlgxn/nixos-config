@@ -80,7 +80,7 @@ in {
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [8096]; # Jellyfin
+    allowedTCPPorts = [8096 2200]; # Jellyfin + SSH
   };
 
   # ── Locale & Time ─────────────────────────────────────────────────────

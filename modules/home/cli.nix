@@ -55,6 +55,7 @@
     yt-dlp
     ffmpeg-full
     cava
+    wiki-tui
 
     # ── Calculator & Notes ──────────────────────────────────────────
     fend
