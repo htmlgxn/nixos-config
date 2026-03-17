@@ -33,6 +33,7 @@
     tree
     ranger
     dust
+    browsr
 
     # ── System Monitoring ───────────────────────────────────────────
     htop
@@ -49,7 +50,7 @@
     wireguard-tools
     mosh
     k9s
-    bluetui
+    # bluetui # when bluetooth support is added
 
     # ── Media ───────────────────────────────────────────────────────
     ncspot
