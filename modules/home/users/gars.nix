@@ -92,6 +92,8 @@
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
       # nrtty — tty-only mode
       nrtty = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty";
+      # nrttycd — tty-only mode with cyberdeck cli pkgs
+      nrttycd = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty-cyberdeck";
       # nrn   — Niri
       nrn = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
       # nrh   — Hyprland
