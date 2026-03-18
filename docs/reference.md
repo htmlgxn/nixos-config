@@ -23,6 +23,7 @@ Rebuild helpers:
 - `nrb <output>` runs `sudo nixos-rebuild build --flake ~/nixos-config/.#<output>`
 - `nrs` is a permanent shortcut for `nr boreal`
 - `nrtty` is a permanent shortcut for `nr boreal-tty`
+- `ns [query]` runs `nix-search-tv` through `fzf` with inline preview
 
 Supported outputs:
 
@@ -40,6 +41,11 @@ Important maintenance aliases:
 - `fnix`
 - `fnixc`
 - `swapstat`
+
+Neovim helpers:
+
+- `:NixSearch` opens the same `nix-search-tv` picker inside Neovim
+- `<leader>fn` runs `:NixSearch`
 
 ## Host Notes
 

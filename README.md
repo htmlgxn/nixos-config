@@ -41,4 +41,5 @@ This repo is organized around a small set of composable layers:
 - `nr boreal-tty-cyberdeck`
 - `nr nixos-vm`
 - `nrb <output>` builds an output without switching
+- `ns [query]` searches Nix packages/options with `nix-search-tv` through `fzf`
 - `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`

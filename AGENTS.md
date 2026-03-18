@@ -23,9 +23,11 @@
 - `nr <output>` switches to a named output; supported values are `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `boreal-tty`, `boreal-tty-cyberdeck`, and `nixos-vm`.
 - `nrb <output>` builds a named output without switching.
 - `nrs` and `nrtty` remain as permanent shortcuts for `boreal` and `boreal-tty`.
+- `ns [query]` runs `nix-search-tv` through `fzf` with preview.
 - `sudo nixos-rebuild build --flake .#<host>` evaluates and builds without switching (safe check).
 - `nix flake update` refreshes `flake.lock` inputs.
 - Shell helpers like `nr` and `nrb` are defined in `modules/home/users/gars.nix`.
+- Shell helper `ns` is defined in `modules/home/users/gars.nix`.
 - `fnix` and `fnixc` in `modules/home/users/gars.nix` format or check all Nix files except hardware configs.
 - `swapstat` (defined in `modules/home/users/gars.nix`) shows swap usage plus zram status.
 

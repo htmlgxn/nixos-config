@@ -146,6 +146,22 @@ in {
       nrb() {
         _nixos_config_rebuild build "$1"
       }
+
+      ns() {
+        local query="$*"
+        local fzf_args=(
+          --preview 'nix-search-tv preview {}'
+          --preview-window 'right:60%:wrap'
+          --scheme history
+          --prompt 'nix> '
+        )
+
+        if [[ -n "$query" ]]; then
+          fzf_args+=(--query "$query")
+        fi
+
+        nix-search-tv print | fzf "''${fzf_args[@]}"
+      }
     '';
 
     profileExtra = ''
