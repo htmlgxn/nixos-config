@@ -6,6 +6,10 @@ return {
 
     fzf_lua.setup({})
 
+    local function normalize_nix_entry(entry)
+      return entry:gsub("^nixpkgs/", "")
+    end
+
     local function nix_search()
       fzf_lua.fzf_exec("nix-search-tv print", {
         prompt = "nix> ",
@@ -20,7 +24,7 @@ return {
               return
             end
 
-            vim.api.nvim_put({ selected[1] }, "c", true, true)
+            vim.api.nvim_put({ normalize_nix_entry(selected[1]) }, "c", true, true)
           end,
         },
       })

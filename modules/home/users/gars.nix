@@ -149,6 +149,7 @@ in {
 
       ns() {
         local query="$*"
+        local selection
         local fzf_args=(
           --preview 'nix-search-tv preview {}'
           --preview-window 'right:60%:wrap'
@@ -160,7 +161,14 @@ in {
           fzf_args+=(--query "$query")
         fi
 
-        nix-search-tv print | fzf "''${fzf_args[@]}"
+        selection="$(nix-search-tv print | fzf "''${fzf_args[@]}")" || return $?
+
+        if [[ "$selection" == nixpkgs/* ]]; then
+          printf '%s\n' "''${selection#nixpkgs/}"
+          return 0
+        fi
+
+        printf '%s\n' "$selection"
       }
     '';
 
