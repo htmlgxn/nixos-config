@@ -15,11 +15,23 @@
     alejandra # nix formatter
     nix-tree
 
+    # ── Neovim Tooling ─────────────────────────────────────────────
+    nodePackages.bash-language-server
+    nodePackages.vscode-langservers-extracted
+    lua-language-server
+    marksman
+    nixd
+    stylua
+    shfmt
+    jq
+    prettier
+
     # ── Editor ──────────────────────────────────────────────────────
     neovim
     helix
 
     # ── Git ─────────────────────────────────────────────────────────
+    git
     gh
     lazygit
     gitui

@@ -41,7 +41,30 @@
 
         printf '%s\n' "$output"
   '';
-  quebecEmoji = pkgs.writeText "quebec-emoji.txt" "⚜️🏴󠁣󠁡󠁱󠁣󠁿⚜️\n";
+  keyboardLayoutScript = pkgs.writeShellScript "waybar-kbd-layout" ''
+    #!/usr/bin/env bash
+
+    layout="$(${pkgs.sway}/bin/swaymsg -t get_inputs -r 2>/dev/null \
+      | ${pkgs.jq}/bin/jq -r '
+        map(select(.type == "keyboard"))
+        | map(.xkb_active_layout_name // empty)
+        | map(select(length > 0))
+        | .[0] // empty
+      ')"
+
+    case "$layout" in
+      *Graphite*)
+        printf 'gr\n'
+        ;;
+      "")
+        printf '--\n'
+        ;;
+      *)
+        printf 'us\n'
+        ;;
+    esac
+  '';
+  quebecText = ../../home/gars/dots/waybar/quebec.txt;
 in {
   style = ''
     /* ==============================================
@@ -126,6 +149,7 @@ in {
 
     /* Separator between modules */
     #custom-disks,
+    #custom-keyboard-layout,
     #disk,
     #pulseaudio,
     #memory,
@@ -216,6 +240,7 @@ in {
     "modules-right" = [
       "custom/browser"
       "custom/disks"
+      "custom/keyboard-layout"
       "disk"
       "pulseaudio"
       "memory"
@@ -227,7 +252,7 @@ in {
     ];
 
     "custom/quebec" = {
-      exec = "${pkgs.coreutils}/bin/cat ${quebecEmoji}";
+      exec = "${pkgs.coreutils}/bin/cat ${quebecText}";
       interval = 3600;
       format = "{}";
       tooltip = false;
@@ -243,6 +268,14 @@ in {
       interval = 30;
       format = "{}";
       tooltip = false;
+    };
+
+    "custom/keyboard-layout" = {
+      exec = "${keyboardLayoutScript}";
+      interval = 1;
+      format = "kbd {}";
+      tooltip = false;
+      "on-click" = "${pkgs.sway}/bin/swaymsg input type:keyboard xkb_switch_layout next";
     };
 
     disk = {

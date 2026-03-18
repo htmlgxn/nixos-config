@@ -1,10 +1,17 @@
 return {
   "ibhagwan/fzf-lua",
+  cmd = "FzfLua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local fzf_lua = require("fzf-lua")
 
-    fzf_lua.setup({})
+    fzf_lua.setup({
+      winopts = {
+        preview = {
+          default = "bat",
+        },
+      },
+    })
 
     local function normalize_nix_entry(entry)
       local normalized = entry:gsub("^nixpkgs/", "")
@@ -36,9 +43,14 @@ return {
     })
 
     vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+    vim.keymap.set("n", "<localleader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
     vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep" })
+    vim.keymap.set("n", "<localleader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep" })
     vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Buffers" })
+    vim.keymap.set("n", "<localleader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Buffers" })
     vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua help_tags<cr>", { desc = "Help tags" })
+    vim.keymap.set("n", "<localleader>fh", "<cmd>FzfLua help_tags<cr>", { desc = "Help tags" })
     vim.keymap.set("n", "<leader>fn", nix_search, { desc = "Search Nix packages" })
+    vim.keymap.set("n", "<localleader>fn", nix_search, { desc = "Search Nix packages" })
   end,
 }

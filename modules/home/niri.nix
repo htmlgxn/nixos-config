@@ -28,8 +28,8 @@
     input {
         keyboard {
             xkb {
-                layout "us"
-                options "caps:escape"
+                layout "us,graphite"
+                options "caps:escape,grp:alt_shift_toggle"
             }
         }
     }

@@ -71,6 +71,7 @@ in {
 
       input = {
         "*" = {
+          xkb_layout = "us,graphite";
           xkb_options = "caps:escape";
           xkb_numlock = "true";
         };
@@ -183,6 +184,7 @@ in {
           "${mod}+F3" = "exec thunar";
           "${mod}+Shift+a" = "exec grimshot copy window";
           "${mod}+Shift+x" = "exec swaylock -f -c 000000";
+          "Mod1+Shift_L" = "input type:keyboard xkb_switch_layout next";
 
           "Print" = "exec grim ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
           "${mod}+Print" = "exec grimshot save window ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";

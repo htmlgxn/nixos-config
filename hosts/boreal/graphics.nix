@@ -3,6 +3,11 @@
   # AMD RX 570 — load amdgpu early for proper modesetting
   boot.initrd.kernelModules = ["amdgpu"];
   services.xserver.videoDrivers = ["amdgpu"];
+  services.xserver.xkb.extraLayouts.graphite = {
+    description = "Graphite";
+    languages = ["eng"];
+    symbolsFile = ../../modules/shared/xkb/graphite;
+  };
 
   hardware.graphics = {
     enable = true;
