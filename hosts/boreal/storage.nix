@@ -40,7 +40,7 @@ in {
         "use_ino"
         "cache.files=partial"
         "dropcacheonclose=true"
-        "category.create=mfs"
+        "category.create=ff"
         "moveonenospc=true"
         "minfreespace=50G"
         "fsname=archive"
