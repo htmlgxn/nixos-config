@@ -21,6 +21,12 @@ in {
       description = "Absolute path to the repo-managed user dotfiles root.";
     };
 
+    containersRoot = mkOption {
+      type = types.str;
+      default = "";
+      description = "Absolute path to the repo-managed containers workspace.";
+    };
+
     jellyfin = {
       dataDir = mkOption {
         type = types.str;

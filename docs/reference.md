@@ -41,6 +41,11 @@ Important maintenance aliases:
 - `fnix`
 - `fnixc`
 - `swapstat`
+- `cdcont`
+- `cdquad`
+- `cdcomp`
+- `cdnpmapp`
+- `pc`
 
 Neovim helpers:
 
@@ -55,6 +60,7 @@ Neovim helpers:
 - `hosts/boreal/graphics.nix` enables AMD graphics and 32-bit graphics support needed for Steam
 - `hosts/boreal/networking.nix` opens `8096/tcp` and `2200/tcp`
 - `hosts/boreal/services.nix` provides Jellyfin path values through `my.jellyfin.*`
+- `modules/system/containers.nix` enables Podman, sets the OCI backend to Podman, and installs `podman-compose`, `buildah`, and `skopeo`
 - `/mnt/ironwolf` is the physical disk that previously lived at `/mnt/archive`
 - `/mnt/archive` is now the merged view over `/mnt/ironwolf` and `/mnt/seagate6`
 - `/mnt/backup` remains outside the merged pool

@@ -11,6 +11,7 @@ in {
     primaryUser = userName;
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
+    containersRoot = "${homeDir}/nixos-config/containers";
   };
 
   home.username = userName;

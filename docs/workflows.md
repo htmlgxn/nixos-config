@@ -27,6 +27,7 @@
 ### CLI packages
 
 - Shared: `modules/home/cli.nix`
+- Shared container/npm tooling: `modules/home/containers.nix`
 - User-specific extras: `modules/home/cli-extras.nix`
 - Device/profile-specific CLI additions: `modules/home/cli-cyberdeck.nix`
 
@@ -38,6 +39,7 @@
 ### System packages
 
 - Shared system baseline: `modules/system/cli.nix`
+- Shared container runtime: `modules/system/containers.nix`
 - Profile-specific behavior: the relevant file in `modules/system/`
 - Host-only values or machine-specific settings: files under `hosts/<name>/`
 
@@ -52,6 +54,13 @@
 
 - Repo-managed user dotfiles live under `home/<user>/`
 - Home Manager user modules should refer to them through `config.my.dotfilesRoot` rather than hardcoded absolute paths
+
+## Container and npm Apps
+
+- Repo-managed container scaffolding lives under `containers/`
+- Put long-running Podman services in `containers/quadlet/`
+- Put compose-based projects in `containers/compose/`
+- Put direct Node/npm projects in `containers/npm/`
 
 ## Service-Local Values
 

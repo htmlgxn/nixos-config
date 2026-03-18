@@ -7,13 +7,16 @@
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
 - `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile.
 - `modules/shared/my-options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.dotfilesRoot`, `my.primaryUser`, and `my.jellyfin.*`.
+- `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
 - `modules/system/cli.nix` provides the shared TTY/system baseline. `modules/system/gui-base.nix` is shared by the compositor modules.
+- `modules/system/containers.nix` is the shared Podman-first container runtime module.
 - `modules/system/sway.nix`, `modules/system/niri.nix`, and `modules/system/hyprland.nix` extend the GUI base with compositor-specific system services and packages.
 - `modules/system/gamescope.nix` defines the minimal Steam + gamescope session profile and intentionally skips the shared GUI base.
 - `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages.
 - `modules/system/jellyfin.nix` is now driven by `my.jellyfin.*` values supplied by the host layer instead of hardcoding boreal paths.
 - `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` handles the user-level remote + installs.
 - `modules/home/cli.nix`, `modules/home/gui-base.nix`, `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
+- `modules/home/containers.nix` adds shared container/npm user tooling and shell helpers.
 - `modules/home/users/<name>.nix` is the per-user Home Manager entrypoint; `modules/home/users/gars.nix` is the current user module.
 - `modules/home/flatpak/packages.nix` and `modules/home/packages/{go,python,rust}` maintain curated package sets imported by the shared Home Manager stack.
 - `home/gars/dots/` and `home/gars/nvim/` contain dotfiles and editor configuration referenced by Home Manager modules.

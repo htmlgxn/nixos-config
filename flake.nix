@@ -24,6 +24,7 @@
     sharedHomeModules = [
       ./modules/shared/my-options.nix
       ./modules/home/cli.nix
+      ./modules/home/containers.nix
       ./modules/home/packages
     ];
 
@@ -42,6 +43,7 @@
         module = ./hosts/boreal/configuration.nix;
         extraSystemModules = [
           ./modules/system/jellyfin.nix
+          ./modules/system/containers.nix
         ];
         includeCliExtras = true;
       };

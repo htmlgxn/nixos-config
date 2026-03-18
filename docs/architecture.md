@@ -45,6 +45,7 @@ Use the same approach for other hosts once they become complex enough to justify
 - `my.primaryUser`
 - `my.repoRoot`
 - `my.dotfilesRoot`
+- `my.containersRoot`
 - `my.jellyfin.dataDir`
 - `my.jellyfin.mediaRoots`
 - `my.jellyfin.transcodeSize`
