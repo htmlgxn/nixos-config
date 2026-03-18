@@ -181,25 +181,29 @@
       };
 
     # mkGUI_x86: Create a GUI configuration for x86_64 hosts
-    # Usage: mkGUI_x86 "<hostname>" "<compositor>" hmGUI_<Compositor>_<username>
+    # Usage: mkGUI_x86 "<hostname>" "<compositor>" hmGUI_<Compositor>_<username> [ extra system modules ]
     # Available compositors: "sway", "niri", "hyprland"
     # Note: Automatically includes hmCLIExtras_gars
-    mkGUI_x86 = host: compositor: hmConfig:
+    mkGUI_x86 = host: compositor: hmConfig: extraSystemModules:
       nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/${host}/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/${compositor}.nix
-          ./modules/system/flatpak.nix
-          ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmConfig
-          hmCLIExtras_gars
-        ];
+        modules =
+          [
+            ({...}: {
+              nixpkgs.config.allowUnfree = true;
+            })
+            ./hosts/${host}/configuration.nix
+            ./modules/system/cli.nix
+            ./modules/system/${compositor}.nix
+            ./modules/system/flatpak.nix
+            ./modules/system/jellyfin.nix
+          ]
+          ++ extraSystemModules
+          ++ [
+            home-manager.nixosModules.home-manager
+            hmConfig
+            hmCLIExtras_gars
+          ];
       };
 
     # ── NixOS: Helper Functions (aarch64) ────────────────────────────────
@@ -245,16 +249,18 @@
 
       # ── GUI (x86_64) ───────────────────────────────────────────────────
       # Production GUI configuration with Sway compositor
-      boreal = mkGUI_x86 "boreal" "sway" hmGUI_Sway_gars;
+      boreal = mkGUI_x86 "boreal" "sway" hmGUI_Sway_gars [];
 
       # GUI with Sway + Gaming (Steam)
-      boreal-gaming = mkGUI_x86 "boreal" "sway" hmGUI_Sway_Gaming_gars;
+      boreal-gaming = mkGUI_x86 "boreal" "sway" hmGUI_Sway_Gaming_gars [
+        ./modules/system/gaming.nix
+      ];
 
       # GUI with Niri compositor (scrollable-tiling)
-      boreal-niri = mkGUI_x86 "boreal" "niri" hmGUI_Niri_gars;
+      boreal-niri = mkGUI_x86 "boreal" "niri" hmGUI_Niri_gars [];
 
       # GUI with Hyprland compositor
-      boreal-hypr = mkGUI_x86 "boreal" "hyprland" hmGUI_Hyprland_gars;
+      boreal-hypr = mkGUI_x86 "boreal" "hyprland" hmGUI_Hyprland_gars [];
 
       # ── Future (aarch64) ───────────────────────────────────────────────
       # Uncomment and configure when cyberdeck hardware is acquired:
