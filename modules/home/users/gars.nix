@@ -115,6 +115,7 @@
       VISUAL = "nvim";
       UV_PYTHON_DOWNLOADS = "never";
       LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+      PATH = "$HOME/.local/bin:$PATH"; # uv tools location
     };
 
     bashrcExtra = ''
