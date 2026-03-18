@@ -1,2 +1,5 @@
-
+.nvimlog
 .aider*
+result
+.crush/
+.git/
