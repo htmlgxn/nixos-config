@@ -9,11 +9,6 @@
 # Note: gui-base.nix is imported by the parent hm config in flake.nix,
 #       so this module only adds gaming-specific settings.
 #
-# Includes:
-#   - Steam platform configuration
-#   - Controller support
-#   - Gaming-related settings
-#
 # TO ADD GAMING HOME PACKAGES:
 #   Add to home.packages below
 #
@@ -27,25 +22,11 @@
 # =============================================================================
 #
 {
-  config,
   pkgs,
-  lib,
   ...
 }: {
   home.packages = with pkgs; [
     # Gaming-related packages
     # Add gaming home packages here
   ];
-
-  # Steam configuration
-  # See: https://nix-community.github.io/home-manager/options.xhtml#opt-programs.steam.enable
-  programs.steam = {
-    enable = true;
-
-    # Enable remote play
-    remotePlay.openFirewall = true;
-
-    # Controller configuration
-    # gamescope.enable = true;  # Uncomment if using gamescope
-  };
 }
