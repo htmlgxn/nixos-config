@@ -141,7 +141,7 @@
     spawn-at-startup "${pkgs.dbus}/bin/dbus-update-activation-environment" "--systemd" "--all"
     spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "gtk-theme" "Adwaita-dark"
     spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "color-scheme" "prefer-dark"
-    spawn-at-startup "swaybg" "-i" "$HOME/pictures/wallpapers/jpg/mtl-16.jpg" "-m" "fill"
+    spawn-at-startup "swaybg" "-i" "${config.home.homeDirectory}/pictures/wallpapers/jpg/mtl-16.jpg" "-m" "fill"
     spawn-at-startup "wlsunset" "-t" "2500" "-T" "3000"
     spawn-at-startup "${pkgs.waybar}/bin/waybar"
     spawn-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
