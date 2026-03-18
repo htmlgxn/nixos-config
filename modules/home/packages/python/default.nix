@@ -45,7 +45,7 @@
   uvTools = config.uvTools.packages or (import ./uv-tools.nix);
 in {
   options.uvTools.packages = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
+    type = lib.types.nullOr (lib.types.listOf lib.types.str);
     default = null;
     description = "List of uv tools to install (overrides uv-tools.nix)";
   };
