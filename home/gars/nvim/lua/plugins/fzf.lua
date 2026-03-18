@@ -7,7 +7,8 @@ return {
     fzf_lua.setup({})
 
     local function normalize_nix_entry(entry)
-      return entry:gsub("^nixpkgs/", "")
+      local normalized = entry:gsub("^nixpkgs/", "")
+      return normalized
     end
 
     local function nix_search()

@@ -51,10 +51,13 @@ Neovim helpers:
 
 ### boreal
 
-- `hosts/boreal/storage.nix` defines ext4 mounts, swap, zram, and mountpoint tmpfiles rules
+- `hosts/boreal/storage.nix` defines ext4 mounts, the mergerfs pool, swap, zram, and mountpoint tmpfiles rules
 - `hosts/boreal/graphics.nix` enables AMD graphics and 32-bit graphics support needed for Steam
 - `hosts/boreal/networking.nix` opens `8096/tcp` and `2200/tcp`
 - `hosts/boreal/services.nix` provides Jellyfin path values through `my.jellyfin.*`
+- `/mnt/ironwolf` is the physical disk that previously lived at `/mnt/archive`
+- `/mnt/archive` is now the merged view over `/mnt/ironwolf` and `/mnt/seagate6`
+- `/mnt/backup` remains outside the merged pool
 
 ### Jellyfin
 
