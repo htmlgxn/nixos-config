@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/users.nix
-#
+# boreal local users and primary-user value.
 {...}: {
   my.primaryUser = "gars";
 

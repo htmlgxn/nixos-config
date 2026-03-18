@@ -1,23 +1,4 @@
-#
-# ~/nixos-config/modules/home/gui-base.nix
-#
-# =============================================================================
-# GUI BASE PACKAGES (ALL USERS, ALL COMPOSITORS)
-# =============================================================================
-# Common GUI packages shared across all Wayland compositors (Sway, Niri, Hyprland).
-#
-# Includes: terminal, browser, file manager, waybar, notifications, theming, etc.
-#
-# To add GUI packages:
-#   1. Add to `home.packages = with pkgs; [ ... ]` below
-#   2. For compositor-specific packages, use modules/home/<compositor>.nix
-#
-# Compositor-specific configs:
-#   - modules/home/sway.nix
-#   - modules/home/niri.nix
-#   - modules/home/hyprland.nix
-# =============================================================================
-#
+# Shared desktop packages and theming for full GUI profiles.
 {
   config,
   pkgs,

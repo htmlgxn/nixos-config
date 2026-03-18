@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/storage.nix
-#
+# boreal filesystems, swap, and mountpoint ownership.
 {config, ...}: let
   mkExt4Mount = uuid: {
     device = "/dev/disk/by-uuid/${uuid}";

@@ -1,29 +1,4 @@
-#
-# ~/nixos-config/modules/home/cli-extras.nix
-#
-# =============================================================================
-# EXTRA CLI PACKAGES (GARSPERSONAL/EXPERIMENTAL)
-# =============================================================================
-# Extra/experimental CLI tools for user 'gars'.
-# Used when you want packages separate from the main cli.nix list.
-#
-# TO ADD PACKAGES:
-#   Add to the list inside `lib.optionals pkgs.stdenv.isx86_64 [ ... ]`
-#
-#   For nixpkgs packages:
-#     pkgs.<package-name>
-#
-#   For flake inputs:
-#     inputs.<flake>.packages.${pkgs.system}.default
-#
-#   If a flake package fails tests in Nix builds:
-#     (inputs.<flake>.packages.${pkgs.system}.default.overrideAttrs (_: { doCheck = false; }))
-#
-# TO CREATE FOR ANOTHER USER:
-#   1. Copy this file to cli-extras-<username>.nix
-#   2. Update the hmCLIExtras_<username> definition in flake.nix
-# =============================================================================
-#
+# Extra CLI packages for the primary x86_64 user profile.
 {
   pkgs,
   lib,

@@ -1,23 +1,4 @@
-#
-# ~/nixos-config/modules/system/sway.nix
-#
-# =============================================================================
-# SYSTEM CONFIGURATION: Sway (Wayland compositor)
-# =============================================================================
-# Sway - i3-compatible Wayland compositor.
-# Production compositor for boreal host.
-#
-# Includes:
-#   - Sway with GTK wrapper
-#   - Greetd + tuigreet (login screen)
-#   - XWayland (X11 app support)
-#   - wofi (application launcher)
-#   - Fonts (TODO: change to match gui-base.nix: Roboto Mono + OpenMoji)
-#
-# User configuration: ~/.config/sway/config
-# Home Manager module: modules/home/sway.nix
-# =============================================================================
-#
+# Sway system profile additions.
 {
   config,
   pkgs,

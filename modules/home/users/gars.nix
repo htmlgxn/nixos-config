@@ -1,27 +1,4 @@
-#
-# ~/nixos-config/modules/home/users/gars.nix
-#
-# =============================================================================
-# USER CONFIGURATION: gars
-# =============================================================================
-# User-specific settings for 'gars': username, home directory, shell aliases,
-# dotfile symlinks, bash configuration, etc.
-#
-# TO ADD A NEW USER:
-# 1. Copy this file to modules/home/users/<username>.nix
-# 2. Update these fields:
-#    - home.username = "<username>";
-#    - home.homeDirectory = "/home/<username>";
-#    - Update dotfile symlinks (home.file.".config/...".source)
-#    - Customize shellAliases, sessionVariables, etc.
-# 3. Add user to system: hosts/<host>/configuration.nix
-#      users.users.<username> = {
-#        isNormalUser = true;
-#        extraGroups = [ "wheel" "networkmanager" ];
-#      };
-# 4. Register the user in the `users` attrset in flake.nix.
-# =============================================================================
-#
+# Primary Home Manager user module for `gars`.
 {
   config,
   pkgs,
@@ -98,7 +75,7 @@ in {
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
       nrs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal";
-      # nrs-w-steam — sway (production) + steam (to be a gamer)
+      # nrsgaming — sway (production) + steam (to be a gamer)
       nrsgaming = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gaming";
       # nrgs  — minimal Steam + gamescope session
       nrgs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gamescope";

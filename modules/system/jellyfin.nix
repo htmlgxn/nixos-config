@@ -1,11 +1,4 @@
-#
-# ~/nixos-config/modules/system/jellyfin.nix
-#
-# Jellyfin media server configuration.
-# - Media: /mnt/seagate6/Movies
-# - Data: /mnt/archive/jellyfin (config, cache, database)
-# - Transcodes: tmpfs (4GB, RAM-based)
-#
+# Jellyfin service module driven by host-provided `my.jellyfin.*` values.
 {
   config,
   pkgs,

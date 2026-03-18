@@ -1,36 +1,4 @@
-#
-# ~/nixos-config/modules/home/packages/python/default.nix
-#
-# =============================================================================
-# PYTHON TOOLCHAIN & TOOLS
-# =============================================================================
-# Python programming language toolchain and uv-managed tools.
-#
-# Includes:
-#   - Python 3.14 interpreter
-#   - uv (fast Python package/toolchain manager)
-#   - Standard libraries (cc.lib for native packages)
-#   - Playwright (browser automation)
-#   - uv-managed tools from uv-tools.nix
-#
-# TO ADD PYTHON PACKAGES:
-#
-# Option 1 - From nixpkgs:
-#   home.packages = with pkgs; [ python314Packages.requests ];
-#
-# Option 2 - Using uv (recommended for latest versions):
-#   1. Add to uv-tools.nix: "package-name"
-#   2. Install: uv tool install package-name
-#
-# TO ADD UV TOOLS:
-#   1. Add to uv-tools.nix: "ruff" "mypy" etc.
-#   2. Tools are auto-installed on rebuild
-#
-# SESSION VARIABLES:
-#   PLAYWRIGHT_BROWSERS_PATH - Uses Nix-managed browsers
-#   PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS - Skip env checks
-# =============================================================================
-#
+# Python toolchain and uv-managed tool set.
 {
   pkgs,
   lib,

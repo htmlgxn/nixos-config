@@ -1,12 +1,21 @@
 # NixOS Config
 
-This repo is organized around three layers:
+This repo is organized around a small set of composable layers:
 
-- Hosts: machine-specific hardware, storage, networking, and service values under `hosts/`
-- System profiles: NixOS module sets for TTY, desktop compositors, gaming, and services under `modules/system/`
-- Home profiles: Home Manager module sets for shared CLI, desktop packages, dotfiles, and user tools under `modules/home/`
+- Hosts in [`hosts/`](/home/gars/nixos-config/hosts)
+- Shared NixOS modules in [`modules/system/`](/home/gars/nixos-config/modules/system)
+- Shared Home Manager modules in [`modules/home/`](/home/gars/nixos-config/modules/home)
+- Repo-local shared options in [`modules/shared/`](/home/gars/nixos-config/modules/shared)
 
-`flake.nix` composes those layers from descriptor attrsets instead of hardcoded helper calls per output.
+`flake.nix` assembles those layers through descriptor attrsets for users, hosts, profiles, and outputs.
+
+## Start Here
+
+- Architecture: [`docs/architecture.md`](/home/gars/nixos-config/docs/architecture.md)
+- Common workflows: [`docs/workflows.md`](/home/gars/nixos-config/docs/workflows.md)
+- Current outputs and operational reference: [`docs/reference.md`](/home/gars/nixos-config/docs/reference.md)
+- Host-local conventions: [`hosts/README.md`](/home/gars/nixos-config/hosts/README.md)
+- Module conventions: [`modules/README.md`](/home/gars/nixos-config/modules/README.md)
 
 ## Current Outputs
 
@@ -21,85 +30,7 @@ This repo is organized around three layers:
 | `boreal-hypr` | Hyprland desktop |
 | `nixos-vm` | Minimal VM profile |
 
-## Structure
-
-### Hosts
-
-- `hosts/boreal/configuration.nix` is now a thin import list.
-- `hosts/boreal/base.nix` contains boot, locale, and Nix defaults.
-- `hosts/boreal/graphics.nix` contains AMD and graphics-related settings.
-- `hosts/boreal/storage.nix` contains filesystems, swap, zram, and mountpoint tmpfiles rules.
-- `hosts/boreal/networking.nix` contains host naming, NetworkManager, and firewall.
-- `hosts/boreal/users.nix` contains local users and the primary-user setting.
-- `hosts/boreal/services.nix` contains host-specific service values such as Jellyfin storage paths.
-
-### Shared Local Options
-
-`modules/shared/my-options.nix` defines the repo-local `my.*` namespace used to avoid hardcoded values:
-
-- `my.primaryUser`
-- `my.repoRoot`
-- `my.dotfilesRoot`
-- `my.jellyfin.*`
-
-### System Modules
-
-- `modules/system/cli.nix`: shared TTY/system baseline
-- `modules/system/gui-base.nix`: shared desktop base for full GUI profiles
-- `modules/system/sway.nix`, `modules/system/niri.nix`, `modules/system/hyprland.nix`: compositor-specific system layers
-- `modules/system/gaming.nix`: Steam and gaming support
-- `modules/system/gamescope.nix`: minimal Steam + gamescope session
-- `modules/system/jellyfin.nix`: generic Jellyfin module driven by `my.jellyfin.*`
-
-### Home Modules
-
-- `modules/home/cli.nix`: shared CLI packages
-- `modules/home/cli-extras.nix`: extra user-specific CLI packages
-- `modules/home/cli-cyberdeck.nix`: cyberdeck test/device CLI additions
-- `modules/home/gui-base.nix`: shared desktop packages
-- `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`: compositor-specific Home Manager config
-- `modules/home/gaming.nix`: lightweight gaming additions usable by both desktop and gamescope profiles
-- `modules/home/users/gars.nix`: user entrypoint for `gars`
-
-## Common Changes
-
-### Add CLI packages
-
-- Shared for all users: `modules/home/cli.nix`
-- Extra user-specific packages: `modules/home/cli-extras.nix`
-- Device/profile-specific CLI packages: `modules/home/cli-cyberdeck.nix`
-
-### Add desktop packages
-
-- Shared across desktop profiles: `modules/home/gui-base.nix`
-- Compositor-specific: `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`
-
-### Add system packages or services
-
-- Shared system baseline: `modules/system/cli.nix`
-- Profile-specific system behavior: the relevant file in `modules/system/`
-- Host-only values or storage details: a module under `hosts/<name>/`
-
-### Add a new user
-
-1. Create `modules/home/users/<username>.nix`.
-2. Register the user in the `users` attrset in `flake.nix`.
-3. Add any optional extra home modules for that user.
-4. Reference the user from one or more `outputDefs` entries.
-
-### Add a new host
-
-1. Create `hosts/<hostname>/configuration.nix`.
-2. Split host-local concerns into additional files if the host is non-trivial.
-3. Register the host in the `hosts` attrset in `flake.nix`.
-4. Add one or more `outputDefs` entries for that host.
-
-### Add a new profile
-
-1. Add the relevant module list to `homeProfiles` and/or `systemProfiles` in `flake.nix`.
-2. Add an `outputDefs` entry that pairs a host, user, system profile, and home profile.
-
-## Operator Commands
+## Common Commands
 
 - `sudo nixos-rebuild switch --flake .#boreal`
 - `sudo nixos-rebuild switch --flake .#boreal-gaming`

@@ -1,21 +1,4 @@
-#
-# ~/nixos-config/modules/system/hyprland.nix
-#
-# =============================================================================
-# SYSTEM CONFIGURATION: Hyprland (Wayland compositor)
-# =============================================================================
-# Hyprland - dynamic tiling Wayland compositor with eye candy effects.
-#
-# Includes:
-#   - Hyprland compositor with XWayland
-#   - Greetd + tuigreet (login screen)
-#   - XDG portal for Hyprland
-#   - Catppuccin cursors
-#
-# User configuration: Symlinked from home/gars/dots/hypr/hyprland.conf
-# Home Manager module: modules/home/hyprland.nix
-# =============================================================================
-#
+# Hyprland system profile additions.
 {
   config,
   pkgs,

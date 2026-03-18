@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/networking.nix
-#
+# boreal networking and firewall settings.
 {...}: {
   networking.hostName = "boreal";
   networking.networkmanager.enable = true;

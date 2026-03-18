@@ -1,32 +1,4 @@
-#
-# ~/nixos-config/modules/home/sway.nix
-#
-# =============================================================================
-# HOME MANAGER: Sway (Wayland compositor)
-# =============================================================================
-# Sway-specific user configuration.
-# Imports gui-base.nix for shared packages, adds sway-specific settings.
-#
-# Includes:
-#   - Sway window manager configuration (keybindings, gaps, colors)
-#   - Waybar configuration (workspace module, sway/window)
-#   - Swayidle (idle management)
-#   - Keybindings for screenshots, locks, media controls
-#
-# Keybindings (Mod = Super/Windows key):
-#   Mod+Return    - Open terminal (alacritty)
-#   Mod+q         - Close window
-#   Mod+Space     - Open launcher (fuzzel)
-#   Mod+hjkl      - Navigate windows
-#   Mod+1-0       - Switch workspaces
-#   Mod+Shift+1-0 - Move to workspace
-#   Mod+f         - Toggle fullscreen
-#   Mod+Shift+e   - Exit sway
-#
-# User configuration: Managed entirely by this Nix module
-# System module: modules/system/sway.nix
-# =============================================================================
-#
+# Sway Home Manager configuration.
 {
   config,
   pkgs,

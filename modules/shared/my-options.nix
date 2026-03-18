@@ -1,9 +1,4 @@
-#
-# ~/nixos-config/modules/shared/my-options.nix
-#
-# Shared repo-local option namespace used by both NixOS and Home Manager
-# modules to avoid hardcoded user paths and host-specific service values.
-#
+# Repo-local option namespace shared by NixOS and Home Manager modules.
 {lib, ...}: let
   inherit (lib) mkOption types;
 in {

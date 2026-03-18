@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/graphics.nix
-#
+# boreal graphics and GPU-specific settings.
 {pkgs, ...}: {
   # AMD RX 570 — load amdgpu early for proper modesetting
   boot.initrd.kernelModules = ["amdgpu"];

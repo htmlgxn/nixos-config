@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/base.nix
-#
+# Core boreal host defaults.
 {pkgs, ...}: {
   programs.nix-ld.enable = true;
 

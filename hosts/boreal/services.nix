@@ -1,6 +1,4 @@
-#
-# ~/nixos-config/hosts/boreal/services.nix
-#
+# boreal service-local values consumed by shared modules.
 {...}: {
   my.jellyfin = {
     dataDir = "/mnt/archive/jellyfin";
