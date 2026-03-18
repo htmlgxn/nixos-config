@@ -22,7 +22,9 @@ in {
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = builtins.readFile (config.my.dotfilesRoot + "/dots/hypr/hyprland.conf");
+    extraConfig = ''
+      source = ${config.my.dotfilesRoot}/dots/hypr/hyprland.conf
+    '';
   };
 
   programs.waybar.settings = {
@@ -44,5 +46,5 @@ in {
       };
   };
 
-  # Hyprland config is sourced from the repo file above.
+  # Hyprland sources the repo-managed config file above at runtime.
 }
