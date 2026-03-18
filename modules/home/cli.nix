@@ -9,6 +9,7 @@
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
     zellij
+    sl
 
     # ── Nix Tooling ────────────────────────────────────────────────
     nix-search-tv
