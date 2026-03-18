@@ -13,20 +13,27 @@
 | `boreal-hypr` | `boreal` | `hyprland` | `hyprland` |
 | `nixos-vm` | `nixos-vm` | `tty` | `cli` |
 
-## User Aliases
+## User Shell Helpers
 
 Common aliases live in [`modules/home/users/gars.nix`](/home/gars/nixos-config/modules/home/users/gars.nix).
 
-Important rebuild aliases:
+Rebuild helpers:
 
-- `nrs`
-- `nrsgaming`
-- `nrgs`
-- `nrtty`
-- `nrttycd`
-- `nrn`
-- `nrh`
-- `nrsg`
+- `nr <output>` runs `sudo nixos-rebuild switch --flake ~/nixos-config/.#<output>`
+- `nrb <output>` runs `sudo nixos-rebuild build --flake ~/nixos-config/.#<output>`
+- `nrs` is a permanent shortcut for `nr boreal`
+- `nrtty` is a permanent shortcut for `nr boreal-tty`
+
+Supported outputs:
+
+- `boreal`
+- `boreal-gaming`
+- `boreal-gamescope`
+- `boreal-niri`
+- `boreal-hypr`
+- `boreal-tty`
+- `boreal-tty-cyberdeck`
+- `nixos-vm`
 
 Important maintenance aliases:
 

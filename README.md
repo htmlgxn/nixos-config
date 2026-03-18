@@ -32,12 +32,13 @@ This repo is organized around a small set of composable layers:
 
 ## Common Commands
 
-- `sudo nixos-rebuild switch --flake .#boreal`
-- `sudo nixos-rebuild switch --flake .#boreal-gaming`
-- `sudo nixos-rebuild switch --flake .#boreal-gamescope`
-- `sudo nixos-rebuild switch --flake .#boreal-niri`
-- `sudo nixos-rebuild switch --flake .#boreal-hypr`
-- `sudo nixos-rebuild switch --flake .#boreal-tty`
-- `sudo nixos-rebuild switch --flake .#boreal-tty-cyberdeck`
-- `sudo nixos-rebuild switch --flake .#nixos-vm`
+- `nr boreal`
+- `nr boreal-gaming`
+- `nr boreal-gamescope`
+- `nr boreal-niri`
+- `nr boreal-hypr`
+- `nr boreal-tty`
+- `nr boreal-tty-cyberdeck`
+- `nr nixos-vm`
+- `nrb <output>` builds an output without switching
 - `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`

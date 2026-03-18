@@ -72,30 +72,13 @@ in {
       cdsea = "cd /mnt/seagate6";
       cdback = "cd /mnt/backup";
 
-      # ── Rebuild: boreal ───────────────────────────────────────────────
-      # nrs   — sway (production)
-      nrs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal";
-      # nrsgaming — sway (production) + steam (to be a gamer)
-      nrsgaming = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gaming";
-      # nrgs  — minimal Steam + gamescope session
-      nrgs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gamescope";
-      # nrtty — tty-only mode
-      nrtty = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-tty";
-      # nrttycd — tty-only mode with cyberdeck cli pkgs
-      nrttycd = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-tty-cyberdeck";
-      # nrn   — Niri
-      nrn = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-niri";
-      # nrh   — Hyprland
-      nrh = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-hypr";
-
       # ── Development: nixos-config ─────────────────────────────────────
       # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)
       fnix = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra";
       # fnixc   — format check .nix files with alejandra (excludes hardware-configuration.nix)
       fnixc = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra --check";
-
-      # ── Rebuild: VMs ──────────────────────────────────────────────────
-      nrsg = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#nixos-vm";
+      nrs = "nr boreal";
+      nrtty = "nr boreal-tty";
 
       # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
@@ -110,7 +93,59 @@ in {
     };
 
     bashrcExtra = ''
-      # manually add to .bashrc here
+      _nixos_config_outputs=(
+        boreal
+        boreal-gaming
+        boreal-gamescope
+        boreal-niri
+        boreal-hypr
+        boreal-tty
+        boreal-tty-cyberdeck
+        nixos-vm
+      )
+
+      _nixos_config_usage() {
+        echo "usage: $1 <output>"
+        echo "available outputs:"
+        printf '  %s\n' "''${_nixos_config_outputs[@]}"
+      }
+
+      _nixos_config_has_output() {
+        local target="$1"
+        local output
+        for output in "''${_nixos_config_outputs[@]}"; do
+          if [[ "$output" == "$target" ]]; then
+            return 0
+          fi
+        done
+        return 1
+      }
+
+      _nixos_config_rebuild() {
+        local action="$1"
+        local output="$2"
+
+        if [[ -z "$output" ]]; then
+          _nixos_config_usage "$action"
+          return 1
+        fi
+
+        if ! _nixos_config_has_output "$output"; then
+          echo "unknown output: $output" >&2
+          _nixos_config_usage "$action" >&2
+          return 1
+        fi
+
+        sudo nixos-rebuild "$action" --flake "${config.my.repoRoot}/.#$output"
+      }
+
+      nr() {
+        _nixos_config_rebuild switch "$1"
+      }
+
+      nrb() {
+        _nixos_config_rebuild build "$1"
+      }
     '';
 
     profileExtra = ''

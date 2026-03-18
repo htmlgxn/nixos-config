@@ -20,17 +20,12 @@
 
 ## Build, Test, and Development Commands
 - These commands are for the human operator only. Agents must not run rebuilds or switch operations.
-- `sudo nixos-rebuild switch --flake .#boreal` applies the production Sway configuration.
-- `sudo nixos-rebuild switch --flake .#boreal-gaming` applies the Sway + Steam configuration.
-- `sudo nixos-rebuild switch --flake .#boreal-gamescope` applies the minimal Steam + gamescope configuration.
-- `sudo nixos-rebuild switch --flake .#boreal-niri` applies the Niri variant.
-- `sudo nixos-rebuild switch --flake .#boreal-hypr` applies the Hyprland variant.
-- `sudo nixos-rebuild switch --flake .#boreal-tty` applies the TTY-only boreal profile.
-- `sudo nixos-rebuild switch --flake .#boreal-tty-cyberdeck` applies the TTY boreal profile with cyberdeck CLI packages.
-- `sudo nixos-rebuild switch --flake .#nixos-vm` applies the VM target.
+- `nr <output>` switches to a named output; supported values are `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `boreal-tty`, `boreal-tty-cyberdeck`, and `nixos-vm`.
+- `nrb <output>` builds a named output without switching.
+- `nrs` and `nrtty` remain as permanent shortcuts for `boreal` and `boreal-tty`.
 - `sudo nixos-rebuild build --flake .#<host>` evaluates and builds without switching (safe check).
 - `nix flake update` refreshes `flake.lock` inputs.
-- Aliases like `nrs`, `nrsgaming`, `nrgs`, `nrn`, `nrh`, and `nrtty` are defined in `modules/home/users/gars.nix`.
+- Shell helpers like `nr` and `nrb` are defined in `modules/home/users/gars.nix`.
 - `fnix` and `fnixc` in `modules/home/users/gars.nix` format or check all Nix files except hardware configs.
 - `swapstat` (defined in `modules/home/users/gars.nix`) shows swap usage plus zram status.
 
