@@ -10,6 +10,10 @@
 # TO ADD PACKAGES:
 #   Add to `home.packages = with pkgs; [ ... ]` below
 #
+# TO OVERRIDE UV TOOLS:
+#   Set `uvTools.packages = [ "tool1" "tool2" ];` below
+#   This overrides modules/home/packages/python/uv-tools.nix for cyberdeck only.
+#
 # NOTES:
 #   - Some packages may not be available on aarch64
 #   - Test on boreal-tty-cyberdeck first: `nrtty-cyberdeck`
@@ -30,6 +34,12 @@
   lib,
   ...
 }: {
+  # Override uv tools for cyberdeck (replaces uv-tools.nix list)
+  uvTools.packages = [
+    "contact"
+    # Add more cyberdeck-specific uv tools here
+  ];
+
   home.packages = with pkgs; [
     # Add cyberdeck-specific packages here
   ];

@@ -11,7 +11,7 @@
 #   - uv (fast Python package/toolchain manager)
 #   - Standard libraries (cc.lib for native packages)
 #   - Playwright (browser automation)
-#   - uv-managed tools from uv-tools.nix
+#   - uv-managed tools from uv-tools.nix (or overridden via uvTools.packages)
 #
 # TO ADD PYTHON PACKAGES:
 #
@@ -26,18 +26,30 @@
 #   1. Add to uv-tools.nix: "ruff" "mypy" etc.
 #   2. Tools are auto-installed on rebuild
 #
+# TO OVERRIDE UV TOOLS (e.g., for device-specific tools):
+#   Set uvTools.packages = [ "tool1" "tool2" ]; in your module
+#   This overrides uv-tools.nix for that specific configuration.
+#
 # SESSION VARIABLES:
 #   PLAYWRIGHT_BROWSERS_PATH - Uses Nix-managed browsers
 #   PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS - Skip env checks
 # =============================================================================
 #
 {
+  config,
   pkgs,
   lib,
   ...
 }: let
-  uvTools = import ./uv-tools.nix;
+  # Allow overriding uvTools via config option (e.g., cli-cyberdeck.nix)
+  uvTools = config.uvTools.packages or (import ./uv-tools.nix);
 in {
+  options.uvTools.packages = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = null;
+    description = "List of uv tools to install (overrides uv-tools.nix)";
+  };
+
   home.packages = with pkgs; [
     # ── Toolchain ────────────────────────────────────────────────────
     python314
