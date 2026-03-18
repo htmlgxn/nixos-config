@@ -143,6 +143,7 @@
     # ── NixOS: Helper Functions (x86_64) ─────────────────────────────────
     # mkTTY_x86: Create a TTY-only configuration for x86_64 hosts
     # Usage: mkTTY_x86 "<hostname>" hmCLI_<username>
+    # Note: Automatically includes hmCLIExtras_gars
     mkTTY_x86 = host: hmConfig:
       nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -155,12 +156,14 @@
           ./modules/system/jellyfin.nix
           home-manager.nixosModules.home-manager
           hmConfig
+          hmCLIExtras_gars
         ];
       };
 
     # mkGUI_x86: Create a GUI configuration for x86_64 hosts
     # Usage: mkGUI_x86 "<hostname>" "<compositor>" hmGUI_<Compositor>_<username>
     # Available compositors: "sway", "niri", "hyprland"
+    # Note: Automatically includes hmCLIExtras_gars
     mkGUI_x86 = host: compositor: hmConfig:
       nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -175,6 +178,7 @@
           ./modules/system/jellyfin.nix
           home-manager.nixosModules.home-manager
           hmConfig
+          hmCLIExtras_gars
         ];
       };
 
