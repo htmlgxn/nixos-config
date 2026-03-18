@@ -10,15 +10,14 @@
   term = "alacritty";
   menu = "fuzzel";
   workspaceKeys = (map toString (builtins.genList (x: x + 1) 9)) ++ ["0"];
-  toWorkspace = key:
+  workspaceIndex = key:
     if key == "0"
     then "10"
     else key;
-  namedWorkspaces = map toWorkspace workspaceKeys;
   mkWorkspaceBinds = prefix: action:
     lib.concatMapStrings (key: ''
       ${prefix}${key} {
-        ${action (toWorkspace key)}
+        ${action (workspaceIndex key)}
       }
     '')
     workspaceKeys;
@@ -46,13 +45,8 @@
             inactive-color "#826F11"
         }
 
-        background-color "#1E1904"
+        background-color "transparent"
     }
-
-    ${lib.concatMapStrings (workspace: ''
-        workspace "${workspace}"
-      '')
-      namedWorkspaces}
 
     window-rule {
         match app-id=r#"^pavucontrol$"#
@@ -135,9 +129,9 @@
 
         ${mod}+Shift+E { quit; }
 
-        ${mkWorkspaceBinds "${mod}+" (workspace: ''focus-workspace "${workspace}";'')}
-        ${mkWorkspaceBinds "${mod}+Ctrl+" (workspace: ''move-column-to-workspace "${workspace}" focus=false;'')}
-        ${mkWorkspaceBinds "${mod}+Shift+" (workspace: ''move-column-to-workspace "${workspace}";'')}
+        ${mkWorkspaceBinds "${mod}+" (workspace: ''focus-workspace ${workspace};'')}
+        ${mkWorkspaceBinds "${mod}+Ctrl+" (workspace: ''move-column-to-workspace ${workspace} focus=false;'')}
+        ${mkWorkspaceBinds "${mod}+Shift+" (workspace: ''move-column-to-workspace ${workspace};'')}
     }
 
     xwayland-satellite {
