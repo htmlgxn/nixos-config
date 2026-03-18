@@ -6,8 +6,9 @@
 # =============================================================================
 # Gaming user configuration.
 #
-# Note: gui-base.nix is imported by the parent hm config in flake.nix,
-#       so this module only adds gaming-specific settings.
+# This module is intentionally lightweight so it can be reused by both:
+#   - full desktop profiles (for example Sway + gaming)
+#   - minimal profiles (for example gamescope without gui-base.nix)
 #
 # TO ADD GAMING HOME PACKAGES:
 #   Add to home.packages below
@@ -21,10 +22,7 @@
 # System module: modules/system/gaming.nix
 # =============================================================================
 #
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # Gaming-related packages
     # Add gaming home packages here

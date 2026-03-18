@@ -6,6 +6,7 @@
 # =============================================================================
 #   TTY  → cli.nix + cli-extras.nix (+ optional cli-*.nix)
 #   GUI  → TTY + gui-base.nix + <compositor>.nix + flatpak.nix
+#   GAME → TTY + gaming.nix + gamescope.nix
 #
 # =============================================================================
 # NIXOS CONFIGURATIONS
@@ -13,7 +14,8 @@
 #   boreal-tty         - TTY-only on boreal hardware
 #   boreal-tty-cyberdeck - TTY + cyberdeck packages (testing on boreal)
 #   boreal             - GUI (Sway) - production
-#   boreal-gaming        - GUI (Sway) + Steam for gaming
+#   boreal-gaming      - GUI (Sway) + Steam for gaming
+#   boreal-gamescope   - Minimal Steam + gamescope session
 #   boreal-niri        - GUI (Niri)
 #   boreal-hypr        - GUI (Hyprland)
 #   nixos-vm           - TTY-only VM
@@ -160,6 +162,10 @@
       ./modules/home/gaming.nix
     ];
 
+    hmGamescope_gars = mkHm "gars" [
+      ./modules/home/gaming.nix
+    ];
+
     # ── NixOS: Helper Functions (x86_64) ─────────────────────────────────
     # mkTTY_x86: Create a TTY-only configuration for x86_64 hosts
     # Usage: mkTTY_x86 "<hostname>" hmCLI_<username>
@@ -222,6 +228,26 @@
           hmConfig
         ];
       };
+
+    # mkGamescope_x86: Create a minimal Steam + gamescope configuration
+    # Usage: mkGamescope_x86 "<hostname>" hmGamescope_<username>
+    # Note: Intentionally skips gui-base.nix and flatpak modules
+    mkGamescope_x86 = host: hmConfig:
+      nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ({...}: {
+            nixpkgs.config.allowUnfree = true;
+          })
+          ./hosts/${host}/configuration.nix
+          ./modules/system/cli.nix
+          ./modules/system/gaming.nix
+          ./modules/system/gamescope.nix
+          home-manager.nixosModules.home-manager
+          hmConfig
+          hmCLIExtras_gars
+        ];
+      };
   in {
     nixosConfigurations = {
       # ── TTY Only (x86_64) ──────────────────────────────────────────────
@@ -255,6 +281,9 @@
       boreal-gaming = mkGUI_x86 "boreal" "sway" hmGUI_Sway_Gaming_gars [
         ./modules/system/gaming.nix
       ];
+
+      # Minimal Steam + gamescope session
+      boreal-gamescope = mkGamescope_x86 "boreal" hmGamescope_gars;
 
       # GUI with Niri compositor (scrollable-tiling)
       boreal-niri = mkGUI_x86 "boreal" "niri" hmGUI_Niri_gars [];
