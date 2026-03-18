@@ -10,6 +10,11 @@
     tmux
     zellij
 
+    # ── Nix Tooling ────────────────────────────────────────────────
+    nix-search-tv
+    alejandra # nix formatter
+    nix-tree
+
     # ── Editor ──────────────────────────────────────────────────────
     neovim
     helix
@@ -66,10 +71,6 @@
     # ── Fetch ───────────────────────────────────────────────────────
     fastfetch
     countryfetch
-
-    # ── Development ─────────────────────────────────────────────────
-    alejandra # nix formatter
-    nix-tree
 
     # ── AI Agents ───────────────────────────────────────────────────
     opencode
