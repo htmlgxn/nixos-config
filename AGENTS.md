@@ -1,15 +1,16 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `flake.nix` defines all NixOS and Home Manager outputs. Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, and `nixos-vm`.
+- `flake.nix` defines all NixOS and Home Manager outputs through descriptor attrsets for `users`, `hosts`, `homeProfiles`, `systemProfiles`, and `outputDefs`. Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, and `nixos-vm`.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
-- `hosts/boreal/configuration.nix` is the main x86_64 desktop host. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile.
+- `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile.
+- `modules/shared/my-options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.dotfilesRoot`, `my.primaryUser`, and `my.jellyfin.*`.
 - `modules/system/cli.nix` provides the shared TTY/system baseline. `modules/system/gui-base.nix` is shared by the compositor modules.
 - `modules/system/sway.nix`, `modules/system/niri.nix`, and `modules/system/hyprland.nix` extend the GUI base with compositor-specific system services and packages.
 - `modules/system/gamescope.nix` defines the minimal Steam + gamescope session profile and intentionally skips the shared GUI base.
 - `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages.
-- `modules/system/jellyfin.nix` configures the Jellyfin service (tmpfs transcodes, `preStart` directory creation, ACLs, tmpfiles-only ACL rules, and helper systemd options).
+- `modules/system/jellyfin.nix` is now driven by `my.jellyfin.*` values supplied by the host layer instead of hardcoding boreal paths.
 - `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` handles the user-level remote + installs.
 - `modules/home/cli.nix`, `modules/home/gui-base.nix`, `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
 - `modules/home/users/<name>.nix` is the per-user Home Manager entrypoint; `modules/home/users/gars.nix` is the current user module.
@@ -42,10 +43,10 @@
 - `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`
 
 ## System Services & Storage Notes
-- `hosts/boreal/configuration.nix` defines ext4 mounts via the `mkExt4Mount` helper, keeps `/mnt/archive`, `/mnt/seagate6`, and `/mnt/backup` owned by `gars`, and relies on `systemd.tmpfiles.rules` for the mountpoints themselves. Update `swapDevices`, `zramSwap`, and `boot.kernel.sysctl."vm.swappiness"` there if your workload or swap layout changes.
-- The same file also turns on `networking.firewall` with `8096/tcp` and `2200/tcp` open; add other ports there before relying on them.
-- `hosts/boreal/configuration.nix` enables `hardware.graphics.enable32Bit` and AMD graphics support, which the gaming profile relies on for Steam.
-- `modules/system/jellyfin.nix` maps the Jellyfin service, mounts a tmpfs transcode directory, and uses `preStart` to create `/mnt/archive/jellyfin/{config,cache,data,log}` because tmpfiles refuse to touch a subtree owned by `gars`. Its tmpfiles rules now only establish ACLs on `/mnt/seagate6`, and the service mounts/ACLs expect `/mnt/seagate6` to keep ownership with `gars` while granting Jellyfin `u:jellyfin:rx` access.
+- `hosts/boreal/storage.nix` defines the ext4 mounts, swap, zram, and mountpoint tmpfiles rules. It now uses `my.primaryUser` for mount ownership instead of hardcoding `gars`.
+- `hosts/boreal/networking.nix` turns on `networking.firewall` with `8096/tcp` and `2200/tcp` open; add other ports there before relying on them.
+- `hosts/boreal/graphics.nix` enables `hardware.graphics.enable32Bit` and AMD graphics support, which the gaming profile relies on for Steam.
+- `hosts/boreal/services.nix` supplies `my.jellyfin.*` values. `modules/system/jellyfin.nix` mounts a tmpfs transcode directory, creates `${config.my.jellyfin.dataDir}/{config,cache,data,log}` in `preStart`, and applies ACLs to every path listed in `my.jellyfin.mediaRoots`.
 
 ## Testing Guidelines
 - There are no automated tests in this repository.

@@ -35,37 +35,35 @@
 #      modules/home/users/<username>.nix
 #    (copy from gars.nix, adjust username/homeDirectory/shellAliases)
 #
-# 3. Add Home Manager configs below (see hmCLI_gars, hmGUI_Sway_gars, etc.):
-#      hmCLI_<username> = mkHm "<username>" [];
-#      hmGUI_Sway_<username> = mkHm "<username>" [ ./modules/home/gui-base.nix ... ];
+# 3. Register the user in the `users` attrset below:
+#      <username> = {
+#        module = ./modules/home/users/<username>.nix;
+#        extraHomeModules = [ ./modules/home/cli-extras.nix ];
+#      };
 #
-# 4. Use in a NixOS configuration (see nixosConfigurations section):
-#      my-host-tty = mkTTY_x86 "my-host" hmCLI_<username>;
+# 4. Reference that user from an entry in `outputDefs`.
 #
 # =============================================================================
 # HOW TO ADD A NEW HOST
 # =============================================================================
 # 1. Create directory: hosts/<hostname>/
 # 2. Create hosts/<hostname>/configuration.nix (copy from boreal or nixos-vm)
-# 3. Add configuration below using helper functions:
-#      <hostname>-tty = mkTTY_x86 "<hostname>" hmCLI_<user>;
-#      <hostname>     = mkGUI_x86 "<hostname>" "sway" hmGUI_Sway_<user>;
-#
-# For aarch64 hosts (like cyberdeck), use mkTTY_aarch64 instead of mkTTY_x86
+# 3. Register the host in the `hosts` attrset below:
+#      <hostname> = {
+#        system = "x86_64-linux";
+#        module = ./hosts/<hostname>/configuration.nix;
+#        extraSystemModules = [ ];
+#        includeCliExtras = true;
+#      };
+# 4. Add entries in `outputDefs` for the profiles you want to expose.
 #
 # =============================================================================
 # HOW TO ADD A NEW GUI COMPOSITOR
 # =============================================================================
 # 1. Create system module: modules/system/<compositor>.nix
 # 2. Create home-manager module: modules/home/<compositor>.nix
-# 3. Add Home Manager config:
-#      hmGUI_<Compositor>_<user> = mkHm "<user>" [
-#        ./modules/home/gui-base.nix
-#        ./modules/home/<compositor>.nix
-#        ./modules/home/flatpak.nix
-#      ];
-# 4. Add NixOS config:
-#      boreal-<compositor> = mkGUI_x86 "boreal" "<compositor>" hmGUI_<Compositor>_<user>;
+# 3. Add entries in `homeProfiles` and `systemProfiles` below.
+# 4. Point an `outputDefs` entry at those profile names.
 #
 # =============================================================================
 # HOW TO ADD PACKAGES
@@ -97,206 +95,223 @@
     home-manager,
     ...
   }: let
-    # ── Home Manager: Shared Imports (all users) ─────────────────────────
-    # Common modules imported for every user (NOT user-specific)
-    hmSharedImports = [
+    lib = nixpkgs.lib;
+
+    sharedHomeModules = [
+      ./modules/shared/my-options.nix
       ./modules/home/cli.nix
-      # Language toolchains & custom packages
       ./modules/home/packages
     ];
 
-    # ── Home Manager: Factory Function ───────────────────────────────────
-    # Usage: mkHm "username" [ extra modules ]
-    # Automatically includes ./modules/home/users/<username>.nix
-    mkHm = username: extraImports: {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.extraSpecialArgs = {inherit inputs;};
-      home-manager.users.${username} = {
-        imports =
-          hmSharedImports
-          ++ [
-            ./modules/home/users/${username}.nix
-          ]
-          ++ extraImports;
+    users = {
+      gars = {
+        module = ./modules/home/users/gars.nix;
+        extraHomeModules = [
+          ./modules/home/cli-extras.nix
+        ];
       };
     };
 
-    # ── Home Manager: CLI Base (per-user) ────────────────────────────────
-    # To add a user: copy these lines, replace "gars" with new username
-    hmCLI_gars = mkHm "gars" [];
-
-    hmCLIExtras_gars = mkHm "gars" [
-      ./modules/home/cli-extras.nix
-    ];
-
-    hmCLI_Cyberdeck_gars = mkHm "gars" [
-      ./modules/home/cli-cyberdeck.nix
-    ];
-
-    # ── Home Manager: GUI (per-user, extends CLI) ────────────────────────
-    # To add a user: copy these lines, replace "gars" with new username
-    hmGUI_Sway_gars = mkHm "gars" [
-      ./modules/home/gui-base.nix
-      ./modules/home/sway.nix
-      ./modules/home/flatpak.nix
-    ];
-
-    hmGUI_Niri_gars = mkHm "gars" [
-      ./modules/home/gui-base.nix
-      ./modules/home/niri.nix
-      ./modules/home/flatpak.nix
-    ];
-
-    hmGUI_Hyprland_gars = mkHm "gars" [
-      ./modules/home/gui-base.nix
-      ./modules/home/hyprland.nix
-      ./modules/home/flatpak.nix
-    ];
-
-    # ── Home Manager: GUI + Gaming (per-user, extends CLI) ──────────────────
-    hmGUI_Sway_Gaming_gars = mkHm "gars" [
-      ./modules/home/gui-base.nix
-      ./modules/home/sway.nix
-      ./modules/home/flatpak.nix
-      ./modules/home/gaming.nix
-    ];
-
-    hmGamescope_gars = mkHm "gars" [
-      ./modules/home/gaming.nix
-    ];
-
-    # ── NixOS: Helper Functions (x86_64) ─────────────────────────────────
-    # mkTTY_x86: Create a TTY-only configuration for x86_64 hosts
-    # Usage: mkTTY_x86 "<hostname>" hmCLI_<username>
-    # Note: Automatically includes hmCLIExtras_gars
-    mkTTY_x86 = host: hmConfig:
-      nixpkgs.lib.nixosSystem {
+    hosts = {
+      boreal = {
         system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/${host}/configuration.nix
-          ./modules/system/cli.nix
+        module = ./hosts/boreal/configuration.nix;
+        extraSystemModules = [
           ./modules/system/jellyfin.nix
-          home-manager.nixosModules.home-manager
-          hmConfig
-          hmCLIExtras_gars
         ];
+        includeCliExtras = true;
       };
 
-    # mkGUI_x86: Create a GUI configuration for x86_64 hosts
-    # Usage: mkGUI_x86 "<hostname>" "<compositor>" hmGUI_<Compositor>_<username> [ extra system modules ]
-    # Available compositors: "sway", "niri", "hyprland"
-    # Note: Automatically includes hmCLIExtras_gars
-    mkGUI_x86 = host: compositor: hmConfig: extraSystemModules:
-      nixpkgs.lib.nixosSystem {
+      nixos-vm = {
         system = "x86_64-linux";
+        module = ./hosts/nixos-vm/configuration.nix;
+        extraSystemModules = [];
+        includeCliExtras = false;
+      };
+
+      cyberdeck = {
+        system = "aarch64-linux";
+        module = ./hosts/cyberdeck/configuration.nix;
+        extraSystemModules = [];
+        includeCliExtras = false;
+      };
+    };
+
+    homeProfiles = {
+      cli = [];
+      cli-cyberdeck = [
+        ./modules/home/cli-cyberdeck.nix
+      ];
+      sway = [
+        ./modules/home/gui-base.nix
+        ./modules/home/sway.nix
+        ./modules/home/flatpak.nix
+      ];
+      sway-gaming = [
+        ./modules/home/gui-base.nix
+        ./modules/home/sway.nix
+        ./modules/home/flatpak.nix
+        ./modules/home/gaming.nix
+      ];
+      niri = [
+        ./modules/home/gui-base.nix
+        ./modules/home/niri.nix
+        ./modules/home/flatpak.nix
+      ];
+      hyprland = [
+        ./modules/home/gui-base.nix
+        ./modules/home/hyprland.nix
+        ./modules/home/flatpak.nix
+      ];
+      gamescope = [
+        ./modules/home/gaming.nix
+      ];
+    };
+
+    systemProfiles = {
+      tty = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+      ];
+      sway = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+        ./modules/system/sway.nix
+        ./modules/system/flatpak.nix
+      ];
+      sway-gaming = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+        ./modules/system/sway.nix
+        ./modules/system/flatpak.nix
+        ./modules/system/gaming.nix
+      ];
+      niri = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+        ./modules/system/niri.nix
+        ./modules/system/flatpak.nix
+      ];
+      hyprland = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+        ./modules/system/hyprland.nix
+        ./modules/system/flatpak.nix
+      ];
+      gamescope = [
+        ./modules/shared/my-options.nix
+        ./modules/system/cli.nix
+        ./modules/system/gaming.nix
+        ./modules/system/gamescope.nix
+      ];
+    };
+
+    mkHomeModule = {
+      userName,
+      homeProfile,
+      includeCliExtras,
+    }: let
+      user = users.${userName};
+    in {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = {inherit inputs;};
+      home-manager.users.${userName} = {
+        imports =
+          sharedHomeModules
+          ++ [user.module]
+          ++ homeProfiles.${homeProfile}
+          ++ lib.optionals includeCliExtras user.extraHomeModules;
+      };
+    };
+
+    mkOutput = {
+      hostName,
+      userName,
+      systemProfile,
+      homeProfile,
+      includeCliExtras ? hosts.${hostName}.includeCliExtras,
+    }: let
+      host = hosts.${hostName};
+    in
+      nixpkgs.lib.nixosSystem {
+        system = host.system;
         modules =
           [
             ({...}: {
               nixpkgs.config.allowUnfree = true;
             })
-            ./hosts/${host}/configuration.nix
-            ./modules/system/cli.nix
-            ./modules/system/${compositor}.nix
-            ./modules/system/flatpak.nix
-            ./modules/system/jellyfin.nix
+            host.module
           ]
-          ++ extraSystemModules
+          ++ systemProfiles.${systemProfile}
+          ++ host.extraSystemModules
           ++ [
             home-manager.nixosModules.home-manager
-            hmConfig
-            hmCLIExtras_gars
+            (mkHomeModule {
+              inherit userName homeProfile includeCliExtras;
+            })
           ];
       };
 
-    # ── NixOS: Helper Functions (aarch64) ────────────────────────────────
-    # mkTTY_aarch64: Create a TTY-only configuration for aarch64 hosts
-    # Usage: mkTTY_aarch64 "<hostname>" hmCLI_<username>
-    mkTTY_aarch64 = host: hmConfig:
-      nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/${host}/configuration.nix
-          ./modules/system/cli.nix
-          home-manager.nixosModules.home-manager
-          hmConfig
-        ];
+    outputDefs = {
+      boreal-tty = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
       };
 
-    # mkGamescope_x86: Create a minimal Steam + gamescope configuration
-    # Usage: mkGamescope_x86 "<hostname>" hmGamescope_<username>
-    # Note: Intentionally skips gui-base.nix and flatpak modules
-    mkGamescope_x86 = host: hmConfig:
-      nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/${host}/configuration.nix
-          ./modules/system/cli.nix
-          ./modules/system/gaming.nix
-          ./modules/system/gamescope.nix
-          home-manager.nixosModules.home-manager
-          hmConfig
-          hmCLIExtras_gars
-        ];
-      };
-  in {
-    nixosConfigurations = {
-      # ── TTY Only (x86_64) ──────────────────────────────────────────────
-      # Minimal TTY configuration - no GUI packages
-      boreal-tty = mkTTY_x86 "boreal" hmCLI_gars;
-
-      # TTY + cyberdeck-specific packages (test on boreal before deploying)
-      # Add packages to modules/home/cli-cyberdeck.nix
-      boreal-tty-cyberdeck = mkTTY_x86 "boreal" hmCLI_Cyberdeck_gars;
-
-      # VM - minimal TTY configuration
-      nixos-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ({...}: {
-            nixpkgs.config.allowUnfree = true;
-          })
-          ./hosts/nixos-vm/configuration.nix
-          ./modules/system/cli.nix
-          home-manager.nixosModules.home-manager
-          hmCLI_gars
-          # hmCLIExtras_gars (disabled: VM minimal config)
-        ];
+      boreal-tty-cyberdeck = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli-cyberdeck";
       };
 
-      # ── GUI (x86_64) ───────────────────────────────────────────────────
-      # Production GUI configuration with Sway compositor
-      boreal = mkGUI_x86 "boreal" "sway" hmGUI_Sway_gars [];
+      nixos-vm = {
+        hostName = "nixos-vm";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
+        includeCliExtras = false;
+      };
 
-      # GUI with Sway + Gaming (Steam)
-      boreal-gaming = mkGUI_x86 "boreal" "sway" hmGUI_Sway_Gaming_gars [
-        ./modules/system/gaming.nix
-      ];
+      boreal = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "sway";
+        homeProfile = "sway";
+      };
 
-      # Minimal Steam + gamescope session
-      boreal-gamescope = mkGamescope_x86 "boreal" hmGamescope_gars;
+      boreal-gaming = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "sway-gaming";
+        homeProfile = "sway-gaming";
+      };
 
-      # GUI with Niri compositor (scrollable-tiling)
-      boreal-niri = mkGUI_x86 "boreal" "niri" hmGUI_Niri_gars [];
+      boreal-gamescope = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "gamescope";
+        homeProfile = "gamescope";
+      };
 
-      # GUI with Hyprland compositor
-      boreal-hypr = mkGUI_x86 "boreal" "hyprland" hmGUI_Hyprland_gars [];
+      boreal-niri = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "niri";
+        homeProfile = "niri";
+      };
 
-      # ── Future (aarch64) ───────────────────────────────────────────────
-      # Uncomment and configure when cyberdeck hardware is acquired:
-      # 1. Create modules/home/users/cyberdeck.nix (or use existing user)
-      # 2. Create hmCLI_cyberdeck = mkHm "cyberdeck" [];
-      # 3. Uncomment below:
-      # cyberdeck = mkTTY_aarch64 "cyberdeck" hmCLI_cyberdeck;
+      boreal-hypr = {
+        hostName = "boreal";
+        userName = "gars";
+        systemProfile = "hyprland";
+        homeProfile = "hyprland";
+      };
     };
+  in {
+    nixosConfigurations = lib.mapAttrs (_: cfg: mkOutput cfg) outputDefs;
   };
 }

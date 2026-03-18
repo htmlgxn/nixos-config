@@ -54,6 +54,6 @@ in {
   # ── Niri dotfile symlinks ───────────────────────────────────────────
   home.file = {
     ".config/niri/config.kdl".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/dots/niri/config.kdl";
+      config.lib.file.mkOutOfStoreSymlink (config.my.dotfilesRoot + "/dots/niri/config.kdl");
   };
 }

@@ -11,7 +11,23 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  jellyfinCfg = config.my.jellyfin;
+  aclRules =
+    lib.concatMap
+    (path: [
+      "A ${path} - - - - u:jellyfin:rx"
+      "A ${path} - - - - d:u:jellyfin:rx"
+    ])
+    jellyfinCfg.mediaRoots;
+in {
+  assertions = [
+    {
+      assertion = jellyfinCfg.dataDir != "";
+      message = "Set my.jellyfin.dataDir in the host configuration before enabling the Jellyfin module.";
+    }
+  ];
+
   services.jellyfin = {
     enable = true;
     package = pkgs.jellyfin;
@@ -24,18 +40,16 @@
     group = "jellyfin";
 
     # Data directory off root partition
-    dataDir = "/mnt/archive/jellyfin";
+    dataDir = jellyfinCfg.dataDir;
   };
 
   # Create Jellyfin data directory with correct ownership
   # and transcode directory (tmpfs will mount over it)
-  systemd.tmpfiles.rules = [
-    "d /var/lib/jellyfin/transcodes 0750 jellyfin jellyfin - -"
-    "A /mnt/seagate6 - - - - u:jellyfin:rx"
-    "A /mnt/seagate6 - - - - d:u:jellyfin:rx"
-    "A /mnt/seagate6/Movies - - - - u:jellyfin:rx"
-    "A /mnt/seagate6/Movies - - - - d:u:jellyfin:rx"
-  ];
+  systemd.tmpfiles.rules =
+    [
+      "d /var/lib/jellyfin/transcodes 0750 jellyfin jellyfin - -"
+    ]
+    ++ aclRules;
 
   # Mount tmpfs for transcodes (4GB limit, RAM-based)
   systemd.mounts = [
@@ -43,7 +57,7 @@
       what = "tmpfs";
       where = "/var/lib/jellyfin/transcodes";
       type = "tmpfs";
-      options = "size=4G,mode=0750,uid=jellyfin,gid=jellyfin";
+      options = "size=${jellyfinCfg.transcodeSize},mode=0750,uid=jellyfin,gid=jellyfin";
       wantedBy = ["jellyfin.service"];
       before = ["jellyfin.service"];
     }
@@ -56,18 +70,15 @@
   };
 
   systemd.services.jellyfin.preStart = ''
-    install -d -m 0755 -o jellyfin -g jellyfin /mnt/archive/jellyfin
-    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/config
-    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/cache
-    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/data
-    install -d -m 0750 -o jellyfin -g jellyfin /mnt/archive/jellyfin/log
+    install -d -m 0755 -o jellyfin -g jellyfin ${jellyfinCfg.dataDir}
+    install -d -m 0750 -o jellyfin -g jellyfin ${jellyfinCfg.dataDir}/config
+    install -d -m 0750 -o jellyfin -g jellyfin ${jellyfinCfg.dataDir}/cache
+    install -d -m 0750 -o jellyfin -g jellyfin ${jellyfinCfg.dataDir}/data
+    install -d -m 0750 -o jellyfin -g jellyfin ${jellyfinCfg.dataDir}/log
   '';
 
   systemd.services.jellyfin.unitConfig = {
-    RequiresMountsFor = [
-      "/mnt/archive"
-      "/mnt/seagate6"
-    ];
+    RequiresMountsFor = [jellyfinCfg.dataDir] ++ jellyfinCfg.mediaRoots;
   };
 
   # Hardware acceleration (AMD RX 570)

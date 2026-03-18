@@ -38,7 +38,7 @@ in {
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = builtins.readFile ../../home/gars/dots/hypr/hyprland.conf;
+    extraConfig = builtins.readFile (config.my.dotfilesRoot + "/dots/hypr/hyprland.conf");
   };
 
   programs.waybar.settings = {

@@ -19,20 +19,28 @@
 #        isNormalUser = true;
 #        extraGroups = [ "wheel" "networkmanager" ];
 #      };
-# 4. Add HM config in flake.nix:
-#      hmCLI_<username> = mkHm "<username>" [];
+# 4. Register the user in the `users` attrset in flake.nix.
 # =============================================================================
 #
 {
   config,
   pkgs,
   ...
-}: {
-  home.username = "gars";
-  home.homeDirectory = "/home/gars";
+}: let
+  userName = "gars";
+  homeDir = "/home/${userName}";
+in {
+  my = {
+    primaryUser = userName;
+    repoRoot = "${homeDir}/nixos-config";
+    dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
+  };
+
+  home.username = userName;
+  home.homeDirectory = homeDir;
 
   home.file.".config/nvim".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/gars/nixos-config/home/gars/nvim";
+    config.lib.file.mkOutOfStoreSymlink (config.my.dotfilesRoot + "/nvim");
 
   programs.bash = {
     enable = true;
@@ -69,39 +77,39 @@
       gpom = "git push origin main";
 
       # ── Config Navigation ──────────────────────────────────────────────
-      cdn = "cd ~/nixos-config";
-      ef = "nvim ~/nixos-config/flake.nix";
-      eh = "nvim ~/nixos-config/modules/home/users/gars.nix";
-      ecli = "nvim ~/nixos-config/modules/home/cli.nix";
-      egui = "nvim ~/nixos-config/modules/home/gui-base.nix";
-      ehsway = "nvim ~/nixos-config/modules/home/sway.nix";
-      ehniri = "nvim ~/nixos-config/modules/home/niri.nix";
-      enconf = "nvim ~/nixos-config/hosts/boreal/configuration.nix";
-      eswayc = "nvim ~/nixos-config/home/gars/dots/sway/config";
+      cdn = "cd ${config.my.repoRoot}";
+      ef = "nvim ${config.my.repoRoot}/flake.nix";
+      eh = "nvim ${config.my.repoRoot}/modules/home/users/gars.nix";
+      ecli = "nvim ${config.my.repoRoot}/modules/home/cli.nix";
+      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base.nix";
+      ehsway = "nvim ${config.my.repoRoot}/modules/home/sway.nix";
+      ehniri = "nvim ${config.my.repoRoot}/modules/home/niri.nix";
+      enconf = "nvim ${config.my.repoRoot}/hosts/boreal/configuration.nix";
+      edots = "cd ${config.my.dotfilesRoot}/dots";
 
       # ── Misc Navigation ───────────────────────────────────────────────
       cdd = "cd ~/dev";
       cdp = "cd ~/dev/projects";
-      cdc = "cd ~/nixos-config/home/gars/dots";
+      cdc = "cd ${config.my.dotfilesRoot}/dots";
       cdarch = "cd /mnt/archive";
       cdsea = "cd /mnt/seagate6";
       cdback = "cd /mnt/backup";
 
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
-      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
+      nrs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal";
       # nrs-w-steam — sway (production) + steam (to be a gamer)
-      nrsgaming = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-gaming";
+      nrsgaming = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gaming";
       # nrgs  — minimal Steam + gamescope session
-      nrgs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-gamescope";
+      nrgs = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-gamescope";
       # nrtty — tty-only mode
-      nrtty = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty";
+      nrtty = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-tty";
       # nrttycd — tty-only mode with cyberdeck cli pkgs
-      nrttycd = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty-cyberdeck";
+      nrttycd = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-tty-cyberdeck";
       # nrn   — Niri
-      nrn = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-niri";
+      nrn = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-niri";
       # nrh   — Hyprland
-      nrh = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-hypr";
+      nrh = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#boreal-hypr";
 
       # ── Development: nixos-config ─────────────────────────────────────
       # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)
@@ -110,7 +118,7 @@
       fnixc = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra --check";
 
       # ── Rebuild: VMs ──────────────────────────────────────────────────
-      nrsg = "sudo nixos-rebuild switch --flake ~/nixos-config/.#nixos-vm";
+      nrsg = "sudo nixos-rebuild switch --flake ${config.my.repoRoot}/.#nixos-vm";
 
       # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
