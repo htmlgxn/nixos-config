@@ -90,6 +90,8 @@
       # ── Rebuild: boreal ───────────────────────────────────────────────
       # nrs   — sway (production)
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal";
+      # nrs-w-steam — sway (production) + steam (to be a gamer)
+      nrsgaming = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-gaming";
       # nrtty — tty-only mode
       nrtty = "sudo nixos-rebuild switch --flake ~/nixos-config/.#boreal-tty";
       # nrttycd — tty-only mode with cyberdeck cli pkgs

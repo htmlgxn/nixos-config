@@ -8,6 +8,18 @@
 #   GUI  → TTY + gui-base.nix + <compositor>.nix + flatpak.nix
 #
 # =============================================================================
+# NIXOS CONFIGURATIONS
+# =============================================================================
+#   boreal-tty         - TTY-only on boreal hardware
+#   boreal-tty-cyberdeck - TTY + cyberdeck packages (testing on boreal)
+#   boreal             - GUI (Sway) - production
+#   boreal-gaming        - GUI (Sway) + Steam for gaming
+#   boreal-niri        - GUI (Niri)
+#   boreal-hypr        - GUI (Hyprland)
+#   nixos-vm           - TTY-only VM
+#   cyberdeck          - (future) TTY-only on aarch64 hardware
+#
+# =============================================================================
 # HOW TO ADD A NEW USER
 # =============================================================================
 # 1. Create system user in hosts/<host>/configuration.nix:
@@ -140,6 +152,14 @@
       ./modules/home/flatpak.nix
     ];
 
+    # ── Home Manager: GUI + Gaming (per-user, extends CLI) ──────────────────
+    hmGUI_Sway_Gaming_gars = mkHm "gars" [
+      ./modules/home/gui-base.nix
+      ./modules/home/sway.nix
+      ./modules/home/flatpak.nix
+      ./modules/home/gaming.nix
+    ];
+
     # ── NixOS: Helper Functions (x86_64) ─────────────────────────────────
     # mkTTY_x86: Create a TTY-only configuration for x86_64 hosts
     # Usage: mkTTY_x86 "<hostname>" hmCLI_<username>
@@ -226,6 +246,9 @@
       # ── GUI (x86_64) ───────────────────────────────────────────────────
       # Production GUI configuration with Sway compositor
       boreal = mkGUI_x86 "boreal" "sway" hmGUI_Sway_gars;
+
+      # GUI with Sway + Gaming (Steam)
+      boreal-gaming = mkGUI_x86 "boreal" "sway" hmGUI_Sway_Gaming_gars;
 
       # GUI with Niri compositor (scrollable-tiling)
       boreal-niri = mkGUI_x86 "boreal" "niri" hmGUI_Niri_gars;
