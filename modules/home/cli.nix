@@ -1,6 +1,22 @@
 #
 # ~/nixos-config/modules/home/cli.nix
 #
+# =============================================================================
+# CLI PACKAGES (ALL USERS)
+# =============================================================================
+# These packages are installed for ALL users in TTY mode.
+#
+# To add packages:
+#   1. Add to the list below inside `home.packages = with pkgs; [ ... ]`
+#   2. Use format: `package-name # optional comment`
+#
+# To add user-specific packages:
+#   - Use modules/home/cli-extras.nix (for gars)
+#   - Create modules/home/cli-<name>.nix for other users/devices
+#
+# Available packages: https://search.nixos.org/packages
+# =============================================================================
+#
 {
   config,
   pkgs,

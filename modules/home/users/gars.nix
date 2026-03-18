@@ -1,5 +1,27 @@
 #
-# ~/nixos-config/home/gars/home.nix
+# ~/nixos-config/modules/home/users/gars.nix
+#
+# =============================================================================
+# USER CONFIGURATION: gars
+# =============================================================================
+# User-specific settings for 'gars': username, home directory, shell aliases,
+# dotfile symlinks, bash configuration, etc.
+#
+# TO ADD A NEW USER:
+# 1. Copy this file to modules/home/users/<username>.nix
+# 2. Update these fields:
+#    - home.username = "<username>";
+#    - home.homeDirectory = "/home/<username>";
+#    - Update dotfile symlinks (home.file.".config/...".source)
+#    - Customize shellAliases, sessionVariables, etc.
+# 3. Add user to system: hosts/<host>/configuration.nix
+#      users.users.<username> = {
+#        isNormalUser = true;
+#        extraGroups = [ "wheel" "networkmanager" ];
+#      };
+# 4. Add HM config in flake.nix:
+#      hmCLI_<username> = mkHm "<username>" [];
+# =============================================================================
 #
 {
   config,
@@ -49,7 +71,7 @@
       # ── Config Navigation ──────────────────────────────────────────────
       cdn = "cd ~/nixos-config";
       ef = "nvim ~/nixos-config/flake.nix";
-      eh = "nvim ~/nixos-config/home/gars/home.nix";
+      eh = "nvim ~/nixos-config/modules/home/users/gars.nix";
       ecli = "nvim ~/nixos-config/modules/home/cli.nix";
       egui = "nvim ~/nixos-config/modules/home/gui-base.nix";
       ehsway = "nvim ~/nixos-config/modules/home/sway.nix";

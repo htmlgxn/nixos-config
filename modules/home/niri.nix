@@ -1,8 +1,20 @@
 #
 # ~/nixos-config/modules/home/niri.nix
 #
-# Niri-specific home configuration.
-# Imports gui-base.nix for shared packages, adds niri-specific dotfiles.
+# =============================================================================
+# HOME MANAGER: Niri (scrollable-tiling Wayland compositor)
+# =============================================================================
+# Niri-specific user configuration.
+# Imports gui-base.nix for shared packages, adds niri-specific settings.
+#
+# Includes:
+#   - Niri compositor config (symlinked from dots/niri/)
+#   - Waybar configuration (workspace module, niri/window)
+#   - grim (screenshot capture)
+#
+# User configuration: Symlinked from home/gars/dots/niri/config.kdl
+# System module: modules/system/niri.nix
+# =============================================================================
 #
 {
   config,

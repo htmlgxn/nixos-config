@@ -1,9 +1,26 @@
 #
 # ~/nixos-config/modules/system/niri.nix
 #
-# Niri — scrollable-tiling Wayland compositor (Smithay-based).
-# Notable: no built-in XWayland. Use xwayland-satellite as a workaround.
-# Config lives at ~/.config/niri/config.kdl (KDL format).
+# =============================================================================
+# SYSTEM CONFIGURATION: Niri (scrollable-tiling Wayland compositor)
+# =============================================================================
+# Niri - scrollable-tiling Wayland compositor (Smithay-based).
+#
+# Notable:
+#   - No built-in XWayland. Use xwayland-satellite as a workaround.
+#   - Config is NOT managed by Nix - symlinked from ~/dots/niri/config.kdl
+#
+# Includes:
+#   - Niri compositor
+#   - Greetd + tuigreet (login screen)
+#   - xwayland-satellite (X11 app support)
+#   - slurp (region selector)
+#   - swaybg, swaylock (background, lock screen)
+#   - Catppuccin cursors
+#
+# User configuration: Symlinked from home/gars/dots/niri/config.kdl
+# Home Manager module: modules/home/niri.nix
+# =============================================================================
 #
 {
   config,

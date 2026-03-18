@@ -1,8 +1,19 @@
 #
 # ~/nixos-config/modules/home/hyprland.nix
 #
-# Hyprland-specific home configuration.
-# Imports gui-base.nix for shared packages, adds hyprland-specific dotfiles.
+# =============================================================================
+# HOME MANAGER: Hyprland (Wayland compositor)
+# =============================================================================
+# Hyprland-specific user configuration.
+# Imports gui-base.nix for shared packages, adds hyprland-specific settings.
+#
+# Includes:
+#   - Hyprland window manager (config symlinked from dots/hypr/)
+#   - Waybar configuration (workspace module, hyprland/window)
+#
+# User configuration: Symlinked from home/gars/dots/hypr/hyprland.conf
+# System module: modules/system/hyprland.nix
+# =============================================================================
 #
 {
   config,
