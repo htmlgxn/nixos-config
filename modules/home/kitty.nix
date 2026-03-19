@@ -5,7 +5,7 @@
 # Styling matches alacritty.nix using shared terminal-theme.nix.
 #
 {config, ...}: let
-  theme = import ./terminal-theme.nix;
+  theme = config.my.terminalThemeData;
 in {
   programs.kitty = {
     enable = true;

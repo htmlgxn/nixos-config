@@ -5,7 +5,7 @@
 # Colors are imported from shared terminal-theme.nix.
 #
 {config, ...}: let
-  theme = import ./terminal-theme.nix;
+  theme = config.my.terminalThemeData;
 in {
   programs.alacritty = {
     enable = true;

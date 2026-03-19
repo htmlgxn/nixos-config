@@ -27,6 +27,12 @@ in {
       description = "Absolute path to the repo-managed containers workspace.";
     };
 
+    terminalTheme = mkOption {
+      type = types.str;
+      default = "gars-yellow-dark";
+      description = "Terminal color theme name (e.g., gars-yellow-dark).";
+    };
+
     jellyfin = {
       dataDir = mkOption {
         type = types.str;

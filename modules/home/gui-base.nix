@@ -7,6 +7,7 @@
   waybarCfg = import ./waybar-settings.nix {inherit pkgs;};
 in {
   imports = [
+    ./terminal-theme.nix
     ./alacritty.nix
     ./kitty.nix
     ./fuzzel.nix
