@@ -150,4 +150,10 @@
         background: #322F1F;
     }
   '';
+
+  colors = {
+    brand = "#E3C220";
+    text = "#F6EEC9";
+    gold-dark = "#826F11";
+  };
 }
