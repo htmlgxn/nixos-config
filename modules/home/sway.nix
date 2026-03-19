@@ -6,6 +6,7 @@
   ...
 }: let
   waybar = import ./waybar-settings.nix {inherit pkgs;};
+  clipdoc = import ./clipdoc.nix {inherit pkgs;};
   mod = "Mod4";
   left = "h";
   down = "j";
@@ -40,6 +41,7 @@ in {
 
   home.packages = with pkgs; [
     sway-contrib.grimshot
+    clipdoc.clipdoc
   ];
 
   wayland.windowManager.sway = {
