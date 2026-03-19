@@ -2,8 +2,11 @@
 # ~/nixos-config/modules/home/alacritty.nix
 #
 # Alacritty configuration managed by Home Manager.
+# Colors are imported from shared terminal-theme.nix.
 #
-{config, ...}: {
+{config, ...}: let
+  theme = import ./terminal-theme.nix;
+in {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -36,84 +39,84 @@
 
       colors = {
         primary = {
-          background = "#1e1904";
-          foreground = "#f6eec9";
-          dim_foreground = "#a29c7f";
-          bright_foreground = "#fcf9e8";
+          background = theme.colors.background;
+          foreground = theme.colors.foreground;
+          dim_foreground = theme.colors.dimForeground;
+          bright_foreground = theme.colors.brightForeground;
         };
 
         cursor = {
-          text = "#3b3724";
-          cursor = "#efdd84";
+          text = theme.colors.cursorText;
+          cursor = theme.colors.cursor;
         };
 
         vi_mode_cursor = {
-          text = "#3b3724";
-          cursor = "#e3c220";
+          text = theme.colors.viModeCursorText;
+          cursor = theme.colors.viModeCursor;
         };
 
         search = {
           matches = {
-            foreground = "#1e1904";
-            background = "#b7b193";
+            foreground = theme.colors.searchMatchForeground;
+            background = theme.colors.searchMatchBackground;
           };
           focused_match = {
-            foreground = "#1e1904";
-            background = "#e3c220";
+            foreground = theme.colors.searchFocusedMatchForeground;
+            background = theme.colors.searchFocusedMatchBackground;
           };
         };
 
         footer_bar = {
-          foreground = "#1e1904";
-          background = "#b7b193";
+          foreground = theme.colors.footerBarForeground;
+          background = theme.colors.footerBarBackground;
         };
 
         hints = {
           start = {
-            foreground = "#1e1904";
-            background = "#e3c220";
+            foreground = theme.colors.hintsStartForeground;
+            background = theme.colors.hintsStartBackground;
           };
           end = {
-            foreground = "#1e1904";
-            background = "#a29c7f";
+            foreground = theme.colors.hintsEndForeground;
+            background = theme.colors.hintsEndBackground;
           };
         };
 
         selection = {
-          text = "#1e1904";
-          background = "#efdd84";
+          text = theme.colors.selectionText;
+          background = theme.colors.selectionBackground;
         };
 
         normal = {
-          black = "#322f1f";
-          red = "#ef8484";
-          green = "#e4ef84";
-          yellow = "#e3c220";
-          blue = "#84baef";
-          magenta = "#f4b8e4";
-          cyan = "#84e0ef";
-          white = "#ded7b4";
+          black = theme.colors.normal.black;
+          red = theme.colors.normal.red;
+          green = theme.colors.normal.green;
+          yellow = theme.colors.normal.yellow;
+          blue = theme.colors.normal.blue;
+          magenta = theme.colors.normal.magenta;
+          cyan = theme.colors.normal.cyan;
+          white = theme.colors.normal.white;
         };
 
         bright = {
-          black = "#3b3724";
-          red = "#ef8484";
-          green = "#e4ef84";
-          yellow = "#efdd84";
-          blue = "#84baef";
-          magenta = "#ef84ac";
-          cyan = "#84e0ef";
-          white = "#cbc4a3";
+          black = theme.colors.bright.black;
+          red = theme.colors.bright.red;
+          green = theme.colors.bright.green;
+          yellow = theme.colors.bright.yellow;
+          blue = theme.colors.bright.blue;
+          magenta = theme.colors.bright.magenta;
+          cyan = theme.colors.bright.cyan;
+          white = theme.colors.bright.white;
         };
 
         indexed_colors = [
           {
             index = 16;
-            color = "#ef9f76";
+            color = theme.colors.indexed."16";
           }
           {
             index = 17;
-            color = "#f8ebac";
+            color = theme.colors.indexed."17";
           }
         ];
       };

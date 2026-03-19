@@ -1,0 +1,74 @@
+#
+# ~/nixos-config/modules/home/terminal-theme.nix
+#
+# Shared color theme for terminal emulators (alacritty, kitty).
+# Edit colors here to apply to all terminals.
+#
+{
+  # Current theme: "yellow-dark" - warm yellow accents on dark brown-black background
+  colors = {
+    # Primary colors
+    background = "#1e1904";
+    foreground = "#f6eec9";
+    dimForeground = "#a29c7f";
+    brightForeground = "#fcf9e8";
+
+    # Cursor
+    cursorText = "#3b3724";
+    cursor = "#efdd84";
+
+    # Vi mode cursor
+    viModeCursorText = "#3b3724";
+    viModeCursor = "#e3c220";
+
+    # Search
+    searchMatchForeground = "#1e1904";
+    searchMatchBackground = "#b7b193";
+    searchFocusedMatchForeground = "#1e1904";
+    searchFocusedMatchBackground = "#e3c220";
+
+    # Footer bar
+    footerBarForeground = "#1e1904";
+    footerBarBackground = "#b7b193";
+
+    # Hints
+    hintsStartForeground = "#1e1904";
+    hintsStartBackground = "#e3c220";
+    hintsEndForeground = "#1e1904";
+    hintsEndBackground = "#a29c7f";
+
+    # Selection
+    selectionText = "#1e1904";
+    selectionBackground = "#efdd84";
+
+    # Normal color palette (0-7)
+    normal = {
+      black = "#322f1f";
+      red = "#ef8484";
+      green = "#e4ef84";
+      yellow = "#e3c220";
+      blue = "#84baef";
+      magenta = "#f4b8e4";
+      cyan = "#84e0ef";
+      white = "#ded7b4";
+    };
+
+    # Bright color palette (8-15)
+    bright = {
+      black = "#3b3724";
+      red = "#ef8484";
+      green = "#e4ef84";
+      yellow = "#efdd84";
+      blue = "#84baef";
+      magenta = "#ef84ac";
+      cyan = "#84e0ef";
+      white = "#cbc4a3";
+    };
+
+    # Indexed colors (16, 17)
+    indexed = {
+      "16" = "#ef9f76";
+      "17" = "#f8ebac";
+    };
+  };
+}
