@@ -29,7 +29,7 @@ in {
 
     terminalTheme = mkOption {
       type = types.str;
-      default = "gars-yellow-dark";
+      default = "gars-yellow-light";
       description = "Terminal color theme name (gars-yellow-dark or gars-yellow-light).";
     };
 
