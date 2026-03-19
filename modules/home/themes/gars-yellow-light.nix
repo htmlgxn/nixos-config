@@ -51,7 +51,7 @@
       blue = "#1a5ab0";
       magenta = "#900090";
       cyan = "#0080a0";
-      white = "#ded7b4";
+      white = "#f5f0d5";
     };
 
     # Bright color palette (8-15)
