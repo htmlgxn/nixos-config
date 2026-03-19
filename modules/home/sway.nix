@@ -133,6 +133,7 @@ in {
           "${mod}+Shift+q" = "exec swaymsg \"[workspace=__focused__] kill\"";
 
           "${mod}+Space" = "exec ${menu}";
+          "${mod}+period" = "exec emoji-picker";
           "${mod}+d" = null;
 
           "${mod}+Shift+c" = "reload";

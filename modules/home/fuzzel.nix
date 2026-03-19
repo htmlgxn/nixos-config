@@ -3,7 +3,104 @@
 #
 # Fuzzel configuration managed by Home Manager.
 #
-{...}: {
+{pkgs, ...}: let
+  openmojiSrc = pkgs.fetchFromGitHub {
+    owner = "hfg-gmuend";
+    repo = "openmoji";
+    rev = pkgs.openmoji-color.version;
+    hash = "sha256-4dYtLaABu88z25Ud/cuOECajxSJWR01qcTIZNWN7Fhw=";
+  };
+
+  emojiMenu =
+    pkgs.runCommandLocal "openmoji-fuzzel-menu.tsv" {
+      nativeBuildInputs = [pkgs.jq];
+    } ''
+      set -euo pipefail
+
+      json_path=""
+      for candidate in \
+        "${openmojiSrc}/data/openmoji.json" \
+        "${openmojiSrc}/openmoji.json"; do
+        if [ -f "$candidate" ]; then
+          json_path="$candidate"
+          break
+        fi
+      done
+
+      if [ -z "$json_path" ]; then
+        echo "Unable to locate OpenMoji metadata JSON in ${openmojiSrc}" >&2
+        exit 1
+      fi
+
+      jq -r '
+        def rows:
+          if type == "array" then .
+          elif type == "object" then to_entries | map(.value)
+          else []
+          end;
+
+        rows
+        | map(select((.emoji? // "") != "" and ((.annotation? // .name? // "") != "")))
+        | unique_by(.emoji)
+        | .[]
+        | [
+            .emoji,
+            (.annotation // .name),
+            (
+              [
+                .group?,
+                .subgroups?,
+                (.tags? // []),
+                (.keywords? // []),
+                (.aliases? // [])
+              ]
+              | flatten
+              | map(select(. != null and . != ""))
+              | unique
+              | join(", ")
+            )
+          ]
+        | @tsv
+      ' "$json_path" > "$out"
+    '';
+
+  emojiPicker = pkgs.writeShellApplication {
+    name = "emoji-picker";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.fuzzel
+      pkgs.wl-clipboard
+      pkgs.wtype
+    ];
+    text = ''
+      set -euo pipefail
+
+      selection="$(
+        fuzzel --dmenu \
+          --prompt='emoji> ' \
+          --font='Roboto Mono,OpenMoji Color:size=13' \
+          --width=64 \
+          --lines=24 \
+          < "${emojiMenu}"
+      )" || exit 0
+
+      emoji="$(printf '%s\n' "$selection" | cut -f1)"
+      if [ -z "$emoji" ]; then
+        exit 0
+      fi
+
+      printf '%s' "$emoji" | wl-copy --trim-newline
+
+      if [ -n "''${SWAYSOCK-}" ] && [ "''${EMOJI_PICKER_NO_TYPE-0}" != "1" ]; then
+        wtype "$emoji" || true
+      fi
+    '';
+  };
+in {
+  home.packages = [
+    emojiPicker
+  ];
+
   programs.fuzzel = {
     enable = true;
     settings = {
