@@ -8,6 +8,7 @@
 in {
   imports = [
     ./alacritty.nix
+    ./kitty.nix
     ./fuzzel.nix
     ./mako.nix
   ];
