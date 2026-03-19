@@ -44,6 +44,7 @@ in {
       swapstat = "swapon --show --bytes; free -h";
       br = "broot";
       wiki = "wiki-tui";
+      emo = "emoji-picker-cli";
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";

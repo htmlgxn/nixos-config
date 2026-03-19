@@ -4,7 +4,9 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  emojiTools = import ./emoji-tools.nix {inherit pkgs;};
+in {
   home.packages = with pkgs; [
     # ── Shell & Multiplexer ─────────────────────────────────────────
     tmux
@@ -43,6 +45,7 @@
     fd
     ripgrep
     bat
+    emojiTools.emojiPickerCli
     eza
     fzf
     broot
