@@ -26,7 +26,7 @@ xkb_symbols "basic" {
     key <AD08> { [ o, O ] };
     key <AD09> { [ u, U ] };
     key <AD10> { [ j, J ] };
-    key <AD11> { [ semicolon, colon ] };
+    key <AD11> { [ semicolon, colon, minus, underscore ] };
     key <AD12> { [ equal, plus ] };
 
     key <AC01> { [ n, N ] };
