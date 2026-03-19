@@ -20,6 +20,7 @@ in {
   home.packages = with pkgs; [
     # ── Terminal & Launcher ─────────────────────────────────────────
     alacritty
+    kitty
     fuzzel
 
     # ── File & Web ──────────────────────────────────────────────────
