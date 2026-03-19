@@ -79,8 +79,6 @@
         fuzzel --dmenu \
           --prompt='emoji> ' \
           --font='Roboto Mono,OpenMoji Color:size=13' \
-          --width=64 \
-          --lines=24 \
           < "${emojiMenu}"
       )" || exit 0
 
