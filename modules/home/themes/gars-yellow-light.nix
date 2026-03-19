@@ -40,7 +40,7 @@
 
     # Selection
     selectionText = "#1e1a06";
-    selectionBackground = "#f5e070";
+    selectionBackground = "#e3c220";
 
     # Normal color palette (0-7)
     normal = {
@@ -59,7 +59,7 @@
       black = "#d8d2a2";
       red = "#c03030";
       green = "#5a8a00";
-      yellow = "#f5e070";
+      yellow = "#e3c220";
       blue = "#1a5ab0";
       magenta = "#b0005a";
       cyan = "#0080a0";
