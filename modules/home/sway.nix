@@ -134,6 +134,7 @@ in {
 
           "${mod}+Space" = "exec ${menu}";
           "${mod}+period" = "exec emoji-picker";
+          "${mod}+Shift+period" = "exec EMOJI_PICKER_NO_TYPE=1 emoji-picker";
           "${mod}+d" = null;
 
           "${mod}+Shift+c" = "reload";
