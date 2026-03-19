@@ -33,6 +33,12 @@ in {
       description = "Terminal color theme name (gars-yellow-dark or gars-yellow-light).";
     };
 
+    guiTheme = mkOption {
+      type = types.str;
+      default = "gars-yellow-dark";
+      description = "GUI theme name for waybar, sway, niri, mako, fuzzel, etc.";
+    };
+
     jellyfin = {
       dataDir = mkOption {
         type = types.str;

@@ -2,8 +2,14 @@
 # ~/nixos-config/modules/home/waybar-settings.nix
 #
 # Shared Waybar settings (used by sway + niri + hyprland).
+# Colors are imported from shared gui-theme.nix.
 #
-{pkgs, ...}: let
+{
+  pkgs,
+  config,
+  ...
+}: let
+  theme = config.my.guiThemeData.waybar;
   disksScript = pkgs.writeShellScript "waybar-disks" ''
         #!/usr/bin/env bash
         # disks.sh — Waybar custom module for free/total per disk
@@ -13,9 +19,9 @@
           ${pkgs.coreutils}/bin/numfmt --to=iec --suffix=B --format="%.1f" "$1" | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]'
         }
 
-        PRIMARY="#E3C220"
-        FOREGROUND="#F6EEC9"
-        DISABLED="#826F11"
+        PRIMARY="${theme.colors.brand}"
+        FOREGROUND="${theme.colors.text}"
+        DISABLED="${theme.colors.gold-dark}"
         output=""
         for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk"{print $1}'); do
           size=$(${pkgs.util-linux}/bin/lsblk -bndo SIZE /dev/$disk)
@@ -66,170 +72,7 @@
   '';
   quebecText = ../../home/gars/dots/waybar/quebec.txt;
 in {
-  style = ''
-    /* ==============================================
-       Waybar — gars-yellow theme
-       ============================================== */
-
-    /*
-      Palette reference:
-        background   #1E1904   darkest base
-        crust        #262418   bar background
-        mantle       #322F1F   hover background
-        base         #3B3724   focused background
-        metal        #413C1E   subtle fills
-        surface0     #5B5742   inactive/dim elements
-        overlay1     #A29C7F   subdued text / inactive workspace
-        text         #F6EEC9   primary text
-        light-yellow #EFDD84  hover border accent
-        gold-dark    #826F11   borders / dividers
-        brand        #E3C220   focused accent / bright gold
-        brand-bg     #E3C220   urgent backgrounds
-        red          #EF8484   critical state
-        orange       #EF9F76   warning state
-    */
-
-    * {
-        font-family: "Roboto Mono", "OpenMoji Color";
-        font-size: 13px;
-        letter-spacing: 0px;
-        min-height: 0;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        margin: 0;
-    }
-
-    window#waybar {
-        background-color: #262418;            /* crust */
-        color: #F6EEC9;                       /* text */
-        border-top: 2px solid #826F11;        /* gold-dark */
-    }
-
-    /* Left modules */
-    #workspaces button {
-        padding: 0 8px;
-        color: #A29C7F;                       /* overlay1 — inactive workspace label */
-        background: transparent;
-        border-right: 1px solid #826F11;      /* gold-dark divider */
-    }
-
-    #workspaces button:hover {
-        background: #322F1F;                  /* mantle */
-        color: #F6EEC9;                       /* text */
-        border-top: 2px solid #EFDD84;        /* light-yellow accent */
-    }
-
-    #workspaces button.focused {
-        background: #3B3724;                  /* base */
-        color: #F6EEC9;                       /* text */
-        border-top: 2px solid #E3C220;        /* brand gold */
-    }
-
-    #workspaces button.urgent {
-        background: #E3C220;                  /* brand gold */
-        color: #1E1904;                       /* background — dark text on bright bg */
-    }
-
-    #workspaces button.occupied {
-        color: #F6EEC9;                       /* text */
-    }
-
-    #window {
-        padding: 0 8px;
-        color: #F6EEC9;                       /* text */
-    }
-
-    #mode {
-        padding: 0 8px;
-        background: #E3C220;                  /* brand gold */
-        color: #1E1904;                       /* background */
-        font-weight: bold;
-    }
-
-    /* Separator between modules */
-    #custom-disks,
-    #custom-keyboard-layout,
-    #disk,
-    #pulseaudio,
-    #memory,
-    #cpu,
-    #network,
-    #clock,
-    #tray {
-        padding: 0 8px;
-        color: #F6EEC9;                       /* text */
-        border-left: 2px solid #826F11;       /* gold-dark */
-    }
-
-    #custom-sailscene {
-        padding-right: 8px;
-        padding-left: 16px;
-        color: #F6EEC9;                       /* text */
-        border-left: 2px solid #826F11;       /* gold-dark */
-    }
-
-    #custom-quebec,
-    #custom-novascotia,
-    #custom-code,
-    #custom-browser {
-        font-size: 18px;
-        border-left: 2px solid #826F11;       /* gold-dark */
-    }
-
-    #custom-quebec,
-    #custom-novascotia {
-        padding-right: 8px;
-        padding-left: 10px;
-    }
-
-    #custom-code,
-    #custom-browser {
-        padding-right: 8px;
-        padding-left: 12px;
-    }
-
-    /* Module label prefixes */
-    #pulseaudio,
-    #memory,
-    #cpu,
-    #network {
-        color: #F6EEC9;                       /* text */
-    }
-
-    #pulseaudio.muted {
-        color: #5B5742;                       /* surface0 — dimmed when muted */
-    }
-
-    #clock {
-        color: #F6EEC9;                       /* text */
-    }
-
-    #tray {
-        padding: 0 12px;
-    }
-
-    #tray > .passive {
-        -gtk-icon-effect: dim;
-    }
-
-    #tray > .needs-attention {
-        -gtk-icon-effect: highlight;
-        background-color: #E3C220;            /* brand gold */
-    }
-
-    /* Urgent/alert states */
-    #cpu.warning,
-    #memory.warning {
-        color: #EF9F76;                       /* orange — warning */
-    }
-
-    #cpu.critical,
-    #memory.critical {
-        color: #EF8484;                       /* red — critical */
-        background: #322F1F;                  /* mantle */
-    }
-  '';
+  style = theme.css;
 
   common = {
     layer = "top";

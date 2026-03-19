@@ -2,9 +2,15 @@
 # ~/nixos-config/modules/home/fuzzel.nix
 #
 # Fuzzel configuration managed by Home Manager.
+# Colors are imported from shared gui-theme.nix.
 #
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   emojiTools = import ./emoji-tools.nix {inherit pkgs;};
+  theme = config.my.guiThemeData.fuzzel;
 in {
   home.packages = [
     emojiTools.emojiPicker
@@ -31,19 +37,7 @@ in {
         "image-size-ratio" = 0.5;
       };
 
-      colors = {
-        background = "262418ff";
-        border = "826F11ff";
-        text = "F6EEC9ff";
-        prompt = "A29C7Fff";
-        placeholder = "5B5742ff";
-        input = "F6EEC9ff";
-
-        match = "E3C220ff";
-        selection = "3B3724ff";
-        "selection-text" = "F6EEC9ff";
-        "selection-match" = "EFDD84ff";
-      };
+      colors = theme.colors;
 
       border = {
         width = 2;

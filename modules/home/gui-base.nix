@@ -4,9 +4,13 @@
   pkgs,
   ...
 }: let
-  waybarCfg = import ./waybar-settings.nix {inherit pkgs;};
+  waybarCfg = import ./waybar-settings.nix {inherit pkgs config;};
+  theme = config.my.guiThemeData;
+  # Helper to resolve package from list of attribute names (e.g., ["catppuccin-cursors" "mochaYellow"])
+  resolvePkg = path: builtins.foldl' (pkg: attr: pkg.${attr}) pkgs path;
 in {
   imports = [
+    ./gui-theme.nix
     ./terminal-theme.nix
     ./alacritty.nix
     ./kitty.nix
@@ -119,26 +123,26 @@ in {
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
+      name = theme.gtk.gtk.theme.name;
+      package = resolvePkg theme.gtk.gtk.theme.package;
     };
     iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
+      name = theme.gtk.gtk.iconTheme.name;
+      package = resolvePkg theme.gtk.gtk.iconTheme.package;
     };
   };
 
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
-    style.name = "adwaita-dark";
+    platformTheme.name = theme.gtk.qt.platformTheme;
+    style.name = theme.gtk.qt.style;
   };
 
   # ── Cursor Theme ──────────────────────────────────────────────────
   home.pointerCursor = {
     gtk.enable = true;
-    package = pkgs.catppuccin-cursors.mochaYellow;
-    name = "Catppuccin-Mocha-Yellow-Cursors";
-    size = 26;
+    package = resolvePkg theme.gtk.cursor.package;
+    name = theme.gtk.cursor.name;
+    size = theme.gtk.cursor.size;
   };
 }

@@ -58,6 +58,7 @@
 ## Agent-Specific Instructions
 - Agents must not run `nixos-rebuild` or perform switch/build actions.
 - Agents must never edit `hosts/*/hardware-configuration.nix`.
+- Primary compositor is Sway. Do not spend time adding theming/config for other compositors (Hyprland, Niri) unless explicitly requested. Existing support for them is fine to leave in place.
 
 ## Commit Guidelines
 - Commit history uses short, descriptive, lower-case sentences, sometimes with iteration notes (for example `moved sway config to modules/home/sway.nix - test 3`).

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  waybar = import ./waybar-settings.nix {inherit pkgs;};
+  waybar = import ./waybar-settings.nix {inherit pkgs config;};
 in {
   imports = [
     ./gui-base.nix

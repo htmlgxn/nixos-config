@@ -1,84 +1,141 @@
-# Terminal Themes
+# GUI Themes
 
-Available terminal color themes for alacritty and kitty.
+Modular theme definitions for GUI applications (Sway, Waybar, Mako, Fuzzel, GTK, etc.).
+
+## Structure
+
+Themes are organized by theme name with subdirectories for each application:
+
+```
+gui/
+  gars-yellow-dark/
+    sway.nix    - Sway window manager colors
+    waybar.nix  - Waybar status bar CSS and colors
+    mako.nix    - Mako notification daemon colors
+    fuzzel.nix  - Fuzzel launcher colors
+    gtk.nix     - GTK/QT theme and cursor settings
+    niri.nix    - Niri compositor colors (optional)
+```
 
 ## Adding a New Theme
 
-1. Create a new file in this directory (e.g., `catppuccin-mocha.nix`)
-2. Copy the structure from an existing theme
-3. Update the color values
-4. Register it in `../terminal-theme.nix`
+1. Create a new directory under `gui/` (e.g., `gui/catppuccin-mocha/`)
+2. Create theme files for each application you want to theme
+3. Register the theme in `../gui-theme.nix`
 
-## Theme Structure
+## Theme File Formats
+
+### sway.nix
 
 ```nix
 {
-  name = "theme-name";
+  colors = {
+    focused = {
+      border = "#E3C220";
+      background = "#3B3724";
+      text = "#F6EEC9";
+      indicator = "#EFDD84";
+      childBorder = "#E3C220";
+    };
+    focusedInactive = { ... };
+    unfocused = { ... };
+    urgent = { ... };
+    background = "#1E1904";
+  };
+
+  seat = {
+    xcursor-theme = "catppuccin-mocha-yellow-cursors 26";
+  };
+}
+```
+
+### waybar.nix
+
+```nix
+{
+  css = ''
+    * {
+        font-family: "Roboto Mono";
+    }
+    window#waybar {
+        background-color: @crust;
+        color: @text;
+    }
+    /* ... more CSS ... */
+  '';
 
   colors = {
-    # Primary colors
-    background = "#000000";
-    foreground = "#ffffff";
-    dimForeground = "#888888";
-    brightForeground = "#ffffff";
+    background = "#1E1904";
+    crust = "#262418";
+    text = "#F6EEC9";
+    # ... more color variables for CSS ...
+  };
+}
+```
 
-    # Cursor
-    cursorText = "#000000";
-    cursor = "#ffffff";
+### mako.nix
 
-    # Vi mode cursor
-    viModeCursorText = "#000000";
-    viModeCursor = "#ffff00";
+```nix
+{
+  default = {
+    background-color = "#262418";
+    text-color = "#F6EEC9";
+    border-color = "#826F11";
+    progress-color = "over #E3C220";
+  };
 
-    # Search
-    searchMatchForeground = "#000000";
-    searchMatchBackground = "#aaaaaa";
-    searchFocusedMatchForeground = "#000000";
-    searchFocusedMatchBackground = "#ffff00";
+  urgency = {
+    low = { ... };
+    normal = { ... };
+    high = { ... };
+    hidden = { ... };
+  };
+}
+```
 
-    # Footer bar
-    footerBarForeground = "#000000";
-    footerBarBackground = "#aaaaaa";
+### fuzzel.nix
 
-    # Hints
-    hintsStartForeground = "#000000";
-    hintsStartBackground = "#ffff00";
-    hintsEndForeground = "#000000";
-    hintsEndBackground = "#888888";
+```nix
+{
+  colors = {
+    background = "262418ff";
+    border = "826F11ff";
+    text = "F6EEC9ff";
+    prompt = "A29C7Fff";
+    placeholder = "5B5742ff";
+    input = "F6EEC9ff";
+    match = "E3C220ff";
+    selection = "3B3724ff";
+    selection-text = "F6EEC9ff";
+    selection-match = "EFDD84ff";
+  };
+}
+```
 
-    # Selection
-    selectionText = "#000000";
-    selectionBackground = "#ffffff";
+### gtk.nix
 
-    # Normal color palette (0-7)
-    normal = {
-      black = "#000000";
-      red = "#ff0000";
-      green = "#00ff00";
-      yellow = "#ffff00";
-      blue = "#0000ff";
-      magenta = "#ff00ff";
-      cyan = "#00ffff";
-      white = "#ffffff";
+```nix
+{
+  gtk = {
+    theme = {
+      name = "Adwaita-dark";
+      package = "gnome-themes-extra";
     };
-
-    # Bright color palette (8-15)
-    bright = {
-      black = "#444444";
-      red = "#ff0000";
-      green = "#00ff00";
-      yellow = "#ffff00";
-      blue = "#0000ff";
-      magenta = "#ff00ff";
-      cyan = "#00ffff";
-      white = "#ffffff";
+    iconTheme = {
+      name = "Adwaita";
+      package = "adwaita-icon-theme";
     };
+  };
 
-    # Indexed colors (16, 17)
-    indexed = {
-      "16" = "#ff8800";
-      "17" = "#ffcc66";
-    };
+  qt = {
+    platformTheme = "gtk";
+    style = "adwaita-dark";
+  };
+
+  cursor = {
+    package = "catppuccin-cursors.mochaYellow";
+    name = "Catppuccin-Mocha-Yellow-Cursors";
+    size = 26;
   };
 }
 ```
@@ -86,4 +143,14 @@ Available terminal color themes for alacritty and kitty.
 ## Available Themes
 
 - `gars-yellow-dark` - Warm yellow accents on dark brown-black background
-- `gars-yellow-light` - Warm yellow accents on light cream background
+- `gars-yellow-light` - Warm yellow accents on light cream background (GUI theme WIP)
+
+## Usage
+
+Set `my.guiTheme` in your configuration to select a theme:
+
+```nix
+my.guiTheme = "gars-yellow-dark";
+```
+
+The theme data is exposed via `config.my.guiThemeData.<app>` for use in module configurations.

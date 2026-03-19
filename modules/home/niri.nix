@@ -5,7 +5,8 @@
   lib,
   ...
 }: let
-  waybar = import ./waybar-settings.nix {inherit pkgs;};
+  waybar = import ./waybar-settings.nix {inherit pkgs config;};
+  theme = config.my.guiThemeData.niri;
   mod = "Mod";
   term = "kitty";
   menu = "fuzzel";
@@ -37,15 +38,15 @@
     prefer-no-csd
 
     layout {
-        gaps 2
+        gaps ${toString theme.layout.gaps}
 
         focus-ring {
-            width 2
-            active-color "#E3C220"
-            inactive-color "#826F11"
+            width ${toString theme.layout.focus-ring.width}
+            active-color "${theme.layout.focus-ring.active-color}"
+            inactive-color "${theme.layout.focus-ring.inactive-color}"
         }
 
-        background-color "transparent"
+        background-color "${theme.layout.background-color}"
     }
 
     window-rule {
