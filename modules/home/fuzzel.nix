@@ -16,7 +16,7 @@ in {
       main = {
         font = "Roboto Mono:size=13";
         prompt = "\"⚜️ \"";
-        terminal = "alacritty";
+        terminal = "kitty";
         layer = "overlay";
         "exit-on-keyboard-focus-loss" = "yes";
 

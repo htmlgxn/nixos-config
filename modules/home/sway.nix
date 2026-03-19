@@ -11,7 +11,7 @@
   down = "j";
   up = "k";
   right = "l";
-  term = "alacritty";
+  term = "kitty";
   menu = "fuzzel";
 
   # Generate workspace keybindings for numbers 1-9 (0 is workspace 10)

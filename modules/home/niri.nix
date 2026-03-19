@@ -7,7 +7,7 @@
 }: let
   waybar = import ./waybar-settings.nix {inherit pkgs;};
   mod = "Mod";
-  term = "alacritty";
+  term = "kitty";
   menu = "fuzzel";
   workspaceKeys = (map toString (builtins.genList (x: x + 1) 9)) ++ ["0"];
   workspaceIndex = key:
