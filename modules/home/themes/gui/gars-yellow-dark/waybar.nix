@@ -9,24 +9,6 @@
        Waybar — gars-yellow theme
        ============================================== */
 
-    /*
-      Palette reference:
-        background   #1E1904   darkest base
-        crust        #262418   bar background
-        mantle       #322F1F   hover background
-        base         #3B3724   focused backgrounds
-        metal        #413C1E   subtle fills
-        surface0     #5B5742   inactive/dim elements
-        overlay1     #A29C7F   subdued text / inactive workspace
-        text         #F6EEC9   primary text
-        light-yellow #EFDD84   hover border accent
-        gold-dark    #826F11   borders / dividers
-        brand        #E3C220   focused accent / bright gold
-        brand-bg     #E3C220   urgent backgrounds
-        red          #EF8484   critical state
-        orange       #EF9F76   warning state
-    */
-
     * {
         font-family: "Roboto Mono", "OpenMoji Color";
         font-size: 13px;
@@ -39,49 +21,49 @@
     }
 
     window#waybar {
-        background-color: @crust;
-        color: @text;
-        border-top: 2px solid @gold-dark;
+        background-color: #262418;
+        color: #F6EEC9;
+        border-top: 2px solid #826F11;
     }
 
     /* Left modules */
     #workspaces button {
         padding: 0 8px;
-        color: @overlay1;
+        color: #A29C7F;
         background: transparent;
-        border-right: 1px solid @gold-dark;
+        border-right: 1px solid #826F11;
     }
 
     #workspaces button:hover {
-        background: @mantle;
-        color: @text;
-        border-top: 2px solid @light-yellow;
+        background: #322F1F;
+        color: #F6EEC9;
+        border-top: 2px solid #EFDD84;
     }
 
     #workspaces button.focused {
-        background: @base;
-        color: @text;
-        border-top: 2px solid @brand;
+        background: #3B3724;
+        color: #F6EEC9;
+        border-top: 2px solid #E3C220;
     }
 
     #workspaces button.urgent {
-        background: @brand;
-        color: @background;
+        background: #E3C220;
+        color: #1E1904;
     }
 
     #workspaces button.occupied {
-        color: @text;
+        color: #F6EEC9;
     }
 
     #window {
         padding: 0 8px;
-        color: @text;
+        color: #F6EEC9;
     }
 
     #mode {
         padding: 0 8px;
-        background: @brand;
-        color: @background;
+        background: #E3C220;
+        color: #1E1904;
         font-weight: bold;
     }
 
@@ -96,15 +78,15 @@
     #clock,
     #tray {
         padding: 0 8px;
-        color: @text;
-        border-left: 2px solid @gold-dark;
+        color: #F6EEC9;
+        border-left: 2px solid #826F11;
     }
 
     #custom-sailscene {
         padding-right: 8px;
         padding-left: 16px;
-        color: @text;
-        border-left: 2px solid @gold-dark;
+        color: #F6EEC9;
+        border-left: 2px solid #826F11;
     }
 
     #custom-quebec,
@@ -112,7 +94,7 @@
     #custom-code,
     #custom-browser {
         font-size: 18px;
-        border-left: 2px solid @gold-dark;
+        border-left: 2px solid #826F11;
     }
 
     #custom-quebec,
@@ -132,15 +114,15 @@
     #memory,
     #cpu,
     #network {
-        color: @text;
+        color: #F6EEC9;
     }
 
     #pulseaudio.muted {
-        color: @surface0;
+        color: #5B5742;
     }
 
     #clock {
-        color: @text;
+        color: #F6EEC9;
     }
 
     #tray {
@@ -153,36 +135,19 @@
 
     #tray > .needs-attention {
         -gtk-icon-effect: highlight;
-        background-color: @brand;
+        background-color: #E3C220;
     }
 
     /* Urgent/alert states */
     #cpu.warning,
     #memory.warning {
-        color: @orange;
+        color: #EF9F76;
     }
 
     #cpu.critical,
     #memory.critical {
-        color: @red;
-        background: @mantle;
+        color: #EF8484;
+        background: #322F1F;
     }
   '';
-
-  colors = {
-    background = "#1E1904";
-    crust = "#262418";
-    mantle = "#322F1F";
-    base = "#3B3724";
-    metal = "#413C1E";
-    surface0 = "#5B5742";
-    overlay1 = "#A29C7F";
-    text = "#F6EEC9";
-    light-yellow = "#EFDD84";
-    gold-dark = "#826F11";
-    brand = "#E3C220";
-    brand-bg = "#E3C220";
-    red = "#EF8484";
-    orange = "#EF9F76";
-  };
 }

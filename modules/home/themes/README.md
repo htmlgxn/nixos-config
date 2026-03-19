@@ -58,18 +58,11 @@ gui/
         font-family: "Roboto Mono";
     }
     window#waybar {
-        background-color: @crust;
-        color: @text;
+        background-color: #262418;
+        color: #F6EEC9;
     }
-    /* ... more CSS ... */
+    /* ... more CSS with actual hex colors ... */
   '';
-
-  colors = {
-    background = "#1E1904";
-    crust = "#262418";
-    text = "#F6EEC9";
-    # ... more color variables for CSS ...
-  };
 }
 ```
 
