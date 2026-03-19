@@ -10,7 +10,7 @@
     tmux
     zellij
     sl
-    netcat
+    netcat-gnu
 
     # ── Nix Tooling ────────────────────────────────────────────────
     nix-search-tv
