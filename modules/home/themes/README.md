@@ -86,3 +86,4 @@ Available terminal color themes for alacritty and kitty.
 ## Available Themes
 
 - `gars-yellow-dark` - Warm yellow accents on dark brown-black background
+- `gars-yellow-light` - Warm yellow accents on light cream background

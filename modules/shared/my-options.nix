@@ -30,7 +30,7 @@ in {
     terminalTheme = mkOption {
       type = types.str;
       default = "gars-yellow-dark";
-      description = "Terminal color theme name (e.g., gars-yellow-dark).";
+      description = "Terminal color theme name (gars-yellow-dark or gars-yellow-light).";
     };
 
     jellyfin = {
