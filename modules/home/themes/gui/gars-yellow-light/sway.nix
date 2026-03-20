@@ -7,21 +7,21 @@
   colors = {
     focused = {
       border = "#c9aa10";
-      background = "#ece7c0";
+      background = "#c4be86";
       text = "#1e1a06";
       indicator = "#f5e070";
       childBorder = "#c9aa10";
     };
     focusedInactive = {
       border = "#6b5a0a";
-      background = "#f5f0d5";
+      background = "#d8d2a2";
       text = "#8a8460";
       indicator = "#6b5a0a";
       childBorder = "#6b5a0a";
     };
     unfocused = {
       border = "#aea87c";
-      background = "#ece7c0";
+      background = "#c4be86";
       text = "#8a8460";
       indicator = "#aea87c";
       childBorder = "#aea87c";
@@ -33,7 +33,7 @@
       indicator = "#b85010";
       childBorder = "#b85010";
     };
-    background = "#f5f0d5";
+    background = "#e2dcb0";
   };
 
   seat = {

@@ -5,7 +5,7 @@
 #
 {
   default = {
-    background-color = "#ece7c0";
+    background-color = "#c4be86";
     text-color = "#1e1a06";
     border-color = "#6b5a0a";
     progress-color = "over #c9aa10";
@@ -13,26 +13,26 @@
 
   urgency = {
     low = {
-      background-color = "#f5f0d5";
+      background-color = "#d8d2a2";
       text-color = "#8a8460";
       border-color = "#aea87c";
       default-timeout = 3000;
     };
     normal = {
-      background-color = "#ece7c0";
+      background-color = "#c4be86";
       text-color = "#1e1a06";
       border-color = "#6b5a0a";
       default-timeout = 5000;
     };
     high = {
-      background-color = "#f5f0d5";
+      background-color = "#d8d2a2";
       border-color = "#b85010";
       text-color = "#b85010";
       default-timeout = 0;
     };
     hidden = {
-      background-color = "#f5f0d5";
-      text-color = "#cdc79a";
+      background-color = "#d8d2a2";
+      text-color = "#c4bd87";
       border-color = "#aea87c";
     };
   };

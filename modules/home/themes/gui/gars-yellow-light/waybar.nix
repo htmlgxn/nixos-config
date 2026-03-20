@@ -21,7 +21,7 @@
     }
 
     window#waybar {
-        background-color: #ece7c0;
+        background-color: #c4be86;
         color: #1e1a06;
         border-top: 2px solid #6b5a0a;
     }

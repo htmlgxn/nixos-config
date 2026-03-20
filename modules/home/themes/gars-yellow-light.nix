@@ -9,33 +9,33 @@
 
   colors = {
     # Primary colors
-    background = "#f5f0d5";
+    background = "#e2dcb0";
     foreground = "#1e1a06";
     dimForeground = "#787252";
     brightForeground = "#0f0d02";
 
     # Cursor
-    cursorText = "#f5f0d5";
+    cursorText = "#e2dcb0";
     cursor = "#c9aa10";
 
     # Vi mode cursor
-    viModeCursorText = "#f5f0d5";
+    viModeCursorText = "#e2dcb0";
     viModeCursor = "#6b5a0a";
 
     # Search
-    searchMatchForeground = "#f5f0d5";
+    searchMatchForeground = "#e2dcb0";
     searchMatchBackground = "#9e986e";
     searchFocusedMatchForeground = "#1e1a06";
     searchFocusedMatchBackground = "#c9aa10";
 
     # Footer bar
-    footerBarForeground = "#f5f0d5";
+    footerBarForeground = "#e2dcb0";
     footerBarBackground = "#787252";
 
     # Hints
-    hintsStartForeground = "#f5f0d5";
+    hintsStartForeground = "#e2dcb0";
     hintsStartBackground = "#c9aa10";
-    hintsEndForeground = "#f5f0d5";
+    hintsEndForeground = "#e2dcb0";
     hintsEndBackground = "#8a8460";
 
     # Selection
@@ -51,7 +51,7 @@
       blue = "#1850a0";
       magenta = "#900090";
       cyan = "#007090";
-      white = "#cdc79a";
+      white = "#c4bd87";
     };
 
     # Bright color palette (8-15) — pastel
@@ -63,7 +63,7 @@
       blue = "#1a5ab0";
       magenta = "#b0005a";
       cyan = "#0080a0";
-      white = "#f5f0d5";
+      white = "#d8d2a2";
     };
 
     # Indexed colors (16, 17)

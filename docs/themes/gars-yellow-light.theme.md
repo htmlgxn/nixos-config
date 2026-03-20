@@ -5,16 +5,16 @@
 - gold: #6b5a0a
 
 ## base
-- background: #fdfae8
-- mantle:     #ece7c0
-- base:       #f5f0d5
-- crust:      #e2dcb0
-- metal:      #d8d2a2
+- background: #e2dcb0
+- base:       #d8d2a2
+- mantle:     #cec894
+- crust:      #c4be86
+- metal:      #bab478
 
 ## surfaces
-- surface0: #cdc79a
-- surface1: #bdb78a
-- surface2: #aea87c
+- surface0: #c4bd87
+- surface1: #b4ad77
+- surface2: #a59e69
 
 ## overlays
 - overlay0: #9e986e
@@ -35,24 +35,24 @@
 
 ## cursor
 - cursor:         #c9aa10
-- cursor-text:    #fdfae8
+- cursor-text:    #e2dcb0
 - vi-cursor:      #6b5a0a
-- vi-cursor-text: #fdfae8
+- vi-cursor-text: #e2dcb0
 
 ## search
-- search-match-fg:   #fdfae8
+- search-match-fg:   #e2dcb0
 - search-match-bg:   #9e986e
 - search-focused-fg: #1e1a06
 - search-focused-bg: #c9aa10
 
 ## footer bar
-- footer-fg: #fdfae8
+- footer-fg: #e2dcb0
 - footer-bg: #787252
 
 ## hints
-- hints-start-fg: #fdfae8
+- hints-start-fg: #e2dcb0
 - hints-start-bg: #c9aa10
-- hints-end-fg:   #fdfae8
+- hints-end-fg:   #e2dcb0
 - hints-end-bg:   #8a8460
 
 ## selection
@@ -67,7 +67,7 @@
 - blue:    #1850a0
 - magenta: #900090
 - cyan:    #007090
-- white:   #cdc79a
+- white:   #c4bd87
 
 ## ansi bright (8–15) — pastel
 - black:   #48421e
@@ -77,7 +77,7 @@
 - blue:    #1a5ab0
 - magenta: #b0005a
 - cyan:    #0080a0
-- white:   #f5f0d5
+- white:   #d8d2a2
 
 ## indexed
 - 16 / orange: #b85010

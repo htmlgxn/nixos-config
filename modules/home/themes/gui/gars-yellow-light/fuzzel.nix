@@ -5,14 +5,14 @@
 #
 {
   colors = {
-    background = "ece7c0ff";
+    background = "c4be86ff";
     border = "6b5a0aff";
     text = "1e1a06ff";
     prompt = "8a8460ff";
     placeholder = "9e986eff";
     input = "1e1a06ff";
     match = "c9aa10ff";
-    selection = "f5f0d5ff";
+    selection = "d8d2a2ff";
     selection-text = "1e1a06ff";
     selection-match = "f5e070ff";
   };
