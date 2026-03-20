@@ -22,6 +22,8 @@
 
   fonts = {
     packages = with pkgs; [
+      # JetBrains Mono Nerd Font as fallback for symbols/glyphs only
+      # Primary UI font is Roboto Mono (from gui-base.nix)
       nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
@@ -36,9 +38,4 @@
   environment.systemPackages = with pkgs; [
     xwayland
   ];
-
-  environment.variables = {
-    XCURSOR_THEME = "Catppuccin-Mocha-Yellow-Cursors";
-    XCURSOR_SIZE = "26";
-  };
 }

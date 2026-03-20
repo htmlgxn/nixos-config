@@ -24,7 +24,9 @@
 
   fonts = {
     packages = with pkgs; [
-      nerd-fonts.jetbrains-mono # TODO: change to match gui-base.nix
+      # JetBrains Mono Nerd Font as fallback for symbols/glyphs only
+      # Primary UI font is Roboto Mono (from gui-base.nix)
+      nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
       defaultFonts.emoji = ["OpenMoji Color"];

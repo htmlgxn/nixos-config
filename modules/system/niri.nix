@@ -20,6 +20,8 @@
   fonts = {
     packages = with pkgs; [
       noto-fonts
+      # JetBrains Mono Nerd Font as fallback for symbols/glyphs only
+      # Primary UI font is Roboto Mono (from gui-base.nix)
       nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
@@ -39,9 +41,4 @@
     swaylock
     catppuccin-cursors.mochaYellow
   ];
-
-  environment.variables = {
-    XCURSOR_THEME = "Catppuccin-Mocha-Yellow-Cursors";
-    XCURSOR_SIZE = "26";
-  };
 }

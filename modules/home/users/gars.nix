@@ -182,5 +182,10 @@ in {
     '';
   };
 
+  # ── User-specific packages ─────────────────────────────────────────
+  home.packages = with pkgs; [
+    firefox
+  ];
+
   home.stateVersion = "25.11";
 }

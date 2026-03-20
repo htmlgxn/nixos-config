@@ -17,8 +17,8 @@
   };
 
   # Gaming packages
+  # Note: Steam itself is installed via programs.steam above
   environment.systemPackages = with pkgs; [
-    steam
     # Add more gaming packages here
   ];
 }
