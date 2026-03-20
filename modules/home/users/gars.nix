@@ -12,6 +12,8 @@ in {
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
     containersRoot = "${homeDir}/nixos-config/containers";
+    terminalTheme = "gars-yellow-dark";
+    guiTheme = "gars-yellow-dark";
   };
 
   home.username = userName;
