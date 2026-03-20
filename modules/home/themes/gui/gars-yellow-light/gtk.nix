@@ -7,11 +7,11 @@
   gtk = {
     theme = {
       name = "Adwaita";
-      package = [ "gnome-themes-extra" ];
+      package = ["gnome-themes-extra"];
     };
     iconTheme = {
       name = "Adwaita";
-      package = [ "adwaita-icon-theme" ];
+      package = ["adwaita-icon-theme"];
     };
   };
 
@@ -21,7 +21,7 @@
   };
 
   cursor = {
-    package = [ "catppuccin-cursors" "mochaYellow" ];
+    package = ["catppuccin-cursors" "mochaYellow"];
     name = "Catppuccin-Mocha-Yellow-Cursors";
     size = 26;
   };
