@@ -1,10 +1,10 @@
 # boreal service-local values consumed by shared modules.
 {...}: {
   my.jellyfin = {
-    dataDir = "/mnt/ironwolf/jellyfin";
+    dataDir = "/mnt/archive/jellyfin";
     mediaRoots = [
-      "/mnt/seagate6"
-      "/mnt/seagate6/Movies"
+      "/mnt/archive/tv/server"
+      "/mnt/archive/movies"
     ];
     transcodeSize = "4G";
   };
