@@ -13,7 +13,7 @@ in {
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
     containersRoot = "${homeDir}/nixos-config/containers";
     terminalTheme = "gars-yellow-dark";
-    guiTheme = "gars-yellow-dark";
+    guiTheme = "gars-yellow-light";
   };
 
   home.username = userName;
