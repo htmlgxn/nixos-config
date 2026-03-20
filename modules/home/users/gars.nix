@@ -185,6 +185,7 @@ in {
   # ── User-specific packages ─────────────────────────────────────────
   home.packages = with pkgs; [
     firefox
+    alacritty
   ];
 
   home.stateVersion = "25.11";

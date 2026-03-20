@@ -39,6 +39,5 @@
     slurp
     swaybg
     swaylock
-    catppuccin-cursors.mochaYellow
   ];
 }
