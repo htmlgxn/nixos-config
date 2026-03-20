@@ -12,7 +12,7 @@ in {
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
     containersRoot = "${homeDir}/nixos-config/containers";
-    terminalTheme = "gars-yellow-dark";
+    terminalTheme = "gars-yellow-light";
     guiTheme = "gars-yellow-dark";
     nvimTheme = "gars-yellow-dark";
   };
