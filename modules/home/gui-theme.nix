@@ -20,6 +20,14 @@
       waybar = import ./themes/gui/gars-yellow-dark/waybar.nix;
       gtk = import ./themes/gui/gars-yellow-dark/gtk.nix;
     };
+    "gars-yellow-light" = {
+      fuzzel = import ./themes/gui/gars-yellow-light/fuzzel.nix;
+      mako = import ./themes/gui/gars-yellow-light/mako.nix;
+      sway = import ./themes/gui/gars-yellow-light/sway.nix;
+      niri = import ./themes/gui/gars-yellow-light/niri.nix;
+      waybar = import ./themes/gui/gars-yellow-light/waybar.nix;
+      gtk = import ./themes/gui/gars-yellow-light/gtk.nix;
+    };
     # Add more themes here:
     # "catppuccin-mocha" = {
     #   fuzzel = import ./themes/gui/catppuccin-mocha/fuzzel.nix;

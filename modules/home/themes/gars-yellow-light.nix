@@ -11,65 +11,65 @@
     # Primary colors
     background = "#fdfae8";
     foreground = "#1e1a06";
-    dimForeground = "#48421e";
-    brightForeground = "#1e1a06";
+    dimForeground = "#787252";
+    brightForeground = "#0f0d02";
 
     # Cursor
-    cursorText = "#f5f0d5";
+    cursorText = "#fdfae8";
     cursor = "#c9aa10";
 
     # Vi mode cursor
-    viModeCursorText = "#f5f0d5";
-    viModeCursor = "#c9aa10";
+    viModeCursorText = "#fdfae8";
+    viModeCursor = "#6b5a0a";
 
     # Search
-    searchMatchForeground = "#1e1a06";
+    searchMatchForeground = "#fdfae8";
     searchMatchBackground = "#9e986e";
     searchFocusedMatchForeground = "#1e1a06";
     searchFocusedMatchBackground = "#c9aa10";
 
     # Footer bar
-    footerBarForeground = "#1e1a06";
+    footerBarForeground = "#fdfae8";
     footerBarBackground = "#787252";
 
     # Hints
-    hintsStartForeground = "#1e1a06";
+    hintsStartForeground = "#fdfae8";
     hintsStartBackground = "#c9aa10";
-    hintsEndForeground = "#1e1a06";
+    hintsEndForeground = "#fdfae8";
     hintsEndBackground = "#8a8460";
 
     # Selection
     selectionText = "#1e1a06";
     selectionBackground = "#e3c220";
 
-    # Normal color palette (0-7)
+    # Normal color palette (0-7) — saturated
     normal = {
-      black = "#e2dcb0";
+      black = "#1e1a06";
+      red = "#b83030";
+      green = "#507800";
+      yellow = "#b09000";
+      blue = "#1850a0";
+      magenta = "#900090";
+      cyan = "#007090";
+      white = "#cdc79a";
+    };
+
+    # Bright color palette (8-15) — pastel
+    bright = {
+      black = "#48421e";
       red = "#c03030";
       green = "#5a8a00";
       yellow = "#c9aa10";
       blue = "#1a5ab0";
-      magenta = "#900090";
-      cyan = "#0080a0";
-      white = "#f5f0d5";
-    };
-
-    # Bright color palette (8-15)
-    bright = {
-      black = "#d8d2a2";
-      red = "#c03030";
-      green = "#5a8a00";
-      yellow = "#e3c220";
-      blue = "#1a5ab0";
       magenta = "#b0005a";
       cyan = "#0080a0";
-      white = "#48421e";
+      white = "#f5f0d5";
     };
 
     # Indexed colors (16, 17)
     indexed = {
       "16" = "#b85010";
-      "17" = "#ece058";
+      "17" = "#6b5a0a";
     };
   };
 }

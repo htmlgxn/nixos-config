@@ -136,7 +136,7 @@ gui/
 ## Available Themes
 
 - `gars-yellow-dark` - Warm yellow accents on dark brown-black background
-- `gars-yellow-light` - Warm yellow accents on light cream background (GUI theme WIP)
+- `gars-yellow-light` - Warm yellow accents on light cream background
 
 ## Usage
 

@@ -14,9 +14,6 @@
   availableThemes = {
     "gars-yellow-dark" = import ./themes/gars-yellow-dark.nix;
     "gars-yellow-light" = import ./themes/gars-yellow-light.nix;
-    # Add more themes here:
-    # "catppuccin-mocha" = import ./themes/catppuccin-mocha.nix;
-    # "gruvbox-dark" = import ./themes/gruvbox-dark.nix;
   };
 
   cfg = config.my.terminalTheme;
