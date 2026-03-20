@@ -35,20 +35,20 @@
     }
 
     #workspaces button:hover {
-        background: #f5f0d5;
+        background: #d8d2a2;
         color: #1e1a06;
         border-top: 2px solid #f5e070;
     }
 
     #workspaces button.focused {
-        background: #f5f0d5;
+        background: #d8d2a2;
         color: #1e1a06;
         border-top: 2px solid #c9aa10;
     }
 
     #workspaces button.urgent {
         background: #b85010;
-        color: #fdfae8;
+        color: #e2dcb0;
     }
 
     #workspaces button.occupied {
@@ -63,7 +63,7 @@
     #mode {
         padding: 0 8px;
         background: #c9aa10;
-        color: #fdfae8;
+        color: #e2dcb0;
         font-weight: bold;
     }
 
