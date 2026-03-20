@@ -27,11 +27,11 @@
       childBorder = "#413C1E";
     };
     urgent = {
-      border = "#EF9F76";
+      border = "#D07030";
       background = "#413C1E";
       text = "#F6EEC9";
-      indicator = "#EF9F76";
-      childBorder = "#EF9F76";
+      indicator = "#D07030";
+      childBorder = "#D07030";
     };
     background = "#1E1904";
   };

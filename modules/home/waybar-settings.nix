@@ -19,7 +19,7 @@
           ${pkgs.coreutils}/bin/numfmt --to=iec --suffix=B --format="%.1f" "$1" | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]'
         }
 
-        PRIMARY="${theme.colors.brand}"
+        PRIMARY="${theme.colors.orange}"
         FOREGROUND="${theme.colors.text}"
         DISABLED="${theme.colors.gold-dark}"
         output=""

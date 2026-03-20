@@ -42,19 +42,19 @@
     selectionText = "#1e1904";
     selectionBackground = "#efdd84";
 
-    # Normal color palette (0-7)
+    # Normal color palette (0-7) — saturated
     normal = {
       black = "#322f1f";
-      red = "#ef8484";
-      green = "#e4ef84";
+      red = "#d03838";
+      green = "#a0c020";
       yellow = "#e3c220";
-      blue = "#84baef";
-      magenta = "#f4b8e4";
-      cyan = "#84e0ef";
+      blue = "#1e70c8";
+      magenta = "#c040b0";
+      cyan = "#10a8c0";
       white = "#ded7b4";
     };
 
-    # Bright color palette (8-15)
+    # Bright color palette (8-15) — pastel
     bright = {
       black = "#3b3724";
       red = "#ef8484";
@@ -68,7 +68,7 @@
 
     # Indexed colors (16, 17)
     indexed = {
-      "16" = "#ef9f76";
+      "16" = "#d07030";
       "17" = "#f8ebac";
     };
   };
