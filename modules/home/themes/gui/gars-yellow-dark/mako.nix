@@ -26,8 +26,8 @@
     };
     high = {
       background-color = "#322F1F";
-      border-color = "#D07030";
-      text-color = "#D07030";
+      border-color = "#E08850";
+      text-color = "#E08850";
       default-timeout = 0;
     };
     hidden = {

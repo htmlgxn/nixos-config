@@ -141,12 +141,12 @@
     /* Urgent/alert states */
     #cpu.warning,
     #memory.warning {
-        color: #D07030;
+        color: #E08850;
     }
 
     #cpu.critical,
     #memory.critical {
-        color: #D03838;
+        color: #E06060;
         background: #322F1F;
     }
   '';
@@ -155,7 +155,7 @@
     brand = "#E3C220";
     text = "#F6EEC9";
     gold-dark = "#826F11";
-    orange = "#D07030";
-    red = "#D03838";
+    orange = "#E08850";
+    red = "#E06060";
   };
 }

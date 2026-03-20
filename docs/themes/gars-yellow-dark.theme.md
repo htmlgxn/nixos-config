@@ -61,12 +61,12 @@
 
 ## ansi normal (0–7) — saturated
 - black:   #322f1f
-- red:     #d03838
-- green:   #a0c020
+- red:     #e06060
+- green:   #b8d840
 - yellow:  #e3c220
-- blue:    #1e70c8
-- magenta: #c040b0
-- cyan:    #10a8c0
+- blue:    #5298e0
+- magenta: #d460c0
+- cyan:    #40c0d8
 - white:   #ded7b4
 
 ## ansi bright (8–15) — pastel
@@ -80,14 +80,14 @@
 - white:   #cbc4a3
 
 ## indexed
-- 16 / orange: #d07030
+- 16 / orange: #e08850
 - 17 / beige:  #f8ebac
 
 ## accents
-- red:     normal #d03838 / bright #ef8484
-- orange:  #d07030
-- green:   normal #a0c020 / bright #e4ef84
-- cyan:    normal #10a8c0 / bright #84e0ef
-- blue:    normal #1e70c8 / bright #84baef
-- magenta: #c040b0
+- red:     normal #e06060 / bright #ef8484
+- orange:  #e08850
+- green:   normal #b8d840 / bright #e4ef84
+- cyan:    normal #40c0d8 / bright #84e0ef
+- blue:    normal #5298e0 / bright #84baef
+- magenta: #d460c0
 - pink:    #ef84ac

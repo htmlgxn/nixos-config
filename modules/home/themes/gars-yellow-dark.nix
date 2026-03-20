@@ -45,12 +45,12 @@
     # Normal color palette (0-7) — saturated
     normal = {
       black = "#322f1f";
-      red = "#d03838";
-      green = "#a0c020";
+      red = "#e06060";
+      green = "#b8d840";
       yellow = "#e3c220";
-      blue = "#1e70c8";
-      magenta = "#c040b0";
-      cyan = "#10a8c0";
+      blue = "#5298e0";
+      magenta = "#d460c0";
+      cyan = "#40c0d8";
       white = "#ded7b4";
     };
 
@@ -68,7 +68,7 @@
 
     # Indexed colors (16, 17)
     indexed = {
-      "16" = "#d07030";
+      "16" = "#e08850";
       "17" = "#f8ebac";
     };
   };
