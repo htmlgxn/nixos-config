@@ -14,6 +14,7 @@ in {
     containersRoot = "${homeDir}/nixos-config/containers";
     terminalTheme = "gars-yellow-light";
     guiTheme = "gars-yellow-light";
+    nvimTheme = "gars-yellow-dark";
   };
 
   home.username = userName;

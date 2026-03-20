@@ -6,5 +6,5 @@ require("config.autocmds")
 -- Plugins
 require("config.lazy")
 
--- Theme
-vim.cmd.colorscheme("gars-yellow")
+-- Theme (loaded last to apply colors after plugins)
+require("config.theme")

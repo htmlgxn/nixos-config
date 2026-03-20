@@ -64,30 +64,37 @@
     };
 
     homeProfiles = {
-      cli = [];
+      cli = [
+        ./modules/home/nvim-theme.nix
+      ];
       cli-cyberdeck = [
         ./modules/home/cli-cyberdeck.nix
+        ./modules/home/nvim-theme.nix
       ];
       sway = [
         ./modules/home/gui-base.nix
         ./modules/home/sway.nix
         ./modules/home/flatpak.nix
+        ./modules/home/nvim-theme.nix
       ];
       sway-gaming = [
         ./modules/home/gui-base.nix
         ./modules/home/sway.nix
         ./modules/home/flatpak.nix
         ./modules/home/gaming.nix
+        ./modules/home/nvim-theme.nix
       ];
       niri = [
         ./modules/home/gui-base.nix
         ./modules/home/niri.nix
         ./modules/home/flatpak.nix
+        ./modules/home/nvim-theme.nix
       ];
       hyprland = [
         ./modules/home/gui-base.nix
         ./modules/home/hyprland.nix
         ./modules/home/flatpak.nix
+        ./modules/home/nvim-theme.nix
       ];
       gamescope = [
         ./modules/home/gaming.nix

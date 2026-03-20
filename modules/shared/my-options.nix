@@ -39,6 +39,12 @@ in {
       description = "GUI theme name for waybar, sway, niri, mako, fuzzel, etc.";
     };
 
+    nvimTheme = mkOption {
+      type = types.str;
+      default = "gars-yellow-dark";
+      description = "Neovim color theme name";
+    };
+
     jellyfin = {
       dataDir = mkOption {
         type = types.str;
