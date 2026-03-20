@@ -21,10 +21,10 @@ return {
 			dashboard.button("g", "🔠 Find text", "<cmd>FzfLua live_grep<cr>"),
 			dashboard.button(
 				"a",
-				"👋 Edit this page",
+				"🎯 Edit this page",
 				"<cmd>e ~/nixos-config/home/gars/nvim/lua/plugins/alpha.lua<cr>"
 			),
-			dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
+			dashboard.button("q", "👋 Quit", "<cmd>qa<cr>"),
 		}
 
 		dashboard.config.opts.noautocmd = true
