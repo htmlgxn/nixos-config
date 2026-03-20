@@ -163,7 +163,7 @@
       userName,
       systemProfile,
       homeProfile,
-      includeCliExtras ? hosts.${hostName}.includeCliExtras,
+      includeCliExtras,
     }: let
       host = hosts.${hostName};
     in
@@ -192,6 +192,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
+        includeCliExtras = true;
       };
 
       boreal-tty-cyberdeck = {
@@ -199,6 +200,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
+        includeCliExtras = true;
       };
 
       nixos-vm = {
@@ -214,6 +216,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
+        includeCliExtras = true;
       };
 
       boreal-gaming = {
@@ -221,6 +224,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
+        includeCliExtras = true;
       };
 
       boreal-gamescope = {
@@ -228,6 +232,7 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
+        includeCliExtras = true;
       };
 
       boreal-niri = {
@@ -235,6 +240,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
+        includeCliExtras = true;
       };
 
       boreal-hypr = {
@@ -242,6 +248,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
+        includeCliExtras = true;
       };
     };
   in {
