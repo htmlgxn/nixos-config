@@ -48,6 +48,7 @@ in {
     emojiTools.emojiPickerCli
     eza
     fzf
+    television
     broot
     zoxide
     tree
