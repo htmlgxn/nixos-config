@@ -5,7 +5,7 @@
 #
 {
   colors = {
-    background = "e2dcb0ff";
+    background = "ece7c0ff";
     border = "6b5a0aff";
     text = "1e1a06ff";
     prompt = "8a8460ff";

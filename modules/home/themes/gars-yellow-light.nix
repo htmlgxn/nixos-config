@@ -9,33 +9,33 @@
 
   colors = {
     # Primary colors
-    background = "#fdfae8";
+    background = "#f5f0d5";
     foreground = "#1e1a06";
     dimForeground = "#787252";
     brightForeground = "#0f0d02";
 
     # Cursor
-    cursorText = "#fdfae8";
+    cursorText = "#f5f0d5";
     cursor = "#c9aa10";
 
     # Vi mode cursor
-    viModeCursorText = "#fdfae8";
+    viModeCursorText = "#f5f0d5";
     viModeCursor = "#6b5a0a";
 
     # Search
-    searchMatchForeground = "#fdfae8";
+    searchMatchForeground = "#f5f0d5";
     searchMatchBackground = "#9e986e";
     searchFocusedMatchForeground = "#1e1a06";
     searchFocusedMatchBackground = "#c9aa10";
 
     # Footer bar
-    footerBarForeground = "#fdfae8";
+    footerBarForeground = "#f5f0d5";
     footerBarBackground = "#787252";
 
     # Hints
-    hintsStartForeground = "#fdfae8";
+    hintsStartForeground = "#f5f0d5";
     hintsStartBackground = "#c9aa10";
-    hintsEndForeground = "#fdfae8";
+    hintsEndForeground = "#f5f0d5";
     hintsEndBackground = "#8a8460";
 
     # Selection

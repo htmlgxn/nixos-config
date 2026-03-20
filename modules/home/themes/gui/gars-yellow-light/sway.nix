@@ -7,7 +7,7 @@
   colors = {
     focused = {
       border = "#c9aa10";
-      background = "#f5f0d5";
+      background = "#ece7c0";
       text = "#1e1a06";
       indicator = "#f5e070";
       childBorder = "#c9aa10";
@@ -21,8 +21,8 @@
     };
     unfocused = {
       border = "#aea87c";
-      background = "#e2dcb0";
-      text = "#cdc79a";
+      background = "#ece7c0";
+      text = "#8a8460";
       indicator = "#aea87c";
       childBorder = "#aea87c";
     };
@@ -33,7 +33,7 @@
       indicator = "#b85010";
       childBorder = "#b85010";
     };
-    background = "#fdfae8";
+    background = "#f5f0d5";
   };
 
   seat = {
