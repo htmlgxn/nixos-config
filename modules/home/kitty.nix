@@ -17,6 +17,9 @@ in {
       # Padding (x y)
       window_padding_width = 4;
 
+      # Disable audio bell
+      enable_audio_bell = false;
+
       # Colors - primary
       foreground = theme.colors.foreground;
       background = theme.colors.background;
