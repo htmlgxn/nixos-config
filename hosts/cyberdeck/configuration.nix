@@ -1,18 +1,18 @@
 #
 # ~/nixos-config/hosts/cyberdeck/configuration.nix
 #
+# jetpack-nixos module is added via extraSystemModules in flake.nix.
+# Requires hardware-configuration.nix when physical hardware is acquired.
+# Currently configured for NVIDIA Jetson Orin Nano (aarch64).
 {
   config,
   pkgs,
   lib,
   ...
-}:
-# Note: Requires hardware-configuration.nix when physical hardware is acquired.
-# Currently configured for NVIDIA Jetson Orin Nano (aarch64).
-{
+}: {
   hardware.nvidia-jetpack = {
     enable = true;
-    som = "orin-nano-16gb";
+    som = "orin-nano";
     carrierBoard = "devkit";
   };
 
@@ -22,6 +22,8 @@
   time.timeZone = "America/Halifax";
   i18n.defaultLocale = "en_CA.UTF-8";
 
+  my.primaryUser = "gars";
+
   users.users.gars = {
     isNormalUser = true;
     extraGroups = ["wheel" "networkmanager"];
@@ -30,8 +32,8 @@
 
   security.sudo.wheelNeedsPassword = true;
 
-  # Enable cross-compilation from x86 desktop
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
 }

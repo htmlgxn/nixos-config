@@ -1,100 +1,45 @@
-# Primary Home Manager user module for `gars`.
+# Primary Home Manager user module for `gars` (NixOS / Linux hosts).
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   userName = "gars";
   homeDir = "/home/${userName}";
 in {
+  imports = [./gars-common.nix];
+
   my = {
     primaryUser = userName;
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
     containersRoot = "${homeDir}/nixos-config/containers";
-    terminalTheme = "gars-yellow-dark";
-    guiTheme = "gars-yellow-dark";
-    nvimTheme = "gars-yellow-dark";
+    ollamaPackage = pkgs.ollama-rocm;
   };
 
   home.username = userName;
   home.homeDirectory = homeDir;
 
-  home.file.".config/nvim".source =
-    config.lib.file.mkOutOfStoreSymlink (config.my.dotfilesRoot + "/nvim");
-
   programs.bash = {
-    enable = true;
-
     shellAliases = {
-      # ── General ───────────────────────────────────────────────────────
-      c = "clear";
-      h = "history";
-      la = "ls -a";
-      ll = "ls -la";
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      mkdir = "mkdir -pv";
-      grep = "grep --color=auto";
-      egrep = "egrep --color=auto";
-      fgrep = "fgrep --color=auto";
-      edit = "nvim";
-      e = "nvim";
-      calc = "fend";
-      code = "codium";
-      weather = "outside -o detailed";
-      music = "ncspot";
-      swapstat = "swapon --show --bytes; free -h";
-      br = "broot";
-      wiki = "wiki-tui";
-      emo = "emoji-picker-cli";
-
-      # ── Git ───────────────────────────────────────────────────────────
-      ga = "git add .";
-      gaa = "git add -A";
-      gs = "git status";
-      gc = "git commit";
-      gcm = "git add -A && git commit -m";
-      gp = "git push";
-      gpom = "git push origin main";
-
-      # ── Config Navigation ──────────────────────────────────────────────
-      cdn = "cd ${config.my.repoRoot}";
-      ef = "nvim ${config.my.repoRoot}/flake.nix";
+      # ── NixOS-specific shortcuts ─────────────────────────────────────
       eh = "nvim ${config.my.repoRoot}/modules/home/users/gars.nix";
-      ecli = "nvim ${config.my.repoRoot}/modules/home/cli.nix";
-      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base.nix";
       ehsway = "nvim ${config.my.repoRoot}/modules/home/sway.nix";
       ehniri = "nvim ${config.my.repoRoot}/modules/home/niri.nix";
       enconf = "nvim ${config.my.repoRoot}/hosts/boreal/configuration.nix";
-      edots = "cd ${config.my.dotfilesRoot}/dots";
+      nrs = "nr boreal";
+      nrtty = "nr boreal-tty";
+      swapstat = "swapon --show --bytes; free -h";
 
-      # ── Misc Navigation ───────────────────────────────────────────────
-      cdd = "cd ~/dev";
-      cdp = "cd ~/dev/projects";
-      cdc = "cd ${config.my.dotfilesRoot}/dots";
+      # ── Mount navigation (boreal-specific) ────────────────────────────
       cdarch = "cd /mnt/archive";
       cdsea = "cd /mnt/seagate6";
       cdback = "cd /mnt/backup";
-
-      # ── Development: nixos-config ─────────────────────────────────────
-      # fnix    — format .nix files with alejandra (excludes hardware-configuration.nix)
-      fnix = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra";
-      # fnixc   — format check .nix files with alejandra (excludes hardware-configuration.nix)
-      fnixc = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra --check";
-      nrs = "nr boreal";
-      nrtty = "nr boreal-tty";
-
-      # ── yt-dlp ────────────────────────────────────────────────────────
-      ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
     };
 
     sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      UV_PYTHON_DOWNLOADS = "never";
       LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-      PATH = "$HOME/.local/bin:$PATH"; # uv tools location
     };
 
     bashrcExtra = ''
@@ -107,6 +52,10 @@ in {
         boreal-tty
         boreal-tty-cyberdeck
         nixos-vm
+        cyberdeck-tty
+        rpi4-tty
+        rpi4-sway
+        rpi4-tty-cyberdeck
       )
 
       _nixos_config_usage() {
@@ -176,16 +125,11 @@ in {
         printf '%s\n' "$selection"
       }
     '';
-
-    profileExtra = ''
-      # manually add to .bash_profile here
-    '';
   };
 
-  # ── User-specific packages ─────────────────────────────────────────
+  # ── Linux-specific user packages ───────────────────────────────────
   home.packages = with pkgs; [
     firefox
-    alacritty
   ];
 
   home.stateVersion = "25.11";

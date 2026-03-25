@@ -153,9 +153,9 @@ in {
     };
 
     network = {
-      interface = "enp6s0";
+      interface = config.my.networkInterface;
       "format-ethernet" = "모 {ipaddr}";
-      "format-disconnected" = "enp6s0 disconnected";
+      "format-disconnected" = "${config.my.networkInterface} disconnected";
       interval = 5;
       tooltip = true;
       "tooltip-format-ethernet" = "{ifname} {ipaddr}/{cidr}\n↑ {bandwidthUpBytes} ↓ {bandwidthDownBytes}";

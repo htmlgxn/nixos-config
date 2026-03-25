@@ -6,16 +6,20 @@
 }: let
   uvTools = import ./uv-tools.nix;
 in {
-  home.packages = with pkgs; [
-    # ── Toolchain ────────────────────────────────────────────────────
-    python314
-    uv # Python package/toolchain manager
+  home.packages = with pkgs;
+    [
+      # ── Toolchain ────────────────────────────────────────────────────
+      python314
+      uv # Python package/toolchain manager
 
-    # ── Libraries ────────────────────────────────────────────────────
-    stdenv.cc.cc.lib # Runtime dependency for native Python packages (scrapling, etc.)
-    playwright-driver # Playwright CLI and Python package
-    playwright-driver.browsers # Pre-built browsers for Playwright
-  ];
+      # ── Libraries ────────────────────────────────────────────────────
+      playwright-driver # Playwright CLI and Python package
+      playwright-driver.browsers # Pre-built browsers for Playwright
+    ]
+    # GCC runtime lib for native Python packages -- Linux only
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      stdenv.cc.cc.lib
+    ];
 
   # Session variables for Python/Playwright
   # Using programs.bash.sessionVariables to match home.nix pattern

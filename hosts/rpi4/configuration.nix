@@ -1,0 +1,49 @@
+# Raspberry Pi 4 NixOS host configuration.
+# nixos-hardware module is added via extraSystemModules in flake.nix.
+# Generate hardware-configuration.nix after initial install:
+#   nixos-generate-config --show-hardware-config > hosts/rpi4/hardware-configuration.nix
+{
+  config,
+  pkgs,
+  ...
+}: {
+  # imports = [
+  #   ./hardware-configuration.nix  # uncomment after generating on hardware
+  # ];
+
+  # Placeholder root filesystem -- replace with hardware-configuration.nix on real hardware
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/NIXOS_SD";
+    fsType = "ext4";
+  };
+
+  # RPi4 uses U-Boot via extlinux
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  networking.hostName = "rpi4";
+  networking.networkmanager.enable = true;
+
+  time.timeZone = "America/Halifax";
+  i18n.defaultLocale = "en_CA.UTF-8";
+
+  my.primaryUser = "gars";
+  my.networkInterface = "eth0";
+
+  users.users.gars = {
+    isNormalUser = true;
+    extraGroups = ["wheel" "networkmanager" "video" "audio"];
+    initialPassword = "changeme";
+  };
+
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nixpkgs.config.allowUnfree = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  system.stateVersion = "25.11";
+}
