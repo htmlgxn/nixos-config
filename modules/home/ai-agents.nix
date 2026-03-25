@@ -15,6 +15,7 @@
     aider-chat
     gemini-cli
     mistral-vibe
+    claude-code
     # nanocoder - needs llm-agents repo
   ];
 }
