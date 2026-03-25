@@ -13,15 +13,17 @@ The repo is intentionally split into four layers:
 
 ## Flake Composition
 
-The flake uses five descriptor attrsets:
+The flake uses four descriptor attrsets plus three output maps:
 
 - `users`: per-user Home Manager entrypoints and optional extra home modules
 - `hosts`: per-host system, entry module, host-local extra system modules, and whether CLI extras are included
 - `homeProfiles`: reusable Home Manager module lists
 - `systemProfiles`: reusable NixOS module lists
-- `outputDefs`: final named outputs that select a host, user, system profile, and home profile
+- `nixosOutputDefs`: final NixOS outputs that select a host, user, system profile, and home profile
+- `darwinOutputDefs`: final nix-darwin outputs that select a user, home profile, and Darwin system
+- `homeOutputDefs`: final standalone Home Manager outputs that select a user, home profile, and system
 
-This means most structural changes happen by editing descriptors rather than writing new helper functions.
+Three builders turn these maps into flake outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
 
 ## Host Structure
 
@@ -46,9 +48,14 @@ Use the same approach for other hosts once they become complex enough to justify
 - `my.repoRoot`
 - `my.dotfilesRoot`
 - `my.containersRoot`
+- `my.isNixOS`
+- `my.ollamaPackage`
+- `my.networkInterface`
 - `my.jellyfin.dataDir`
 - `my.jellyfin.mediaRoots`
 - `my.jellyfin.transcodeSize`
+
+`my.jellyfin.dataDir` and `my.jellyfin.mediaRoots` have safe defaults (`""` and `[]`) so shared HM-only targets can evaluate without host-level Jellyfin values.
 
 Use `my.*` when a value is local to this repo and reused across modules, but not general enough to justify a public NixOS/Home Manager option schema of its own.
 

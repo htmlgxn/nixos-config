@@ -1,4 +1,4 @@
-# NixOS Config
+# Nix Config
 
 This repo is organized around a small set of composable layers:
 
@@ -7,7 +7,7 @@ This repo is organized around a small set of composable layers:
 - Shared Home Manager modules in [`modules/home/`](/home/gars/nixos-config/modules/home)
 - Repo-local shared options in [`modules/shared/`](/home/gars/nixos-config/modules/shared)
 
-`flake.nix` assembles those layers through descriptor attrsets for users, hosts, profiles, and outputs.
+`flake.nix` assembles those layers through descriptor attrsets for users, hosts, and profiles, then maps them into three output types: `nixosConfigurations`, `darwinConfigurations`, and `homeConfigurations`.
 
 ## Start Here
 
@@ -19,16 +19,22 @@ This repo is organized around a small set of composable layers:
 
 ## Current Outputs
 
-| Output | Purpose |
-| --- | --- |
-| `boreal-tty` | Minimal TTY profile on the boreal host |
-| `boreal-tty-cyberdeck` | TTY profile plus cyberdeck-specific CLI tooling |
-| `boreal` | Main Sway desktop |
-| `boreal-gaming` | Sway desktop plus Steam |
-| `boreal-gamescope` | Minimal Steam + gamescope session |
-| `boreal-niri` | Niri desktop |
-| `boreal-hypr` | Hyprland desktop |
-| `nixos-vm` | Minimal VM profile |
+| Output | Type | Purpose |
+| --- | --- | --- |
+| `boreal-tty` | NixOS | Minimal TTY profile on the boreal host |
+| `boreal-tty-cyberdeck` | NixOS | TTY profile plus cyberdeck-specific CLI tooling |
+| `boreal` | NixOS | Main Sway desktop |
+| `boreal-gaming` | NixOS | Sway desktop plus Steam |
+| `boreal-gamescope` | NixOS | Minimal Steam + gamescope session |
+| `boreal-niri` | NixOS | Niri desktop |
+| `boreal-hypr` | NixOS | Hyprland desktop |
+| `nixos-vm` | NixOS | Minimal VM profile |
+| `cyberdeck-tty` | NixOS | Jetson cyberdeck TTY profile |
+| `rpi4-tty` | NixOS | Raspberry Pi 4 TTY profile |
+| `rpi4-sway` | NixOS | Raspberry Pi 4 Sway profile (no Flatpak) |
+| `rpi4-tty-cyberdeck` | NixOS | Raspberry Pi 4 TTY profile plus cyberdeck CLI additions |
+| `macbook` | nix-darwin | Apple Silicon nix-darwin host with Home Manager |
+| `fedora-arm` | Home Manager | Standalone Home Manager profile for Fedora ARM |
 
 ## Common Commands
 
@@ -40,6 +46,12 @@ This repo is organized around a small set of composable layers:
 - `nr boreal-tty`
 - `nr boreal-tty-cyberdeck`
 - `nr nixos-vm`
+- `nr cyberdeck-tty`
+- `nr rpi4-tty`
+- `nr rpi4-sway`
+- `nr rpi4-tty-cyberdeck`
 - `nrb <output>` builds an output without switching
 - `ns [query]` searches Nix packages/options with `nix-search-tv` through `fzf`
+- `darwin-rebuild switch --flake .#macbook`
+- `home-manager switch --flake .#fedora-arm`
 - `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`

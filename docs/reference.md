@@ -2,20 +2,26 @@
 
 ## Outputs
 
-| Output | Host | System Profile | Home Profile |
-| --- | --- | --- | --- |
-| `boreal-tty` | `boreal` | `tty` | `cli` |
-| `boreal-tty-cyberdeck` | `boreal` | `tty` | `cli-cyberdeck` |
-| `boreal` | `boreal` | `sway` | `sway` |
-| `boreal-gaming` | `boreal` | `sway-gaming` | `sway-gaming` |
-| `boreal-gamescope` | `boreal` | `gamescope` | `gamescope` |
-| `boreal-niri` | `boreal` | `niri` | `niri` |
-| `boreal-hypr` | `boreal` | `hyprland` | `hyprland` |
-| `nixos-vm` | `nixos-vm` | `tty` | `cli` |
+| Output | Type | Host/User | System Profile | Home Profile |
+| --- | --- | --- | --- | --- |
+| `boreal-tty` | NixOS | `boreal` | `tty` | `cli` |
+| `boreal-tty-cyberdeck` | NixOS | `boreal` | `tty` | `cli-cyberdeck` |
+| `boreal` | NixOS | `boreal` | `sway` | `sway` |
+| `boreal-gaming` | NixOS | `boreal` | `sway-gaming` | `sway-gaming` |
+| `boreal-gamescope` | NixOS | `boreal` | `gamescope` | `gamescope` |
+| `boreal-niri` | NixOS | `boreal` | `niri` | `niri` |
+| `boreal-hypr` | NixOS | `boreal` | `hyprland` | `hyprland` |
+| `nixos-vm` | NixOS | `nixos-vm` | `tty` | `cli` |
+| `cyberdeck-tty` | NixOS | `cyberdeck` | `tty` | `cli` |
+| `rpi4-tty` | NixOS | `rpi4` | `tty` | `cli` |
+| `rpi4-sway` | NixOS | `rpi4` | `sway-arm` | `sway-arm` |
+| `rpi4-tty-cyberdeck` | NixOS | `rpi4` | `tty` | `cli-cyberdeck` |
+| `macbook` | nix-darwin | `htmlgxn` | n/a | `cli` |
+| `fedora-arm` | Home Manager | `htmlgxn` | n/a | `cli` |
 
 ## User Shell Helpers
 
-Common aliases live in [`modules/home/users/gars.nix`](/home/gars/nixos-config/modules/home/users/gars.nix).
+Shared aliases live in [`modules/home/users/gars-common.nix`](/home/gars/nixos-config/modules/home/users/gars-common.nix). NixOS-only rebuild helpers live in [`modules/home/users/gars.nix`](/home/gars/nixos-config/modules/home/users/gars.nix).
 
 Rebuild helpers:
 
@@ -35,6 +41,10 @@ Supported outputs:
 - `boreal-tty`
 - `boreal-tty-cyberdeck`
 - `nixos-vm`
+- `cyberdeck-tty`
+- `rpi4-tty`
+- `rpi4-sway`
+- `rpi4-tty-cyberdeck`
 
 Important maintenance aliases:
 
@@ -65,12 +75,28 @@ Neovim helpers:
 - `/mnt/archive` is now the merged view over `/mnt/ironwolf` and `/mnt/seagate6`
 - `/mnt/backup` remains outside the merged pool
 
+### cyberdeck
+
+- `hosts/cyberdeck/configuration.nix` targets Jetson Orin Nano via `hardware.nvidia-jetpack`
+- the JetPack module comes from `jetpack-nixos` through `extraSystemModules` in `flake.nix`
+
+### rpi4
+
+- `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 host target
+- `nixos-hardware.nixosModules.raspberry-pi-4` is imported through `extraSystemModules`
+- `rpi4-sway` uses `sway-arm` profiles that intentionally omit Flatpak
+
+### macbook
+
+- `hosts/macbook/configuration.nix` is a nix-darwin host
+- apply with `darwin-rebuild switch --flake .#macbook`
+
 ### Jellyfin
 
-`modules/system/jellyfin.nix` expects the host layer to supply:
+`modules/system/jellyfin.nix` reads:
 
-- `my.jellyfin.dataDir`
-- `my.jellyfin.mediaRoots`
+- `my.jellyfin.dataDir` (default `""`)
+- `my.jellyfin.mediaRoots` (default `[]`)
 - `my.jellyfin.transcodeSize`
 
 It then:
@@ -88,4 +114,6 @@ Typical checks:
 
 - evaluate outputs with `nix eval`
 - build an affected target with `sudo nixos-rebuild build --flake .#<output>`
+- apply Darwin changes with `darwin-rebuild switch --flake .#macbook`
+- apply standalone Home Manager changes with `home-manager switch --flake .#fedora-arm`
 - visually confirm GUI changes after a local switch
