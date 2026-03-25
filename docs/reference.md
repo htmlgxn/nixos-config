@@ -21,7 +21,7 @@
 
 ## User Shell Helpers
 
-Shared aliases live in [`modules/home/users/gars-common.nix`](/home/gars/nixos-config/modules/home/users/gars-common.nix). NixOS-only rebuild helpers live in [`modules/home/users/gars.nix`](/home/gars/nixos-config/modules/home/users/gars.nix).
+Shared aliases live in [`modules/home/users/gars-common.nix`](../modules/home/users/gars-common.nix). NixOS-only rebuild helpers live in [`modules/home/users/gars.nix`](../modules/home/users/gars.nix).
 
 Rebuild helpers:
 

@@ -2,20 +2,20 @@
 
 This repo is organized around a small set of composable layers:
 
-- Hosts in [`hosts/`](/home/gars/nixos-config/hosts)
-- Shared NixOS modules in [`modules/system/`](/home/gars/nixos-config/modules/system)
-- Shared Home Manager modules in [`modules/home/`](/home/gars/nixos-config/modules/home)
-- Repo-local shared options in [`modules/shared/`](/home/gars/nixos-config/modules/shared)
+- Hosts in [`hosts/`](hosts)
+- Shared NixOS modules in [`modules/system/`](modules/system)
+- Shared Home Manager modules in [`modules/home/`](modules/home)
+- Repo-local shared options in [`modules/shared/`](modules/shared)
 
 `flake.nix` assembles those layers through descriptor attrsets for users, hosts, and profiles, then maps them into three output types: `nixosConfigurations`, `darwinConfigurations`, and `homeConfigurations`.
 
 ## Start Here
 
-- Architecture: [`docs/architecture.md`](/home/gars/nixos-config/docs/architecture.md)
-- Common workflows: [`docs/workflows.md`](/home/gars/nixos-config/docs/workflows.md)
-- Current outputs and operational reference: [`docs/reference.md`](/home/gars/nixos-config/docs/reference.md)
-- Host-local conventions: [`hosts/README.md`](/home/gars/nixos-config/hosts/README.md)
-- Module conventions: [`modules/README.md`](/home/gars/nixos-config/modules/README.md)
+- Architecture: [`docs/architecture.md`](docs/architecture.md)
+- Common workflows: [`docs/workflows.md`](docs/workflows.md)
+- Current outputs and operational reference: [`docs/reference.md`](docs/reference.md)
+- Host-local conventions: [`hosts/README.md`](hosts/README.md)
+- Module conventions: [`modules/README.md`](modules/README.md)
 
 ## Current Outputs
 
