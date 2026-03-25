@@ -60,20 +60,6 @@ in {
       description = "GUI theme name for waybar, sway, niri, mako, fuzzel, etc.";
     };
 
-    cursorTheme = mkOption {
-      type = types.str;
-      default = "Catppuccin-Mocha-Yellow-Cursors";
-      example = "Catppuccin-Latte-Blue-Cursors";
-      description = "Cursor theme name for system and user environments.";
-    };
-
-    cursorSize = mkOption {
-      type = types.int;
-      default = 26;
-      example = 24;
-      description = "Cursor size in pixels.";
-    };
-
     nvimTheme = mkOption {
       type = types.str;
       default = "gars-yellow-dark";

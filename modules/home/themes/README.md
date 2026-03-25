@@ -126,7 +126,7 @@ gui/
   };
 
   cursor = {
-    package = "catppuccin-cursors.mochaYellow";
+    package = ["catppuccin-cursors" "mochaYellow"];
     name = "Catppuccin-Mocha-Yellow-Cursors";
     size = 26;
   };

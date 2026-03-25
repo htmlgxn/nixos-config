@@ -51,6 +51,9 @@ Use the same approach for other hosts once they become complex enough to justify
 - `my.isNixOS`
 - `my.ollamaPackage`
 - `my.networkInterface`
+- `my.terminalTheme`
+- `my.guiTheme`
+- `my.nvimTheme`
 - `my.jellyfin.dataDir`
 - `my.jellyfin.mediaRoots`
 - `my.jellyfin.transcodeSize`

@@ -9,7 +9,8 @@
     settings = {
       Port = 2200;
       PermitRootLogin = "no";
-      PasswordAuthentication = true;
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
     };
   };
 
