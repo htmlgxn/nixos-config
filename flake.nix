@@ -218,10 +218,10 @@
       host = hosts.${hostName};
     in
       nixpkgs.lib.nixosSystem {
-        system = host.system;
         modules =
           [
             ({...}: {
+              nixpkgs.hostPlatform = host.system;
               nixpkgs.config.allowUnfree = true;
             })
             host.module

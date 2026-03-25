@@ -12,11 +12,11 @@
   #   pkgs.<package-name>
   #
   # Add flake inputs like:
-  #   inputs.<flake>.packages.${pkgs.system}.default
+  #   inputs.<flake>.packages.${pkgs.stdenv.hostPlatform.system}.default
   #
   # If a flake package fails tests in Nix builds, override with:
-  #   (inputs.<flake>.packages.${pkgs.system}.default.overrideAttrs (_: { doCheck = false; }))
+  #   (inputs.<flake>.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: { doCheck = false; }))
   home.packages = lib.optionals pkgs.stdenv.isx86_64 [
-    (inputs.bookokrat.packages.${pkgs.system}.default.overrideAttrs (_: {doCheck = false;}))
+    (inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {doCheck = false;}))
   ];
 }
