@@ -4,6 +4,7 @@
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [8096 2200];
+    allowedTCPPorts = [8096];
+    # allowedTCPPorts = [8096 2200];
   };
 }

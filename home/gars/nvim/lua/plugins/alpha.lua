@@ -19,11 +19,7 @@ return {
 			dashboard.button("n", "📄 New file", ":ene <BAR> startinsert <CR>"),
 			dashboard.button("f", "🔎 Find file", "<cmd>FzfLua files<cr>"),
 			dashboard.button("g", "🔠 Find text", "<cmd>FzfLua live_grep<cr>"),
-			dashboard.button(
-				"a",
-				"🎯 Edit this page",
-				"<cmd>e ~/nixos-config/home/gars/nvim/lua/plugins/alpha.lua<cr>"
-			),
+			dashboard.button("a", "🎯 Edit this page", "<cmd>e ~/nixos-config/home/gars/nvim/lua/plugins/alpha.lua<cr>"),
 			dashboard.button("q", "👋 Quit", "<cmd>qa<cr>"),
 		}
 
