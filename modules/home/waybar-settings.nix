@@ -9,6 +9,7 @@
   config,
   ...
 }: let
+  lib = pkgs.lib;
   theme = config.my.guiThemeData.waybar;
   disksScript = pkgs.writeShellScript "waybar-disks" ''
         #!/usr/bin/env bash
@@ -80,19 +81,24 @@ in {
     height = 24;
     spacing = 4;
 
-    "modules-right" = [
-      "custom/browser"
-      "custom/disks"
-      "custom/keyboard-layout"
-      "disk"
-      "pulseaudio"
-      "memory"
-      "cpu"
-      "custom/quebec"
-      "clock"
-      "tray"
-      "network"
-    ];
+    "modules-right" =
+      [
+        "custom/browser"
+        "custom/disks"
+      ]
+      ++ lib.optionals config.my.dualKeyboardLayout [
+        "custom/keyboard-layout"
+        "disk"
+      ]
+      ++ [
+        "pulseaudio"
+        "memory"
+        "cpu"
+        "custom/quebec"
+        "clock"
+        "tray"
+        "network"
+      ];
 
     "custom/quebec" = {
       exec = "${pkgs.coreutils}/bin/cat ${quebecText}";
