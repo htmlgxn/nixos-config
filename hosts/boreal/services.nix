@@ -4,6 +4,13 @@
     ../../modules/system/soft-serve.nix
   ];
 
+  services.soft-serve.settings.data.path = "/mnt/archive/soft-serve";
+
+  systemd.services.soft-serve = {
+    after = ["mnt-archive.mount"];
+    requires = ["mnt-archive.mount"];
+  };
+
   my.jellyfin = {
     dataDir = "/mnt/archive/jellyfin";
     mediaRoots = [
