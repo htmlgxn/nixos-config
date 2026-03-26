@@ -301,7 +301,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -310,7 +310,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -328,7 +328,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -337,7 +337,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -346,7 +346,7 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -355,7 +355,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 
@@ -364,7 +364,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
         includeCliExtras = true;
       };
 

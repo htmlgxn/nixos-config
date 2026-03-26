@@ -15,7 +15,7 @@ in {
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
     containersRoot = "${homeDir}/nixos-config/containers";
-    ollamaPackage = pkgs.ollama-rocm;
+    ollamaPackage = pkgs.ollama;
   };
 
   home.username = userName;
