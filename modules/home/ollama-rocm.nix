@@ -1,1 +1,1 @@
-{ pkgs, ... }: { my.ollamaPackage = pkgs.ollama-rocm; }
+{pkgs, ...}: {my.ollamaPackage = pkgs.ollama-rocm;}

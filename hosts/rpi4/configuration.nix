@@ -7,14 +7,13 @@
   pkgs,
   ...
 }: {
-  # imports = [
-  #   ./hardware-configuration.nix  # uncomment after generating on hardware
-  # ];
+  imports = [
+    ./hardware-configuration.nix # uncomment after generating on hardware
+  ];
 
-  # Placeholder root filesystem -- replace with hardware-configuration.nix on real hardware
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/NIXOS_SD";
-    fsType = "ext4";
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "yes";
   };
 
   # RPi4 uses U-Boot via extlinux
@@ -36,6 +35,7 @@
     initialPassword = "changeme";
   };
 
+  nix.settings.trusted-users = ["root" "gars"];
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nixpkgs.config.allowUnfree = true;
 
