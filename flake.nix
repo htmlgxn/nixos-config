@@ -341,12 +341,12 @@
         extraHomeModules = [
           ./modules/home/ai-agents.nix
           ./modules/home/ollama-rocm.nix
-          {
+          ({pkgs, ...}: {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
             my.terminal = "kitty";
             home.packages = [pkgs.kitty];
-          }
+          })
         ];
         includeCliExtras = true;
       };
@@ -359,12 +359,12 @@
         extraHomeModules = [
           ./modules/home/ai-agents.nix
           ./modules/home/ollama-rocm.nix
-          {
+          ({pkgs, ...}: {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
             my.terminal = "kitty";
             home.packages = [pkgs.kitty];
-          }
+          })
         ];
         includeCliExtras = true;
       };
