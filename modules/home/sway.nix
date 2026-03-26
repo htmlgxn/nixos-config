@@ -73,11 +73,15 @@ in {
       };
 
       input = {
-        "*" = {
-          xkb_layout = "us,graphite";
-          xkb_options = "caps:escape";
-          xkb_numlock = "true";
-        };
+        "*" =
+          {
+            xkb_layout =
+              if config.my.dualKeyboardLayout
+              then "us,graphite"
+              else "us";
+            xkb_options = "caps:escape";
+            xkb_numlock = "true";
+          };
       };
 
       seat = {
@@ -159,15 +163,16 @@ in {
           "${mod}+F3" = "exec thunar";
           "${mod}+Shift+a" = "exec grimshot copy window";
           "${mod}+Shift+x" = "exec swaylock -f -c 000000";
-          "Mod1+Shift_L" = "input type:keyboard xkb_switch_layout next";
-
           "Print" = "exec grim ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
           "${mod}+Print" = "exec grimshot save window ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
           "${mod}+Ctrl+Print" = "exec grimshot save area ~/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png";
         }
         // mkWorkspaceBindingsWithZero "${mod}+" (n: "workspace number ${n}")
         // mkWorkspaceBindingsWithZero "${mod}+Ctrl+" (n: "move container to workspace number ${n}")
-        // mkWorkspaceBindingsWithZero "${mod}+Shift+" (n: "move container to workspace number ${n}; workspace ${n}");
+        // mkWorkspaceBindingsWithZero "${mod}+Shift+" (n: "move container to workspace number ${n}; workspace ${n}")
+        // lib.optionalAttrs config.my.dualKeyboardLayout {
+          "Mod1+Shift_L" = "input type:keyboard xkb_switch_layout next";
+        };
 
       modes = {
         resize = {

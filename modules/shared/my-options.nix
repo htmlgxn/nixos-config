@@ -15,6 +15,12 @@ in {
       description = "Ollama package variant to install (ollama-rocm, ollama, or null to skip).";
     };
 
+    dualKeyboardLayout = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable dual us/graphite keyboard layout with Alt+Shift_L to switch.";
+    };
+
     networkInterface = mkOption {
       type = types.str;
       default = "enp6s0";
