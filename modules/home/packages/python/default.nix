@@ -27,11 +27,11 @@ in {
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
-  home.activation.installUvTools = lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
+  home.activation.installUvTools = lib.mkIf pkgs.stdenv.isx86_64 (lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
     for tool in ${lib.concatStringsSep " " uvTools}; do
       echo "uv: (re)installing $tool..."
       ${pkgs.uv}/bin/uv tool install "$tool" --force \
         --python ${pkgs.python314}/bin/python3
     done
-  '';
+  '');
 }
