@@ -20,4 +20,6 @@
   boot.kernel.sysctl = {
     "vm.swappiness" = 20;
   };
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 }
