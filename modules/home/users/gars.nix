@@ -31,6 +31,7 @@ in {
       nrs = "nr boreal";
       nrtty = "nr boreal-tty";
       swapstat = "swapon --show --bytes; free -h";
+      mkkey = "ssh-keygen -t ed25519 -C \"htmlgxn@pm.me\"";
 
       # ── Mount navigation (boreal-specific) ────────────────────────────
       cdarch = "cd /mnt/archive";
