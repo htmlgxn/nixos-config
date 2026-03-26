@@ -13,7 +13,7 @@
 
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "yes";
+    settings.PermitRootLogin = lib.mkForce "yes";
   };
 
   # RPi4 uses U-Boot via extlinux
