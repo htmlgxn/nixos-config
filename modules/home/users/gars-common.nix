@@ -47,7 +47,7 @@
       gcm = "git add -A && git commit -m";
       gp = "git push";
       gpom = "git push origin main";
-      gpsoft = "git push soft main";
+      gpsm = "git push soft main";
       gpall = "git push origin main && git push soft main";
       gpall = "git push origin main && git push soft main";
 
