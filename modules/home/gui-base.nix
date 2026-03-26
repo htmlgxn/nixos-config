@@ -25,7 +25,7 @@ in {
 
   home.packages = with pkgs; [
     # ── Terminal Emulator ───────────────────────────────────────────
-    kitty
+    foot
 
     # ── Launcher ────────────────────────────────────────────────────
     fuzzel

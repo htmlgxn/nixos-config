@@ -15,6 +15,12 @@ in {
       description = "Ollama package variant to install (ollama-rocm, ollama, or null to skip).";
     };
 
+    terminal = mkOption {
+      type = types.str;
+      default = "foot";
+      description = "Terminal emulator command used by the compositor.";
+    };
+
     dualKeyboardLayout = mkOption {
       type = types.bool;
       default = false;

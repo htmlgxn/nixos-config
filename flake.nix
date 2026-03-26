@@ -344,6 +344,8 @@
           {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
+            my.terminal = "kitty";
+            home.packages = [pkgs.kitty];
           }
         ];
         includeCliExtras = true;
@@ -360,6 +362,8 @@
           {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
+            my.terminal = "kitty";
+            home.packages = [pkgs.kitty];
           }
         ];
         includeCliExtras = true;
