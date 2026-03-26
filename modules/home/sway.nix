@@ -73,15 +73,14 @@ in {
       };
 
       input = {
-        "*" =
-          {
-            xkb_layout =
-              if config.my.dualKeyboardLayout
-              then "us,graphite"
-              else "us";
-            xkb_options = "caps:escape";
-            xkb_numlock = "true";
-          };
+        "*" = {
+          xkb_layout =
+            if config.my.dualKeyboardLayout
+            then "us,graphite"
+            else "us";
+          xkb_options = "caps:escape";
+          xkb_numlock = "true";
+        };
       };
 
       seat = {
