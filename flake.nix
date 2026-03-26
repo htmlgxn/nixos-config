@@ -341,6 +341,7 @@
         extraHomeModules = [
           ./modules/home/ai-agents.nix
           ./modules/home/ollama-rocm.nix
+          ./modules/home/brave-bookmarks-sync.nix
           ({pkgs, ...}: {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
@@ -359,6 +360,7 @@
         extraHomeModules = [
           ./modules/home/ai-agents.nix
           ./modules/home/ollama-rocm.nix
+          ./modules/home/brave-bookmarks-sync.nix
           ({pkgs, ...}: {
             my.dualKeyboardLayout = true;
             my.showRootDisk = true;
@@ -374,7 +376,7 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
         includeCliExtras = true;
       };
 
@@ -383,7 +385,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
         includeCliExtras = true;
       };
 
@@ -392,7 +394,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
         includeCliExtras = true;
       };
 
