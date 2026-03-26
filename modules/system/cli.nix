@@ -14,6 +14,17 @@
     };
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   # PipeWire audio server - enables audio in TTY mode
   # Required for: Bluetooth audio, multi-app audio, pavucontrol
   services.pipewire = {

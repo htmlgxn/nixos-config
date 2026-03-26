@@ -1,5 +1,9 @@
 # boreal service-local values consumed by shared modules.
 {...}: {
+  imports = [
+    ../../modules/system/soft-serve.nix
+  ];
+
   my.jellyfin = {
     dataDir = "/mnt/archive/jellyfin";
     mediaRoots = [

@@ -192,11 +192,6 @@
         ./modules/system/gaming.nix
         ./modules/system/gamescope.nix
       ];
-      git-server = [
-        ./modules/shared/my-options.nix
-        ./modules/system/cli.nix
-        ./modules/system/soft-serve.nix
-      ];
     };
 
     # ── Builder: NixOS Home Manager module ───────────────────────────
@@ -446,14 +441,6 @@
         includeCliExtras = false;
       };
 
-      rpi4-git = {
-        hostName = "rpi4";
-        userName = "gars";
-        systemProfile = "git-server";
-        homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
-      };
     };
 
     # ── nix-darwin output definitions ────────────────────────────────
