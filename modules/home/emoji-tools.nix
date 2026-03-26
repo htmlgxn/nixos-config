@@ -37,6 +37,7 @@
         rows
         | map(select((.emoji? // "") != "" and ((.annotation? // .name? // "") != "")))
         | unique_by(.emoji)
+        | sort_by(.annotation // .name | ascii_downcase)
         | .[]
         | [
             .emoji,
@@ -72,6 +73,7 @@
 
       selection="$(
         fuzzel --dmenu \
+          --no-sort \
           --prompt='emoji> ' \
           --font='Roboto Mono,OpenMoji Color:size=13' \
           < "${emojiMenu}"
@@ -116,6 +118,7 @@
 
       selection="$(
         fzf \
+          --no-sort \
           --prompt='emoji> ' \
           --delimiter=$'\t' \
           --with-nth=1,2,3 \
