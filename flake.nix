@@ -107,6 +107,7 @@
       ];
       sway = [
         ./modules/home/gui-base.nix
+        ./modules/home/gui-extras.nix
         ./modules/home/sway.nix
         ./modules/home/flatpak.nix
         ./modules/home/nvim-theme.nix
@@ -116,8 +117,15 @@
         ./modules/home/sway.nix
         ./modules/home/nvim-theme.nix
       ];
+      sway-arm-full = [
+        ./modules/home/gui-base.nix
+        ./modules/home/gui-extras.nix
+        ./modules/home/sway.nix
+        ./modules/home/nvim-theme.nix
+      ];
       sway-gaming = [
         ./modules/home/gui-base.nix
+        ./modules/home/gui-extras.nix
         ./modules/home/sway.nix
         ./modules/home/flatpak.nix
         ./modules/home/gaming.nix
@@ -125,12 +133,14 @@
       ];
       niri = [
         ./modules/home/gui-base.nix
+        ./modules/home/gui-extras.nix
         ./modules/home/niri.nix
         ./modules/home/flatpak.nix
         ./modules/home/nvim-theme.nix
       ];
       hyprland = [
         ./modules/home/gui-base.nix
+        ./modules/home/gui-extras.nix
         ./modules/home/hyprland.nix
         ./modules/home/flatpak.nix
         ./modules/home/nvim-theme.nix
@@ -391,6 +401,15 @@
         userName = "gars";
         systemProfile = "sway-arm";
         homeProfile = "sway-arm";
+        extraHomeModules = [];
+        includeCliExtras = false;
+      };
+
+      rpi4-sway-full = {
+        hostName = "rpi4";
+        userName = "gars";
+        systemProfile = "sway-arm";
+        homeProfile = "sway-arm-full";
         extraHomeModules = [];
         includeCliExtras = false;
       };
