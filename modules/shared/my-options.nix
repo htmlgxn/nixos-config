@@ -27,6 +27,11 @@ in {
       description = "Show root disk usage % in waybar.";
     };
 
+    wallpaper = mkOption {
+      type = types.path;
+      description = "Absolute path to the wallpaper image used by swaybg.";
+    };
+
     networkInterface = mkOption {
       type = types.str;
       default = "enp6s0";
