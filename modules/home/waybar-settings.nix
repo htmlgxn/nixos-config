@@ -162,7 +162,7 @@ in {
 
     network = {
       "format-ethernet" = "모 {ipaddr}";
-      "format-wifi" = "󰤨 {ipaddr}";
+      "format-wifi" = "🛜 {ipaddr}";
       "format-disconnected" = "disconnected";
       interval = 5;
       tooltip = true;
