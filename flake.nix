@@ -376,8 +376,8 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
-        includeCliExtras = true;
+        extraHomeModules = [];
+        includeCliExtras = false;
       };
 
       boreal-niri = {
