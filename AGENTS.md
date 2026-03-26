@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
 - `flake.nix` defines outputs through descriptor attrsets for `users`, `hosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
-- Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`. Darwin output: `macbook`. Standalone HM output: `fedora-arm`.
+- Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, `rpi4-tty-cyberdeck`, and `rpi4-git`. Darwin output: `macbook`. Standalone HM output: `fedora-arm`.
 - Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, and `bookokrat`.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
@@ -16,6 +16,7 @@
 - `modules/system/gamescope.nix` defines the minimal Steam + gamescope session profile and intentionally skips the shared GUI base.
 - `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages.
 - `modules/system/jellyfin.nix` is now driven by `my.jellyfin.*` values supplied by the host layer instead of hardcoding boreal paths.
+- `modules/system/soft-serve.nix` enables the Soft Serve git server (`services.soft-serve`) and opens ports 23231 (SSH) and 23232 (HTTP). Used by the `git-server` system profile and `rpi4-git` output.
 - `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` handles the user-level remote + installs.
 - `modules/home/cli.nix`, `modules/home/gui-base.nix`, `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
 - `modules/home/ai-agents.nix` is an optional module containing AI agent CLI tools. It is included via `extraHomeModules` in output definitions that want the full AI toolkit and is omitted from lightweight targets.
@@ -38,7 +39,7 @@
 
 ## Build, Test, and Development Commands
 - These commands are for the human operator only. Agents must not run rebuilds or switch operations.
-- `nr <output>` switches to a named output; supported NixOS values are `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `boreal-tty`, `boreal-tty-cyberdeck`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`.
+- `nr <output>` switches to a named output; supported NixOS values are `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `boreal-tty`, `boreal-tty-cyberdeck`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, `rpi4-tty-cyberdeck`, and `rpi4-git`.
 - `nrb <output>` builds a named output without switching.
 - `nrs` and `nrtty` remain as permanent shortcuts for `boreal` and `boreal-tty`.
 - `ns [query]` runs `nix-search-tv` through `fzf` with preview.

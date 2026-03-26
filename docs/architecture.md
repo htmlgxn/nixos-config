@@ -64,6 +64,14 @@ Use the same approach for other hosts once they become complex enough to justify
 
 Use `my.*` when a value is local to this repo and reused across modules, but not general enough to justify a public NixOS/Home Manager option schema of its own.
 
+## Headless Service Profiles
+
+Some system profiles define headless server roles rather than desktops:
+
+- `git-server`: enables Soft Serve (`services.soft-serve`) and opens ports 23231 (SSH) and 23232 (HTTP). Used by the `rpi4-git` output.
+
+These profiles follow the same pattern as desktop profiles: a list of NixOS modules assigned to a key in `systemProfiles` and referenced from an output definition in `nixosOutputDefs`.
+
 ## Desktop and Gaming Profiles
 
 Desktop-style outputs are assembled from:
