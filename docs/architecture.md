@@ -48,9 +48,11 @@ Use the same approach for other hosts once they become complex enough to justify
 - `my.repoRoot`
 - `my.dotfilesRoot`
 - `my.containersRoot`
+- `my.wallpaper`
 - `my.isNixOS`
 - `my.ollamaPackage`
-- `my.networkInterface`
+- `my.dualKeyboardLayout`
+- `my.showRootDisk`
 - `my.terminalTheme`
 - `my.guiTheme`
 - `my.nvimTheme`

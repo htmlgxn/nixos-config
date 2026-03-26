@@ -57,6 +57,7 @@ in {
         cyberdeck-tty
         rpi4-tty
         rpi4-sway
+        rpi4-sway-full
         rpi4-tty-cyberdeck
       )
 

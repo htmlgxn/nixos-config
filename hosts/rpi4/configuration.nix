@@ -28,7 +28,6 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   my.primaryUser = "gars";
-  my.networkInterface = "eth0";
 
   users.users.gars = {
     isNormalUser = true;

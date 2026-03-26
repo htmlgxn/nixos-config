@@ -32,13 +32,6 @@ in {
       description = "Absolute path to the wallpaper image used by swaybg.";
     };
 
-    networkInterface = mkOption {
-      type = types.str;
-      default = "enp6s0";
-      example = "wlan0";
-      description = "Primary network interface name shown in waybar.";
-    };
-
     primaryUser = mkOption {
       type = types.str;
       example = "gars";

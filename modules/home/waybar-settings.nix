@@ -161,12 +161,13 @@ in {
     };
 
     network = {
-      interface = config.my.networkInterface;
       "format-ethernet" = "모 {ipaddr}";
-      "format-disconnected" = "${config.my.networkInterface} disconnected";
+      "format-wifi" = "󰤨 {ipaddr}";
+      "format-disconnected" = "disconnected";
       interval = 5;
       tooltip = true;
       "tooltip-format-ethernet" = "{ifname} {ipaddr}/{cidr}\n↑ {bandwidthUpBytes} ↓ {bandwidthDownBytes}";
+      "tooltip-format-wifi" = "{ifname} {essid} {ipaddr}/{cidr}\n↑ {bandwidthUpBytes} ↓ {bandwidthDownBytes}";
     };
 
     clock = {
