@@ -49,7 +49,6 @@
       gpom = "git push origin main";
       gpsm = "git push soft main";
       gpall = "git push origin main && git push soft main";
-      gpall = "git push origin main && git push soft main";
 
       # ── Config Navigation ──────────────────────────────────────────────
       cdn = "cd ${config.my.repoRoot}";
