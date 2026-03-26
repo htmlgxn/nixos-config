@@ -338,7 +338,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix {my.dualKeyboardLayout = true;}];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix {my.dualKeyboardLayout = true; my.showRootDisk = true;}];
         includeCliExtras = true;
       };
 
@@ -347,7 +347,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix {my.dualKeyboardLayout = true;}];
+        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix {my.dualKeyboardLayout = true; my.showRootDisk = true;}];
         includeCliExtras = true;
       };
 

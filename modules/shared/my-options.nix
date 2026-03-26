@@ -21,6 +21,12 @@ in {
       description = "Enable dual us/graphite keyboard layout with Alt+Shift_L to switch.";
     };
 
+    showRootDisk = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Show root disk usage % in waybar.";
+    };
+
     networkInterface = mkOption {
       type = types.str;
       default = "enp6s0";

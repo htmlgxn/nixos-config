@@ -88,6 +88,8 @@ in {
       ]
       ++ lib.optionals config.my.dualKeyboardLayout [
         "custom/keyboard-layout"
+      ]
+      ++ lib.optionals config.my.showRootDisk [
         "disk"
       ]
       ++ [
