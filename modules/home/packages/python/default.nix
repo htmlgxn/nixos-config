@@ -11,19 +11,18 @@ in {
       # ── Toolchain ────────────────────────────────────────────────────
       python314
       uv # Python package/toolchain manager
-
-      # ── Libraries ────────────────────────────────────────────────────
-      playwright-driver # Playwright CLI and Python package
-      playwright-driver.browsers # Pre-built browsers for Playwright
     ]
     # GCC runtime lib for native Python packages -- Linux only
     ++ lib.optionals pkgs.stdenv.isLinux [
       stdenv.cc.cc.lib
+    ]
+    ++ lib.optionals pkgs.stdenv.isx86_64 [
+      # ── Libraries ────────────────────────────────────────────────────
+      playwright-driver # Playwright CLI and Python package
+      playwright-driver.browsers # Pre-built browsers for Playwright
     ];
 
-  # Session variables for Python/Playwright
-  # Using programs.bash.sessionVariables to match home.nix pattern
-  programs.bash.sessionVariables = {
+  programs.bash.sessionVariables = lib.mkIf pkgs.stdenv.isx86_64 {
     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
