@@ -59,7 +59,6 @@ in {
         rpi4-sway
         rpi4-sway-full
         rpi4-tty-cyberdeck
-        rpi4-git
       )
 
       _nixos_config_usage() {
