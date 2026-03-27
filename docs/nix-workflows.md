@@ -76,13 +76,77 @@ These wrappers validate output names against the live flake before running the r
 
 These are intentionally NixOS-focused. They are the native-command answer to “build here, deploy there” without adding a separate deployment tool.
 
-- `ncopy <output> <ssh-host>`: copy the built system closure to a remote machine
-- `nremote-build <output> <target-host>`: build the target output on the remote host without switching
-- `nremote-test <output> <target-host>`: remote `test` activation
-- `nremote-switch <output> <target-host>`: remote `switch` activation
-- `nboh <output> <build-host> <target-host> [build|test|switch]`: build on one host and deploy or test on another using `--build-host` and `--target-host`
+Think about remote work in three models:
+
+### 1. Build on the target host
+
+Use this when the target machine should do its own build work.
+
+- `nremote-build <output> <target-host>`: ask the target host to build the output, no activation
+- `nremote-test <output> <target-host>`: build on the target host and activate with `test`
+- `nremote-switch <output> <target-host>`: build on the target host and fully switch
+
+This is the simplest model when the remote host is powerful enough and already has access to the repo inputs.
+
+Example:
+
+```bash
+nremote-build rpi4-tty pi@rpi4.local
+nremote-test rpi4-tty pi@rpi4.local
+```
+
+### 2. Build locally, then send the result to the target host
+
+Use this when your current machine should do the heavy lifting and the target host should mostly just receive the finished closure.
+
+- `ncopy <output> <ssh-host>`: copy the output closure to the target host
 - `ncopy-activate <output> <target-host>`: copy the closure, then run a remote `test` activation
-- `nship-remote <output> <build-host> <target-host>`: explicit build-host plus remote `switch`
+
+This is useful when the target is slow, storage-constrained, or inconvenient to build on directly.
+
+Typical pattern:
+
+```bash
+nrb rpi4-tty
+ncopy rpi4-tty pi@rpi4.local
+nremote-test rpi4-tty pi@rpi4.local
+```
+
+### 3. Build on one host for another host
+
+Use this when neither the machine you are typing on nor the final target should necessarily do the build.
+
+- `nboh <output> <build-host> <target-host> [build|test|switch]`: use `nixos-rebuild --build-host ... --target-host ...`
+- `nship-remote <output> <build-host> <target-host>`: shortcut for the explicit remote `switch` case
+
+This is the “real” cross-host flow:
+
+- your current shell orchestrates
+- `build-host` performs the build
+- `target-host` receives and optionally activates the result
+
+Example:
+
+```bash
+nboh rpi4-sway localhost pi@rpi4.local build
+nboh rpi4-sway localhost pi@rpi4.local test
+nship-remote rpi4-sway localhost pi@rpi4.local
+```
+
+## Which One Should I Use
+
+- Use `nremote-build` if the target machine can build for itself and you just want a remote-safe dry run.
+- Use `ncopy` plus `nremote-test` if you want to build locally first and keep the activation step explicit.
+- Use `nboh` if you need to separate the build machine from the target machine.
+- Use `nremote-switch` or `nship-remote` only when you are ready to actually change the target host.
+
+## Important Safety Notes
+
+- `build` means no activation.
+- `test` activates the config until reboot but does not make it the default boot generation.
+- `switch` activates it and makes it the new default generation.
+- The helpers expect SSH access to the target host.
+- For slow or fragile targets, prefer `build` or `test` first.
 
 Examples:
 
