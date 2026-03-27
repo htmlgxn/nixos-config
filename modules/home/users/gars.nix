@@ -8,12 +8,13 @@
   userName = "gars";
   homeDir = "/home/${userName}";
 in {
-  imports = [./gars-common.nix];
+  imports = [./common.nix];
 
   my = {
     primaryUser = userName;
     repoRoot = "${homeDir}/nixos-config";
     dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
+    dotfilesNixPath = ../../../home/gars;
     containersRoot = "${homeDir}/nixos-config/containers";
     wallpaper = "${homeDir}/nixos-config/home/${userName}/wallpapers/default.jpg";
     ollamaPackage = lib.mkDefault pkgs.ollama;
@@ -130,7 +131,7 @@ in {
     '';
   };
 
-  # Per-user SSH host entries (shared entries are in gars-common.nix):
+  # Per-user SSH host entries (shared entries are in common.nix):
   # programs.ssh.matchBlocks."myhost" = { ... };
 
   # ── Linux-specific user packages ───────────────────────────────────

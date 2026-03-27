@@ -86,7 +86,12 @@
   # ── SSH client config ───────────────────────────────────────────────
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
+      "*" = {
+        serverAliveInterval = 0;
+        serverAliveCountMax = 3;
+      };
       # ── Shared infrastructure ──────────────────────────────────────
       "soft" = {
         hostname = config.my.borealHost;
@@ -122,7 +127,5 @@
   '';
 
   # ── User packages available everywhere ─────────────────────────────
-  home.packages = with pkgs; [
-    alacritty
-  ];
+  home.packages = [];
 }
