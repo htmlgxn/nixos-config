@@ -62,6 +62,11 @@ in {
       description = "Absolute path to the repo-managed user dotfiles root.";
     };
 
+    dotfilesNixPath = mkOption {
+      type = types.path;
+      description = "Nix path to the repo-managed user dotfiles root (for store copies).";
+    };
+
     containersRoot = mkOption {
       type = types.str;
       example = "/home/gars/nixos-config/containers";
@@ -90,6 +95,12 @@ in {
     };
 
     jellyfin = {
+      vaDriver = mkOption {
+        type = types.str;
+        default = "";
+        description = "VAAPI driver name (e.g. radeonsi). Empty string skips override.";
+      };
+
       dataDir = mkOption {
         type = types.str;
         default = "";

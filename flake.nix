@@ -36,9 +36,34 @@
   }: let
     lib = nixpkgs.lib;
 
+    # ── Shared system modules (included in every NixOS profile) ──────
+    sharedSystemModules = [
+      ./modules/shared/options.nix
+      ./modules/system/defaults.nix
+    ];
+
+    # ── Boreal-specific home module groups ──────────────────────────
+    borealAiModules = [
+      ./modules/home/ai-agents.nix
+      ./modules/home/ollama-rocm.nix
+    ];
+
+    borealGuiModules =
+      borealAiModules
+      ++ [
+        ./modules/home/brave-bookmarks-sync.nix
+      ];
+
+    borealDesktopModule = {pkgs, ...}: {
+      my.dualKeyboardLayout = true;
+      my.showRootDisk = true;
+      my.terminal = "kitty";
+      home.packages = [pkgs.kitty];
+    };
+
     # ── Shared Home Manager modules (included in every profile) ──────
     sharedHomeModules = [
-      ./modules/shared/my-options.nix
+      ./modules/shared/options.nix
       ./modules/home/cli.nix
       ./modules/home/containers.nix
       ./modules/home/packages
@@ -154,46 +179,56 @@
     # ── NixOS system profiles ────────────────────────────────────────
     systemProfiles = {
       tty = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
       ];
       sway = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/sway.nix
         ./modules/system/flatpak.nix
       ];
       sway-arm = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/sway.nix
       ];
       sway-gaming = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/sway.nix
         ./modules/system/flatpak.nix
         ./modules/system/gaming.nix
       ];
       niri = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/niri.nix
         ./modules/system/flatpak.nix
       ];
       hyprland = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/hyprland.nix
         ./modules/system/flatpak.nix
       ];
       gamescope = [
-        ./modules/shared/my-options.nix
         ./modules/system/cli.nix
         ./modules/system/gaming.nix
         ./modules/system/gamescope.nix
       ];
     };
+
+    # ── Helper: assemble home imports list ────────────────────────────
+    mkHomeImports = {
+      userName,
+      homeProfile,
+      includeCliExtras ? false,
+      hostHomeModules ? [],
+      extraHomeModules ? [],
+    }: let
+      user = users.${userName};
+    in
+      sharedHomeModules
+      ++ [user.module]
+      ++ homeProfiles.${homeProfile}
+      ++ lib.optionals includeCliExtras user.extraHomeModules
+      ++ hostHomeModules
+      ++ extraHomeModules;
 
     # ── Builder: NixOS Home Manager module ───────────────────────────
     mkHomeModule = {
@@ -202,20 +237,14 @@
       includeCliExtras,
       hostHomeModules ? [],
       extraHomeModules ? [],
-    }: let
-      user = users.${userName};
-    in {
+    }: {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = {inherit inputs;};
       home-manager.users.${userName} = {
-        imports =
-          sharedHomeModules
-          ++ [user.module]
-          ++ homeProfiles.${homeProfile}
-          ++ lib.optionals includeCliExtras user.extraHomeModules
-          ++ hostHomeModules
-          ++ extraHomeModules;
+        imports = mkHomeImports {
+          inherit userName homeProfile includeCliExtras hostHomeModules extraHomeModules;
+        };
       };
     };
 
@@ -232,7 +261,8 @@
     in
       nixpkgs.lib.nixosSystem {
         modules =
-          [
+          sharedSystemModules
+          ++ [
             ({...}: {
               nixpkgs.hostPlatform = host.system;
               nixpkgs.config.allowUnfree = true;
@@ -256,9 +286,7 @@
       homeProfile,
       system,
       extraHomeModules ? [],
-    }: let
-      user = users.${userName};
-    in
+    }:
       nix-darwin.lib.darwinSystem {
         inherit system;
         specialArgs = {inherit inputs;};
@@ -271,11 +299,9 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs;};
             home-manager.users.${userName} = {
-              imports =
-                sharedHomeModules
-                ++ [user.module]
-                ++ homeProfiles.${homeProfile}
-                ++ extraHomeModules;
+              imports = mkHomeImports {
+                inherit userName homeProfile extraHomeModules;
+              };
             };
           }
         ];
@@ -288,17 +314,15 @@
       system,
       extraHomeModules ? [],
     }: let
-      user = users.${userName};
       pkgs = nixpkgs.legacyPackages.${system};
     in
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit inputs;};
         modules =
-          sharedHomeModules
-          ++ [user.module]
-          ++ homeProfiles.${homeProfile}
-          ++ extraHomeModules
+          mkHomeImports {
+            inherit userName homeProfile extraHomeModules;
+          }
           ++ [
             {
               home.username = userName;
@@ -315,7 +339,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
+        extraHomeModules = borealAiModules;
         includeCliExtras = true;
       };
 
@@ -324,7 +348,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix];
+        extraHomeModules = borealAiModules;
         includeCliExtras = true;
       };
 
@@ -342,17 +366,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
-        extraHomeModules = [
-          ./modules/home/ai-agents.nix
-          ./modules/home/ollama-rocm.nix
-          ./modules/home/brave-bookmarks-sync.nix
-          ({pkgs, ...}: {
-            my.dualKeyboardLayout = true;
-            my.showRootDisk = true;
-            my.terminal = "kitty";
-            home.packages = [pkgs.kitty];
-          })
-        ];
+        extraHomeModules = borealGuiModules ++ [borealDesktopModule];
         includeCliExtras = true;
       };
 
@@ -361,17 +375,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
-        extraHomeModules = [
-          ./modules/home/ai-agents.nix
-          ./modules/home/ollama-rocm.nix
-          ./modules/home/brave-bookmarks-sync.nix
-          ({pkgs, ...}: {
-            my.dualKeyboardLayout = true;
-            my.showRootDisk = true;
-            my.terminal = "kitty";
-            home.packages = [pkgs.kitty];
-          })
-        ];
+        extraHomeModules = borealGuiModules ++ [borealDesktopModule];
         includeCliExtras = true;
       };
 
@@ -389,7 +393,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
+        extraHomeModules = borealGuiModules;
         includeCliExtras = true;
       };
 
@@ -398,7 +402,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
-        extraHomeModules = [./modules/home/ai-agents.nix ./modules/home/ollama-rocm.nix ./modules/home/brave-bookmarks-sync.nix];
+        extraHomeModules = borealGuiModules;
         includeCliExtras = true;
       };
 
