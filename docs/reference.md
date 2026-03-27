@@ -15,6 +15,7 @@
 | `cyberdeck-tty` | NixOS | `cyberdeck` | `tty` | `cli` |
 | `rpi4-tty` | NixOS | `rpi4` | `tty` | `cli` |
 | `rpi4-sway` | NixOS | `rpi4` | `sway-arm` | `sway-arm` |
+| `rpi4-sway-full` | NixOS | `rpi4` | `sway-arm` | `sway-arm` |
 | `rpi4-tty-cyberdeck` | NixOS | `rpi4` | `tty` | `cli-cyberdeck` |
 | `macbook` | nix-darwin | `htmlgxn` | n/a | `cli` |
 | `fedora-arm` | Home Manager | `htmlgxn` | n/a | `cli` |
@@ -44,6 +45,7 @@ Supported outputs:
 - `cyberdeck-tty`
 - `rpi4-tty`
 - `rpi4-sway`
+- `rpi4-sway-full`
 - `rpi4-tty-cyberdeck`
 
 Important maintenance aliases:
@@ -68,8 +70,8 @@ Neovim helpers:
 
 - `hosts/boreal/storage.nix` defines ext4 mounts, the mergerfs pool, swap, zram, and mountpoint tmpfiles rules
 - `hosts/boreal/graphics.nix` enables AMD graphics and 32-bit graphics support needed for Steam
-- `hosts/boreal/networking.nix` opens `8096/tcp` and `2200/tcp`
-- `hosts/boreal/services.nix` provides Jellyfin path values through `my.jellyfin.*`
+- `hosts/boreal/networking.nix` opens `8096/tcp`, `2200/tcp`, `23231/tcp`, and `23232/tcp`
+- `hosts/boreal/services.nix` provides Jellyfin path values through `my.jellyfin.*` and configures Soft Serve
 - `modules/system/containers.nix` enables Podman, sets the OCI backend to Podman, and installs `podman-compose`, `buildah`, and `skopeo`
 - `/mnt/ironwolf` is the physical disk that previously lived at `/mnt/archive`
 - `/mnt/archive` is now the merged view over `/mnt/ironwolf` and `/mnt/seagate6`
@@ -85,11 +87,21 @@ Neovim helpers:
 - `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 host target
 - `nixos-hardware.nixosModules.raspberry-pi-4` is imported through `extraSystemModules`
 - `rpi4-sway` uses `sway-arm` profiles that intentionally omit Flatpak
+- port 2200 is explicitly opened in the firewall (`hosts/rpi4/configuration.nix`)
 
 ### macbook
 
 - `hosts/macbook/configuration.nix` is a nix-darwin host
 - apply with `darwin-rebuild switch --flake .#macbook`
+
+### Soft Serve
+
+Soft Serve runs on boreal, managed by `hosts/boreal/services.nix`:
+
+- data directory: `/mnt/archive/soft-serve`
+- SSH on port 23231, HTTP on port 23232
+- a static `soft-serve` system user owns the data directory
+- the service requires `mnt-archive.mount` before starting
 
 ### Jellyfin
 
