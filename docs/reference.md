@@ -96,6 +96,8 @@ Neovim helpers:
 
 ### Soft Serve
 
+See [`docs/soft-serve.md`](soft-serve.md) for the full usage guide (SSH setup, adding remotes, admin tasks).
+
 Soft Serve runs on boreal, managed by `hosts/boreal/services.nix`:
 
 - data directory: `/mnt/archive/soft-serve`
