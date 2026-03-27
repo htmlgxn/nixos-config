@@ -66,6 +66,12 @@ Important maintenance aliases:
 - `nfu-input`
 - `nlock`
 - `nspace`
+- `nspace-why`
+- `ntop-store`
+- `ngen-system`
+- `ngen-hm`
+- `ngen-all`
+- `ndiff-system`
 - `nclean-system`
 - `nclean-hm`
 - `nclean-all`

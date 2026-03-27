@@ -35,6 +35,7 @@ This repo now exposes a dedicated Nix helper surface through `modules/home/nix-w
 - `nbi <installable> [extra nix build args]`: build any installable directly
 - `nchk [flake-ref]`: run `nix flake check`, defaulting to this repo
 - `nmeta <installable-or-attr-path>`: show store path and closure size
+- `nsize <installable-or-attr-path>`: quick alias for closure size inspection
 - `nwhy <installable-a> <installable-b>`: inspect why one path depends on another
 - `nrepl`: open `nix repl` on the repo flake
 
@@ -97,6 +98,12 @@ nship-remote rpi4-sway localhost pi@rpi4.local
 - `nfu-input <input-name>`: update one flake input
 - `nlock`: show `flake.lock` status and diff
 - `nspace`: show current root and `/nix/store` disk usage
+- `nspace-why`: show disk usage plus store/profile summaries and the largest store paths
+- `ntop-store [count]`: show the largest `/nix/store` paths, default `20`
+- `ngen-system`: list NixOS system generations
+- `ngen-hm`: list Home Manager generations
+- `ngen-all`: show both generation lists
+- `ndiff-system [from] [to]`: diff two system generations with `nix store diff-closures`; defaults to previous vs current
 - `nclean-roots`: print GC roots
 - `nclean-gc`: run `nix store gc`
 - `nclean-system`: delete old system and profile generations with `nix-collect-garbage -d`
@@ -139,6 +146,7 @@ ncheck
 
 ```bash
 nspace
+nspace-why
 sudo nix-collect-garbage -d
 nclean-gc
 ```
@@ -148,6 +156,19 @@ Or with the wrappers:
 ```bash
 nspace
 nclean-all
+```
+
+### Inspect what changed between generations
+
+```bash
+ngen-system
+ndiff-system
+```
+
+If you want specific generations:
+
+```bash
+ndiff-system 123 124
 ```
 
 ## Platform Notes

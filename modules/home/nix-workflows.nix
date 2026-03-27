@@ -95,6 +95,22 @@
         )
       }
 
+      _nixcfg_system_profile_link() {
+        local generation="$1"
+
+        if [[ -z "$generation" || "$generation" == "current" ]]; then
+          printf '%s\n' /run/current-system
+          return 0
+        fi
+
+        printf '/nix/var/nix/profiles/system-%s-link\n' "$generation"
+      }
+
+      _nixcfg_previous_system_generation() {
+        nix-env -p /nix/var/nix/profiles/system --list-generations \
+          | awk '$NF == "(current)" { print prev; exit } { prev = $1 }'
+      }
+
       _nixcfg_run_nixos_rebuild() {
         local action="$1"
         local output="$2"
@@ -412,6 +428,106 @@
 
       nrepl() {
         nix repl "$_nixcfg_repo"
+      }
+
+      ngen-system() {
+        _nixcfg_require_command nix-env || return 1
+        nix-env -p /nix/var/nix/profiles/system --list-generations
+      }
+
+      ngen-hm() {
+        _nixcfg_require_command home-manager || return 1
+        home-manager generations
+      }
+
+      ngen-all() {
+        printf 'system generations:\n'
+        ngen-system || return 1
+
+        if _nixcfg_command_exists home-manager; then
+          printf '\n'
+          printf 'home-manager generations:\n'
+          ngen-hm || return 1
+        fi
+      }
+
+      ndiff-system() {
+        local from_generation="''${1:-previous}"
+        local to_generation="''${2:-current}"
+        local from_path
+        local to_path
+
+        _nixcfg_require_command nix || return 1
+
+        if [[ "$from_generation" == "previous" ]]; then
+          from_generation="$(_nixcfg_previous_system_generation)"
+        fi
+
+        if [[ -z "$from_generation" ]]; then
+          printf 'could not determine previous system generation\n' >&2
+          return 1
+        fi
+
+        from_path="$(_nixcfg_system_profile_link "$from_generation")"
+        to_path="$(_nixcfg_system_profile_link "$to_generation")"
+
+        if [[ ! -e "$from_path" ]]; then
+          printf 'system generation path not found: %s\n' "$from_path" >&2
+          return 1
+        fi
+
+        if [[ ! -e "$to_path" ]]; then
+          printf 'system generation path not found: %s\n' "$to_path" >&2
+          return 1
+        fi
+
+        nix store diff-closures "$from_path" "$to_path"
+      }
+
+      nsize() {
+        if [[ -z "$1" ]]; then
+          printf 'usage: nsize <installable-or-attr-path>\n' >&2
+          return 1
+        fi
+
+        nix path-info -Sh "$(_nixcfg_resolve_installable "$1")"
+      }
+
+      ntop-store() {
+        local count="''${1:-20}"
+
+        if [[ ! -d /nix/store ]]; then
+          printf '/nix/store is not present on this host\n' >&2
+          return 1
+        fi
+
+        du -sh /nix/store/* 2>/dev/null | sort -h | tail -n "$count"
+      }
+
+      nspace-why() {
+        nspace || return 1
+        printf '\n'
+
+        if [[ -d /nix/store ]]; then
+          printf '/nix/store summary:\n'
+          du -sh /nix/store 2>/dev/null
+          printf '\n'
+        fi
+
+        if [[ -d /nix/var/nix/profiles ]]; then
+          printf 'profile roots:\n'
+          du -sh /nix/var/nix/profiles 2>/dev/null
+          printf '\n'
+        fi
+
+        if [[ -d "$HOME/.local/state/nix/profiles" ]]; then
+          printf 'home-manager profiles:\n'
+          du -sh "$HOME/.local/state/nix/profiles" 2>/dev/null
+          printf '\n'
+        fi
+
+        printf 'largest store paths:\n'
+        ntop-store 10
       }
 
       nclean-roots() {
