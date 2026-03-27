@@ -5,6 +5,8 @@
   lib,
   ...
 }: {
+  imports = [../nix-workflows.nix];
+
   my = {
     terminalTheme = "gars-yellow-dark";
     guiTheme = "gars-yellow-dark";
@@ -62,10 +64,6 @@
       cdp = "cd ~/dev/projects";
       cdc = "cd ${config.my.dotfilesRoot}/dots";
       edots = "cd ${config.my.dotfilesRoot}/dots";
-
-      # ── Development: nixos-config ─────────────────────────────────────
-      fnix = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra";
-      fnixc = "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra --check";
 
       # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";

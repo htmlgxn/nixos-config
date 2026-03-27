@@ -41,15 +41,20 @@ Host-level Home Manager modules are separate from overlay groups:
 
 ## User Shell Helpers
 
-Shared aliases and SSH baseline live in [`modules/home/users/common.nix`](../modules/home/users/common.nix). NixOS-only rebuild helpers live in [`modules/home/users/gars.nix`](../modules/home/users/gars.nix).
+Shared aliases and SSH baseline live in [`modules/home/users/common.nix`](../modules/home/users/common.nix). The dedicated Nix helper surface lives in [`modules/home/nix-workflows.nix`](../modules/home/nix-workflows.nix). The full command guide is in [`docs/nix-workflows.md`](nix-workflows.md).
 
 Rebuild helpers:
 
 - `nr <output>` runs `sudo nixos-rebuild switch --flake ~/nixos-config/.#<output>`
 - `nrb <output>` runs `sudo nixos-rebuild build --flake ~/nixos-config/.#<output>`
+- `nrt <output>` runs `sudo nixos-rebuild test --flake ~/nixos-config/.#<output>`
+- `nrd <output>` runs `sudo nixos-rebuild dry-build --flake ~/nixos-config/.#<output>`
 - `nrs` is a permanent shortcut for `nr boreal`
 - `nrtty` is a permanent shortcut for `nr boreal-tty`
 - `ns [query]` runs `nix-search-tv` through `fzf` with inline preview
+- `nout`, `noutn`, `noutd`, and `nouth` list the current flake outputs
+- `ncheck` and `ncheck-full` provide the default repo validation sequences
+- `nboh`, `ncopy`, `nremote-build`, `nremote-test`, and `nremote-switch` cover cross-host NixOS deployment flows
 
 `nr` and `nrb` validate against the current `nixosConfigurations` in the flake instead of a hardcoded shell list.
 
@@ -57,6 +62,9 @@ Important maintenance aliases:
 
 - `fnix`
 - `fnixc`
+- `nfu`
+- `nfu-input`
+- `nlock`
 - `swapstat`
 - `cdcont`
 - `cdquad`
@@ -168,4 +176,5 @@ Typical checks:
 - build an affected target with `sudo nixos-rebuild build --flake .#<output>`
 - apply Darwin changes with `darwin-rebuild switch --flake .#macbook`
 - apply standalone Home Manager changes with `home-manager switch --flake .#fedora-arm`
+- use [`docs/nix-workflows.md`](nix-workflows.md) for the repo helper equivalents and the recommended command combos
 - visually confirm GUI changes after a local switch

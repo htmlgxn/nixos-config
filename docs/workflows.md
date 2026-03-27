@@ -1,5 +1,7 @@
 # Workflows
 
+For shell helpers and command combos, see [`docs/nix-workflows.md`](nix-workflows.md).
+
 ## Add a User
 
 1. Create `modules/home/users/<username>.nix`.

@@ -16,6 +16,7 @@ The main layers are:
 - Architecture and composition rules: [`docs/architecture.md`](docs/architecture.md)
 - Common change workflows: [`docs/workflows.md`](docs/workflows.md)
 - Current outputs, overlays, and service reference: [`docs/reference.md`](docs/reference.md)
+- Nix helper cheat sheet and deployment workflows: [`docs/nix-workflows.md`](docs/nix-workflows.md)
 - Host-local conventions: [`hosts/README.md`](hosts/README.md)
 - Shared module conventions: [`modules/README.md`](modules/README.md)
 
@@ -48,4 +49,4 @@ The main layers are:
 - `home-manager switch --flake .#fedora-arm`
 - `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`
 
-See [`docs/reference.md`](docs/reference.md) for the exact output matrix and [`docs/workflows.md`](docs/workflows.md) for how to add or change composition pieces safely.
+See [`docs/nix-workflows.md`](docs/nix-workflows.md) for the full helper surface, [`docs/reference.md`](docs/reference.md) for the exact output matrix, and [`docs/workflows.md`](docs/workflows.md) for how to add or change composition pieces safely.
