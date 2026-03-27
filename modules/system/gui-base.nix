@@ -21,11 +21,17 @@
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
+  programs.dconf.enable = true;
+
   fonts = {
     packages = with pkgs; [
       roboto-mono
       openmoji-color
+      nerd-fonts.jetbrains-mono
     ];
+    fontconfig = {
+      defaultFonts.emoji = ["OpenMoji Color"];
+    };
   };
 
   environment.systemPackages = with pkgs; [
