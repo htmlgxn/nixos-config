@@ -9,6 +9,12 @@ in {
       description = "Whether the host is a NixOS system (false for standalone HM or nix-darwin).";
     };
 
+    borealHost = mkOption {
+      type = types.str;
+      default = "boreal.local";
+      description = "Hostname used to reach boreal. Set to \"localhost\" on boreal itself.";
+    };
+
     ollamaPackage = mkOption {
       type = types.nullOr types.package;
       default = null;

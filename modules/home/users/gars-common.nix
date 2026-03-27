@@ -88,17 +88,17 @@
     enable = true;
     matchBlocks = {
       # ── Shared infrastructure ──────────────────────────────────────
-      "boreal" = {
-        hostname = "boreal.local";
-        port = 2200;
+      "soft" = {
+        hostname = config.my.borealHost;
+        port = 23231;
         user = "gars";
         addressFamily = "inet";
         identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
       };
-      "soft" = {
-        hostname = "boreal.local";
-        port = 23231;
+      "boreal" = {
+        hostname = config.my.borealHost;
+        port = 2200;
         user = "gars";
         addressFamily = "inet";
         identityFile = "~/.ssh/id_ed25519";

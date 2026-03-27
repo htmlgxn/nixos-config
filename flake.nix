@@ -67,6 +67,7 @@
           ./modules/system/jellyfin.nix
           ./modules/system/containers.nix
         ];
+        hostHomeModules = [./hosts/boreal/home.nix];
         includeCliExtras = true;
       };
 
@@ -199,6 +200,7 @@
       userName,
       homeProfile,
       includeCliExtras,
+      hostHomeModules ? [],
       extraHomeModules ? [],
     }: let
       user = users.${userName};
@@ -212,6 +214,7 @@
           ++ [user.module]
           ++ homeProfiles.${homeProfile}
           ++ lib.optionals includeCliExtras user.extraHomeModules
+          ++ hostHomeModules
           ++ extraHomeModules;
       };
     };
@@ -242,6 +245,7 @@
             home-manager.nixosModules.home-manager
             (mkHomeModule {
               inherit userName homeProfile includeCliExtras extraHomeModules;
+              hostHomeModules = host.hostHomeModules or [];
             })
           ];
       };
@@ -442,7 +446,6 @@
         extraHomeModules = [];
         includeCliExtras = false;
       };
-
     };
 
     # ── nix-darwin output definitions ────────────────────────────────
