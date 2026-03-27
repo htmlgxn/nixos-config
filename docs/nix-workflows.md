@@ -72,6 +72,42 @@ These wrappers validate output names against the live flake before running the r
 - `nhms [output]`: `home-manager switch`, default `fedora-arm`
 - `nhmb [output]`: `home-manager build`, default `fedora-arm`
 
+## Where The Build Happens
+
+This is the part that usually trips people up.
+
+For `nr`, `nrb`, `nrt`, and `nrd`, the build happens on the machine where you run the command.
+
+That means:
+
+- `nrb boreal` on Boreal builds an `x86_64-linux` Boreal system on Boreal
+- `nrb rpi4-tty` on Boreal still builds on Boreal, but the target output is `aarch64-linux`
+
+In this repo, Boreal is configured to handle that ARM case because [`hosts/boreal/base.nix`](../hosts/boreal/base.nix) enables:
+
+```nix
+boot.binfmt.emulatedSystems = ["aarch64-linux"];
+```
+
+So Boreal can build ARM-targeted outputs through binfmt/QEMU-style emulation when needed.
+
+Important distinction:
+
+- `nrb <output>` does not choose a remote machine by itself
+- `nrb <output>` does not automatically mean “native build on that target device”
+- it simply runs `nixos-rebuild build` on the current machine for the selected output
+
+That gives you four practical build-location models:
+
+1. local same-arch build
+   Example: `nrb boreal` on Boreal
+2. local emulated/cross-arch build
+   Example: `nrb rpi4-tty` on Boreal
+3. remote target-host build
+   Example: `nremote-build rpi4-tty pi@rpi4.local`
+4. separate build-host and target-host
+   Example: `nboh rpi4-tty localhost pi@rpi4.local build`
+
 ## Remote And Cross-Host Flows
 
 These are intentionally NixOS-focused. They are the native-command answer to “build here, deploy there” without adding a separate deployment tool.
