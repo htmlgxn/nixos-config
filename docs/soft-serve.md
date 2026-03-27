@@ -1,209 +1,176 @@
 # Soft Serve Git Server
 
-Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232.
-
-## Connection Details
+Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232. After the one-time SSH client setup below, all interaction uses the `boreal` and `soft` aliases.
 
 | | |
 |---|---|
 | Host | boreal |
 | SSH port | 23231 |
 | HTTP port | 23232 |
-| SSH URL pattern | `ssh://boreal:23231/<repo>` |
-| HTTP URL pattern | `http://boreal:23232/<repo>` |
+| SSH URL pattern | `ssh://soft/<repo>` |
+| HTTP URL pattern | `http://boreal.local:23232/<repo>` |
 
 ---
 
-## SSH Setup
+## Reaching boreal
 
-### 1. Add your key to Soft Serve
+`boreal.local` is the mDNS hostname for the machine. Avahi publishes it on the local network — `.local` is the mDNS convention. On any NixOS host (including rpi4) this resolves out of the box because avahi is configured in `modules/system/cli.nix`. On non-NixOS systems you may need to install an mDNS resolver (e.g. `avahi-daemon` on Linux, or use the machine's IP directly).
 
-Connect to the Soft Serve admin shell using the initial admin key (the ed25519 key in `hosts/boreal/services.nix`):
+---
 
-```bash
-ssh -i ~/.ssh/<admin-key> -p 23231 boreal
+## SSH client config
+
+Set these up first — every subsequent command uses the aliases.
+
+Add two stanzas to `~/.ssh/config` on the new host:
+
+```
+Host boreal
+    HostName boreal.local
+    Port 2200
+    User gars
+    AddressFamily inet
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+Host soft
+    HostName boreal.local
+    Port 23231
+    User gars
+    AddressFamily inet
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
 ```
 
-This drops you into the Soft Serve TUI. From there you can manage users, repos, and SSH keys interactively.
+- `AddressFamily inet` — forces IPv4; avahi can return an unusable IPv6 link-local address without this
+- `IdentitiesOnly yes` — prevents SSH trying every loaded key before the named one (avoids MaxAuthTries failures when many keys are loaded)
 
-To add a new public key for a user non-interactively:
+Test both connections from the new host:
 
 ```bash
-ssh -i ~/.ssh/<admin-key> -p 23231 boreal user add-pubkey <username> "$(cat ~/.ssh/id_ed25519.pub)"
+ssh boreal    # opens a shell on boreal
+ssh soft      # opens the Soft Serve TUI
+```
+
+---
+
+## Adding your key to Soft Serve
+
+The initial admin key is the ed25519 key in `hosts/boreal/services.nix` (`SOFT_SERVE_INITIAL_ADMIN_KEYS`). Use it to bootstrap your own key.
+
+Open the TUI for interactive key/user management:
+
+```bash
+ssh -i ~/.ssh/<admin-key> soft
+```
+
+Or add a key to an existing user non-interactively:
+
+```bash
+ssh -i ~/.ssh/<admin-key> soft user add-pubkey <username> "$(cat ~/.ssh/id_ed25519.pub)"
 ```
 
 Or create a new user with a key in one step:
 
 ```bash
-ssh -i ~/.ssh/<admin-key> -p 23231 boreal user create <username> --key "$(cat ~/.ssh/id_ed25519.pub)"
+ssh -i ~/.ssh/<admin-key> soft user create <username> --key "$(cat ~/.ssh/id_ed25519.pub)"
 ```
 
-### 2. Configure your SSH client
+Once your key is registered, drop `-i ~/.ssh/<admin-key>` — your default key works for all subsequent commands.
 
-Add a host entry to `~/.ssh/config` to avoid specifying the port every time:
+---
 
-```
-Host soft-serve
-    HostName boreal
-    Port 23231
-    User git
-    IdentityFile ~/.ssh/id_ed25519
-```
-
-With this in place you can use `soft-serve` as the hostname in git URLs:
-
-```
-ssh://soft-serve/<repo>
-```
-
-Or test the connection:
+## Creating a repository
 
 ```bash
-ssh soft-serve
+ssh soft repo create <repo-name>
+
+# private repo:
+ssh soft repo create <repo-name> --private
 ```
 
 ---
 
-## Creating a Repository
-
-Via the admin shell TUI:
+## Cloning
 
 ```bash
-ssh -p 23231 boreal
-```
+git clone ssh://soft/<repo-name>
 
-Non-interactively:
-
-```bash
-ssh -p 23231 boreal repo create <repo-name>
-```
-
-To create a private repo:
-
-```bash
-ssh -p 23231 boreal repo create <repo-name> --private
+# HTTP (public repos, read-only, no auth required):
+git clone http://boreal.local:23232/<repo-name>
 ```
 
 ---
 
-## Cloning a Repository
-
-Using the SSH config alias above:
-
-```bash
-git clone ssh://soft-serve/<repo-name>
-```
-
-Using the full address:
-
-```bash
-git clone ssh://boreal:23231/<repo-name>
-```
-
-Via HTTP (read-only, no authentication required for public repos):
-
-```bash
-git clone http://boreal:23232/<repo-name>
-```
-
----
-
-## Adding as a Remote
+## Working with remotes
 
 ### Set as `origin` for a new repo
 
 ```bash
 git init
-git remote add origin ssh://soft-serve/<repo-name>
+git remote add origin ssh://soft/<repo-name>
 git push -u origin main
 ```
 
 ### Add as an additional remote
 
 ```bash
-git remote add soft-serve ssh://soft-serve/<repo-name>
-git push soft-serve main
+git remote add soft ssh://soft/<repo-name>
+git push soft main
 ```
 
-### Change an existing remote to point here
+### Change an existing remote URL
 
 ```bash
-git remote set-url origin ssh://soft-serve/<repo-name>
+git remote set-url origin ssh://soft/<repo-name>
 ```
 
-### Mirror an existing repo to Soft Serve
+### Mirror an existing repo
 
 ```bash
-# Create the repo on soft-serve first, then push all refs
-git remote add soft-serve ssh://soft-serve/<repo-name>
-git push soft-serve --mirror
+ssh soft repo create <repo-name>
+git remote add soft ssh://soft/<repo-name>
+git push soft --mirror
 ```
 
 ---
 
-## Pushing an Existing Local Repo
+## Pushing an existing local repo
 
 ```bash
 # From inside the repo directory
-ssh -p 23231 boreal repo create <repo-name>
-git remote add origin ssh://soft-serve/<repo-name>
+ssh soft repo create <repo-name>
+git remote add origin ssh://soft/<repo-name>
 git push -u origin main
 ```
 
 ---
 
-## Browsing Repos
+## Browsing
 
-Open the web UI in a browser:
-
-```
-http://boreal:23232
-```
+Web UI: `http://boreal.local:23232`
 
 List repos via SSH:
 
 ```bash
-ssh -p 23231 boreal repo list
+ssh soft repo list
 ```
 
 ---
 
-## Common Admin Tasks
-
-### List users
+## Admin reference
 
 ```bash
-ssh -p 23231 boreal user list
+# User management
+ssh soft user list
+ssh soft user info <username>
+ssh soft user add-pubkey <username> "<pubkey>"
+ssh soft user remove-pubkey <username> <key-id>
+
+# Repo management
+ssh soft repo list
+ssh soft repo delete <repo-name>
+ssh soft repo rename <old-name> <new-name>
 ```
 
-### Remove a public key from a user
-
-```bash
-ssh -p 23231 boreal user remove-pubkey <username> <key-id>
-```
-
-Key IDs are shown in the TUI or via:
-
-```bash
-ssh -p 23231 boreal user info <username>
-```
-
-### Delete a repo
-
-```bash
-ssh -p 23231 boreal repo delete <repo-name>
-```
-
-### Rename a repo
-
-```bash
-ssh -p 23231 boreal repo rename <old-name> <new-name>
-```
-
----
-
-## Notes
-
-- The data directory is `/mnt/archive/soft-serve` on boreal. The service will not start if `mnt-archive` is not mounted.
-- The `soft-serve` system user owns the data directory. Do not write there directly.
-- The initial admin key is the ed25519 key set in `hosts/boreal/services.nix` via `SOFT_SERVE_INITIAL_ADMIN_KEYS`. Once you have added your own key through the admin shell, you can use that for all subsequent admin operations.
+Key IDs are shown in the TUI or via `ssh soft user info <username>`.
