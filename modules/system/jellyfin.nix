@@ -56,9 +56,9 @@ in {
     }
   ];
 
-  systemd.services.jellyfin.serviceConfig = {
+  systemd.services.jellyfin.serviceConfig = lib.mkIf (jellyfinCfg.vaDriver != "") {
     Environment = [
-      "LIBVA_DRIVER_NAME=radeonsi"
+      "LIBVA_DRIVER_NAME=${jellyfinCfg.vaDriver}"
     ];
   };
 

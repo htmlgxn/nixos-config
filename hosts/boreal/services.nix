@@ -25,6 +25,7 @@
   };
 
   my.jellyfin = {
+    vaDriver = "radeonsi";
     dataDir = "/mnt/archive/jellyfin";
     mediaRoots = [
       "/mnt/archive/tv/server"
