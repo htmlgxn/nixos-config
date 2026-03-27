@@ -20,9 +20,9 @@ Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-ove
 
 ## SSH client config
 
-Set these up first — every subsequent command uses the aliases.
+**NixOS hosts:** `~/.ssh/config` is managed declaratively by home-manager (`modules/home/users/gars-common.nix`). After a rebuild the `boreal` and `soft` entries are already in place — skip the manual steps below. Do not edit `~/.ssh/config` directly; it will be overwritten on the next rebuild.
 
-Add two stanzas to `~/.ssh/config` on the new host:
+**Non-NixOS hosts (macOS, Fedora, etc.):** Add the following two stanzas to `~/.ssh/config` manually:
 
 ```
 Host boreal

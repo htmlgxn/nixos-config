@@ -130,6 +130,9 @@ in {
     '';
   };
 
+  # Per-user SSH host entries (shared entries are in gars-common.nix):
+  # programs.ssh.matchBlocks."myhost" = { ... };
+
   # ── Linux-specific user packages ───────────────────────────────────
   home.packages = with pkgs; [
     firefox

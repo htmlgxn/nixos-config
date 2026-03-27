@@ -38,7 +38,7 @@
       br = "broot";
       wiki = "wiki-tui";
       emo = "emoji-picker-cli";
-      soft = "ssh soft"; # SSH must be set up on new hosts for access to soft-serve git server
+      soft = "ssh soft"; # SSH config and key are managed by home-manager (programs.ssh below)
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
@@ -82,6 +82,44 @@
       # manually add to .bash_profile here
     '';
   };
+
+  # ── SSH client config ───────────────────────────────────────────────
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      # ── Shared infrastructure ──────────────────────────────────────
+      "boreal" = {
+        hostname = "boreal.local";
+        port = 2200;
+        user = "gars";
+        addressFamily = "inet";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
+      "soft" = {
+        hostname = "boreal.local";
+        port = 23231;
+        user = "gars";
+        addressFamily = "inet";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
+
+      # ── Per-user / per-host blocks ─────────────────────────────────
+      # Add additional Host entries in gars.nix or htmlgxn.nix.
+      # Do NOT edit ~/.ssh/config directly — home-manager owns it.
+    };
+  };
+
+  home.activation.generateSshKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
+      $DRY_RUN_CMD ${pkgs.openssh}/bin/ssh-keygen \
+        -t ed25519 \
+        -C "${config.home.username}@$(hostname)" \
+        -f "$HOME/.ssh/id_ed25519" \
+        -N ""
+    fi
+  '';
 
   # ── User packages available everywhere ─────────────────────────────
   home.packages = with pkgs; [

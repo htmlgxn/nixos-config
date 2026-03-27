@@ -26,4 +26,7 @@ in {
       eh = "nvim ${config.my.repoRoot}/modules/home/users/htmlgxn.nix";
     };
   };
+
+  # Per-user SSH host entries (shared entries are in gars-common.nix):
+  # programs.ssh.matchBlocks."myhost" = { ... };
 }
