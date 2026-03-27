@@ -65,6 +65,10 @@ Important maintenance aliases:
 - `nfu`
 - `nfu-input`
 - `nlock`
+- `nspace`
+- `nclean-system`
+- `nclean-hm`
+- `nclean-all`
 - `swapstat`
 - `cdcont`
 - `cdquad`

@@ -422,6 +422,39 @@
         nix store gc "$@"
       }
 
+      nclean-system() {
+        _nixcfg_require_command nix-collect-garbage || return 1
+        sudo nix-collect-garbage -d
+      }
+
+      nclean-hm() {
+        local age="''${1:--7 days}"
+
+        _nixcfg_require_command home-manager || return 1
+        home-manager expire-generations "$age"
+      }
+
+      nclean-all() {
+        local age="''${1:--7 days}"
+
+        nclean-system || return 1
+
+        if _nixcfg_command_exists home-manager; then
+          nclean-hm "$age" || return 1
+        fi
+
+        nclean-gc
+      }
+
+      nspace() {
+        if [[ -d /nix/store ]]; then
+          df -h / /nix/store
+          return 0
+        fi
+
+        df -h /
+      }
+
       npre() {
         local output="$1"
 

@@ -47,7 +47,7 @@
 - For nix-darwin: `darwin-rebuild switch --flake .#macbook`.
 - For standalone HM: `home-manager switch --flake .#fedora-arm`.
 - `nix flake update` refreshes `flake.lock` inputs.
-- Shared navigation and SSH aliases live in `modules/home/users/common.nix`. The main Nix helper surface (`nr`, `nrb`, `ns`, `ncheck`, `nboh`, etc.) lives in `modules/home/nix-workflows.nix`.
+- Shared navigation and SSH aliases live in `modules/home/users/common.nix`. The main Nix helper surface (`nr`, `nrb`, `ns`, `ncheck`, `nboh`, `nclean-all`, etc.) lives in `modules/home/nix-workflows.nix`.
 - `swapstat` (defined in `modules/home/users/gars.nix`) shows swap usage plus zram status.
 
 ## Coding Style & Naming Conventions

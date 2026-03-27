@@ -96,8 +96,12 @@ nship-remote rpi4-sway localhost pi@rpi4.local
 - `nfu`: run `nix flake update`
 - `nfu-input <input-name>`: update one flake input
 - `nlock`: show `flake.lock` status and diff
+- `nspace`: show current root and `/nix/store` disk usage
 - `nclean-roots`: print GC roots
 - `nclean-gc`: run `nix store gc`
+- `nclean-system`: delete old system and profile generations with `nix-collect-garbage -d`
+- `nclean-hm [age]`: expire old Home Manager generations, default `-7 days`
+- `nclean-all [age]`: run the system cleanup, optional Home Manager cleanup, then store GC
 
 ## Recommended Sequences
 
@@ -129,6 +133,21 @@ nremote-test rpi4-tty pi@rpi4.local
 nfu-input nixpkgs
 nlock
 ncheck
+```
+
+### Recover disk space after a bad update attempt
+
+```bash
+nspace
+sudo nix-collect-garbage -d
+nclean-gc
+```
+
+Or with the wrappers:
+
+```bash
+nspace
+nclean-all
 ```
 
 ## Platform Notes
