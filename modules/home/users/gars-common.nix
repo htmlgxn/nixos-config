@@ -38,6 +38,7 @@
       br = "broot";
       wiki = "wiki-tui";
       emo = "emoji-picker-cli";
+      soft = "ssh soft"; # SSH must be set up on new hosts for access to soft-serve git server
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
