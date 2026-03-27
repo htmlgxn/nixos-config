@@ -23,6 +23,7 @@
 
   networking.hostName = "rpi4";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [2200];
 
   time.timeZone = "America/Halifax";
   i18n.defaultLocale = "en_CA.UTF-8";
