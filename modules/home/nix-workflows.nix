@@ -180,10 +180,10 @@
 
         case "$action" in
           test)
-            ssh "$target_host" "sudo '$store_path/bin/switch-to-configuration' test"
+            ssh -t "$target_host" "sudo '$store_path/bin/switch-to-configuration' test"
             ;;
           switch)
-            ssh "$target_host" "sudo nix-env -p /nix/var/nix/profiles/system --set '$store_path' && sudo '$store_path/bin/switch-to-configuration' switch"
+            ssh -t "$target_host" "sudo nix-env -p /nix/var/nix/profiles/system --set '$store_path' && sudo '$store_path/bin/switch-to-configuration' switch"
             ;;
           *)
             printf 'unsupported action: %s\n' "$action" >&2
