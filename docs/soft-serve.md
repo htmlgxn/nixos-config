@@ -1,6 +1,6 @@
 # Soft Serve Git Server
 
-Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232. After the one-time SSH client setup below, all interaction uses the `boreal` and `soft` aliases.
+Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232. After the one-time SSH client setup below, all interaction uses the `boreal` and `soft` aliases. On NixOS hosts, `soft` is also a shell alias for `ssh soft` (defined in `modules/home/users/gars-common.nix`), so you can run Soft Serve commands without the `ssh` prefix.
 
 | | |
 |---|---|
