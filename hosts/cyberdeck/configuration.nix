@@ -19,9 +19,6 @@
   networking.hostName = "cyberdeck";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "America/Halifax";
-  i18n.defaultLocale = "en_CA.UTF-8";
-
   my.primaryUser = "gars";
 
   users.users.gars = {
@@ -31,9 +28,6 @@
   };
 
   security.sudo.wheelNeedsPassword = true;
-
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
 }

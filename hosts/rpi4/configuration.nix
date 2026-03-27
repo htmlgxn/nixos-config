@@ -25,9 +25,6 @@
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [2200];
 
-  time.timeZone = "America/Halifax";
-  i18n.defaultLocale = "en_CA.UTF-8";
-
   my.primaryUser = "gars";
 
   users.users.gars = {
@@ -37,14 +34,6 @@
   };
 
   nix.settings.trusted-users = ["root" "gars"];
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-  nixpkgs.config.allowUnfree = true;
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
 
   system.stateVersion = "25.11";
 }
