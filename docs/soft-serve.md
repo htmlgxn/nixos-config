@@ -1,6 +1,6 @@
 # Soft Serve Git Server
 
-Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232. After the one-time SSH client setup below, all interaction uses the `boreal` and `soft` aliases. On NixOS hosts, `soft` is also a shell alias for `ssh soft` (defined in `modules/home/users/gars-common.nix`), so you can run Soft Serve commands without the `ssh` prefix.
+Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-over-SSH interface on port 23231 and an HTTP interface (web UI + HTTP clone) on port 23232. After the one-time SSH client setup below, all interaction uses the `boreal` and `soft` aliases. On NixOS hosts, `soft` is also a shell alias for `ssh soft` (defined in `modules/home/users/common.nix`), so you can run Soft Serve commands without the `ssh` prefix.
 
 | | |
 |---|---|
@@ -20,7 +20,7 @@ Soft Serve is a self-hosted git server running on `boreal`. It exposes a git-ove
 
 ## SSH client config
 
-**NixOS hosts:** `~/.ssh/config` is managed declaratively by home-manager (`modules/home/users/gars-common.nix`). After a rebuild the `boreal` and `soft` entries are already in place — skip the manual steps below. Do not edit `~/.ssh/config` directly; it will be overwritten on the next rebuild.
+**NixOS hosts:** `~/.ssh/config` is managed declaratively by Home Manager (`modules/home/users/common.nix`). After a rebuild the `boreal` and `soft` entries are already in place. Do not edit `~/.ssh/config` directly; it will be overwritten on the next rebuild.
 
 **Non-NixOS hosts (macOS, Fedora, etc.):** Add the following two stanzas to `~/.ssh/config` manually:
 

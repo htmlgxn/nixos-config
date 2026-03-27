@@ -17,7 +17,6 @@ in {
     dotfilesNixPath = ../../../home/gars;
     containersRoot = "${config.home.homeDirectory}/nixos-config/containers";
     isNixOS = false;
-    ollamaPackage = pkgs.ollama;
   };
 
   home.username = userName;

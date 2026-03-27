@@ -17,7 +17,6 @@ in {
     dotfilesNixPath = ../../../home/gars;
     containersRoot = "${homeDir}/nixos-config/containers";
     wallpaper = "${homeDir}/nixos-config/home/${userName}/wallpapers/default.jpg";
-    ollamaPackage = lib.mkDefault pkgs.ollama;
   };
 
   home.username = userName;
@@ -46,51 +45,44 @@ in {
     };
 
     bashrcExtra = ''
-      _nixos_config_outputs=(
-        boreal
-        boreal-gaming
-        boreal-gamescope
-        boreal-niri
-        boreal-hypr
-        boreal-tty
-        boreal-tty-cyberdeck
-        nixos-vm
-        cyberdeck-tty
-        rpi4-tty
-        rpi4-sway
-        rpi4-sway-full
-        rpi4-tty-cyberdeck
-      )
-
-      _nixos_config_usage() {
-        echo "usage: $1 <output>"
-        echo "available outputs:"
-        printf '  %s\n' "''${_nixos_config_outputs[@]}"
+      _nixos_config_outputs() {
+        nix eval --raw "${config.my.repoRoot}#nixosConfigurations" \
+          --apply 'configs: builtins.concatStringsSep "\n" (builtins.attrNames configs)'
       }
 
-      _nixos_config_has_output() {
+      _nixos_config_usage() {
+        local action="$1"
+        local outputs="$2"
+
+        echo "usage: $action <output>"
+        echo "available outputs:"
+        while IFS= read -r output; do
+          [[ -n "$output" ]] && printf '  %s\n' "$output"
+        done <<< "$outputs"
+      }
+
+      _nixos_config_require_output() {
         local target="$1"
-        local output
-        for output in "''${_nixos_config_outputs[@]}"; do
-          if [[ "$output" == "$target" ]]; then
-            return 0
-          fi
-        done
-        return 1
+        local outputs="$2"
+        grep -Fxq -- "$target" <<< "$outputs"
       }
 
       _nixos_config_rebuild() {
         local action="$1"
         local output="$2"
+        local available_outputs
 
         if [[ -z "$output" ]]; then
-          _nixos_config_usage "$action"
+          available_outputs="$(_nixos_config_outputs)" || return 1
+          _nixos_config_usage "$action" "$available_outputs"
           return 1
         fi
 
-        if ! _nixos_config_has_output "$output"; then
+        available_outputs="$(_nixos_config_outputs)" || return 1
+
+        if ! _nixos_config_require_output "$output" "$available_outputs"; then
           echo "unknown output: $output" >&2
-          _nixos_config_usage "$action" >&2
+          _nixos_config_usage "$action" "$available_outputs" >&2
           return 1
         fi
 

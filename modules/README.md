@@ -4,7 +4,7 @@
 
 ## Layout
 
-- `modules/system/`: shared system behavior (primarily NixOS modules)
+- `modules/system/`: shared system behavior, primarily NixOS modules
 - `modules/home/`: shared Home Manager behavior
 - `modules/shared/`: repo-local options and cross-layer glue
 
@@ -12,9 +12,9 @@
 
 - put reusable behavior here, not in `hosts/`
 - keep module names descriptive and scoped to their layer
-- use `modules/shared/my-options.nix` for repo-local values that need to cross module boundaries
-- prefer short comments in module files; keep detailed explanation in Markdown docs
-- keep optional heavyweight module groups (for example `modules/home/ai-agents.nix`) separate and include them through output-level `extraHomeModules`
+- use `modules/shared/options.nix` for repo-local values that need to cross module boundaries
+- keep optional heavyweight module groups separate and select them explicitly from output definitions
+- keep detailed explanation in Markdown docs instead of long Nix file comments
 
 ## Typical Split
 
@@ -24,5 +24,12 @@
 
 ## User Module Pattern
 
-- put shared user shell/editor/theme logic in `modules/home/users/<name>-common.nix`
-- import that common module from platform-specific user modules (for example `gars.nix` and `htmlgxn.nix`)
+- `modules/home/users/common.nix` is the shared user baseline for shell, SSH, editor, and theme behavior
+- platform-specific user modules such as `gars.nix` and `htmlgxn.nix` import that baseline and provide host/platform paths and overrides
+
+## Modularity Rules
+
+- profiles should express capabilities, not one-off machines
+- host modules should supply values and narrow behavior, not silent shared feature bundles
+- if a shared module needs a repo-local value, thread it through `my.*`
+- if an output needs extra weight, make that opt-in and visible at the output definition

@@ -42,23 +42,61 @@
       ./modules/system/defaults.nix
     ];
 
-    # ── Boreal-specific home module groups ──────────────────────────
-    borealAiModules = [
-      ./modules/home/ai-agents.nix
-      ./modules/home/ollama-rocm.nix
-    ];
-
-    borealGuiModules =
-      borealAiModules
-      ++ [
-        ./modules/home/brave-bookmarks-sync.nix
-      ];
-
+    # ── Named home overlay groups (selected explicitly by outputs) ──
     borealDesktopModule = {pkgs, ...}: {
       my.dualKeyboardLayout = true;
       my.showRootDisk = true;
       my.terminal = "kitty";
       home.packages = [pkgs.kitty];
+    };
+
+    homeOverlayGroups = rec {
+      ai-cli-orchestrators = [
+        ./modules/home/ai-cli-orchestrators.nix
+      ];
+
+      ai-cli-extras = [
+        ./modules/home/ai-cli-extras.nix
+      ];
+
+      ai-cli-agents = [
+        ./modules/home/ai-cli-agents.nix
+      ];
+
+      ai-cli-opencode = [
+        ./modules/home/ai-cli-opencode.nix
+      ];
+
+      ai-cli-all =
+        ai-cli-orchestrators
+        ++ ai-cli-agents
+        ++ ai-cli-opencode
+        ++ ai-cli-extras;
+
+      ai-ollama = [
+        ./modules/home/ai-ollama.nix
+      ];
+
+      ai-ollama-rocm =
+        ai-ollama
+        ++ [
+          ./modules/home/ai-ollama-rocm.nix
+        ];
+
+      cli-extras = [
+        ./modules/home/cli-extras.nix
+      ];
+
+      boreal-gui =
+        ai-cli-all
+        ++ ai-ollama-rocm
+        ++ [
+          ./modules/home/brave-bookmarks-sync.nix
+        ];
+
+      boreal-desktop = [
+        borealDesktopModule
+      ];
     };
 
     # ── Shared Home Manager modules (included in every profile) ──────
@@ -73,13 +111,9 @@
     users = {
       gars = {
         module = ./modules/home/users/gars.nix;
-        extraHomeModules = [
-          ./modules/home/cli-extras.nix
-        ];
       };
       htmlgxn = {
         module = ./modules/home/users/htmlgxn.nix;
-        extraHomeModules = [];
       };
     };
 
@@ -93,14 +127,12 @@
           ./modules/system/containers.nix
         ];
         hostHomeModules = [./hosts/boreal/home.nix];
-        includeCliExtras = true;
       };
 
       nixos-vm = {
         system = "x86_64-linux";
         module = ./hosts/nixos-vm/configuration.nix;
         extraSystemModules = [];
-        includeCliExtras = false;
       };
 
       cyberdeck = {
@@ -109,7 +141,6 @@
         extraSystemModules = [
           jetpack-nixos.nixosModules.default
         ];
-        includeCliExtras = false;
       };
 
       rpi4 = {
@@ -118,7 +149,6 @@
         extraSystemModules = [
           nixos-hardware.nixosModules.raspberry-pi-4
         ];
-        includeCliExtras = false;
       };
     };
 
@@ -214,29 +244,29 @@
     };
 
     # ── Helper: assemble home imports list ────────────────────────────
+    resolveHomeOverlays = overlayNames:
+      builtins.concatLists (map (name: homeOverlayGroups.${name}) overlayNames);
+
     mkHomeImports = {
       userName,
       homeProfile,
-      includeCliExtras ? false,
       hostHomeModules ? [],
-      extraHomeModules ? [],
+      homeOverlays ? [],
     }: let
       user = users.${userName};
     in
       sharedHomeModules
       ++ [user.module]
       ++ homeProfiles.${homeProfile}
-      ++ lib.optionals includeCliExtras user.extraHomeModules
       ++ hostHomeModules
-      ++ extraHomeModules;
+      ++ resolveHomeOverlays homeOverlays;
 
     # ── Builder: NixOS Home Manager module ───────────────────────────
     mkHomeModule = {
       userName,
       homeProfile,
-      includeCliExtras,
       hostHomeModules ? [],
-      extraHomeModules ? [],
+      homeOverlays ? [],
     }: {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
@@ -244,7 +274,7 @@
       home-manager.extraSpecialArgs = {inherit inputs;};
       home-manager.users.${userName} = {
         imports = mkHomeImports {
-          inherit userName homeProfile includeCliExtras hostHomeModules extraHomeModules;
+          inherit userName homeProfile hostHomeModules homeOverlays;
         };
       };
     };
@@ -255,8 +285,7 @@
       userName,
       systemProfile,
       homeProfile,
-      includeCliExtras,
-      extraHomeModules ? [],
+      homeOverlays ? [],
     }: let
       host = hosts.${hostName};
     in
@@ -275,7 +304,7 @@
           ++ [
             home-manager.nixosModules.home-manager
             (mkHomeModule {
-              inherit userName homeProfile includeCliExtras extraHomeModules;
+              inherit userName homeProfile homeOverlays;
               hostHomeModules = host.hostHomeModules or [];
             })
           ];
@@ -286,7 +315,7 @@
       userName,
       homeProfile,
       system,
-      extraHomeModules ? [],
+      homeOverlays ? [],
     }:
       nix-darwin.lib.darwinSystem {
         inherit system;
@@ -302,7 +331,7 @@
             home-manager.extraSpecialArgs = {inherit inputs;};
             home-manager.users.${userName} = {
               imports = mkHomeImports {
-                inherit userName homeProfile extraHomeModules;
+                inherit userName homeProfile homeOverlays;
               };
             };
           }
@@ -314,7 +343,7 @@
       userName,
       homeProfile,
       system,
-      extraHomeModules ? [],
+      homeOverlays ? [],
     }: let
       pkgs = nixpkgs.legacyPackages.${system};
     in
@@ -323,7 +352,7 @@
         extraSpecialArgs = {inherit inputs;};
         modules =
           mkHomeImports {
-            inherit userName homeProfile extraHomeModules;
+            inherit userName homeProfile homeOverlays;
           }
           ++ [
             {
@@ -341,8 +370,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = borealAiModules;
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
       };
 
       boreal-tty-cyberdeck = {
@@ -350,8 +378,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        extraHomeModules = borealAiModules;
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
       };
 
       boreal = {
@@ -359,8 +386,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
-        extraHomeModules = borealGuiModules ++ [borealDesktopModule];
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
       };
 
       boreal-gaming = {
@@ -368,8 +394,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
-        extraHomeModules = borealGuiModules ++ [borealDesktopModule];
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
       };
 
       boreal-gamescope = {
@@ -377,8 +402,7 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
 
       boreal-niri = {
@@ -386,8 +410,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
-        extraHomeModules = borealGuiModules;
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "boreal-gui"];
       };
 
       boreal-hypr = {
@@ -395,8 +418,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
-        extraHomeModules = borealGuiModules;
-        includeCliExtras = true;
+        homeOverlays = ["cli-extras" "boreal-gui"];
       };
     };
 
@@ -406,8 +428,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
 
       rpi4-sway = {
@@ -415,8 +436,7 @@
         userName = "gars";
         systemProfile = "sway-arm";
         homeProfile = "sway-arm";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
 
       rpi4-sway-full = {
@@ -424,8 +444,7 @@
         userName = "gars";
         systemProfile = "sway-arm";
         homeProfile = "sway-arm-full";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
 
       rpi4-tty-cyberdeck = {
@@ -433,8 +452,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
     };
 
@@ -444,8 +462,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
 
       cyberdeck-tty = {
@@ -453,8 +470,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
+        homeOverlays = [];
       };
     };
 
@@ -466,7 +482,7 @@
         userName = "htmlgxn";
         homeProfile = "cli";
         system = "aarch64-darwin";
-        extraHomeModules = [./modules/home/ai-agents.nix];
+        homeOverlays = ["ai-cli-all"];
       };
     };
 
@@ -476,7 +492,7 @@
         userName = "htmlgxn";
         homeProfile = "cli";
         system = "aarch64-linux";
-        extraHomeModules = [];
+        homeOverlays = [];
       };
     };
   in {
