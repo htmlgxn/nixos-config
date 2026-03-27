@@ -54,7 +54,7 @@ Rebuild helpers:
 - `ns [query]` runs `nix-search-tv` through `fzf` with inline preview
 - `nout`, `noutn`, `noutd`, and `nouth` list the current flake outputs
 - `ncheck` and `ncheck-full` provide the default repo validation sequences
-- `nboh`, `ncopy`, `nremote-build`, `nremote-test`, and `nremote-switch` cover cross-host NixOS deployment flows
+- `nboh`, `ncopy`, `ncopy-test`, `ncopy-switch`, `nremote-build`, `nremote-test`, and `nremote-switch` cover cross-host NixOS deployment flows
 
 `nr` and `nrb` validate against the current `nixosConfigurations` in the flake instead of a hardcoded shell list.
 

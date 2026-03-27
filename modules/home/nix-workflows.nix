@@ -75,6 +75,13 @@
         printf '%s#nixosConfigurations.%s.config.system.build.toplevel' "$_nixcfg_repo" "$1"
       }
 
+      _nixcfg_realise_nixos_output() {
+        local output="$1"
+
+        _nixcfg_require_output nixosConfigurations "$output" || return 1
+        nix build --no-link --print-out-paths "$(_nixcfg_nixos_installable "$output")"
+      }
+
       _nixcfg_resolve_installable() {
         local target="$1"
 
@@ -140,6 +147,49 @@
         _nixcfg_require_output homeConfigurations "$output" || return 1
 
         home-manager "$action" --flake "$_nixcfg_repo#$output"
+      }
+
+      _nixcfg_copy_nixos_output() {
+        local output="$1"
+        local host="$2"
+        local store_path
+
+        if [[ -z "$output" || -z "$host" ]]; then
+          printf 'usage: ncopy <nixos-output> <ssh-host>\n' >&2
+          return 1
+        fi
+
+        store_path="$(_nixcfg_realise_nixos_output "$output")" || return 1
+        nix copy --to "ssh://$host" "$store_path" || return 1
+        printf '%s\n' "$store_path"
+      }
+
+      _nixcfg_activate_copied_output() {
+        local action="$1"
+        local output="$2"
+        local target_host="$3"
+        local store_path
+
+        if [[ -z "$output" || -z "$target_host" ]]; then
+          printf 'usage: ncopy-%s <nixos-output> <target-host>\n' "$action" >&2
+          return 1
+        fi
+
+        _nixcfg_require_command ssh || return 1
+        store_path="$(_nixcfg_copy_nixos_output "$output" "$target_host")" || return 1
+
+        case "$action" in
+          test)
+            ssh "$target_host" "sudo '$store_path/bin/switch-to-configuration' test"
+            ;;
+          switch)
+            ssh "$target_host" "sudo nix-env -p /nix/var/nix/profiles/system --set '$store_path' && sudo '$store_path/bin/switch-to-configuration' switch"
+            ;;
+          *)
+            printf 'unsupported action: %s\n' "$action" >&2
+            return 1
+            ;;
+        esac
       }
 
       nout() {
@@ -333,14 +383,7 @@
       ncopy() {
         local output="$1"
         local host="$2"
-
-        if [[ -z "$output" || -z "$host" ]]; then
-          printf 'usage: ncopy <nixos-output> <ssh-host>\n' >&2
-          return 1
-        fi
-
-        _nixcfg_require_output nixosConfigurations "$output" || return 1
-        nix copy --to "ssh://$host" "$(_nixcfg_nixos_installable "$output")"
+        _nixcfg_copy_nixos_output "$output" "$host"
       }
 
       nremote-build() {
@@ -395,17 +438,16 @@
           --target-host "$target_host"
       }
 
+      ncopy-test() {
+        _nixcfg_activate_copied_output test "$1" "$2"
+      }
+
+      ncopy-switch() {
+        _nixcfg_activate_copied_output switch "$1" "$2"
+      }
+
       ncopy-activate() {
-        local output="$1"
-        local target_host="$2"
-
-        if [[ -z "$output" || -z "$target_host" ]]; then
-          printf 'usage: ncopy-activate <nixos-output> <target-host>\n' >&2
-          return 1
-        fi
-
-        ncopy "$output" "$target_host" || return 1
-        nremote-test "$output" "$target_host"
+        ncopy-test "$1" "$2"
       }
 
       nfu() {

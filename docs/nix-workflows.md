@@ -99,17 +99,31 @@ nremote-test rpi4-tty pi@rpi4.local
 
 Use this when your current machine should do the heavy lifting and the target host should mostly just receive the finished closure.
 
-- `ncopy <output> <ssh-host>`: copy the output closure to the target host
-- `ncopy-activate <output> <target-host>`: copy the closure, then run a remote `test` activation
+- `ncopy <output> <ssh-host>`: build locally if needed, then copy the output closure to the target host
+- `ncopy-test <output> <target-host>`: build locally, copy the result, then run `switch-to-configuration test` on the target
+- `ncopy-switch <output> <target-host>`: build locally, copy the result, set the remote system profile, then fully switch
+- `ncopy-activate <output> <target-host>`: compatibility alias for `ncopy-test`
 
 This is useful when the target is slow, storage-constrained, or inconvenient to build on directly.
 
-Typical pattern:
+Typical safe pattern:
 
 ```bash
 nrb rpi4-tty
 ncopy rpi4-tty pi@rpi4.local
-nremote-test rpi4-tty pi@rpi4.local
+ncopy-test rpi4-tty pi@rpi4.local
+```
+
+What that means:
+
+- `nrb` proves the output builds locally
+- `ncopy` sends that already-built result to the target host
+- `ncopy-test` activates the copied result directly on the target without asking the target to rebuild it
+
+If you are already confident and want the full switch in one step:
+
+```bash
+ncopy-switch rpi4-tty pi@rpi4.local
 ```
 
 ### 3. Build on one host for another host
@@ -136,9 +150,9 @@ nship-remote rpi4-sway localhost pi@rpi4.local
 ## Which One Should I Use
 
 - Use `nremote-build` if the target machine can build for itself and you just want a remote-safe dry run.
-- Use `ncopy` plus `nremote-test` if you want to build locally first and keep the activation step explicit.
+- Use `ncopy` plus `ncopy-test` if you want to build locally first and keep the activation step explicit.
 - Use `nboh` if you need to separate the build machine from the target machine.
-- Use `nremote-switch` or `nship-remote` only when you are ready to actually change the target host.
+- Use `nremote-switch`, `ncopy-switch`, or `nship-remote` only when you are ready to actually change the target host.
 
 ## Important Safety Notes
 
@@ -146,6 +160,7 @@ nship-remote rpi4-sway localhost pi@rpi4.local
 - `test` activates the config until reboot but does not make it the default boot generation.
 - `switch` activates it and makes it the new default generation.
 - The helpers expect SSH access to the target host.
+- `ncopy-test` and `ncopy-switch` are the true “build here, activate there” commands.
 - For slow or fragile targets, prefer `build` or `test` first.
 
 Examples:
@@ -153,6 +168,7 @@ Examples:
 ```bash
 nremote-build rpi4-tty pi@rpi4.local
 nboh boreal-tty localhost gars@boreal.local build
+ncopy-test rpi4-tty pi@rpi4.local
 nship-remote rpi4-sway localhost pi@rpi4.local
 ```
 
@@ -195,7 +211,7 @@ ncheck-full
 
 ```bash
 nboh rpi4-tty localhost pi@rpi4.local build
-nremote-test rpi4-tty pi@rpi4.local
+ncopy-test rpi4-tty pi@rpi4.local
 ```
 
 ### Update one input and inspect the lockfile
@@ -237,7 +253,7 @@ ndiff-system 123 124
 
 ## Platform Notes
 
-- `nr`, `nrb`, `nrt`, `nrd`, `ncopy`, `nremote-*`, `nboh`, `ncopy-activate`, `nship`, and `nship-remote` are for NixOS outputs.
+- `nr`, `nrb`, `nrt`, `nrd`, `ncopy`, `ncopy-test`, `ncopy-switch`, `nremote-*`, `nboh`, `ncopy-activate`, `nship`, and `nship-remote` are for NixOS outputs.
 - `ndrs` and `ndrb` are for nix-darwin outputs.
 - `nhms` and `nhmb` are for standalone Home Manager outputs.
 - `nout*`, `npath`, `nshow`, `fnix*`, `ncheck*`, `neval`, `nb`, `nbi`, `nchk`, `nmeta`, `nwhy`, `nrepl`, `nfu*`, and `nclean-*` are cross-platform as long as the underlying commands exist.
