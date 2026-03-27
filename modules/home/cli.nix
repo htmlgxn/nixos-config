@@ -19,6 +19,8 @@ in {
       nix-search-tv
       alejandra # nix formatter
       nix-tree
+      deadnix
+      statix
 
       # ── Neovim Tooling ─────────────────────────────────────────────
       nodePackages.bash-language-server
