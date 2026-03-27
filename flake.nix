@@ -332,8 +332,8 @@
           ];
       };
 
-    # ── NixOS output definitions ─────────────────────────────────────
-    nixosOutputDefs = {
+    # ── NixOS output definitions (grouped by host) ────────────────────
+    borealOutputDefs = {
       boreal-tty = {
         hostName = "boreal";
         userName = "gars";
@@ -350,15 +350,6 @@
         homeProfile = "cli-cyberdeck";
         extraHomeModules = borealAiModules;
         includeCliExtras = true;
-      };
-
-      nixos-vm = {
-        hostName = "nixos-vm";
-        userName = "gars";
-        systemProfile = "tty";
-        homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
       };
 
       boreal = {
@@ -405,16 +396,9 @@
         extraHomeModules = borealGuiModules;
         includeCliExtras = true;
       };
+    };
 
-      cyberdeck-tty = {
-        hostName = "cyberdeck";
-        userName = "gars";
-        systemProfile = "tty";
-        homeProfile = "cli";
-        extraHomeModules = [];
-        includeCliExtras = false;
-      };
-
+    rpi4OutputDefs = {
       rpi4-tty = {
         hostName = "rpi4";
         userName = "gars";
@@ -451,6 +435,28 @@
         includeCliExtras = false;
       };
     };
+
+    otherOutputDefs = {
+      nixos-vm = {
+        hostName = "nixos-vm";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
+        extraHomeModules = [];
+        includeCliExtras = false;
+      };
+
+      cyberdeck-tty = {
+        hostName = "cyberdeck";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
+        extraHomeModules = [];
+        includeCliExtras = false;
+      };
+    };
+
+    nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // otherOutputDefs;
 
     # ── nix-darwin output definitions ────────────────────────────────
     darwinOutputDefs = {
