@@ -15,7 +15,7 @@
 | `cyberdeck-tty` | NixOS | `cyberdeck` | `tty` | `cli` |
 | `rpi4-tty` | NixOS | `rpi4` | `tty` | `cli` |
 | `rpi4-sway` | NixOS | `rpi4` | `sway-arm` | `sway-arm` |
-| `rpi4-sway-full` | NixOS | `rpi4` | `sway-arm` | `sway-arm` |
+| `rpi4-sway-full` | NixOS | `rpi4` | `sway-arm` | `sway-arm-full` |
 | `rpi4-tty-cyberdeck` | NixOS | `rpi4` | `tty` | `cli-cyberdeck` |
 | `macbook` | nix-darwin | `htmlgxn` | n/a | `cli` |
 | `fedora-arm` | Home Manager | `htmlgxn` | n/a | `cli` |

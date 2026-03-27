@@ -51,6 +51,7 @@ Use the same approach for other hosts once they become complex enough to justify
 - `my.wallpaper`
 - `my.isNixOS`
 - `my.ollamaPackage`
+- `my.terminal`
 - `my.dualKeyboardLayout`
 - `my.showRootDisk`
 - `my.terminalTheme`

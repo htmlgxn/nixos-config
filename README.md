@@ -32,7 +32,7 @@ This repo is organized around a small set of composable layers:
 | `cyberdeck-tty` | NixOS | Jetson cyberdeck TTY profile |
 | `rpi4-tty` | NixOS | Raspberry Pi 4 TTY profile |
 | `rpi4-sway` | NixOS | Raspberry Pi 4 Sway profile (no Flatpak) |
-| `rpi4-sway-full` | NixOS | Raspberry Pi 4 Sway profile with full package set |
+| `rpi4-sway-full` | NixOS | Raspberry Pi 4 Sway with full home profile |
 | `rpi4-tty-cyberdeck` | NixOS | Raspberry Pi 4 TTY profile plus cyberdeck CLI additions |
 | `macbook` | nix-darwin | Apple Silicon nix-darwin host with Home Manager |
 | `fedora-arm` | Home Manager | Standalone Home Manager profile for Fedora ARM |
