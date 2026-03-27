@@ -71,7 +71,7 @@
         ;;
     esac
   '';
-  quebecText = ../../home/gars/dots/waybar/quebec.txt;
+  quebecText = config.my.dotfilesNixPath + "/dots/waybar/quebec.txt";
 in {
   style = theme.css;
 
