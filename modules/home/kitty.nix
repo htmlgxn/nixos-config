@@ -8,7 +8,7 @@
   theme = config.my.terminalThemeData;
 in {
   programs.kitty = {
-    enable = true;
+    enable = config.my.terminal == "kitty";
     font = {
       name = "Roboto Mono";
       size = 11.0;

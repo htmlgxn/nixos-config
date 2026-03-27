@@ -43,11 +43,10 @@
     ];
 
     # ── Named home overlay groups (selected explicitly by outputs) ──
-    borealDesktopModule = {pkgs, ...}: {
+    borealDesktopModule = {...}: {
       my.dualKeyboardLayout = true;
       my.showRootDisk = true;
       my.terminal = "kitty";
-      home.packages = [pkgs.kitty];
     };
 
     homeOverlayGroups = rec {

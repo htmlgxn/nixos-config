@@ -22,7 +22,7 @@ in {
       main = {
         font = "Roboto Mono:size=13";
         prompt = "\"⚜️ \"";
-        terminal = "kitty";
+        terminal = config.my.terminal;
         layer = "overlay";
         "exit-on-keyboard-focus-loss" = "yes";
 

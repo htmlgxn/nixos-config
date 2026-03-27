@@ -8,7 +8,7 @@
   theme = config.my.terminalThemeData;
 in {
   programs.alacritty = {
-    enable = true;
+    enable = config.my.terminal == "alacritty";
     settings = {
       font = {
         size = 11.0;

@@ -2,6 +2,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   waybarCfg = import ./waybar-settings.nix {inherit pkgs config;};
@@ -23,44 +24,45 @@ in {
     style = waybarCfg.style;
   };
 
-  home.packages = with pkgs; [
-    # ── Terminal Emulator ───────────────────────────────────────────
-    foot
+  home.packages = with pkgs;
+    [
+      # ── Launcher ────────────────────────────────────────────────────
+      fuzzel
 
-    # ── Launcher ────────────────────────────────────────────────────
-    fuzzel
+      # ── File Manager ────────────────────────────────────────────────
+      thunar
 
-    # ── File Manager ────────────────────────────────────────────────
-    thunar
+      # ── Wayland Utilities ───────────────────────────────────────────
+      wlsunset
+      wl-clipboard
 
-    # ── Wayland Utilities ───────────────────────────────────────────
-    wlsunset
-    wl-clipboard
+      # ── GTK Theming ─────────────────────────────────────────────────
+      gsettings-desktop-schemas
+      glib # provides gsettings binary
 
-    # ── GTK Theming ─────────────────────────────────────────────────
-    gsettings-desktop-schemas
-    glib # provides gsettings binary
+      # ── Screenshot ──────────────────────────────────────────────────
+      grim
 
-    # ── Screenshot ──────────────────────────────────────────────────
-    grim
+      # ── Notifications ───────────────────────────────────────────────
+      mako
 
-    # ── Notifications ───────────────────────────────────────────────
-    mako
+      # ── Status Bar ──────────────────────────────────────────────────
+      waybar
 
-    # ── Status Bar ──────────────────────────────────────────────────
-    waybar
+      # ── Lock / Idle ─────────────────────────────────────────────────
+      swaybg
+      swaylock
+      swayidle
 
-    # ── Lock / Idle ─────────────────────────────────────────────────
-    swaybg
-    swaylock
-    swayidle
-
-    # ── System Utilities ────────────────────────────────────────────
-    polkit_gnome
-    brightnessctl
-    networkmanagerapplet
-    pavucontrol
-  ];
+      # ── System Utilities ────────────────────────────────────────────
+      polkit_gnome
+      brightnessctl
+      networkmanagerapplet
+      pavucontrol
+    ]
+    ++ lib.optionals (config.my.terminal == "foot") [
+      foot
+    ];
 
   # ── Brave with Symlinks + Extensions ──────────────────────────────
   programs.brave = {

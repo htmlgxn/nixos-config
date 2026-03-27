@@ -33,7 +33,7 @@ These are the explicit home-level add-on groups selected by outputs:
 - `ai-ollama-rocm`: `ai-ollama` plus `modules/home/ai-ollama-rocm.nix`
 - `cli-extras`: `modules/home/cli-extras.nix`
 - `boreal-gui`: `ai-cli-all`, `ai-ollama-rocm`, plus `modules/home/brave-bookmarks-sync.nix`
-- `boreal-desktop`: inline Boreal desktop defaults for keyboard layout, root-disk waybar module, terminal preference, and `kitty`
+- `boreal-desktop`: inline Boreal desktop defaults for keyboard layout, root-disk waybar module, and terminal preference (`kitty` on Boreal)
 
 Host-level Home Manager modules are separate from overlay groups:
 
@@ -113,6 +113,12 @@ Neovim helpers:
 - `my.jellyfin.transcodeSize`
 
 `my.ollamaPackage` is now intended to be set explicitly by `ai-ollama` overlays rather than implicitly by user modules.
+
+`my.terminal` now acts as the terminal selector for GUI outputs:
+
+- `foot` is the shared default
+- `kitty` is selected by Boreal through `boreal-desktop`
+- `alacritty` remains available as a future explicit selection path and will enable its existing Home Manager config when chosen
 
 ## Host Notes
 

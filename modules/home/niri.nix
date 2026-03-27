@@ -8,7 +8,7 @@
   waybar = import ./waybar-settings.nix {inherit pkgs config;};
   theme = config.my.guiThemeData.niri;
   mod = "Mod";
-  term = "kitty";
+  term = config.my.terminal;
   menu = "fuzzel";
   workspaceKeys = (map toString (builtins.genList (x: x + 1) 9)) ++ ["0"];
   workspaceIndex = key:
