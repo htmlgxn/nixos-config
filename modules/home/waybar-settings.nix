@@ -72,6 +72,7 @@
     esac
   '';
   quebecText = config.my.dotfilesNixPath + "/dots/waybar/quebec.txt";
+  brandColor = theme.colors.brand;
 in {
   style = theme.css;
 
@@ -124,21 +125,21 @@ in {
     "custom/keyboard-layout" = {
       exec = "${keyboardLayoutScript}";
       interval = 1;
-      format = "kbd {}";
+      format = "<span color='${brandColor}'>kbd</span> {}";
       tooltip = false;
       "on-click" = "${pkgs.sway}/bin/swaymsg input type:keyboard xkb_switch_layout next";
     };
 
     disk = {
       interval = 30;
-      format = "/ {percentage_used}%";
+      format = "<span color='${brandColor}'>/</span> {percentage_used}%";
       path = "/";
       tooltip = true;
       "tooltip-format" = "{used} used of {total} ({free} free)";
     };
 
     pulseaudio = {
-      format = "{icon} / vol {volume}%";
+      format = "{icon} <span color='${brandColor}'>/ vol</span> {volume}%";
       "format-muted" = "🔇 / muted";
       "format-icons" = {
         default = ["🔈" "🔉" "🔉" "🔊"];
@@ -149,14 +150,14 @@ in {
 
     memory = {
       interval = 2;
-      format = "ram {percentage}%";
+      format = "<span color='${brandColor}'>ram</span> {percentage}%";
       tooltip = true;
       "tooltip-format" = "{used:0.1f}G used of {total:0.1f}G";
     };
 
     cpu = {
       interval = 2;
-      format = "cpu {usage}%";
+      format = "<span color='${brandColor}'>cpu</span> {usage}%";
       tooltip = false;
     };
 

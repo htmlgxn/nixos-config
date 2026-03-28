@@ -114,7 +114,7 @@
     #memory,
     #cpu,
     #network {
-        color: #c9aa10;
+        color: #1e1a06;
     }
 
     #pulseaudio.muted {
