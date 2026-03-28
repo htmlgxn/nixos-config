@@ -131,7 +131,7 @@ in {
 
     disk = {
       interval = 30;
-      format = "root[/] ﹫ {percentage_used}%";
+      format = "/ {percentage_used}%";
       path = "/";
       tooltip = true;
       "tooltip-format" = "{used} used of {total} ({free} free)";
