@@ -73,6 +73,7 @@ in {
       wireguard-tools
       mosh
       k9s
+      proton-vpn-cli
       # bluetui # when bluetooth support is added
 
       # ── Media ───────────────────────────────────────────────────────

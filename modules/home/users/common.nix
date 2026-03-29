@@ -12,14 +12,14 @@
     userDirs = {
       enable = true;
       createDirectories = true;
-      desktop     = "${config.home.homeDirectory}/desktop";
-      documents   = "${config.home.homeDirectory}/documents";
-      download    = "${config.home.homeDirectory}/downloads";
-      music       = "${config.home.homeDirectory}/music";
-      pictures    = "${config.home.homeDirectory}/pictures";
+      desktop = "${config.home.homeDirectory}/desktop";
+      documents = "${config.home.homeDirectory}/documents";
+      download = "${config.home.homeDirectory}/downloads";
+      music = "${config.home.homeDirectory}/music";
+      pictures = "${config.home.homeDirectory}/pictures";
       publicShare = "${config.home.homeDirectory}/public";
-      templates   = "${config.home.homeDirectory}/templates";
-      videos      = "${config.home.homeDirectory}/videos";
+      templates = "${config.home.homeDirectory}/templates";
+      videos = "${config.home.homeDirectory}/videos";
     };
   };
 
@@ -58,6 +58,9 @@
       emo = "emoji-picker-cli";
       soft = "ssh soft"; # SSH config and key are managed by home-manager (programs.ssh below)
       softrc = "ssh soft repo create";
+
+      # ── cURL ─────────────────────────────────────────────────
+      ipcheck = "curl ipinfo.io/ip && echo '' && curl ipinfo.io/country";
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
