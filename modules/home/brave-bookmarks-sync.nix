@@ -4,10 +4,10 @@
   ...
 }: {
   systemd.user.services.brave-bookmarks-sync = {
-    Unit.Description = "Copy Brave bookmarks into nixos-config repo";
+    Unit.Description = "Copy Brave bookmarks to ~/dev/raw-dots/brave/";
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.coreutils}/bin/cp %h/.config/BraveSoftware/Brave-Browser/Default/Bookmarks ${config.my.repoRoot}/home/gars/dots/brave/Bookmarks";
+      ExecStart = "${pkgs.coreutils}/bin/cp %h/.config/BraveSoftware/Brave-Browser/Default/Bookmarks %h/dev/raw-dots/brave/Bookmarks";
     };
   };
 
