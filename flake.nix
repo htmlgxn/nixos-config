@@ -372,9 +372,6 @@
         systemProfile = "tty";
         homeProfile = "cli";
         homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
-        nixpkgsOverlays = [
-          (import ./overlays/brave-nightly.nix)
-        ];
       };
 
       boreal-tty-cyberdeck = {
@@ -383,9 +380,6 @@
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
         homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
-        nixpkgsOverlays = [
-          (import ./overlays/brave-nightly.nix)
-        ];
       };
 
       boreal = {
@@ -416,9 +410,6 @@
         systemProfile = "gamescope";
         homeProfile = "gamescope";
         homeOverlays = [];
-        nixpkgsOverlays = [
-          (import ./overlays/brave-nightly.nix)
-        ];
       };
 
       boreal-niri = {
