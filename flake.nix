@@ -134,13 +134,13 @@
         extraSystemModules = [];
       };
 
-      cyberdeck = {
-        system = "aarch64-linux";
-        module = ./hosts/cyberdeck/configuration.nix;
-        extraSystemModules = [
-          jetpack-nixos.nixosModules.default
-        ];
-      };
+      # cyberdeck = {
+      #   system = "aarch64-linux";
+      #   module = ./hosts/cyberdeck/configuration.nix;
+      #   extraSystemModules = [
+      #     jetpack-nixos.nixosModules.default
+      #   ];
+      # };
 
       rpi4 = {
         system = "aarch64-linux";
@@ -285,6 +285,7 @@
       systemProfile,
       homeProfile,
       homeOverlays ? [],
+      nixpkgsOverlays ? [],
     }: let
       host = hosts.${hostName};
     in
@@ -295,6 +296,7 @@
             ({...}: {
               nixpkgs.hostPlatform = host.system;
               nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = nixpkgsOverlays;
             })
             host.module
           ]
@@ -370,6 +372,9 @@
         systemProfile = "tty";
         homeProfile = "cli";
         homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal-tty-cyberdeck = {
@@ -378,6 +383,9 @@
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
         homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal = {
@@ -386,6 +394,9 @@
         systemProfile = "sway";
         homeProfile = "sway";
         homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal-gaming = {
@@ -394,6 +405,9 @@
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
         homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal-gamescope = {
@@ -402,6 +416,9 @@
         systemProfile = "gamescope";
         homeProfile = "gamescope";
         homeOverlays = [];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal-niri = {
@@ -410,6 +427,9 @@
         systemProfile = "niri";
         homeProfile = "niri";
         homeOverlays = ["cli-extras" "boreal-gui"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
 
       boreal-hypr = {
@@ -418,6 +438,9 @@
         systemProfile = "hyprland";
         homeProfile = "hyprland";
         homeOverlays = ["cli-extras" "boreal-gui"];
+        nixpkgsOverlays = [
+          (import ./overlays/brave-nightly.nix)
+        ];
       };
     };
 
@@ -464,13 +487,13 @@
         homeOverlays = [];
       };
 
-      cyberdeck-tty = {
-        hostName = "cyberdeck";
-        userName = "gars";
-        systemProfile = "tty";
-        homeProfile = "cli";
-        homeOverlays = [];
-      };
+      # cyberdeck-tty = {
+      #   hostName = "cyberdeck";
+      #   userName = "gars";
+      #   systemProfile = "tty";
+      #   homeProfile = "cli";
+      #   homeOverlays = [];
+      # };
     };
 
     nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // otherOutputDefs;
@@ -498,5 +521,15 @@
     nixosConfigurations = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
     darwinConfigurations = lib.mapAttrs (_: cfg: mkDarwinOutput cfg) darwinOutputDefs;
     homeConfigurations = lib.mapAttrs (_: cfg: mkHomeOutput cfg) homeOutputDefs;
+
+    apps.x86_64-linux.update-brave-nightly = {
+      type = "app";
+      program =
+        let
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        in
+        "${pkgs.writeShellScriptBin "update-brave-nightly"
+          (builtins.readFile ./scripts/update-brave-nightly.sh)}/bin/update-brave-nightly";
+    };
   };
 }
