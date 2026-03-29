@@ -1,5 +1,5 @@
 # boreal service-local values consumed by shared modules.
-{lib, ...}: {
+{lib, pkgs, ...}: {
   imports = [
     ../../modules/system/soft-serve.nix
   ];
@@ -23,6 +23,8 @@
       Group = lib.mkForce "soft-serve";
     };
   };
+
+  environment.systemPackages = [pkgs.borgbackup];
 
   my.jellyfin = {
     vaDriver = "radeonsi";
