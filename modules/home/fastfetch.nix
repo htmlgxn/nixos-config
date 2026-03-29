@@ -1,11 +1,5 @@
-# Fastfetch configurations with two presets:
-# - Default: standard system info display
-# - Minimal: privacy-oriented, riced output for social media
-{
-  pkgs,
-  lib,
-  ...
-}: {
+# Fastfetch configurations
+{pkgs, ...}: {
   home.packages = with pkgs; [
     fastfetch
   ];
