@@ -516,12 +516,10 @@
 
     apps.x86_64-linux.update-brave-nightly = {
       type = "app";
-      program =
-        let
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        in
-        "${pkgs.writeShellScriptBin "update-brave-nightly"
-          (builtins.readFile ./scripts/update-brave-nightly.sh)}/bin/update-brave-nightly";
+      program = let
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      in "${pkgs.writeShellScriptBin "update-brave-nightly"
+        (builtins.readFile ./scripts/update-brave-nightly.sh)}/bin/update-brave-nightly";
     };
   };
 }

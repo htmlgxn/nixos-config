@@ -44,7 +44,8 @@ in {
 
     extraCreateArgs = [
       "--stats"
-      "--checkpoint-interval" "600"
+      "--checkpoint-interval"
+      "600"
     ];
   };
 

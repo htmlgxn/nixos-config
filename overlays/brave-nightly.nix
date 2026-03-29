@@ -9,7 +9,7 @@ final: prev: {
       sha256 = "sha256-PIdbxBWQQZ8eVXyOB5VumRfaarAcVpG1Bli68tNxqF8=";
     };
 
-    nativeBuildInputs = [ prev.dpkg prev.makeWrapper prev.patchelf ];
+    nativeBuildInputs = [prev.dpkg prev.makeWrapper prev.patchelf];
 
     dontConfigure = true;
     dontBuild = true;
@@ -78,7 +78,7 @@ final: prev: {
       makeWrapper $BINARY $out/bin/brave \
         --set LD_LIBRARY_PATH "$rpath" \
         --set CHROME_WRAPPER brave \
-        --prefix PATH : "${prev.lib.makeBinPath [ prev.xdg-utils prev.coreutils ]}"
+        --prefix PATH : "${prev.lib.makeBinPath [prev.xdg-utils prev.coreutils]}"
 
       # Fix desktop file paths
       substituteInPlace $out/share/applications/brave-browser-nightly.desktop \
@@ -103,7 +103,7 @@ final: prev: {
       description = "Brave Browser Nightly - Early preview of new features";
       homepage = "https://brave.com";
       license = prev.lib.licenses.mpl20;
-      platforms = [ "x86_64-linux" ];
+      platforms = ["x86_64-linux"];
     };
   });
 }

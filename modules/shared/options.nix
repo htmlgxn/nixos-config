@@ -124,10 +124,22 @@ in {
       };
 
       keep = {
-        daily = mkOption { type = types.int; default = 14; };
-        weekly = mkOption { type = types.int; default = 8; };
-        monthly = mkOption { type = types.int; default = 12; };
-        yearly = mkOption { type = types.int; default = 5; };
+        daily = mkOption {
+          type = types.int;
+          default = 14;
+        };
+        weekly = mkOption {
+          type = types.int;
+          default = 8;
+        };
+        monthly = mkOption {
+          type = types.int;
+          default = 12;
+        };
+        yearly = mkOption {
+          type = types.int;
+          default = 5;
+        };
       };
     };
 
