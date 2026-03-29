@@ -41,5 +41,6 @@
     file
     unzip
     zip
+    gocryptfs
   ];
 }

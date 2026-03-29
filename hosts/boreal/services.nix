@@ -1,7 +1,8 @@
 # boreal service-local values consumed by shared modules.
-{lib, pkgs, ...}: {
+{lib, ...}: {
   imports = [
     ../../modules/system/soft-serve.nix
+    ../../modules/system/borg.nix
   ];
 
   users.users.soft-serve = {
@@ -24,7 +25,35 @@
     };
   };
 
-  environment.systemPackages = [pkgs.borgbackup];
+  my.borg = let
+    home = "/home/gars";
+  in {
+    repoPath = "/mnt/archive/backup/gars";
+    paths = [
+      "${home}/dev"
+      "${home}/videos"
+      "${home}/downloads"
+      "${home}/pictures"
+      "${home}/documents"
+      "${home}/archive"
+      "${home}/music"
+      "${home}/.config"
+      "${home}/.claude"
+      "${home}/.codex"
+      "${home}/.qwen"
+      "${home}/.gemini"
+      "${home}/.ssh"
+    ];
+    exclude = [
+      "*/node_modules"
+      "*/.direnv"
+      "*/result"
+      "*/__pycache__"
+      "*/.venv"
+      "*.pyc"
+      "*/.cache"
+    ];
+  };
 
   my.jellyfin = {
     vaDriver = "radeonsi";

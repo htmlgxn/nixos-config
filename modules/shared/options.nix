@@ -94,6 +94,43 @@ in {
       description = "Neovim color theme name";
     };
 
+    borg = {
+      repoPath = mkOption {
+        type = types.str;
+        default = "";
+        example = "/mnt/archive/backup/gars";
+        description = "Absolute path to the borg repository.";
+      };
+
+      paths = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = ["/home/gars/dev" "/home/gars/documents"];
+        description = "Directories to back up.";
+      };
+
+      exclude = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = ["*/node_modules" "*/.direnv"];
+        description = "Glob patterns to exclude from backup.";
+      };
+
+      startAt = mkOption {
+        type = types.str;
+        default = "daily";
+        example = "03:00";
+        description = "systemd calendar expression for backup schedule.";
+      };
+
+      keep = {
+        daily = mkOption { type = types.int; default = 14; };
+        weekly = mkOption { type = types.int; default = 8; };
+        monthly = mkOption { type = types.int; default = 12; };
+        yearly = mkOption { type = types.int; default = 5; };
+      };
+    };
+
     jellyfin = {
       vaDriver = mkOption {
         type = types.str;
