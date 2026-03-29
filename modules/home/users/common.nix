@@ -41,6 +41,7 @@
       wiki = "wiki-tui";
       emo = "emoji-picker-cli";
       soft = "ssh soft"; # SSH config and key are managed by home-manager (programs.ssh below)
+      softrc = "ssh soft repo create";
 
       # ── Git ───────────────────────────────────────────────────────────
       ga = "git add .";
@@ -75,6 +76,12 @@
       UV_PYTHON_DOWNLOADS = "never";
       PATH = "$HOME/.local/bin:$PATH"; # uv tools location
     };
+
+    initExtra = ''
+      # Fastfetch aliases as functions (aliases don't support arguments)
+      ff() { fastfetch; }
+      ff-min() { fastfetch --config minimal; }
+    '';
 
     profileExtra = ''
       # manually add to .bash_profile here

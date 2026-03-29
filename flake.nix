@@ -103,6 +103,7 @@
       ./modules/shared/options.nix
       ./modules/home/cli.nix
       ./modules/home/containers.nix
+      ./modules/home/fastfetch.nix
       ./modules/home/packages
     ];
 
