@@ -12,7 +12,7 @@
 | `boreal-niri` | NixOS | `boreal` / `gars` | `niri` | `niri` | `cli-extras`, `boreal-gui` |
 | `boreal-hypr` | NixOS | `boreal` / `gars` | `hyprland` | `hyprland` | `cli-extras`, `boreal-gui` |
 | `nixos-vm` | NixOS | `nixos-vm` / `gars` | `tty` | `cli` | none |
-| `cyberdeck-tty` | NixOS | `cyberdeck` / `gars` | `tty` | `cli` | none |
+| `cyberdeck-tty` | NixOS | `cyberdeck` / `gars` | `tty` | `cli` | none (commented out in flake.nix) |
 | `rpi4-tty` | NixOS | `rpi4` / `gars` | `tty` | `cli` | none |
 | `rpi4-sway` | NixOS | `rpi4` / `gars` | `sway-arm` | `sway-arm` | none |
 | `rpi4-sway-full` | NixOS | `rpi4` / `gars` | `sway-arm` | `sway-arm-full` | none |
