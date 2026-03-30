@@ -26,7 +26,7 @@ in {
 
   home.packages = with pkgs;
     [
-      ungoogled-chromium # uncomment if needed temporarily
+      #ungoogled-chromium # uncomment if needed temporarily
       # ── Launcher ────────────────────────────────────────────────────
       fuzzel
 
