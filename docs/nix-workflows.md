@@ -104,9 +104,9 @@ That gives you four practical build-location models:
 2. local emulated/cross-arch build
    Example: `nrb rpi4-tty` on Boreal
 3. remote target-host build
-   Example: `nremote-build rpi4-tty pi@rpi4.local`
+   Example: `nremote-build rpi4-tty gars@rpi4.local`
 4. separate build-host and target-host
-   Example: `nboh rpi4-tty localhost pi@rpi4.local build`
+   Example: `nboh rpi4-tty localhost gars@rpi4.local build`
 
 ## Remote And Cross-Host Flows
 
@@ -127,8 +127,8 @@ This is the simplest model when the remote host is powerful enough and already h
 Example:
 
 ```bash
-nremote-build rpi4-tty pi@rpi4.local
-nremote-test rpi4-tty pi@rpi4.local
+nremote-build rpi4-tty gars@rpi4.local
+nremote-test rpi4-tty gars@rpi4.local
 ```
 
 ### 2. Build locally, then send the result to the target host
@@ -146,8 +146,8 @@ Typical safe pattern:
 
 ```bash
 nrb rpi4-tty
-ncopy rpi4-tty pi@rpi4.local
-ncopy-test rpi4-tty pi@rpi4.local
+ncopy rpi4-tty gars@rpi4.local
+ncopy-test rpi4-tty gars@rpi4.local
 ```
 
 What that means:
@@ -159,7 +159,7 @@ What that means:
 If you are already confident and want the full switch in one step:
 
 ```bash
-ncopy-switch rpi4-tty pi@rpi4.local
+ncopy-switch rpi4-tty gars@rpi4.local
 ```
 
 ### 3. Build on one host for another host
@@ -178,9 +178,9 @@ This is the “real” cross-host flow:
 Example:
 
 ```bash
-nboh rpi4-sway localhost pi@rpi4.local build
-nboh rpi4-sway localhost pi@rpi4.local test
-nship-remote rpi4-sway localhost pi@rpi4.local
+nboh rpi4-sway localhost gars@rpi4.local build
+nboh rpi4-sway localhost gars@rpi4.local test
+nship-remote rpi4-sway localhost gars@rpi4.local
 ```
 
 ## Which One Should I Use
@@ -202,10 +202,10 @@ nship-remote rpi4-sway localhost pi@rpi4.local
 Examples:
 
 ```bash
-nremote-build rpi4-tty pi@rpi4.local
+nremote-build rpi4-tty gars@rpi4.local
 nboh boreal-tty localhost gars@boreal.local build
-ncopy-test rpi4-tty pi@rpi4.local
-nship-remote rpi4-sway localhost pi@rpi4.local
+ncopy-test rpi4-tty gars@rpi4.local
+nship-remote rpi4-sway localhost gars@rpi4.local
 ```
 
 ## Lockfile And Store Maintenance
@@ -246,8 +246,8 @@ ncheck-full
 ### Build on one host and push to another
 
 ```bash
-nboh rpi4-tty localhost pi@rpi4.local build
-ncopy-test rpi4-tty pi@rpi4.local
+nboh rpi4-tty localhost gars@rpi4.local build
+ncopy-test rpi4-tty gars@rpi4.local
 ```
 
 ### Update one input and inspect the lockfile
