@@ -12,4 +12,9 @@
   };
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
+  # Keychron vendor ID (Browser HID)
+  services.udev.extraRules = ''
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", MODE="0660", GROUP="users", TAG+="uaccess"
+  '';
 }

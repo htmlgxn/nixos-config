@@ -82,10 +82,14 @@ in {
       ffmpeg-full
       cava
       wiki-tui
+      #telescope # telescope and amfora are gemini browsers
+      #amfora
 
       # ── Calculator & Notes ──────────────────────────────────────────
       fend
       glow # markdown reader
+      frogmouth
+      md-tui
       basalt # Obsidian CLI
       dijo # habit tracker
 

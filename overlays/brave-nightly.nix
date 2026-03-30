@@ -2,11 +2,11 @@ final: prev: {
   brave = prev.stdenv.mkDerivation (finalAttrs: {
     pname = "brave-browser-nightly";
     # DO NOT edit version/sha256 manually — managed by scripts/update-brave-nightly.sh
-    version = "1.90.79";
+    version = "1.90.80";
 
     src = prev.fetchurl {
       url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-browser-nightly_${finalAttrs.version}_amd64.deb";
-      sha256 = "sha256-PIdbxBWQQZ8eVXyOB5VumRfaarAcVpG1Bli68tNxqF8=";
+      sha256 = "sha256-oI2yNtaqKqUB9eUdig0ACsYxEkTWLJj6Pwd6ZBgzE0U=";
     };
 
     nativeBuildInputs = [prev.dpkg prev.makeWrapper prev.patchelf];
