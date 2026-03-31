@@ -78,7 +78,7 @@ in {
             if config.my.dualKeyboardLayout
             then "us,graphite"
             else "us";
-          xkb_options = "caps:escape";
+          # xkb_options = "caps:escape"; # Defined by Keychron settings now - uncomment if changes
           xkb_numlock = "true";
         };
       };

@@ -24,7 +24,9 @@ in {
   programs.bash = {
     shellAliases = {
       # ── Test ─────────────────────────────────────────────────────────
-      # wiki-explore = "cd ~/wiki-md-tmp/ && fzf --print0 | xargs -0 -o mdt";
+      wiki-explore = "cd ~/wmd/ && fzf --print0 | xargs -0 -o mdt";
+      wiki-pick = "cd ~/wmd/ && fzf --print0 | xargs -0 -o";
+
       # ── NixOS-specific shortcuts ─────────────────────────────────────
       eh = "nvim ${config.my.repoRoot}/modules/home/users/gars.nix";
       ehsway = "nvim ${config.my.repoRoot}/modules/home/sway.nix";
