@@ -46,10 +46,15 @@
       # ── Misc ────────────────────────────────────────────────────────
       qbittorrent
       anarchism
+
+      # ── CAD ─────────────────────────────────────────────────────────
+      kicad
     ]
     # ── Linux-only (not available on Darwin) ──────────────────────────
     ++ lib.optionals pkgs.stdenv.isLinux [
+      # More CAD
       freecad
+      # Docs
       libreoffice-fresh
     ];
 }
