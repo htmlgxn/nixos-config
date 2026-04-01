@@ -43,5 +43,6 @@
     zip
     gocryptfs
     usbutils
+    gptfdisk
   ];
 }
