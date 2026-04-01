@@ -546,6 +546,13 @@
         system = "aarch64-linux";
         homeOverlays = [];
       };
+
+      jetpack-tty = {
+        userName = "gars";
+        homeProfile = "cli";
+        system = "aarch64-linux";
+        homeOverlays = [];
+      };
     };
   in let
     nixosConfigs = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;

@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
 - `flake.nix` defines outputs through descriptor attrsets for `users`, `hosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
-- Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`. Darwin output: `macbook`. Standalone HM output: `fedora-arm`.
+- Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`. Darwin output: `macbook`. Standalone HM outputs: `fedora-arm`, `jetpack-tty` (Jetson Orin Nano DevKit, aarch64-linux, bare CLI).
 - Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, and `bookokrat`.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
