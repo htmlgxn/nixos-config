@@ -193,6 +193,14 @@
         ./modules/home/sway.nix
         ./modules/home/nvim-theme.nix
       ];
+      dwm-arm = [
+        ./modules/home/dwm.nix
+        ./modules/home/nvim-theme.nix
+      ];
+      i3-arm = [
+        ./modules/home/i3.nix
+        ./modules/home/nvim-theme.nix
+      ];
       sway-arm-full = [
         ./modules/home/gui-base.nix
         ./modules/home/gui-extras.nix
@@ -559,6 +567,20 @@
       jetpack-tty = {
         userName = "gars";
         homeProfile = "cli";
+        system = "aarch64-linux";
+        homeOverlays = ["cli-base"];
+      };
+
+      jetpack-dwm = {
+        userName = "gars";
+        homeProfile = "dwm-arm";
+        system = "aarch64-linux";
+        homeOverlays = ["cli-base"];
+      };
+
+      jetpack-i3 = {
+        userName = "gars";
+        homeProfile = "i3-arm";
         system = "aarch64-linux";
         homeOverlays = ["cli-base"];
       };
