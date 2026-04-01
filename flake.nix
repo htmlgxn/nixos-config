@@ -143,6 +143,14 @@
       #   ];
       # };
 
+      cyberdeck = {
+        system = "aarch64-linux";
+        module = ./hosts/cyberdeck/configuration.nix;
+        extraSystemModules = [
+          jetpack-nixos.nixosModules.default
+        ];
+      };
+
       rpi4 = {
         system = "aarch64-linux";
         module = ./hosts/rpi4/configuration.nix;
@@ -159,6 +167,9 @@
       ];
       cli-cyberdeck = [
         ./modules/home/cli-cyberdeck.nix
+        ./modules/home/nvim-theme.nix
+      ];
+      cyberdeck-minimal = [
         ./modules/home/nvim-theme.nix
       ];
       sway = [
@@ -289,6 +300,15 @@
       nixpkgsOverlays ? [],
     }: let
       host = hosts.${hostName};
+      homeManagerModule =
+        if homeProfile == null then []
+        else [
+          home-manager.nixosModules.home-manager
+          (mkHomeModule {
+            inherit userName homeProfile homeOverlays;
+            hostHomeModules = host.hostHomeModules or [];
+          })
+        ];
     in
       nixpkgs.lib.nixosSystem {
         modules =
@@ -303,13 +323,7 @@
           ]
           ++ systemProfiles.${systemProfile}
           ++ host.extraSystemModules
-          ++ [
-            home-manager.nixosModules.home-manager
-            (mkHomeModule {
-              inherit userName homeProfile homeOverlays;
-              hostHomeModules = host.hostHomeModules or [];
-            })
-          ];
+          ++ homeManagerModule;
       };
 
     # ── Builder: nix-darwin output ───────────────────────────────────
@@ -479,13 +493,37 @@
         homeOverlays = [];
       };
 
-      # cyberdeck-tty = {
-      #   hostName = "cyberdeck";
-      #   userName = "gars";
-      #   systemProfile = "tty";
-      #   homeProfile = "cli";
-      #   homeOverlays = [];
-      # };
+      cyberdeck-boot = {
+        hostName = "cyberdeck";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = null;
+        homeOverlays = [];
+      };
+
+      cyberdeck-base = {
+        hostName = "cyberdeck";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cyberdeck-minimal";
+        homeOverlays = [];
+      };
+
+      cyberdeck-tty = {
+        hostName = "cyberdeck";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
+        homeOverlays = ["ai-cli-agents" "ai-cli-opencode"];
+      };
+
+      cyberdeck-full = {
+        hostName = "cyberdeck";
+        userName = "gars";
+        systemProfile = "tty";
+        homeProfile = "cli";
+        homeOverlays = ["cli-extras" "ai-cli-agents" "ai-cli-opencode"];
+      };
     };
 
     nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // otherOutputDefs;
@@ -509,8 +547,10 @@
         homeOverlays = [];
       };
     };
+  in let
+    nixosConfigs = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
   in {
-    nixosConfigurations = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
+    nixosConfigurations = nixosConfigs;
     darwinConfigurations = lib.mapAttrs (_: cfg: mkDarwinOutput cfg) darwinOutputDefs;
     homeConfigurations = lib.mapAttrs (_: cfg: mkHomeOutput cfg) homeOutputDefs;
 
@@ -521,5 +561,8 @@
       in "${pkgs.writeShellScriptBin "update-brave-nightly"
         (builtins.readFile ./scripts/update-brave-nightly.sh)}/bin/update-brave-nightly";
     };
+
+    packages.x86_64-linux.flash-cyberdeck =
+      nixosConfigs.cyberdeck-tty.config.system.build.flashScript;
   };
 }

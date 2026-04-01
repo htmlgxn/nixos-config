@@ -42,5 +42,6 @@
     unzip
     zip
     gocryptfs
+    usbutils
   ];
 }
