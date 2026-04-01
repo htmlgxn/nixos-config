@@ -50,6 +50,19 @@
     };
 
     homeOverlayGroups = rec {
+      cli-base = [
+        ./modules/home/cli.nix
+        ./modules/home/fastfetch.nix
+      ];
+
+      containers-home = [
+        ./modules/home/containers.nix
+      ];
+
+      dev-packages = [
+        ./modules/home/packages
+      ];
+
       ai-cli-orchestrators = [
         ./modules/home/ai-cli-orchestrators.nix
       ];
@@ -101,10 +114,6 @@
     # ── Shared Home Manager modules (included in every profile) ──────
     sharedHomeModules = [
       ./modules/shared/options.nix
-      ./modules/home/cli.nix
-      ./modules/home/containers.nix
-      ./modules/home/fastfetch.nix
-      ./modules/home/packages
     ];
 
     # ── User definitions ─────────────────────────────────────────────
@@ -386,7 +395,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "ai-cli-all" "ai-ollama-rocm"];
       };
 
       boreal-tty-cyberdeck = {
@@ -394,7 +403,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "ai-cli-all" "ai-ollama-rocm"];
       };
 
       boreal = {
@@ -402,7 +411,7 @@
         userName = "gars";
         systemProfile = "sway";
         homeProfile = "sway";
-        homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "boreal-gui" "boreal-desktop"];
         nixpkgsOverlays = [
           (import ./overlays/brave-nightly.nix)
         ];
@@ -413,7 +422,7 @@
         userName = "gars";
         systemProfile = "sway-gaming";
         homeProfile = "sway-gaming";
-        homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "boreal-gui" "boreal-desktop"];
         nixpkgsOverlays = [
           (import ./overlays/brave-nightly.nix)
         ];
@@ -424,7 +433,7 @@
         userName = "gars";
         systemProfile = "gamescope";
         homeProfile = "gamescope";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       boreal-niri = {
@@ -432,7 +441,7 @@
         userName = "gars";
         systemProfile = "niri";
         homeProfile = "niri";
-        homeOverlays = ["cli-extras" "boreal-gui"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "boreal-gui"];
         nixpkgsOverlays = [
           (import ./overlays/brave-nightly.nix)
         ];
@@ -443,7 +452,7 @@
         userName = "gars";
         systemProfile = "hyprland";
         homeProfile = "hyprland";
-        homeOverlays = ["cli-extras" "boreal-gui"];
+        homeOverlays = ["cli-base" "containers-home" "dev-packages" "cli-extras" "boreal-gui"];
         nixpkgsOverlays = [
           (import ./overlays/brave-nightly.nix)
         ];
@@ -456,7 +465,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       rpi4-sway = {
@@ -464,7 +473,7 @@
         userName = "gars";
         systemProfile = "sway-arm";
         homeProfile = "sway-arm";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       rpi4-sway-full = {
@@ -472,7 +481,7 @@
         userName = "gars";
         systemProfile = "sway-arm";
         homeProfile = "sway-arm-full";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       rpi4-tty-cyberdeck = {
@@ -480,7 +489,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli-cyberdeck";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
     };
 
@@ -490,7 +499,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        homeOverlays = [];
+        homeOverlays = ["cli-base" "dev-packages"];
       };
 
       # cyberdeck-boot = {
@@ -506,7 +515,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cyberdeck-minimal";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       cyberdeck-tty = {
@@ -514,7 +523,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        homeOverlays = ["ai-cli-agents" "ai-cli-opencode"];
+        homeOverlays = ["cli-base" "ai-cli-agents" "ai-cli-opencode"];
       };
 
       cyberdeck-full = {
@@ -522,7 +531,7 @@
         userName = "gars";
         systemProfile = "tty";
         homeProfile = "cli";
-        homeOverlays = ["cli-extras" "ai-cli-agents" "ai-cli-opencode"];
+        homeOverlays = ["cli-base" "dev-packages" "cli-extras" "ai-cli-agents" "ai-cli-opencode"];
       };
     };
 
@@ -534,7 +543,7 @@
         userName = "htmlgxn";
         homeProfile = "cli";
         system = "aarch64-darwin";
-        homeOverlays = ["ai-cli-all"];
+        homeOverlays = ["cli-base"];
       };
     };
 
@@ -544,14 +553,14 @@
         userName = "htmlgxn";
         homeProfile = "cli";
         system = "aarch64-linux";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
 
       jetpack-tty = {
         userName = "gars";
         homeProfile = "cli";
         system = "aarch64-linux";
-        homeOverlays = [];
+        homeOverlays = ["cli-base"];
       };
     };
   in let
