@@ -493,13 +493,13 @@
         homeOverlays = [];
       };
 
-      cyberdeck-boot = {
-        hostName = "cyberdeck";
-        userName = "gars";
-        systemProfile = "tty";
-        homeProfile = null;
-        homeOverlays = [];
-      };
+      # cyberdeck-boot = {
+      #   hostName = "cyberdeck";
+      #   userName = "gars";
+      #   systemProfile = "tty";
+      #   homeProfile = null;
+      #   homeOverlays = [];
+      # };
 
       cyberdeck-base = {
         hostName = "cyberdeck";
