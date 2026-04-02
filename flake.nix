@@ -318,7 +318,8 @@
     }: let
       host = hosts.${hostName};
       homeManagerModule =
-        if homeProfile == null then []
+        if homeProfile == null
+        then []
         else [
           home-manager.nixosModules.home-manager
           (mkHomeModule {
@@ -392,7 +393,7 @@
               home.username = userName;
               home.homeDirectory = "/home/${userName}";
               home.stateVersion = "25.11";
-              home.backupFileExtension = "bak";
+              home-manager.backupFileExtension = "bak";
             }
           ];
       };
