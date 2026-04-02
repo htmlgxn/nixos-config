@@ -107,6 +107,8 @@
     '';
   };
 
+  programs.home-manager.enable = true;
+
   # ── SSH client config ───────────────────────────────────────────────
   programs.ssh = {
     enable = true;
