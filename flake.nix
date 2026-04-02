@@ -393,7 +393,6 @@
               home.username = userName;
               home.homeDirectory = "/home/${userName}";
               home.stateVersion = "25.11";
-              home.backupFileExtension = "bak";
             }
           ];
       };
