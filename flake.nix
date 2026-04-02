@@ -194,11 +194,17 @@
         ./modules/home/nvim-theme.nix
       ];
       dwm-arm = [
+        ./modules/home/x11-base.nix
         ./modules/home/dwm.nix
         ./modules/home/nvim-theme.nix
       ];
       i3-arm = [
+        ./modules/home/x11-base.nix
         ./modules/home/i3.nix
+        ./modules/home/nvim-theme.nix
+      ];
+      kitty-arm = [
+        ./modules/home/kitty-cage.nix
         ./modules/home/nvim-theme.nix
       ];
       sway-arm-full = [
@@ -588,6 +594,13 @@
       jetpack-sway = {
         userName = "gars";
         homeProfile = "sway-arm";
+        system = "aarch64-linux";
+        homeOverlays = ["cli-base"];
+      };
+
+      jetpack-kitty = {
+        userName = "gars";
+        homeProfile = "kitty-arm";
         system = "aarch64-linux";
         homeOverlays = ["cli-base"];
       };
