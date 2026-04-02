@@ -8,6 +8,10 @@
   # boreal connects to itself — use localhost instead of boreal.local.
   my.borealHost = "localhost";
 
+  programs.bash.sessionVariables = {
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+  };
+
   programs.ssh.matchBlocks."rpi4" = {
     hostname = "rpi4.local";
     port = 2200;

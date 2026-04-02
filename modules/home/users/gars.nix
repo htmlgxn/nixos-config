@@ -43,9 +43,7 @@ in {
       cdback = "cd /mnt/backup";
     };
 
-    sessionVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-    };
+    sessionVariables = {};
   };
 
   # Per-user SSH host entries (shared entries are in common.nix):
