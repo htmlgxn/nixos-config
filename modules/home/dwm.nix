@@ -7,7 +7,7 @@
   ...
 }: let
   theme = config.my.guiThemeData.sway.colors;
-  term = config.my.terminal;
+  # term = config.my.terminal;
 
   dwmConfig = pkgs.writeText "config.h" ''
     /* appearance */
