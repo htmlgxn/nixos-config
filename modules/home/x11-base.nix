@@ -12,12 +12,12 @@ in {
   imports = [
     ./gui-theme.nix
     ./terminal-theme.nix
-    ./kitty.nix
+    ./xterm.nix
     ./rofi.nix
     ./dunst.nix
   ];
 
-  my.terminal = lib.mkDefault "kitty";
+  my.terminal = lib.mkDefault "xterm";
 
   xsession.enable = true;
 
