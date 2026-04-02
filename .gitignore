@@ -5,4 +5,5 @@ result
 .git/
 home/gars/nvim/lua/config/theme.lua
 home/gars/dots/brave/Bookmarks
+home/gars/nvim/lazy-lock.json
 modules/home/spicetify.nix
