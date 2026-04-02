@@ -585,6 +585,12 @@
         system = "aarch64-linux";
         homeOverlays = ["cli-base"];
       };
+      jetpack-sway = {
+        userName = "gars";
+        homeProfile = "sway-arm";
+        system = "aarch64-linux";
+        homeOverlays = ["cli-base"];
+      };
     };
   in let
     nixosConfigs = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
