@@ -10,6 +10,7 @@ in {
     [
       # ── Toolchain ────────────────────────────────────────────────────
       python314
+      python311
       uv # Python package/toolchain manager
     ]
     # GCC runtime lib for native Python packages -- Linux only
