@@ -52,6 +52,7 @@ in {
   # ── Linux-specific user packages ───────────────────────────────────
   home.packages = with pkgs; [
     firefox
+    telegram-desktop
   ];
 
   home.stateVersion = "25.11";
