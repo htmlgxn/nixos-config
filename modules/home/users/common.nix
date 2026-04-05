@@ -135,6 +135,13 @@
         identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
       };
+      "macbook" = {
+        hostname = "192.168.2.102";
+        user = "htmlgxn";
+        addressFamily = "inet";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
 
       # ── Per-user / per-host blocks ─────────────────────────────────
       # Add additional Host entries in gars.nix or htmlgxn.nix.
