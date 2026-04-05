@@ -30,7 +30,7 @@ in {
   fileSystems = {
     "/mnt/ironwolf" = mkExt4Mount "316d561a-dfc9-4269-a887-8644819b207e";
     "/mnt/seagate6" = mkExt4Mount "f248cacf-47ad-4d45-bf3e-04d8a991153c";
-    "/mnt/backup" = mkExt4Mount "d3d01560-2003-4e11-88be-cc87f3448c83";
+    "/mnt/evo" = mkExt4Mount "d3d01560-2003-4e11-88be-cc87f3448c83";
     "/mnt/archive" = {
       device = "/mnt/ironwolf:/mnt/seagate6";
       fsType = "fuse.mergerfs";
