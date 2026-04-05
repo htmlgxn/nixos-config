@@ -40,7 +40,7 @@ in {
       # ── Mount navigation (boreal-specific) ────────────────────────────
       cdarch = "cd /mnt/archive";
       cdsea = "cd /mnt/seagate6";
-      cdback = "cd /mnt/backup";
+      cdevo = "cd /mnt/evo";
     };
 
     sessionVariables = {};
