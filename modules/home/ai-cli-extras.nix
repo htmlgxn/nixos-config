@@ -7,8 +7,8 @@
     shell-gpt # invoked as `sgpt`
     llm # Simon Willison's LLM CLI
     plandex
-    goose-cli
-    aider-chat
+    #goose-cli
+    #aider-chat
     gemini-cli
     mistral-vibe
   ];

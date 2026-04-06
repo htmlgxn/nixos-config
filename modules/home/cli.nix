@@ -35,8 +35,6 @@ in {
       statix
 
       # ── Neovim Tooling ─────────────────────────────────────────────
-      nodePackages.bash-language-server
-      nodePackages.vscode-langservers-extracted
       lua-language-server
       marksman
       nixd
