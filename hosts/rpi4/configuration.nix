@@ -2,10 +2,7 @@
 # nixos-hardware module is added via extraSystemModules in flake.nix.
 # Generate hardware-configuration.nix after initial install:
 #   nixos-generate-config --show-hardware-config > hosts/rpi4/hardware-configuration.nix
-{
-  lib,
-  ...
-}: {
+{lib, ...}: {
   imports = [
     ./hardware-configuration.nix # uncomment after generating on hardware
   ];

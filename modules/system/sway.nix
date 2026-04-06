@@ -1,8 +1,5 @@
 # Sway system profile.
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   security.polkit.enable = true;
   security.rtkit.enable = true;
 

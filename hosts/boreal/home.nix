@@ -1,9 +1,6 @@
 # boreal-specific home-manager configuration.
 # Included automatically for every boreal output via hostHomeModules in flake.nix.
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # boreal connects to itself — use localhost instead of boreal.local.
   my.borealHost = "localhost";
 

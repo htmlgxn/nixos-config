@@ -1,10 +1,7 @@
 #
 # ~/nixos-config/hosts/nixos-vm/configuration.nix
 #
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];

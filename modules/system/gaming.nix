@@ -1,8 +1,5 @@
 # Shared system gaming support.
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Steam platform
   programs.steam = {
     enable = true;

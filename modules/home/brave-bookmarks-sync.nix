@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   systemd.user.services.brave-bookmarks-sync = {
     Unit.Description = "Copy Brave bookmarks to ~/dev/raw-dots/brave/ and sync to git";
     Service = {

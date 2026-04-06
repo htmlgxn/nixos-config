@@ -1,8 +1,5 @@
 # Niri system profile additions.
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./gui-base.nix
   ];

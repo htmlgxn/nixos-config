@@ -1,2 +1,2 @@
 # Nixvim configuration placeholder.
-{...}: {}
+_: {}

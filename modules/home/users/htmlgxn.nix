@@ -1,9 +1,6 @@
 # Home Manager user module for `htmlgxn` (macOS / Fedora hosts).
 # home.homeDirectory is set by the output builder (mkDarwinOutput / mkHomeOutput).
-{
-  config,
-  ...
-}: let
+{config, ...}: let
   userName = "htmlgxn";
 in {
   imports = [./common.nix];

@@ -1,8 +1,5 @@
 # Shared desktop packages for GUI profiles.
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # ── Launcher ────────────────────────────────────────────────────
     fuzzel
