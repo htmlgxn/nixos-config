@@ -2,7 +2,6 @@
 # ~/nixos-config/hosts/nixos-vm/configuration.nix
 #
 {
-  config,
   pkgs,
   ...
 }: {

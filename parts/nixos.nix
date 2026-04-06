@@ -72,5 +72,5 @@
 
   nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // otherOutputDefs;
 in {
-  flake.nixosConfigurations = builtins.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
+  flake.nixosConfigurations = builtins.mapAttrs (_: mkOutput) nixosOutputDefs;
 }

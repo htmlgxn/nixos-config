@@ -1,6 +1,5 @@
 # Sway system profile.
 {
-  config,
   pkgs,
   ...
 }: {

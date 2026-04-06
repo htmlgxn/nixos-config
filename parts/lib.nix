@@ -18,7 +18,7 @@
   ];
 
   # ── Named home overlay groups (selected explicitly by outputs) ───
-  borealDesktopModule = {...}: {
+  borealDesktopModule = _: {
     my.dualKeyboardLayout = true;
     my.showRootDisk = true;
     my.terminal = "kitty";
@@ -177,7 +177,7 @@
       modules =
         sharedSystemModules
         ++ [
-          ({...}: {
+          (_: {
             nixpkgs.hostPlatform = host.system;
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = nixpkgsOverlays;

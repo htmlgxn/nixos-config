@@ -1,6 +1,5 @@
 # Niri system profile additions.
 {
-  config,
   pkgs,
   ...
 }: {

@@ -15,5 +15,5 @@
     };
   };
 in {
-  flake.darwinConfigurations = builtins.mapAttrs (_: cfg: mkDarwinOutput cfg) darwinOutputDefs;
+  flake.darwinConfigurations = builtins.mapAttrs (_: mkDarwinOutput) darwinOutputDefs;
 }

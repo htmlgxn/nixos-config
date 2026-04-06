@@ -7,7 +7,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }: let
   c = config.my.terminalThemeData.colors;

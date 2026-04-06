@@ -30,20 +30,20 @@ o.completeopt = { "menu", "menuone", "noselect" }
 
 o.list = true
 o.listchars = {
-  tab = "→ ",
-  trail = "·",
-  nbsp = "␣",
-  extends = "›",
-  precedes = "‹"
+	tab = "→ ",
+	trail = "·",
+	nbsp = "␣",
+	extends = "›",
+	precedes = "‹",
 }
 
 o.fillchars = {
-  eob = " ",
-  fold = "·",
-  foldopen = "▾",
-  foldclose = "▸",
-  foldsep = "│",
-  diff = "╱"
+	eob = " ",
+	fold = "·",
+	foldopen = "▾",
+	foldclose = "▸",
+	foldsep = "│",
+	diff = "╱",
 }
 
 o.foldlevel = 99

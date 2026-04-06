@@ -1,8 +1,6 @@
 # Shared desktop packages for GUI profiles.
 {
-  config,
   pkgs,
-  lib,
   ...
 }: {
   home.packages = with pkgs; [

@@ -1,4 +1,4 @@
-{...}: {
+_: {
   targets.genericLinux.enable = true;
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";

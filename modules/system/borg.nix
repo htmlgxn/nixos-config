@@ -6,7 +6,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }: let
   borgCfg = config.my.borg;

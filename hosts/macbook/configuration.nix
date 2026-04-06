@@ -1,9 +1,5 @@
 # nix-darwin system configuration for macOS Apple Silicon.
-{
-  config,
-  pkgs,
-  ...
-}: {
+_: {
   # nix-darwin state version
   system.stateVersion = 5;
 

@@ -1,6 +1,5 @@
 # Hyprland system profile additions.
 {
-  config,
   pkgs,
   ...
 }: {

@@ -2,8 +2,6 @@
 # home.homeDirectory is set by the output builder (mkDarwinOutput / mkHomeOutput).
 {
   config,
-  pkgs,
-  lib,
   ...
 }: let
   userName = "htmlgxn";

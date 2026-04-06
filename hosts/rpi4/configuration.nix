@@ -3,8 +3,6 @@
 # Generate hardware-configuration.nix after initial install:
 #   nixos-generate-config --show-hardware-config > hosts/rpi4/hardware-configuration.nix
 {
-  config,
-  pkgs,
   lib,
   ...
 }: {

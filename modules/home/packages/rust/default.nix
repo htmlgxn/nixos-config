@@ -7,11 +7,11 @@
   # ── Toolchain ─────────────────────────────────────────────────────
   # Pin a specific stable toolchain, independent of nixpkgs' rustc.
   # This prevents surprise compiler crashes on nixpkgs updates.
-  system = pkgs.stdenv.hostPlatform.system;
+  inherit (pkgs.stdenv.hostPlatform) system;
 
   fenix = inputs.fenix.packages.${system};
 
-  toolchain = fenix.stable.toolchain;
+  inherit (fenix.stable) toolchain;
   # Or for a minimal footprint:
   # toolchain = fenix.combine [
   #   fenix.stable.rustc
@@ -47,7 +47,7 @@
           inherit pname version;
           hash = crateHash;
         };
-        cargoHash = cargoHash;
+        inherit cargoHash;
       };
 
       nativeBuildInputs = [pkgs.pkg-config];

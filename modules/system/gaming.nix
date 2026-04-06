@@ -1,8 +1,6 @@
 # Shared system gaming support.
 {
-  config,
   pkgs,
-  lib,
   ...
 }: {
   # Steam platform

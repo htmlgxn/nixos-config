@@ -1,8 +1,6 @@
 # Nushell configuration.
 {
   config,
-  pkgs,
-  lib,
   ...
 }: {
   programs.nushell = {

@@ -3,7 +3,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }: let
   theme = config.my.guiThemeData.sway.colors;

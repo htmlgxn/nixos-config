@@ -27,5 +27,5 @@
     };
   };
 in {
-  flake.homeConfigurations = builtins.mapAttrs (_: cfg: mkHomeOutput cfg) homeOutputDefs;
+  flake.homeConfigurations = builtins.mapAttrs (_: mkHomeOutput) homeOutputDefs;
 }

@@ -1,9 +1,5 @@
 # Primary Home Manager user module for `gars` (NixOS / Linux hosts).
-{
-  config,
-  pkgs,
-  ...
-}: let
+_: let
   userName = "gars";
   homeDir = "/home/${userName}";
 in {

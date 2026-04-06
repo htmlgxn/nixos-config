@@ -1,9 +1,5 @@
 # Shared CLI/TTY system baseline.
-{
-  config,
-  pkgs,
-  ...
-}: {
+_: {
   services.openssh = {
     enable = true;
     settings = {

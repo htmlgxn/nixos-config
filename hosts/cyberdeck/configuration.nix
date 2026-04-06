@@ -4,12 +4,7 @@
 # jetpack-nixos module is added via extraSystemModules in flake.nix.
 # Requires hardware-configuration.nix when physical hardware is acquired.
 # Currently configured for NVIDIA Jetson Orin Nano (aarch64).
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+_: {
   hardware.nvidia-jetpack = {
     enable = true;
     som = "orin-nano";

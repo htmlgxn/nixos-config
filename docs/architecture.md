@@ -86,6 +86,7 @@ Host-local Home Manager modules are allowed when a host needs values or narrow b
 - `my.terminalTheme`
 
 `my.terminal` is intended to be the single terminal-selection knob for GUI outputs. Shared GUI layers should install and configure only the selected terminal, with host or overlay layers overriding the value when they need a different terminal.
+
 - `my.guiTheme`
 - `my.nvimTheme`
 - `my.jellyfin.vaDriver`

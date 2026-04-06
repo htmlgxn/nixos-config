@@ -4,12 +4,7 @@
 # Flatpak service configuration.
 # Enables system-level Flatpak support for sandboxed desktop applications.
 #
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+_: {
   services.flatpak = {
     enable = true;
   };

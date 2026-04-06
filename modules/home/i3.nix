@@ -2,7 +2,6 @@
 # Mirrors sway.nix keybindings and colors as closely as possible using i3's HM module.
 {
   config,
-  pkgs,
   lib,
   ...
 }: let

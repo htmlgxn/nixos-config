@@ -1,8 +1,6 @@
 # Bash shell configuration.
 {
   config,
-  pkgs,
-  lib,
   ...
 }: {
   programs.bash = {
