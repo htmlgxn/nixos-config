@@ -54,12 +54,12 @@ in {
     '';
     config = {
       modifier = mod;
-      left = left;
-      down = down;
-      up = up;
-      right = right;
+      inherit left;
+      inherit down;
+      inherit up;
+      inherit right;
       terminal = term;
-      menu = menu;
+      inherit menu;
 
       window = {
         titlebar = false;
@@ -100,7 +100,7 @@ in {
 
       bars = [];
 
-      colors = theme.colors;
+      inherit (theme) colors;
 
       keybindings =
         {

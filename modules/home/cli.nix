@@ -9,6 +9,18 @@
 in {
   home.packages = with pkgs;
     [
+      # Defaults
+      vim
+      git
+      wget
+      curl
+      file
+      unzip
+      zip
+      gocryptfs
+      usbutils
+      gptfdisk
+
       # ── Shell & Multiplexer ─────────────────────────────────────────
       tmux
       zellij
@@ -104,4 +116,12 @@ in {
     ++ lib.optionals (config.my.ollamaPackage != null) [
       config.my.ollamaPackage
     ];
+
+  # yazi
+  programs.yazi = {
+    enable = true;
+    plugins = with pkgs.yaziPlugins; {
+      inherit git starship jump-to-char;
+    };
+  };
 }

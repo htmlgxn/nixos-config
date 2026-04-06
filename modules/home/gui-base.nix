@@ -21,7 +21,7 @@ in {
 
   programs.waybar = {
     enable = true;
-    style = waybarCfg.style;
+    inherit (waybarCfg) style;
   };
 
   home.packages = with pkgs;
@@ -85,11 +85,11 @@ in {
   gtk = {
     enable = true;
     theme = {
-      name = theme.gtk.gtk.theme.name;
+      inherit (theme.gtk.gtk.theme) name;
       package = resolvePkg theme.gtk.gtk.theme.package;
     };
     iconTheme = {
-      name = theme.gtk.gtk.iconTheme.name;
+      inherit (theme.gtk.gtk.iconTheme) name;
       package = resolvePkg theme.gtk.gtk.iconTheme.package;
     };
   };
@@ -104,7 +104,7 @@ in {
   home.pointerCursor = {
     gtk.enable = true;
     package = resolvePkg theme.gtk.cursor.package;
-    name = theme.gtk.cursor.name;
-    size = theme.gtk.cursor.size;
+    inherit (theme.gtk.cursor) name;
+    inherit (theme.gtk.cursor) size;
   };
 }

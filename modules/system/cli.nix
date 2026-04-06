@@ -32,17 +32,4 @@
     alsa.enable = true;
     pulse.enable = true;
   };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    curl
-    file
-    unzip
-    zip
-    gocryptfs
-    usbutils
-    gptfdisk
-  ];
 }

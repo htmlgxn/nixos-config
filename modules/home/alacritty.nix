@@ -39,15 +39,15 @@ in {
 
       colors = {
         primary = {
-          background = theme.colors.background;
-          foreground = theme.colors.foreground;
+          inherit (theme.colors) background;
+          inherit (theme.colors) foreground;
           dim_foreground = theme.colors.dimForeground;
           bright_foreground = theme.colors.brightForeground;
         };
 
         cursor = {
           text = theme.colors.cursorText;
-          cursor = theme.colors.cursor;
+          inherit (theme.colors) cursor;
         };
 
         vi_mode_cursor = {
@@ -88,25 +88,25 @@ in {
         };
 
         normal = {
-          black = theme.colors.normal.black;
-          red = theme.colors.normal.red;
-          green = theme.colors.normal.green;
-          yellow = theme.colors.normal.yellow;
-          blue = theme.colors.normal.blue;
-          magenta = theme.colors.normal.magenta;
-          cyan = theme.colors.normal.cyan;
-          white = theme.colors.normal.white;
+          inherit (theme.colors.normal) black;
+          inherit (theme.colors.normal) red;
+          inherit (theme.colors.normal) green;
+          inherit (theme.colors.normal) yellow;
+          inherit (theme.colors.normal) blue;
+          inherit (theme.colors.normal) magenta;
+          inherit (theme.colors.normal) cyan;
+          inherit (theme.colors.normal) white;
         };
 
         bright = {
-          black = theme.colors.bright.black;
-          red = theme.colors.bright.red;
-          green = theme.colors.bright.green;
-          yellow = theme.colors.bright.yellow;
-          blue = theme.colors.bright.blue;
-          magenta = theme.colors.bright.magenta;
-          cyan = theme.colors.bright.cyan;
-          white = theme.colors.bright.white;
+          inherit (theme.colors.bright) black;
+          inherit (theme.colors.bright) red;
+          inherit (theme.colors.bright) green;
+          inherit (theme.colors.bright) yellow;
+          inherit (theme.colors.bright) blue;
+          inherit (theme.colors.bright) magenta;
+          inherit (theme.colors.bright) cyan;
+          inherit (theme.colors.bright) white;
         };
 
         indexed_colors = [

@@ -33,7 +33,7 @@ in {
     group = "jellyfin";
 
     # Data directory off root partition
-    dataDir = jellyfinCfg.dataDir;
+    inherit (jellyfinCfg) dataDir;
   };
 
   # Create Jellyfin data directory with correct ownership

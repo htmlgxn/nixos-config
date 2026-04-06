@@ -1,5 +1,5 @@
 # boreal local users and primary-user value.
-{...}: {
+_: {
   my.primaryUser = "gars";
 
   users.users.gars = {

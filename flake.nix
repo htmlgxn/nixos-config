@@ -23,6 +23,11 @@
     };
 
     bookokrat.url = "github:bugzmanov/bookokrat";
+
+    nix-yazi-plugins = {
+      url = "github:lordkekz/nix-yazi-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -34,7 +39,7 @@
     jetpack-nixos,
     ...
   }: let
-    lib = nixpkgs.lib;
+    inherit (nixpkgs) lib;
 
     # ── Shared system modules (included in every NixOS profile) ──────
     sharedSystemModules = [
@@ -43,7 +48,7 @@
     ];
 
     # ── Named home overlay groups (selected explicitly by outputs) ──
-    borealDesktopModule = {...}: {
+    borealDesktopModule = _: {
       my.dualKeyboardLayout = true;
       my.showRootDisk = true;
       my.terminal = "kitty";
@@ -338,7 +343,7 @@
         modules =
           sharedSystemModules
           ++ [
-            ({...}: {
+            (_: {
               nixpkgs.hostPlatform = host.system;
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = nixpkgsOverlays;
@@ -605,12 +610,12 @@
         homeOverlays = ["cli-base"];
       };
     };
-  in let
-    nixosConfigs = lib.mapAttrs (_: cfg: mkOutput cfg) nixosOutputDefs;
+
+    nixosConfigs = lib.mapAttrs (_: mkOutput) nixosOutputDefs;
   in {
     nixosConfigurations = nixosConfigs;
-    darwinConfigurations = lib.mapAttrs (_: cfg: mkDarwinOutput cfg) darwinOutputDefs;
-    homeConfigurations = lib.mapAttrs (_: cfg: mkHomeOutput cfg) homeOutputDefs;
+    darwinConfigurations = lib.mapAttrs (_: mkDarwinOutput) darwinOutputDefs;
+    homeConfigurations = lib.mapAttrs (_: mkHomeOutput) homeOutputDefs;
 
     apps.x86_64-linux.update-brave-nightly = {
       type = "app";

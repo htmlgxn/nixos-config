@@ -9,7 +9,7 @@
   config,
   ...
 }: let
-  lib = pkgs.lib;
+  inherit (pkgs) lib;
   theme = config.my.guiThemeData.waybar;
   disksScript = pkgs.writeShellScript "waybar-disks" ''
         #!/usr/bin/env bash

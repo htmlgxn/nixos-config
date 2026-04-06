@@ -22,7 +22,7 @@ in {
       main = {
         font = "Roboto Mono:size=13";
         prompt = "\"⚜️ \"";
-        terminal = config.my.terminal;
+        inherit (config.my) terminal;
         layer = "overlay";
         "exit-on-keyboard-focus-loss" = "yes";
 
@@ -37,7 +37,7 @@ in {
         "image-size-ratio" = 0.5;
       };
 
-      colors = theme.colors;
+      inherit (theme) colors;
 
       border = {
         width = 2;

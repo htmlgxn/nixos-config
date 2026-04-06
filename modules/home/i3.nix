@@ -59,7 +59,7 @@ in {
 
       bars = [];
 
-      colors = theme.colors;
+      inherit (theme) colors;
 
       keybindings =
         {

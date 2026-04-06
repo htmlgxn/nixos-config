@@ -1,5 +1,5 @@
 # boreal networking and firewall settings.
-{...}: {
+_: {
   networking.hostName = "boreal";
   networking.networkmanager.enable = true;
   networking.firewall = {

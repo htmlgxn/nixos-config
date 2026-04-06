@@ -21,11 +21,11 @@ in {
       enable_audio_bell = false;
 
       # Colors - primary
-      foreground = theme.colors.foreground;
-      background = theme.colors.background;
+      inherit (theme.colors) foreground;
+      inherit (theme.colors) background;
 
       # Cursor
-      cursor = theme.colors.cursor;
+      inherit (theme.colors) cursor;
       cursor_text_color = theme.colors.cursorText;
 
       # Selection

@@ -24,22 +24,22 @@ in {
   environment.systemPackages = [pkgs.borgbackup];
 
   services.borgbackup.jobs.home = {
-    paths = borgCfg.paths;
+    inherit (borgCfg) paths;
     repo = borgCfg.repoPath;
     encryption = {
       mode = "repokey-blake2";
       passCommand = "cat %d/${credName}";
     };
     compression = "auto,zstd";
-    startAt = borgCfg.startAt;
-    user = user;
-    exclude = borgCfg.exclude;
+    inherit (borgCfg) startAt;
+    inherit user;
+    inherit (borgCfg) exclude;
 
     prune.keep = {
-      daily = borgCfg.keep.daily;
-      weekly = borgCfg.keep.weekly;
-      monthly = borgCfg.keep.monthly;
-      yearly = borgCfg.keep.yearly;
+      inherit (borgCfg.keep) daily;
+      inherit (borgCfg.keep) weekly;
+      inherit (borgCfg.keep) monthly;
+      inherit (borgCfg.keep) yearly;
     };
 
     extraCreateArgs = [

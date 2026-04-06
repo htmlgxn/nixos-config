@@ -34,6 +34,7 @@ in {
       enconf = "nvim ${config.my.repoRoot}/hosts/boreal/configuration.nix";
       nrs = "nr boreal";
       nrtty = "nr boreal-tty";
+      nu = "nix shell nixpkgs#nushell nixpkgs#carapace --command nu";
       swapstat = "swapon --show --bytes; free -h";
       mkkey = "ssh-keygen -t ed25519 -C \"htmlgxn@pm.me\"";
 

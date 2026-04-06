@@ -16,7 +16,7 @@
 in {
   programs.rofi = {
     enable = true;
-    terminal = config.my.terminal;
+    inherit (config.my) terminal;
     font = "Roboto Mono 13";
     theme = {
       "*" = {
