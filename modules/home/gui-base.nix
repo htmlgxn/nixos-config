@@ -1,74 +1,52 @@
-# Shared desktop packages and theming for full GUI profiles.
+# Shared desktop packages for GUI profiles.
 {
   config,
   pkgs,
   lib,
   ...
-}: let
-  waybarCfg = import ./waybar-settings.nix {inherit pkgs config;};
-  theme = config.my.guiThemeData;
-  # Helper to resolve package from list of attribute names (e.g., ["catppuccin-cursors" "mochaYellow"])
-  resolvePkg = path: builtins.foldl' (pkg: attr: pkg.${attr}) pkgs path;
-in {
-  imports = [
-    ./gui-theme.nix
-    ./terminal-theme.nix
-    ./alacritty.nix
-    ./kitty.nix
-    ./fuzzel.nix
-    ./mako.nix
+}: {
+  home.packages = with pkgs; [
+    # ── Launcher ────────────────────────────────────────────────────
+    fuzzel
+
+    # ── File Manager ────────────────────────────────────────────────
+    thunar
+
+    # ── Wayland Utilities ───────────────────────────────────────────
+    wlsunset
+    wl-clipboard
+
+    # ── GTK Theming ─────────────────────────────────────────────────
+    gsettings-desktop-schemas
+    glib # provides gsettings binary
+
+    # ── Screenshot ──────────────────────────────────────────────────
+    grim
+
+    # ── Notifications ───────────────────────────────────────────────
+    mako
+
+    # ── Status Bar ──────────────────────────────────────────────────
+    waybar
+
+    # ── Image Viewer ────────────────────────────────────────────────
+    swayimg
+
+    # ── System Utilities ────────────────────────────────────────────
+    polkit_gnome
+    brightnessctl
+    networkmanagerapplet
+    pavucontrol
+
+    # ── Messaging ────────────────────────────────────────────
+    signal-desktop
+    telegram-desktop
+
+    # ── alt-browser ────────────────────────────────────────────
+    librewolf
   ];
 
-  programs.waybar = {
-    enable = true;
-    inherit (waybarCfg) style;
-  };
-
-  home.packages = with pkgs;
-    [
-      # ungoogled-chromium # uncomment if needed temporarily
-      # ── Launcher ────────────────────────────────────────────────────
-      fuzzel
-
-      # ── File Manager ────────────────────────────────────────────────
-      thunar
-
-      # ── Wayland Utilities ───────────────────────────────────────────
-      wlsunset
-      wl-clipboard
-
-      # ── GTK Theming ─────────────────────────────────────────────────
-      gsettings-desktop-schemas
-      glib # provides gsettings binary
-
-      # ── Screenshot ──────────────────────────────────────────────────
-      grim
-
-      # ── Notifications ───────────────────────────────────────────────
-      mako
-
-      # ── Status Bar ──────────────────────────────────────────────────
-      waybar
-
-      # ── Image Viewer ────────────────────────────────────────────────
-      swayimg
-
-      # ── Lock / Idle ─────────────────────────────────────────────────
-      swaybg
-      swaylock
-      swayidle
-
-      # ── System Utilities ────────────────────────────────────────────
-      polkit_gnome
-      brightnessctl
-      networkmanagerapplet
-      pavucontrol
-    ]
-    ++ lib.optionals (config.my.terminal == "foot") [
-      foot
-    ];
-
-  # ── Brave with Symlinks + Extensions ──────────────────────────────
+  # ── Brave with Extensions ───────────────────────────────────────
   programs.brave = {
     enable = true;
     extensions = [
@@ -79,32 +57,5 @@ in {
       {id = "bhlhnicpbhignbdhedgjhgdocnmhomnp";} # ColorZilla
       {id = "ilehaonighjijnmpnagapkhpcdbhclfg";} # Grass Lite Node
     ];
-  };
-
-  # ── GTK / QT Theming ──────────────────────────────────────────────
-  gtk = {
-    enable = true;
-    theme = {
-      inherit (theme.gtk.gtk.theme) name;
-      package = resolvePkg theme.gtk.gtk.theme.package;
-    };
-    iconTheme = {
-      inherit (theme.gtk.gtk.iconTheme) name;
-      package = resolvePkg theme.gtk.gtk.iconTheme.package;
-    };
-  };
-
-  qt = {
-    enable = true;
-    platformTheme.name = theme.gtk.qt.platformTheme;
-    style.name = theme.gtk.qt.style;
-  };
-
-  # ── Cursor Theme ──────────────────────────────────────────────────
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = resolvePkg theme.gtk.cursor.package;
-    inherit (theme.gtk.cursor) name;
-    inherit (theme.gtk.cursor) size;
   };
 }

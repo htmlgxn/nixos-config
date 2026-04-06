@@ -1,26 +1,53 @@
-# Sway system profile additions.
+# Sway system profile.
 {
   config,
   pkgs,
   ...
 }: {
-  imports = [
-    ./gui-base.nix
-  ];
+  security.polkit.enable = true;
+  security.rtkit.enable = true;
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${pkgs.tuigreet}/bin/tuigreet --cmd sway";
+      user = "greeter";
+    };
+  };
+
+  environment.variables = {
+    GTK_THEME = "Adwaita-dark";
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    wlr.enable = true;
+  };
 
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
   };
 
-  services.greetd.settings.default_session = {
-    command = "${pkgs.tuigreet}/bin/tuigreet --cmd sway";
-    user = "greeter";
+  programs.dconf.enable = true;
+
+  fonts = {
+    packages = with pkgs; [
+      roboto-mono
+      openmoji-color
+      nerd-fonts.jetbrains-mono
+    ];
+    fontconfig = {
+      defaultFonts.emoji = ["OpenMoji Color"];
+    };
   };
 
-  xdg.portal.wlr.enable = true;
-
   environment.systemPackages = with pkgs; [
+    wayland
     xwayland
     wofi
   ];

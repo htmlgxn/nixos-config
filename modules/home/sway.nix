@@ -7,7 +7,9 @@
 }: let
   waybar = import ./waybar-settings.nix {inherit pkgs config;};
   clipdoc = import ./clipdoc.nix {inherit pkgs;};
-  theme = config.my.guiThemeData.sway;
+  guiTheme = config.my.guiThemeData;
+  theme = guiTheme.sway;
+  resolvePkg = path: builtins.foldl' (pkg: attr: pkg.${attr}) pkgs path;
   mod = "Mod4";
   left = "h";
   down = "j";
@@ -33,17 +35,61 @@
 in {
   imports = [
     ./gui-base.nix
+    ./gui-theme.nix
+    ./terminal-theme.nix
+    ./alacritty.nix
+    ./kitty.nix
+    ./fuzzel.nix
+    ./mako.nix
   ];
 
-  programs.waybar.systemd = {
+  programs.waybar = {
     enable = true;
-    target = "sway-session.target";
+    inherit (waybar) style;
+    systemd = {
+      enable = true;
+      target = "sway-session.target";
+    };
   };
 
-  home.packages = with pkgs; [
-    sway-contrib.grimshot
-    clipdoc.clipdoc
-  ];
+  home.packages = with pkgs;
+    [
+      sway-contrib.grimshot
+      clipdoc.clipdoc
+      swaybg
+      swaylock
+      swayidle
+    ]
+    ++ lib.optionals (config.my.terminal == "foot") [
+      foot
+    ];
+
+  # ── GTK / QT Theming ──────────────────────────────────────────────
+  gtk = {
+    enable = true;
+    theme = {
+      inherit (guiTheme.gtk.gtk.theme) name;
+      package = resolvePkg guiTheme.gtk.gtk.theme.package;
+    };
+    iconTheme = {
+      inherit (guiTheme.gtk.gtk.iconTheme) name;
+      package = resolvePkg guiTheme.gtk.gtk.iconTheme.package;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = guiTheme.gtk.qt.platformTheme;
+    style.name = guiTheme.gtk.qt.style;
+  };
+
+  # ── Cursor Theme ──────────────────────────────────────────────────
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = resolvePkg guiTheme.gtk.cursor.package;
+    inherit (guiTheme.gtk.cursor) name;
+    inherit (guiTheme.gtk.cursor) size;
+  };
 
   wayland.windowManager.sway = {
     enable = true;

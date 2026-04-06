@@ -8,8 +8,41 @@
   # boreal connects to itself — use localhost instead of boreal.local.
   my.borealHost = "localhost";
 
-  programs.bash.sessionVariables = {
-    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+  # ── Boreal shell aliases (shared across shells) ───────────────────
+  programs.bash = {
+    shellAliases = {
+      # ── Boreal host shortcuts ────────────────────────────────────────
+      nrs = "nh os switch . -H boreal";
+      nrtty = "nh os switch . -H boreal-tty";
+
+      # ── Mount navigation ─────────────────────────────────────────────
+      cdarch = "cd /mnt/archive";
+      cdsea = "cd /mnt/seagate6";
+      cdevo = "cd /mnt/evo";
+    };
+    sessionVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    };
+  };
+
+  programs.nushell = {
+    shellAliases = {
+      # ── Boreal host shortcuts ────────────────────────────────────────
+      nrs = "nh os switch . -H boreal";
+      nrtty = "nh os switch . -H boreal-tty";
+
+      # ── Mount navigation ─────────────────────────────────────────────
+      cdarch = "cd /mnt/archive";
+      cdsea = "cd /mnt/seagate6";
+      cdevo = "cd /mnt/evo";
+    };
+    extraConfig = ''
+      # Add Boreal-specific commands
+
+    '';
+    environmentVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    };
   };
 
   programs.ssh.matchBlocks."rpi4" = {

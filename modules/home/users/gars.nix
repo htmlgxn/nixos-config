@@ -21,40 +21,8 @@ in {
   home.username = userName;
   home.homeDirectory = homeDir;
 
-  programs.bash = {
-    shellAliases = {
-      # ── Test ─────────────────────────────────────────────────────────
-      wiki-explore = "cd ~/wmd/ && fzf --print0 | xargs -0 -o mdt";
-      wiki-pick = "cd ~/wmd/ && fzf --print0 | xargs -0 -o";
-
-      # ── NixOS-specific shortcuts ─────────────────────────────────────
-      eh = "nvim ${config.my.repoRoot}/modules/home/users/gars.nix";
-      ehsway = "nvim ${config.my.repoRoot}/modules/home/sway.nix";
-      ehniri = "nvim ${config.my.repoRoot}/modules/home/niri.nix";
-      enconf = "nvim ${config.my.repoRoot}/hosts/boreal/configuration.nix";
-      nrs = "nh os switch . -H boreal";
-      nrtty = "nh os switch . -H boreal-tty";
-      nu = "nix shell nixpkgs#nushell nixpkgs#carapace --command nu";
-      swapstat = "swapon --show --bytes; free -h";
-      mkkey = "ssh-keygen -t ed25519 -C \"htmlgxn@pm.me\"";
-
-      # ── Mount navigation (boreal-specific) ────────────────────────────
-      cdarch = "cd /mnt/archive";
-      cdsea = "cd /mnt/seagate6";
-      cdevo = "cd /mnt/evo";
-    };
-
-    sessionVariables = {};
-  };
-
   # Per-user SSH host entries (shared entries are in common.nix):
   # programs.ssh.matchBlocks."myhost" = { ... };
-
-  # ── Linux-specific user packages ───────────────────────────────────
-  home.packages = with pkgs; [
-    firefox
-    telegram-desktop
-  ];
 
   home.stateVersion = "25.11";
 }

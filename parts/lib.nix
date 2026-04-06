@@ -28,8 +28,7 @@
     ai-cli-orchestrators = [(self + /modules/home/ai-cli-orchestrators.nix)];
     ai-cli-extras = [(self + /modules/home/ai-cli-extras.nix)];
     ai-cli-agents = [(self + /modules/home/ai-cli-agents.nix)];
-    ai-cli-opencode = [(self + /modules/home/ai-cli-opencode.nix)];
-    ai-cli-all = ai-cli-orchestrators ++ ai-cli-agents ++ ai-cli-opencode ++ ai-cli-extras;
+    ai-cli-all = ai-cli-orchestrators ++ ai-cli-agents ++ ai-cli-extras;
     ai-ollama = [(self + /modules/home/ai-ollama.nix)];
     ai-ollama-rocm = ai-ollama ++ [(self + /modules/home/ai-ollama-rocm.nix)];
     cli-extras = [(self + /modules/home/cli-extras.nix)];

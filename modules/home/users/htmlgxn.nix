@@ -21,12 +21,6 @@ in {
 
   home.username = userName;
 
-  programs.bash = {
-    shellAliases = {
-      eh = "nvim ${config.my.repoRoot}/modules/home/users/htmlgxn.nix";
-    };
-  };
-
   # Per-user SSH host entries (shared entries are in common.nix):
   # programs.ssh.matchBlocks."myhost" = { ... };
 }

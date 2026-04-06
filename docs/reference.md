@@ -2,15 +2,15 @@
 
 ## Outputs
 
-| Output | Type | Host/User | System Profile | Home Profile | Home Overlays |
-| --- | --- | --- | --- | --- | --- |
-| `boreal-tty` | NixOS | `boreal` / `gars` | `tty` | `cli` | `cli-extras`, `ai-cli-all`, `ai-ollama-rocm` |
-| `boreal` | NixOS | `boreal` / `gars` | `sway` | `sway` | `cli-extras`, `boreal-gui`, `boreal-desktop` |
-| `nixos-vm` | NixOS | `nixos-vm` / `gars` | `tty` | `cli` | none |
-| `rpi4-tty` | NixOS | `rpi4` / `gars` | `tty` | `cli` | none |
-| `rpi4-sway` | NixOS | `rpi4` / `gars` | `sway-arm` | `sway-arm` | none |
-| `macbook` | nix-darwin | `htmlgxn` | n/a | `cli` | `ai-cli-all` |
-| `fedora-arm` | Home Manager | `htmlgxn` | n/a | `cli` | none |
+| Output       | Type         | Host/User           | System Profile | Home Profile | Home Overlays                                |
+| ------------ | ------------ | ------------------- | -------------- | ------------ | -------------------------------------------- |
+| `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`        | `cli-extras`, `ai-cli-all`, `ai-ollama-rocm` |
+| `boreal`     | NixOS        | `boreal` / `gars`   | `sway`         | `sway`       | `cli-extras`, `boreal-gui`, `boreal-desktop` |
+| `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`        | none                                         |
+| `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`        | none                                         |
+| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway-arm`     | `sway-arm`   | none                                         |
+| `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`        | `ai-cli-all`                                 |
+| `fedora-arm` | Home Manager | `htmlgxn`           | n/a            | `cli`        | none                                         |
 
 ## Home Overlay Groups
 
@@ -18,9 +18,8 @@ These are the explicit home-level add-on groups selected by outputs:
 
 - `ai-cli-orchestrators`: `modules/home/ai-cli-orchestrators.nix` (empty placeholder for future CLI orchestration tooling)
 - `ai-cli-agents`: `modules/home/ai-cli-agents.nix`
-- `ai-cli-opencode`: `modules/home/ai-cli-opencode.nix`
 - `ai-cli-extras`: `modules/home/ai-cli-extras.nix`
-- `ai-cli-all`: `ai-cli-orchestrators`, `ai-cli-agents`, `ai-cli-opencode`, and `ai-cli-extras`
+- `ai-cli-all`: `ai-cli-orchestrators`, `ai-cli-agents`, and `ai-cli-extras`
 - `ai-ollama`: `modules/home/ai-ollama.nix` for generic Ollama enablement
 - `ai-ollama-rocm`: `ai-ollama` plus `modules/home/ai-ollama-rocm.nix`
 - `cli-extras`: `modules/home/cli-extras.nix`
