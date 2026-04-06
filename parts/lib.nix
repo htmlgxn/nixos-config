@@ -93,16 +93,12 @@
       (self + /modules/home/nvim-theme.nix)
     ];
 
-    cli-cyberdeck = [
-      (self + /modules/home/cli-cyberdeck.nix)
-      (self + /modules/home/nvim-theme.nix)
-    ];
-
     sway = [
       (self + /modules/home/gui-base.nix)
       (self + /modules/home/gui-extras.nix)
       (self + /modules/home/sway.nix)
       (self + /modules/home/flatpak.nix)
+      (self + /modules/home/gaming.nix)
       (self + /modules/home/nvim-theme.nix)
     ];
 
@@ -110,42 +106,6 @@
       (self + /modules/home/gui-base.nix)
       (self + /modules/home/sway.nix)
       (self + /modules/home/nvim-theme.nix)
-    ];
-
-    sway-arm-full = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/gui-extras.nix)
-      (self + /modules/home/sway.nix)
-      (self + /modules/home/nvim-theme.nix)
-    ];
-
-    sway-gaming = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/gui-extras.nix)
-      (self + /modules/home/sway.nix)
-      (self + /modules/home/flatpak.nix)
-      (self + /modules/home/gaming.nix)
-      (self + /modules/home/nvim-theme.nix)
-    ];
-
-    niri = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/gui-extras.nix)
-      (self + /modules/home/niri.nix)
-      (self + /modules/home/flatpak.nix)
-      (self + /modules/home/nvim-theme.nix)
-    ];
-
-    hyprland = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/gui-extras.nix)
-      (self + /modules/home/hyprland.nix)
-      (self + /modules/home/flatpak.nix)
-      (self + /modules/home/nvim-theme.nix)
-    ];
-
-    gamescope = [
-      (self + /modules/home/gaming.nix)
     ];
   };
 
@@ -159,36 +119,12 @@
       (self + /modules/system/cli.nix)
       (self + /modules/system/sway.nix)
       (self + /modules/system/flatpak.nix)
+      (self + /modules/system/gaming.nix)
     ];
 
     sway-arm = [
       (self + /modules/system/cli.nix)
       (self + /modules/system/sway.nix)
-    ];
-
-    sway-gaming = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/sway.nix)
-      (self + /modules/system/flatpak.nix)
-      (self + /modules/system/gaming.nix)
-    ];
-
-    niri = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/niri.nix)
-      (self + /modules/system/flatpak.nix)
-    ];
-
-    hyprland = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/hyprland.nix)
-      (self + /modules/system/flatpak.nix)
-    ];
-
-    gamescope = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/gaming.nix)
-      (self + /modules/system/gamescope.nix)
     ];
   };
 

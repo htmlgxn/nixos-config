@@ -56,7 +56,7 @@ The target is that a new output should not require discovering unrelated implici
 - Optional AI tooling: `modules/home/ai-cli-agents.nix`, `modules/home/ai-cli-opencode.nix`, `modules/home/ai-cli-extras.nix`, `modules/home/ai-cli-orchestrators.nix`, `modules/home/ai-ollama.nix`, and `modules/home/ai-ollama-rocm.nix`
 - Shared container/npm tooling: `modules/home/containers.nix`
 - Output-level optional extras: explicit home overlay groups in `flake.nix`
-- Device/profile-specific CLI additions: `modules/home/cli-cyberdeck.nix`
+- Device/profile-specific CLI additions: place in a dedicated module and add to the relevant home profile
 
 ### Desktop packages
 

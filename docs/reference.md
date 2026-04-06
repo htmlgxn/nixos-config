@@ -5,18 +5,10 @@
 | Output | Type | Host/User | System Profile | Home Profile | Home Overlays |
 | --- | --- | --- | --- | --- | --- |
 | `boreal-tty` | NixOS | `boreal` / `gars` | `tty` | `cli` | `cli-extras`, `ai-cli-all`, `ai-ollama-rocm` |
-| `boreal-tty-cyberdeck` | NixOS | `boreal` / `gars` | `tty` | `cli-cyberdeck` | `cli-extras`, `ai-cli-all`, `ai-ollama-rocm` |
 | `boreal` | NixOS | `boreal` / `gars` | `sway` | `sway` | `cli-extras`, `boreal-gui`, `boreal-desktop` |
-| `boreal-gaming` | NixOS | `boreal` / `gars` | `sway-gaming` | `sway-gaming` | `cli-extras`, `boreal-gui`, `boreal-desktop` |
-| `boreal-gamescope` | NixOS | `boreal` / `gars` | `gamescope` | `gamescope` | none |
-| `boreal-niri` | NixOS | `boreal` / `gars` | `niri` | `niri` | `cli-extras`, `boreal-gui` |
-| `boreal-hypr` | NixOS | `boreal` / `gars` | `hyprland` | `hyprland` | `cli-extras`, `boreal-gui` |
 | `nixos-vm` | NixOS | `nixos-vm` / `gars` | `tty` | `cli` | none |
-| `cyberdeck-tty` | NixOS | `cyberdeck` / `gars` | `tty` | `cli` | none (commented out in flake.nix) |
 | `rpi4-tty` | NixOS | `rpi4` / `gars` | `tty` | `cli` | none |
 | `rpi4-sway` | NixOS | `rpi4` / `gars` | `sway-arm` | `sway-arm` | none |
-| `rpi4-sway-full` | NixOS | `rpi4` / `gars` | `sway-arm` | `sway-arm-full` | none |
-| `rpi4-tty-cyberdeck` | NixOS | `rpi4` / `gars` | `tty` | `cli-cyberdeck` | none |
 | `macbook` | nix-darwin | `htmlgxn` | n/a | `cli` | `ai-cli-all` |
 | `fedora-arm` | Home Manager | `htmlgxn` | n/a | `cli` | none |
 
@@ -143,7 +135,7 @@ Neovim helpers:
 
 - `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 host target
 - `nixos-hardware.nixosModules.raspberry-pi-4` is imported through the host descriptor
-- `rpi4-sway` uses lean ARM Sway profiles that intentionally omit Flatpak and heavier desktop extras
+- `rpi4-sway` uses lean ARM Sway profiles that omit Flatpak, gaming, and heavier desktop extras
 - port `2200/tcp` is explicitly opened in the firewall
 
 ### macbook

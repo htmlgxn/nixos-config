@@ -30,41 +30,6 @@
       homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
       nixpkgsOverlays = [borealOverlay];
     };
-
-    boreal-gaming = {
-      hostName = "boreal";
-      userName = "gars";
-      systemProfile = "sway-gaming";
-      homeProfile = "sway-gaming";
-      homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
-      nixpkgsOverlays = [borealOverlay];
-    };
-
-    boreal-gamescope = {
-      hostName = "boreal";
-      userName = "gars";
-      systemProfile = "gamescope";
-      homeProfile = "gamescope";
-      homeOverlays = [];
-    };
-
-    boreal-niri = {
-      hostName = "boreal";
-      userName = "gars";
-      systemProfile = "niri";
-      homeProfile = "niri";
-      homeOverlays = ["cli-extras" "boreal-gui"];
-      nixpkgsOverlays = [borealOverlay];
-    };
-
-    boreal-hypr = {
-      hostName = "boreal";
-      userName = "gars";
-      systemProfile = "hyprland";
-      homeProfile = "hyprland";
-      homeOverlays = ["cli-extras" "boreal-gui"];
-      nixpkgsOverlays = [borealOverlay];
-    };
   };
 
   # ── Raspberry Pi 4 outputs ────────────────────────────────────────
@@ -82,22 +47,6 @@
       userName = "gars";
       systemProfile = "sway-arm";
       homeProfile = "sway-arm";
-      homeOverlays = [];
-    };
-
-    rpi4-sway-full = {
-      hostName = "rpi4";
-      userName = "gars";
-      systemProfile = "sway-arm";
-      homeProfile = "sway-arm-full";
-      homeOverlays = [];
-    };
-
-    rpi4-tty-cyberdeck = {
-      hostName = "rpi4";
-      userName = "gars";
-      systemProfile = "tty";
-      homeProfile = "cli-cyberdeck";
       homeOverlays = [];
     };
   };

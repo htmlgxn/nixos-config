@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
 - `flake.nix` defines outputs through descriptor attrsets for `users`, `hosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
-- Current NixOS outputs are `boreal-tty`, `boreal-tty-cyberdeck`, `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`. Darwin output: `macbook`. Standalone HM outputs: `fedora-arm`, `jetpack-tty` (Jetson Orin Nano DevKit, aarch64-linux, bare CLI).
+- Current NixOS outputs are `boreal-tty`, `boreal`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`. Darwin output: `macbook`. Standalone HM outputs: `fedora-arm`.
 - Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, and `bookokrat`.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
@@ -12,13 +12,12 @@
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
 - `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio). `modules/system/gui-base.nix` is shared by the compositor modules.
 - `modules/system/containers.nix` is the shared Podman-first container runtime module.
-- `modules/system/sway.nix`, `modules/system/niri.nix`, and `modules/system/hyprland.nix` extend the GUI base with compositor-specific system services and packages.
-- `modules/system/gamescope.nix` defines the minimal Steam + gamescope session profile and intentionally skips the shared GUI base.
-- `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages.
+- `modules/system/sway.nix` extends the GUI base with Sway-specific system services and packages.
+- `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages (included in the `sway` system profile).
 - `modules/system/jellyfin.nix` is now driven by `my.jellyfin.*` values supplied by the host layer instead of hardcoding boreal paths.
 - `modules/system/soft-serve.nix` enables the Soft Serve git server (`services.soft-serve`) and opens ports 23231 (SSH) and 23232 (HTTP). Imported by `hosts/boreal/services.nix`.
 - `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` handles the user-level remote + installs.
-- `modules/home/cli.nix`, `modules/home/gui-base.nix`, `modules/home/sway.nix`, `modules/home/niri.nix`, `modules/home/hyprland.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
+- `modules/home/cli.nix`, `modules/home/gui-base.nix`, `modules/home/sway.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
 - AI tooling is split into modular home modules: `modules/home/ai-cli-agents.nix`, `modules/home/ai-cli-opencode.nix`, `modules/home/ai-cli-extras.nix`, `modules/home/ai-cli-orchestrators.nix` (empty placeholder), `modules/home/ai-ollama.nix`, and `modules/home/ai-ollama-rocm.nix`. These are included through explicit home overlay groups such as `ai-cli-all`, `ai-ollama`, and `ai-ollama-rocm`.
 - `modules/home/containers.nix` adds shared container/npm user tooling and shell helpers.
 - `modules/home/users/common.nix` holds the shared shell, editor, SSH, and theme baseline. `modules/home/users/gars.nix` (NixOS/Linux user) and `modules/home/users/htmlgxn.nix` (macOS/Fedora user) both import it and set platform-specific paths.
@@ -35,11 +34,11 @@
 - `modules/home/gui-base.nix` uses `lib.optionals pkgs.stdenv.isLinux` for Linux-only GUI packages (`freecad`, `libreoffice-fresh`).
 - `modules/home/packages/python/default.nix` uses `lib.optionals pkgs.stdenv.isLinux` for `stdenv.cc.cc.lib`.
 - `modules/home/cli-extras.nix` uses `lib.optionals pkgs.stdenv.isx86_64` for x86_64-only packages.
-- ARM homeProfiles (`sway-arm`) and systemProfiles (`sway-arm`) omit Flatpak modules.
+- ARM profiles (`sway-arm`) omit Flatpak, gaming, and heavier desktop extras.
 
 ## Build, Test, and Development Commands
 - These commands are for the human operator only. Agents must not run rebuilds or switch operations.
-- `nr <output>` switches to a named output; supported NixOS values are `boreal`, `boreal-gaming`, `boreal-gamescope`, `boreal-niri`, `boreal-hypr`, `boreal-tty`, `boreal-tty-cyberdeck`, `nixos-vm`, `cyberdeck-tty`, `rpi4-tty`, `rpi4-sway`, `rpi4-sway-full`, and `rpi4-tty-cyberdeck`.
+- `nr <output>` switches to a named output; supported NixOS values are `boreal`, `boreal-tty`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`.
 - `nrb <output>` builds a named output without switching.
 - `nrs` and `nrtty` remain as permanent shortcuts for `boreal` and `boreal-tty`.
 - `ns [query]` runs `nix-search-tv` through `fzf` with preview.
@@ -68,13 +67,12 @@
 ## Testing Guidelines
 - There are no automated tests in this repository.
 - Validate changes by building the target: `sudo nixos-rebuild build --flake .#boreal` or another affected output.
-- For GUI changes (Waybar/Sway/Niri/Hyprland), do a local switch and visually confirm behavior.
-- For gaming changes, validate `boreal-gaming` or `boreal-gamescope` specifically.
+- For GUI changes (Waybar/Sway), do a local switch and visually confirm behavior.
 
 ## Agent-Specific Instructions
 - Agents must not run `nixos-rebuild`, `darwin-rebuild`, or `home-manager switch` operations.
 - Agents must never edit `hosts/*/hardware-configuration.nix`.
-- Primary compositor is Sway. Do not spend time adding theming/config for other compositors (Hyprland, Niri) unless explicitly requested. Existing support for them is fine to leave in place.
+- Primary compositor is Sway. Do not add support for other compositors unless explicitly requested.
 
 ## Commit Guidelines
 - Commit history uses short, descriptive, lower-case sentences, sometimes with iteration notes (for example `moved sway config to modules/home/sway.nix - test 3`).

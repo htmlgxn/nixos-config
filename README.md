@@ -24,19 +24,11 @@ The main layers are:
 
 | Output | Type | Purpose |
 | --- | --- | --- |
-| `boreal-tty` | NixOS | Minimal TTY profile on the boreal host with AI CLI overlays |
-| `boreal-tty-cyberdeck` | NixOS | TTY profile plus cyberdeck CLI additions and AI CLI overlays |
-| `boreal` | NixOS | Main Sway desktop with Boreal desktop overlays |
-| `boreal-gaming` | NixOS | Sway desktop plus Steam and Boreal desktop overlays |
-| `boreal-gamescope` | NixOS | Minimal Steam + gamescope session |
-| `boreal-niri` | NixOS | Niri desktop with Boreal GUI overlays |
-| `boreal-hypr` | NixOS | Hyprland desktop with Boreal GUI overlays |
+| `boreal-tty` | NixOS | CLI/server profile on boreal with AI CLI overlays |
+| `boreal` | NixOS | Full Sway desktop with gaming, Boreal desktop overlays |
 | `nixos-vm` | NixOS | Minimal VM profile |
-| `cyberdeck-tty` | NixOS | Jetson cyberdeck TTY profile |
 | `rpi4-tty` | NixOS | Raspberry Pi 4 TTY profile |
 | `rpi4-sway` | NixOS | Raspberry Pi 4 Sway profile (lean ARM variant) |
-| `rpi4-sway-full` | NixOS | Raspberry Pi 4 Sway with heavier desktop extras |
-| `rpi4-tty-cyberdeck` | NixOS | Raspberry Pi 4 TTY profile plus cyberdeck CLI additions |
 | `macbook` | nix-darwin | Apple Silicon nix-darwin host with AI CLI overlay |
 | `fedora-arm` | Home Manager | Standalone Home Manager profile for Fedora ARM |
 
