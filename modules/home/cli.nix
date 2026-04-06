@@ -29,15 +29,15 @@ in {
 
       # ── Nix Tooling ────────────────────────────────────────────────
       nix-search-tv
-      alejandra # nix formatter
       nix-tree
-      deadnix
-      statix
 
-      # ── Neovim Tooling ─────────────────────────────────────────────
+      # ── Neovim LSP & Formatters ───────────────────────────────────
+      # Formatters are also configured repo-wide via treefmt (parts/treefmt.nix)
+      # but neovim needs them on PATH for conform.nvim
       lua-language-server
       marksman
       nixd
+      alejandra
       stylua
       shfmt
       jq

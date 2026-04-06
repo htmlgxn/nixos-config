@@ -267,11 +267,11 @@
       }
 
       fnix() {
-        _nixcfg_in_repo bash -lc "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra"
+        _nixcfg_in_repo nix fmt
       }
 
       fnixc() {
-        _nixcfg_in_repo bash -lc "rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra --check"
+        _nixcfg_in_repo nix fmt -- --fail-on-change
       }
 
       nb() {
@@ -327,25 +327,7 @@
         nix flake check "$_nixcfg_repo" || return 1
         _nixcfg_outputs nixosConfigurations >/dev/null || return 1
         _nixcfg_outputs darwinConfigurations >/dev/null || return 1
-        _nixcfg_outputs homeConfigurations >/dev/null || return 1
-
-        if _nixcfg_command_exists deadnix; then
-          deadnix "$_nixcfg_repo" || return 1
-        fi
-
-        if _nixcfg_command_exists statix; then
-          statix check "$_nixcfg_repo" || return 1
-        fi
-      }
-
-      ndead() {
-        _nixcfg_require_command deadnix || return 1
-        deadnix "$_nixcfg_repo" "$@"
-      }
-
-      nstatix() {
-        _nixcfg_require_command statix || return 1
-        statix check "$_nixcfg_repo" "$@"
+        _nixcfg_outputs homeConfigurations >/dev/null
       }
 
       nr() {

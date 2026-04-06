@@ -45,17 +45,23 @@
     };
 
     bookokrat.url = "github:bugzmanov/bookokrat/7cf047d3b238c3d8be88e8a2fdc58890d86a1011";
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [];
+      systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
       imports = [
         ./parts/lib.nix
         ./parts/nixos.nix
         ./parts/darwin.nix
         ./parts/home.nix
         ./parts/apps.nix
+        ./parts/treefmt.nix
       ];
     };
 }
