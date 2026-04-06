@@ -24,5 +24,5 @@ in {
   # Per-user SSH host entries (shared entries are in common.nix):
   # programs.ssh.matchBlocks."myhost" = { ... };
 
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
 }

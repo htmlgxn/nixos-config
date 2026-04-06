@@ -239,7 +239,7 @@
           {
             home.username = userName;
             home.homeDirectory = "/home/${userName}";
-            home.stateVersion = "25.11";
+            home.stateVersion = "26.05";
           }
         ];
     };
