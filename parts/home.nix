@@ -3,15 +3,27 @@
 # Standalone Home Manager output definitions.
 # Each entry selects a user, home profile, target system,
 # and optional home overlay groups.
-{flakeLib, ...}: let
+{
+  flakeLib,
+  self,
+  ...
+}: let
   inherit (flakeLib) mkHomeOutput;
 
   homeOutputDefs = {
-    fedora-arm = {
+    fedora-mac = {
       userName = "htmlgxn";
       homeProfile = "cli";
       system = "aarch64-linux";
       homeOverlays = [];
+    };
+
+    jetson = {
+      userName = "gars";
+      homeProfile = "cli";
+      system = "aarch64-linux";
+      homeOverlays = [];
+      hostHomeModules = [(self + /hosts/jetson/home.nix)];
     };
   };
 in {

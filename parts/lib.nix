@@ -226,6 +226,7 @@
     userName,
     homeProfile,
     system,
+    hostHomeModules ? [],
     homeOverlays ? [],
   }: let
     pkgs = nixpkgs.legacyPackages.${system};
@@ -234,7 +235,7 @@
       inherit pkgs;
       extraSpecialArgs = {inherit inputs;};
       modules =
-        mkHomeImports {inherit userName homeProfile homeOverlays;}
+        mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
         ++ [
           {
             home.username = userName;
