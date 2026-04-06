@@ -88,6 +88,9 @@ in {
       proton-vpn-cli
       # bluetui # when bluetooth support is added
 
+      # ── Mesh Networking ─────────────────────────────────────────────
+      contact # Meshtastic TUI
+
       # ── Media ───────────────────────────────────────────────────────
       ncspot
       yt-dlp
