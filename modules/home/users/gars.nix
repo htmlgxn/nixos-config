@@ -32,8 +32,8 @@ in {
       ehsway = "nvim ${config.my.repoRoot}/modules/home/sway.nix";
       ehniri = "nvim ${config.my.repoRoot}/modules/home/niri.nix";
       enconf = "nvim ${config.my.repoRoot}/hosts/boreal/configuration.nix";
-      nrs = "nr boreal";
-      nrtty = "nr boreal-tty";
+      nrs = "nh os switch . -H boreal";
+      nrtty = "nh os switch . -H boreal-tty";
       nu = "nix shell nixpkgs#nushell nixpkgs#carapace --command nu";
       swapstat = "swapon --show --bytes; free -h";
       mkkey = "ssh-keygen -t ed25519 -C \"htmlgxn@pm.me\"";
