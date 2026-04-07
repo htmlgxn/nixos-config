@@ -90,7 +90,7 @@ _: {
           nix = ["statix" "deadnix"];
           bash = ["shellcheck"];
           sh = ["shellcheck"];
-          markdown = ["markdownlint"];
+          markdown = ["markdownlintcli-2"];
         };
         autoCmd = {
           event = ["BufWritePost" "BufReadPost" "InsertLeave"];

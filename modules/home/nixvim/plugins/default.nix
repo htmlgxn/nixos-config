@@ -9,6 +9,7 @@
     ./completion.nix
     ./editor.nix
     ./fzf.nix
+    ./oil.nix
     ./git.nix
     ./lsp.nix
     ./treesitter.nix

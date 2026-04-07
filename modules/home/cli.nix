@@ -37,6 +37,10 @@ in {
       marksman
       nixd
       alejandra
+      statix
+      deadnix
+      shellcheck
+      markdownlint-cli2
       stylua
       shfmt
       jq
