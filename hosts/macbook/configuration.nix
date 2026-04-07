@@ -26,15 +26,4 @@ _: {
 
   # ── Security ───────────────────────────────────────────────────────
   security.pam.services.sudo_local.touchIdAuth = true;
-
-  # ── Nix GC ─────────────────────────────────────────────────────────
-  nix.gc = {
-    automatic = true;
-    interval = {
-      Weekday = 0;
-      Hour = 3;
-      Minute = 0;
-    };
-    options = "--delete-older-than 30d";
-  };
 }

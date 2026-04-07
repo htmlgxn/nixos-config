@@ -118,13 +118,12 @@ in {
 
   programs.nh = {
     enable = true;
-    flake = "/home/gars/nixos-config"; # or wherever $_nixcfg_repo points
-
-    # Optional: automated GC via nh clean instead of nix.gc
+    flake = "config.my.repoRoot";
+    # Automated GC via nh clean instead of nix.gc
     clean = {
       enable = true;
-      dates = "weekly";
-      extraArgs = "--keep 5 --keep-since 3d";
+      dates = "daily";
+      extraArgs = "--keep 3 --keep-since 1d";
     };
   };
 

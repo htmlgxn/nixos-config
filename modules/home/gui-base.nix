@@ -25,7 +25,6 @@
     waybar
 
     # ── Image Viewer ────────────────────────────────────────────────
-    swayimg
 
     # ── System Utilities ────────────────────────────────────────────
     polkit_gnome
@@ -35,7 +34,7 @@
 
     # ── Messaging ────────────────────────────────────────────
     signal-desktop
-    telegram-desktop
+    ayugram-desktop
 
     # ── alt-browser ────────────────────────────────────────────
     librewolf

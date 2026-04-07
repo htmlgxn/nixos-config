@@ -24,10 +24,4 @@
   # ── Default login shell ──────────────────────────────────────────
   users.users.${config.my.primaryUser}.shell = pkgs.nushell;
   environment.shells = with pkgs; [nushell bashInteractive];
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
 }
