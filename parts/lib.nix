@@ -150,12 +150,14 @@
     hostHomeModules ? [],
     homeOverlays ? [],
   }: {
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    home-manager.backupFileExtension = "bak";
-    home-manager.extraSpecialArgs = {inherit inputs;};
-    home-manager.users.${userName} = {
-      imports = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "bak";
+      extraSpecialArgs = {inherit inputs;};
+      users.${userName} = {
+        imports = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
+      };
     };
   };
 
@@ -175,9 +177,11 @@
         sharedSystemModules
         ++ [
           (_: {
-            nixpkgs.hostPlatform = host.system;
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = nixpkgsOverlays;
+            nixpkgs = {
+              hostPlatform = host.system;
+              config.allowUnfree = true;
+              overlays = nixpkgsOverlays;
+            };
           })
           host.module
         ]

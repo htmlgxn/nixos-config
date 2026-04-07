@@ -1,5 +1,5 @@
 # modules/home/nixvim/plugins/oil.nix
-{...}: {
+_: {
   programs.nixvim.plugins.oil = {
     enable = true;
     settings = {
