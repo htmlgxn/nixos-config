@@ -13,6 +13,8 @@
   networking.hostName = "nixos-vm";
   networking.networkmanager.enable = true;
 
+  my.primaryUser = "gars";
+
   users.users.gars = {
     isNormalUser = true;
     extraGroups = ["wheel" "networkmanager"];

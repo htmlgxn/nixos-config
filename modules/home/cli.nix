@@ -10,7 +10,6 @@ in {
   home.packages = with pkgs;
     [
       # Defaults
-      vim
       git
       wget
       curl
@@ -44,7 +43,6 @@ in {
       prettier
 
       # ── Editor ──────────────────────────────────────────────────────
-      neovim
       helix
 
       # ── Git ─────────────────────────────────────────────────────────
@@ -63,7 +61,7 @@ in {
       fzf
       television
       broot
-      zoxide
+      # zoxide — managed via programs.zoxide below
       tree
       ranger
       dust
@@ -128,6 +126,12 @@ in {
       dates = "weekly";
       extraArgs = "--keep 5 --keep-since 3d";
     };
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableNushellIntegration = true;
+    enableBashIntegration = true;
   };
 
   # yazi

@@ -43,6 +43,7 @@
     (self + /modules/home/containers.nix)
     (self + /modules/home/fastfetch.nix)
     (self + /modules/home/packages)
+    (self + /modules/home/nixvim)
   ];
 
   # ── User definitions ─────────────────────────────────────────────
@@ -88,9 +89,7 @@
 
   # ── Home Manager profiles ─────────────────────────────────────────
   homeProfiles = {
-    cli = [
-      (self + /modules/home/nvim-theme.nix)
-    ];
+    cli = [];
 
     sway = [
       (self + /modules/home/gui-base.nix)
@@ -98,13 +97,11 @@
       (self + /modules/home/sway.nix)
       (self + /modules/home/flatpak.nix)
       (self + /modules/home/gaming.nix)
-      (self + /modules/home/nvim-theme.nix)
     ];
 
     sway-arm = [
       (self + /modules/home/gui-base.nix)
       (self + /modules/home/sway.nix)
-      (self + /modules/home/nvim-theme.nix)
     ];
   };
 

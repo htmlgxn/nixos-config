@@ -27,6 +27,11 @@ in {
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
+  programs.nushell.environmentVariables = lib.mkIf pkgs.stdenv.isx86_64 {
+    PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+    PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+  };
+
   home.activation.installUvTools = lib.mkIf pkgs.stdenv.isx86_64 (lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
     for tool in ${lib.concatStringsSep " " uvTools}; do
       echo "uv: (re)installing $tool..."

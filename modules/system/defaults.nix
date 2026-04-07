@@ -1,5 +1,9 @@
 # Shared NixOS host defaults applied to every host via sharedSystemModules.
-_: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   time.timeZone = "America/Halifax";
   i18n.defaultLocale = "en_CA.UTF-8";
   nix.settings = {
@@ -17,6 +21,10 @@ _: {
       "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
     ];
   };
+  # ── Default login shell ──────────────────────────────────────────
+  users.users.${config.my.primaryUser}.shell = pkgs.nushell;
+  environment.shells = with pkgs; [nushell bashInteractive];
+
   nix.gc = {
     automatic = true;
     dates = "weekly";

@@ -9,6 +9,7 @@
     ../nix-workflows.nix
     ../bash.nix
     ../nushell.nix
+    ../starship.nix
   ];
 
   xdg = {
@@ -30,11 +31,7 @@
   my = {
     terminalTheme = "gars-yellow-dark";
     guiTheme = "gars-yellow-dark";
-    nvimTheme = "gars-yellow-dark";
   };
-
-  home.file.".config/nvim".source =
-    config.lib.file.mkOutOfStoreSymlink (config.my.dotfilesRoot + "/nvim");
 
   programs.home-manager.enable = true;
 
