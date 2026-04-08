@@ -12,6 +12,16 @@
   home.file."Library/Application Support/nushell".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nushell";
 
+  # nix-darwin injects PATH via /etc/zshenv and /etc/bashrc, which nushell
+  # doesn't source.  Add the nix profile paths explicitly.
+  programs.nushell.extraEnv = ''
+    $env.PATH = ($env.PATH
+      | prepend "/etc/profiles/per-user/${config.home.username}/bin"
+      | prepend "/run/current-system/sw/bin"
+      | prepend "/nix/var/nix/profiles/default/bin"
+    )
+  '';
+
   programs.bash.shellAliases.nrs = "nh darwin switch . -H macbook";
   programs.nushell.shellAliases.nrs = "nh darwin switch . -H macbook";
 
