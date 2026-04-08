@@ -1,6 +1,10 @@
 # macbook-specific home-manager configuration.
 # Included automatically for every macbook output via hostHomeModules.
-{config, pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [yt-dlp];
   imports = [
     ../../modules/home/kitty.nix
