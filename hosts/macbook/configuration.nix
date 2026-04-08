@@ -28,6 +28,7 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
       NSAutomaticSpellingCorrectionEnabled = false;
+      ApplePressAndHoldEnabled = true;
       NSDocumentSaveNewDocumentsToCloud = false;
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
@@ -41,13 +42,6 @@
       magnification = false;
       launchanim = false;
       mineffect = "scale";
-      persistent-apps = [
-        "~/Applications/Home Manager Apps/Signal.app"
-        "~/Applications/Home Manager Apps/Brave Browser.app"
-        "~/Applications/Home Manager Apps/kitty.app"
-        "~/Applications/Home Manager Apps/Spotify.app"
-        "~/Applications/Home Manager Apps/Vesktop.app"
-      ];
     };
 
     finder = {
@@ -116,14 +110,6 @@
       "com.apple.GameCenter".GameCenterEnabled = false;
 
       "com.apple.lookup.shared".LookupSuggestionsDisabled = true;
-
-      "com.apple.Safari" = {
-        UniversalSearchEnabled = false;
-        SuppressSearchSuggestions = true;
-        SendDoNotTrackHTTPHeader = true;
-        PreloadTopHit = false;
-        AutoOpenSafeDownloads = false;
-      };
     };
   };
 
@@ -144,6 +130,7 @@
       "zoom"
       "background-music"
       "calibre"
+      "signal"
       "steam"
       "orcaslicer"
       "font-symbols-only-nerd-font"

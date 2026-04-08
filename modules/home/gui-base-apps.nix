@@ -15,7 +15,6 @@
       mpv
 
       # ── Messaging ──────────────────────────────────────────────────
-      signal-desktop
       ayugram-desktop
       vesktop
 
@@ -26,6 +25,7 @@
       obsidian
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
+      signal-desktop
       calibre-no-speech
     ];
 
