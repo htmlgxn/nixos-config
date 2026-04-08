@@ -43,16 +43,19 @@
   };
 
   # ── Spicetify (Spotify with theming) ────────────────────────────
+  # Spotify is only available on x86_64-linux, x86_64-darwin, and aarch64-darwin.
   programs.spicetify = let
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  in {
-    enable = true;
-    enabledExtensions = with spicePkgs.extensions; [
-      adblockify
-      hidePodcasts
-      shuffle
-    ];
-    theme = spicePkgs.themes.catppuccin;
-    colorScheme = "mocha";
-  };
+    supported = builtins.elem pkgs.stdenv.hostPlatform.system ["x86_64-linux" "x86_64-darwin" "aarch64-darwin"];
+  in
+    lib.mkIf supported {
+      enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        adblockify
+        hidePodcasts
+        shuffle
+      ];
+      theme = spicePkgs.themes.catppuccin;
+      colorScheme = "mocha";
+    };
 }

@@ -16,20 +16,20 @@ Once the system prerequisites are in place, the `sway` home profile provides eve
 
 ### Required on All Hosts
 
-| Component | Why | NixOS equivalent |
-| --- | --- | --- |
-| **sway** (system package) | Needs setuid/capability wrapper for DRM/KMS access | `programs.sway.enable` |
-| **polkit** | Privilege escalation for mounting, power management | `security.polkit.enable` |
-| **rtkit** | Realtime scheduling for PipeWire/audio | `security.rtkit.enable` |
-| **greetd + tuigreet** (or another greeter) | Login manager that can launch `sway` | `services.greetd` |
-| **xdg-desktop-portal-wlr** | Screen sharing, file dialogs under Wayland | `xdg.portal.wlr.enable` |
-| **xdg-desktop-portal-gtk** | GTK file picker integration | `xdg.portal.extraPortals` |
-| **dconf** | Required by GTK apps for settings storage | `programs.dconf.enable` |
-| **gnome-keyring** (+ PAM integration) | SSH key agent, credential storage. PAM must start the keyring daemon at login | `services.gnome.gnome-keyring` + `security.pam.services.login.enableGnomeKeyring` |
-| **wayland + xwayland** | Wayland libraries and X11 compat layer | `environment.systemPackages` |
-| **PipeWire** (+ wireplumber) | Audio — pactl/wpctl commands in sway config depend on this | `modules/system/cli.nix` |
-| **GTK_THEME=Adwaita-dark** | System-wide dark theme default for GTK apps | `environment.variables` |
-| **PAM swaylock entry** | swaylock needs PAM auth to unlock the screen | implicit on NixOS |
+| Component                                  | Why                                                                           | NixOS equivalent                                                                  |
+| ------------------------------------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **sway** (system package)                  | Needs setuid/capability wrapper for DRM/KMS access                            | `programs.sway.enable`                                                            |
+| **polkit**                                 | Privilege escalation for mounting, power management                           | `security.polkit.enable`                                                          |
+| **rtkit**                                  | Realtime scheduling for PipeWire/audio                                        | `security.rtkit.enable`                                                           |
+| **greetd + tuigreet** (or another greeter) | Login manager that can launch `sway`                                          | `services.greetd`                                                                 |
+| **xdg-desktop-portal-wlr**                 | Screen sharing, file dialogs under Wayland                                    | `xdg.portal.wlr.enable`                                                           |
+| **xdg-desktop-portal-gtk**                 | GTK file picker integration                                                   | `xdg.portal.extraPortals`                                                         |
+| **dconf**                                  | Required by GTK apps for settings storage                                     | `programs.dconf.enable`                                                           |
+| **gnome-keyring** (+ PAM integration)      | SSH key agent, credential storage. PAM must start the keyring daemon at login | `services.gnome.gnome-keyring` + `security.pam.services.login.enableGnomeKeyring` |
+| **wayland + xwayland**                     | Wayland libraries and X11 compat layer                                        | `environment.systemPackages`                                                      |
+| **PipeWire** (+ wireplumber)               | Audio — pactl/wpctl commands in sway config depend on this                    | `modules/system/cli.nix`                                                          |
+| **GTK_THEME=Adwaita-dark**                 | System-wide dark theme default for GTK apps                                   | `environment.variables`                                                           |
+| **PAM swaylock entry**                     | swaylock needs PAM auth to unlock the screen                                  | implicit on NixOS                                                                 |
 
 ### Fonts (System-Level)
 

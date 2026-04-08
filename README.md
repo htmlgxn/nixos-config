@@ -22,16 +22,16 @@ The main layers are:
 
 ## Current Outputs
 
-| Output       | Type         | Purpose                                                |
-| ------------ | ------------ | ------------------------------------------------------ |
-| `boreal-tty` | NixOS        | CLI/server profile on boreal with AI CLI overlays      |
-| `boreal`     | NixOS        | Full Sway desktop with gaming and AI CLI               |
-| `nixos-vm`   | NixOS        | Minimal VM profile                                     |
-| `rpi4-tty`   | NixOS        | Raspberry Pi 4 TTY profile                             |
-| `rpi4-sway`  | NixOS        | Raspberry Pi 4 Sway profile (lean ARM variant)         |
-| `macbook`    | nix-darwin   | Apple Silicon nix-darwin host with AI CLI overlay      |
-| `fedora-mac` | Home Manager | Standalone Home Manager profile for Fedora/macOS ARM   |
-| `jetson`     | Home Manager | Standalone Home Manager profile for Jetson Orin Nano   |
+| Output       | Type         | Purpose                                              |
+| ------------ | ------------ | ---------------------------------------------------- |
+| `boreal-tty` | NixOS        | CLI/server profile on boreal with AI CLI overlays    |
+| `boreal`     | NixOS        | Full Sway desktop with gaming and AI CLI             |
+| `nixos-vm`   | NixOS        | Minimal VM profile                                   |
+| `rpi4-tty`   | NixOS        | Raspberry Pi 4 TTY profile                           |
+| `rpi4-sway`  | NixOS        | Raspberry Pi 4 Sway profile (lean ARM variant)       |
+| `macbook`    | nix-darwin   | Apple Silicon nix-darwin host with AI CLI overlay    |
+| `fedora-mac` | Home Manager | Standalone Home Manager profile for Fedora/macOS ARM |
+| `jetson`     | Home Manager | Standalone Home Manager profile for Jetson Orin Nano |
 
 ## Common Commands
 

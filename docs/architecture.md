@@ -128,19 +128,19 @@ Poor fits for host modules:
 
 ### System Profiles
 
-| Profile     | Modules                                          |
-| ----------- | ------------------------------------------------ |
-| `tty`       | `cli.nix`                                        |
-| `sway`      | `cli.nix`, `sway.nix`                            |
+| Profile     | Modules                                            |
+| ----------- | -------------------------------------------------- |
+| `tty`       | `cli.nix`                                          |
+| `sway`      | `cli.nix`, `sway.nix`                              |
 | `sway-full` | `cli.nix`, `sway.nix`, `flatpak.nix`, `gaming.nix` |
 
 ### Home Profiles
 
-| Profile     | Modules                                                  |
-| ----------- | -------------------------------------------------------- |
-| `cli`       | (none — shared modules are always included)              |
-| `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)   |
-| `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)     |
+| Profile     | Modules                                                       |
+| ----------- | ------------------------------------------------------------- |
+| `cli`       | (none — shared modules are always included)                   |
+| `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)         |
+| `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)           |
 | `sway-full` | `sway.nix`, `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix` |
 
 System and home profiles are named symmetrically (`sway`/`sway`, `sway-full`/`sway-full`). The `gui` home profile exists for macOS where sway cannot run.

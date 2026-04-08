@@ -5,7 +5,7 @@
 | Output       | Type         | Host/User           | System Profile | Home Profile | Home Overlays |
 | ------------ | ------------ | ------------------- | -------------- | ------------ | ------------- |
 | `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`        | `ai`          |
-| `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`   | `sway-full`  | `ai`          |
+| `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`    | `sway-full`  | `ai`          |
 | `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`        | none          |
 | `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`        | none          |
 | `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`       | none          |
