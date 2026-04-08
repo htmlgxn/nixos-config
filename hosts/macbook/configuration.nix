@@ -60,6 +60,15 @@ _: {
     ];
   };
 
+  # ── Spotlight ───────────────────────────────────────────────────────
+  system.defaults.CustomUserPreferences."com.apple.symbolichotkeys" = {
+    AppleSymbolicHotKeys = {
+      # 64 = Spotlight search, 65 = Finder search window
+      "64" = { enabled = false; };
+      "65" = { enabled = false; };
+    };
+  };
+
   # ── Security ───────────────────────────────────────────────────────
   security.pam.services.sudo_local.touchIdAuth = true;
 }
