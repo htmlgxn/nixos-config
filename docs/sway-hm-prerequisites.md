@@ -139,11 +139,14 @@ EOF
 
 If installing a greeter is impractical, auto-start sway from TTY1.
 
+A flag file prevents a login loop if sway exits or crashes.
+
 **Bash** — via `programs.bash.profileExtra` in home-manager (writes to `~/.bash_profile`):
 
 ```nix
 programs.bash.profileExtra = ''
-  if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+  if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && [ ! -f /tmp/.sway-exited ]; then
+      touch /tmp/.sway-exited
       exec sway
   fi
 '';
@@ -153,11 +156,14 @@ programs.bash.profileExtra = ''
 
 ```nix
 programs.nushell.extraLogin = ''
-  if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") {
+  if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") and (not ("/tmp/.sway-exited" | path exists)) {
+      touch /tmp/.sway-exited
       exec sway
   }
 '';
 ```
+
+The flag file (`/tmp/.sway-exited`) is cleared on reboot since `/tmp` is tmpfs. To relaunch sway manually after it exits, delete the flag: `rm /tmp/.sway-exited`.
 
 > **Note:** Nushell's environment handling can cause issues launching Wayland compositors directly. If sway fails to create a backend, use `exec bash -c 'exec sway'` instead.
 

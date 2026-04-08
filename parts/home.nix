@@ -21,7 +21,7 @@
 
     jetson = {
       userName = "gars";
-      homeProfile = "cli";
+      homeProfile = "sway";
       system = "aarch64-linux";
       homeOverlays = [];
       hostHomeModules = [(self + /hosts/jetson/home.nix)];

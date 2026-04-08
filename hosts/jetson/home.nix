@@ -31,15 +31,18 @@
     )
   '';
 
-  # Auto-start sway from TTY1 if no greeter is installed
+  # Auto-start sway from TTY1 if no greeter is installed.
+  # Uses a flag file to prevent a login loop if sway exits.
   programs.bash.profileExtra = ''
-    if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+    if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && [ ! -f /tmp/.sway-exited ]; then
+        touch /tmp/.sway-exited
         exec sway --unsupported-gpu
     fi
   '';
 
   programs.nushell.extraLogin = ''
-    if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") {
+    if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") and (not ("/tmp/.sway-exited" | path exists)) {
+        touch /tmp/.sway-exited
         exec sway --unsupported-gpu
     }
   '';
