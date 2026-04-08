@@ -23,6 +23,7 @@
   programs.nushell.extraEnv = ''
     $env.PATH = ($env.PATH
       | prepend ($env.HOME | path join ".nix-profile" "bin")
+      | prepend "/nix/var/nix/profiles/default/bin"
       | prepend "/usr/local/cuda/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
       | prepend (glob ($env.HOME | path join ".nvm" "versions" "node" "*" "bin") | first)
