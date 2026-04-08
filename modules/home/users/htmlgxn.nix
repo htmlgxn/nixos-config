@@ -15,20 +15,11 @@ in {
     dotfilesRoot = "${config.home.homeDirectory}/nixos-config/home/gars";
     dotfilesNixPath = ../../../home/gars;
     containersRoot = "${config.home.homeDirectory}/nixos-config/containers";
-    isNixOS = false;
   };
 
-  home.username = userName;
-  home.homeDirectory = lib.mkDefault "/home/${userName}";
-  home.stateVersion = "26.05";
-
-  # ── macOS SSH entries ───────────────────────────────────────────────
-  programs.ssh.matchBlocks."github.com" = {
-    hostname = "github.com";
-    extraOptions = {
-      AddKeysToAgent = "yes";
-      UseKeychain = "yes";
-    };
-    identityFile = "~/.ssh/id_ed25519";
+  home = {
+    username = userName;
+    homeDirectory = lib.mkDefault "/home/${userName}";
+    stateVersion = "26.05";
   };
 }

@@ -14,11 +14,10 @@ in {
     wallpaper = "${homeDir}/nixos-config/home/${userName}/wallpapers/default.jpg";
   };
 
-  home.username = userName;
-  home.homeDirectory = homeDir;
-
-  # Per-user SSH host entries (shared entries are in common.nix):
-  # programs.ssh.matchBlocks."myhost" = { ... };
+  home = {
+    username = userName;
+    Directory = homeDir;
+  };
 
   home.stateVersion = "26.05";
 }

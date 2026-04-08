@@ -15,7 +15,11 @@
   sharedSystemModules = [
     inputs.lix-module.nixosModules.default
     (self + /modules/shared/options.nix)
-    ({pkgs, config, ...}: {
+    ({
+      pkgs,
+      config,
+      ...
+    }: {
       time.timeZone = "America/Halifax";
       i18n.defaultLocale = "en_CA.UTF-8";
       nix.settings = {
@@ -210,6 +214,7 @@
     userName,
     homeProfile,
     system,
+    hostHomeModules ? [],
     homeOverlays ? [],
   }:
     nix-darwin.lib.darwinSystem {
@@ -226,7 +231,7 @@
           home-manager.backupFileExtension = "bak";
           home-manager.extraSpecialArgs = {inherit inputs;};
           home-manager.users.${userName} = {
-            imports = mkHomeImports {inherit userName homeProfile homeOverlays;};
+            imports = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
             home.homeDirectory = nixpkgs.lib.mkForce "/Users/${userName}";
           };
         }

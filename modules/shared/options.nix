@@ -3,12 +3,6 @@
   inherit (lib) mkOption types;
 in {
   options.my = {
-    isNixOS = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Whether the host is a NixOS system (false for standalone HM or nix-darwin).";
-    };
-
     borealHost = mkOption {
       type = types.str;
       default = "boreal.local";

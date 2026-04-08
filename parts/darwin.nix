@@ -3,7 +3,11 @@
 # nix-darwin output definitions.
 # Each entry selects a user, home profile, target system,
 # and optional home overlay groups.
-{flakeLib, ...}: let
+{
+  flakeLib,
+  self,
+  ...
+}: let
   inherit (flakeLib) mkDarwinOutput;
 
   darwinOutputDefs = {
@@ -11,6 +15,7 @@
       userName = "htmlgxn";
       homeProfile = "cli";
       system = "aarch64-darwin";
+      hostHomeModules = [(self + /hosts/macbook/home.nix)];
       homeOverlays = ["ai"];
     };
   };
