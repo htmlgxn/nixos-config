@@ -259,6 +259,7 @@
         mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
         ++ [
           {
+            nixpkgs.config.allowUnfree = true;
             home.username = userName;
             home.homeDirectory = "/home/${userName}";
             home.stateVersion = "26.05";
