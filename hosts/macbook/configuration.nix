@@ -51,6 +51,7 @@ _: {
       "jellyfin-media-player"
       "zoom"
       "background-music"
+      "calibre"
       "steam"
       "orcaslicer"
       "font-symbols-only-nerd-font"

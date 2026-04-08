@@ -1,6 +1,7 @@
 # Cross-platform GUI applications included in all gui/gui-full profiles.
 {
   pkgs,
+  lib,
   inputs,
   ...
 }: {
@@ -22,6 +23,8 @@
 
     # ── Documents & Notes ───────────────────────────────────────────
     obsidian
+  ]
+  ++ lib.optionals pkgs.stdenv.isLinux [
     calibre-no-speech
   ];
 
