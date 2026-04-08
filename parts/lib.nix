@@ -50,7 +50,6 @@
     (self + /modules/home/cli-base-apps.nix)
     (self + /modules/home/containers.nix)
     (self + /modules/home/fastfetch.nix)
-    (self + /modules/home/packages)
     (self + /modules/home/nixvim)
   ];
 
@@ -164,7 +163,9 @@
       backupFileExtension = "bak";
       extraSpecialArgs = {inherit inputs;};
       users.${userName} = {
-        imports = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
+        imports =
+          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
+          ++ [(self + /modules/home/packages)];
       };
     };
   };
