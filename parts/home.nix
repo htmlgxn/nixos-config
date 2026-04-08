@@ -13,7 +13,7 @@
   homeOutputDefs = {
     fedora-mac = {
       userName = "htmlgxn";
-      homeProfile = "cli";
+      homeProfile = "sway";
       system = "aarch64-linux";
       homeOverlays = [];
       hostHomeModules = [(self + /hosts/fedora-mac/home.nix)];
