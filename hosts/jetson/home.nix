@@ -8,7 +8,6 @@
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
-    LD_LIBRARY_PATH = "/usr/local/cuda/lib64:/usr/lib/aarch64-linux-gnu";
   };
 
   # Preserve host-managed dev toolchains and CUDA in PATH
