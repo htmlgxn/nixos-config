@@ -79,6 +79,7 @@
       system = "x86_64-linux";
       module = self + /hosts/nixos-vm/configuration.nix;
       extraSystemModules = [];
+      hostHomeModules = [(self + /hosts/nixos-vm/home.nix)];
     };
 
     rpi4 = {
@@ -87,6 +88,7 @@
       extraSystemModules = [
         nixos-hardware.nixosModules.raspberry-pi-4
       ];
+      hostHomeModules = [(self + /hosts/rpi4/home.nix)];
     };
 
     # cyberdeck = {

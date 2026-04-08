@@ -6,6 +6,9 @@
   home.file."Library/Application Support/nushell".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nushell";
 
+  programs.bash.shellAliases.nrs = "nh darwin switch . -H macbook";
+  programs.nushell.shellAliases.nrs = "nh darwin switch . -H macbook";
+
   # ── macOS SSH entries ────────────────────────────────────────────────
   programs.ssh.matchBlocks."github.com" = {
     hostname = "github.com";

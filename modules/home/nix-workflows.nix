@@ -123,30 +123,39 @@
         local output="$2"
         shift 2
 
-        _nixcfg_require_command nixos-rebuild || return 1
+        _nixcfg_require_command nh || return 1
         _nixcfg_require_output nixosConfigurations "$output" || return 1
 
-        sudo nixos-rebuild "$action" --flake "$_nixcfg_repo/.#$output" "$@"
+        local nh_action
+        case "$action" in
+          switch) nh_action="switch" ;;
+          build) nh_action="build" ;;
+          test) nh_action="test" ;;
+          dry-build) nh_action="build -d" ;;
+          *) printf 'unsupported action: %s\n' "$action" >&2; return 1 ;;
+        esac
+
+        nh os $nh_action . -H "$output" "$@"
       }
 
       _nixcfg_run_darwin_rebuild() {
         local action="$1"
         local output="''${2:-macbook}"
 
-        _nixcfg_require_command darwin-rebuild || return 1
+        _nixcfg_require_command nh || return 1
         _nixcfg_require_output darwinConfigurations "$output" || return 1
 
-        darwin-rebuild "$action" --flake "$_nixcfg_repo#$output"
+        nh darwin "$action" . -H "$output"
       }
 
       _nixcfg_run_home_manager() {
         local action="$1"
-        local output="''${2:-fedora-arm}"
+        local output="''${2:-fedora-mac}"
 
-        _nixcfg_require_command home-manager || return 1
+        _nixcfg_require_command nh || return 1
         _nixcfg_require_output homeConfigurations "$output" || return 1
 
-        home-manager "$action" --flake "$_nixcfg_repo#$output"
+        nh home "$action" . -c "$output"
       }
 
       _nixcfg_copy_nixos_output() {
@@ -563,15 +572,15 @@
       }
 
       nclean-system() {
-        _nixcfg_require_command nix-collect-garbage || return 1
-        sudo nix-collect-garbage -d
+        _nixcfg_require_command nh || return 1
+        nh clean all
       }
 
       nclean-hm() {
         local age="''${1:--7 days}"
 
-        _nixcfg_require_command home-manager || return 1
-        home-manager expire-generations "$age"
+        _nixcfg_require_command nh || return 1
+        nh clean user
       }
 
       nclean-all() {

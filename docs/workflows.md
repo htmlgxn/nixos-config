@@ -52,16 +52,16 @@ The target is that a new output should not require discovering unrelated implici
 
 ### CLI packages
 
-- Shared baseline: `modules/home/cli.nix`
-- Optional AI tooling: `modules/home/ai-cli-agents.nix`, `modules/home/ai-cli-extras.nix`, `modules/home/ai-cli-orchestrators.nix`, `modules/home/ai-ollama.nix`, and `modules/home/ai-ollama-rocm.nix`
+- Shared baseline: `modules/home/cli-base-apps.nix`
+- Optional AI tooling: `modules/home/ai.nix` (via `ai` overlay group in output definition)
 - Shared container/npm tooling: `modules/home/containers.nix`
-- Output-level optional extras: explicit home overlay groups in `flake.nix`
+- Output-level optional extras: explicit home overlay groups in `flake.nix` (currently just `ai`)
 - Device/profile-specific CLI additions: place in a dedicated module and add to the relevant home profile
 
 ### Desktop packages
 
-- Shared desktop packages: `modules/home/gui-base.nix`
-- Heavier desktop extras: `modules/home/gui-extras.nix`
+- Shared desktop packages: `modules/home/gui-base-apps.nix`
+- Heavier desktop extras: `modules/home/gui-extra-apps.nix`
 - Compositor-specific additions: the relevant file in `modules/home/`
 
 ### System packages
@@ -73,11 +73,12 @@ The target is that a new output should not require discovering unrelated implici
 
 ## Add a Compositor
 
-1. Create `modules/system/<compositor>.nix` and import `./gui-base.nix` there if it is a full desktop path.
-2. Create `modules/home/<compositor>.nix`.
+1. Create `modules/system/<compositor>.nix` if system-level setup is needed (polkit, greetd, portal, etc.).
+2. Create `modules/home/<compositor>.nix` with the Home Manager declarative config.
 3. Add matching entries to `systemProfiles` and `homeProfiles`.
-4. Add an output in `nixosOutputDefs`.
-5. Document whether the compositor is intended to be lean, full-desktop, or both.
+4. Add an output definition in `nixosOutputDefs` (or `darwinOutputDefs` / `homeOutputDefs` for other platforms).
+5. Document whether the compositor is intended to be lean, full-desktop, or profile-specific.
+6. Ensure any shared base configuration is pulled in explicitly (e.g., GUI theme modules, shared base apps).
 
 ## Add or Change Dotfiles
 

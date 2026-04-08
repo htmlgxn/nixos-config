@@ -2,33 +2,28 @@
 
 ## Outputs
 
-| Output       | Type         | Host/User           | System Profile | Home Profile | Home Overlays                                |
-| ------------ | ------------ | ------------------- | -------------- | ------------ | -------------------------------------------- |
-| `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`        | `cli-extras`, `ai-cli-all`, `ai-ollama-rocm` |
-| `boreal`     | NixOS        | `boreal` / `gars`   | `sway`         | `sway`       | `cli-extras`, `boreal-gui`, `boreal-desktop` |
-| `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`        | none                                         |
-| `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`        | none                                         |
-| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway-arm`     | `sway-arm`   | none                                         |
-| `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`        | `ai-cli-all`                                 |
-| `fedora-arm` | Home Manager | `htmlgxn`           | n/a            | `cli`        | none                                         |
+| Output       | Type         | Host/User           | System Profile | Home Profile | Home Overlays |
+| ------------ | ------------ | ------------------- | -------------- | ------------ | ------------- |
+| `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`        | `ai`          |
+| `boreal`     | NixOS        | `boreal` / `gars`   | `gui-full`     | `gui-full`   | `ai`          |
+| `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`        | none          |
+| `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`        | none          |
+| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `gui`          | `gui`        | none          |
+| `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`        | `ai`          |
+| `fedora-mac` | Home Manager | `htmlgxn`           | n/a            | `cli`        | none          |
+| `jetson`     | Home Manager | `gars`              | n/a            | `cli`        | none          |
 
 ## Home Overlay Groups
 
-These are the explicit home-level add-on groups selected by outputs:
+Home Manager outputs may include explicit overlay groups for feature composition:
 
-- `ai-cli-orchestrators`: `modules/home/ai-cli-orchestrators.nix` (empty placeholder for future CLI orchestration tooling)
-- `ai-cli-agents`: `modules/home/ai-cli-agents.nix`
-- `ai-cli-extras`: `modules/home/ai-cli-extras.nix`
-- `ai-cli-all`: `ai-cli-orchestrators`, `ai-cli-agents`, and `ai-cli-extras`
-- `ai-ollama`: `modules/home/ai-ollama.nix` for generic Ollama enablement
-- `ai-ollama-rocm`: `ai-ollama` plus `modules/home/ai-ollama-rocm.nix`
-- `cli-extras`: `modules/home/cli-extras.nix`
-- `boreal-gui`: `ai-cli-all`, `ai-ollama-rocm`, plus `modules/home/brave-bookmarks-sync.nix`
-- `boreal-desktop`: inline Boreal desktop defaults for keyboard layout, root-disk waybar module, and terminal preference (`kitty` on Boreal)
+- `ai`: `modules/home/ai.nix` — installs claude-code, qwen-code, codex, opencode, ollama runtime and development tools. Sets `my.ollamaPackage` to `pkgs.ollama` (hosts can override to `pkgs.ollama-rocm` or another variant via mkDefault).
 
-Host-level Home Manager modules are separate from overlay groups:
+Host-level Home Manager modules are applied per-output through the host descriptor:
 
-- `hosts/boreal/home.nix` is included for every Boreal output through the host descriptor
+- `hosts/boreal/home.nix` adds Boreal-specific overrides (e.g., `my.ollamaPackage = pkgs.ollama-rocm`, `my.terminal = "kitty"`) for `boreal` and `boreal-tty` outputs
+- `hosts/macbook/home.nix` adds macOS-specific configuration
+- `hosts/jetson/home.nix` enables `targets.genericLinux.enable` and sets CUDA paths
 
 ## User Shell Helpers
 
@@ -36,12 +31,25 @@ Shared aliases and SSH baseline live in [`modules/home/users/common.nix`](../mod
 
 Rebuild helpers:
 
-- `nr <output>` runs `sudo nixos-rebuild switch --flake ~/nixos-config/.#<output>`
-- `nrb <output>` runs `sudo nixos-rebuild build --flake ~/nixos-config/.#<output>`
-- `nrt <output>` runs `sudo nixos-rebuild test --flake ~/nixos-config/.#<output>`
-- `nrd <output>` runs `sudo nixos-rebuild dry-build --flake ~/nixos-config/.#<output>`
-- `nrs` is a permanent shortcut for `nr boreal`
-- `nrtty` is a permanent shortcut for `nr boreal-tty`
+- `nr <output>` runs `nh os switch . -H <output>` (applies and diffs NixOS configurations)
+- `nrb <output>` runs `nh os build . -H <output>` (builds without applying)
+- `nrt <output>` runs `nh os test . -H <output>` (test the new system without rebooting)
+- `nrd <output>` runs `nh os build -d . -H <output>` (dry-run with diff)
+- `nrs` overrides `nr` for `boreal`, using `nh os switch . -H boreal`
+- `nrtty` overrides `nr` for `boreal-tty`, using `nh os switch . -H boreal-tty`
+
+Darwin helpers:
+
+- `ndrs [output]` runs `nh darwin switch . -H <output>` (default: `macbook`)
+- `ndrb [output]` runs `nh darwin build . -H <output>`
+
+Home Manager helpers:
+
+- `nhms [output]` runs `nh home switch . -c <output>` (default: `fedora-mac`)
+- `nhmb [output]` runs `nh home build . -c <output>`
+
+Other helpers:
+
 - `ns [query]` runs `nix-search-tv` through `fzf` with inline preview
 - `nout`, `noutn`, `noutd`, and `nouth` list the current flake outputs
 - `ncheck` and `ncheck-full` provide the default repo validation sequences
@@ -103,13 +111,15 @@ Neovim helpers:
 - `my.jellyfin.mediaRoots`
 - `my.jellyfin.transcodeSize`
 
-`my.ollamaPackage` is now intended to be set explicitly by `ai-ollama` overlays rather than implicitly by user modules.
+`my.ollamaPackage` defaults to `pkgs.ollama` (via `ai.nix` overlay). Individual hosts can override via mkDefault:
 
-`my.terminal` now acts as the terminal selector for GUI outputs:
+- Boreal sets `my.ollamaPackage = pkgs.ollama-rocm` in `hosts/boreal/home.nix`
 
-- `foot` is the shared default
-- `kitty` is selected by Boreal through `boreal-desktop`
-- `alacritty` remains available as a future explicit selection path and will enable its existing Home Manager config when chosen
+`my.terminal` acts as the terminal selector for GUI outputs:
+
+- `foot` is the shared default (set in `modules/shared/options.nix`)
+- Boreal overrides to `kitty` in `hosts/boreal/home.nix`
+- `alacritty` is available as an alternative selection
 
 ## Host Notes
 
@@ -127,20 +137,28 @@ Neovim helpers:
 
 ### cyberdeck
 
-- `hosts/cyberdeck/configuration.nix` targets Jetson Orin Nano via `hardware.nvidia-jetpack`
-- the JetPack module comes from `jetpack-nixos` through the host descriptor
+- Jetson Orin Nano target configuration (currently disabled in `parts/lib.nix` and `parts/nixos.nix`)
+- `hosts/cyberdeck/configuration.nix` targets the Jetson via `hardware.nvidia-jetpack`
+- the JetPack module comes from `jetpack-nixos` input
 
 ### rpi4
 
 - `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 host target
 - `nixos-hardware.nixosModules.raspberry-pi-4` is imported through the host descriptor
-- `rpi4-sway` uses lean ARM Sway profiles that omit Flatpak, gaming, and heavier desktop extras
+- `rpi4-tty` and `rpi4-sway` use the shared ARM profile set (`tty`/`cli` and `gui`/`gui`), which omit Flatpak and gaming
 - port `2200/tcp` is explicitly opened in the firewall
 
 ### macbook
 
-- `hosts/macbook/configuration.nix` is a nix-darwin host
-- apply with `darwin-rebuild switch --flake .#macbook`
+- `hosts/macbook/configuration.nix` is a nix-darwin host configuration
+- `hosts/macbook/home.nix` adds nushell library path and GitHub SSH configuration for macOS
+- apply with `ndrs` (shorthand) or `nh darwin switch . -H macbook`
+
+### jetson
+
+- Standalone Home Manager target for Jetson Orin Nano (no NixOS system configuration)
+- `hosts/jetson/home.nix` enables `targets.genericLinux.enable` and sets CUDA environment variables and library paths
+- apply with `nhms jetson` or `nh home switch .#jetson`
 
 ## Services
 
@@ -180,8 +198,8 @@ There are no automated tests in the repo.
 Typical checks:
 
 - evaluate outputs with `nix eval`
-- build an affected target with `sudo nixos-rebuild build --flake .#<output>`
-- apply Darwin changes with `darwin-rebuild switch --flake .#macbook`
-- apply standalone Home Manager changes with `home-manager switch --flake .#fedora-arm`
-- use [`docs/nix-workflows.md`](nix-workflows.md) for the repo helper equivalents and the recommended command combos
+- build an affected target with `nrb <output>`
+- apply Darwin changes with `ndrs [output]`
+- apply standalone Home Manager changes with `nhms [output]`
+- use [`docs/nix-workflows.md`](nix-workflows.md) for the full repo helper reference and recommended command sequences
 - visually confirm GUI changes after a local switch

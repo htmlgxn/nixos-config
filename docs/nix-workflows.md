@@ -49,34 +49,34 @@ nmeta nixosConfigurations.boreal.config.system.build.toplevel
 
 ## Local Apply Flows
 
-These wrappers validate output names against the live flake before running the rebuild command.
+These wrappers validate output names against the live flake before running the nh command.
 
 ### NixOS
 
-- `nr <output>`: `nixos-rebuild switch`
-- `nrb <output>`: `nixos-rebuild build`
-- `nrt <output>`: `nixos-rebuild test`
-- `nrd <output>`: `nixos-rebuild dry-build`
-- `nrs`: shortcut for `nr boreal`
-- `nrtty`: shortcut for `nr boreal-tty`
+- `nr <output>`: `nh os switch . -H <output>`
+- `nrb <output>`: `nh os build . -H <output>`
+- `nrt <output>`: `nh os test . -H <output>`
+- `nrd <output>`: `nh os build -d . -H <output>` (dry-run with diff)
+- `nrs`: `nh os switch . -H boreal`
+- `nrtty`: `nh os switch . -H boreal-tty`
 - `npre <output>`: `fnixc` then `nrd <output>`
 - `nship <output>`: `npre <output>` then `nr <output>`
 
 ### nix-darwin
 
-- `ndrs [output]`: `darwin-rebuild switch`, default `macbook`
-- `ndrb [output]`: `darwin-rebuild build`, default `macbook`
+- `ndrs [output]`: `nh darwin switch . -H <output>`, default `macbook`
+- `ndrb [output]`: `nh darwin build . -H <output>`, default `macbook`
 
 ### Standalone Home Manager
 
-- `nhms [output]`: `home-manager switch`, default `fedora-arm`
-- `nhmb [output]`: `home-manager build`, default `fedora-arm`
+- `nhms [output]`: `nh home switch . -c <output>`, default `fedora-mac`
+- `nhmb [output]`: `nh home build . -c <output>`, default `fedora-mac`
 
 ## Where The Build Happens
 
 This is the part that usually trips people up.
 
-For `nr`, `nrb`, `nrt`, and `nrd`, the build happens on the machine where you run the command.
+For `nr`, `nrb`, `nrt`, and `nrd`, the build happens on the machine where you run the command. The `-H <output>` flag tells `nh` which flake output configuration to build, but does not change where the build runs.
 
 That means:
 
@@ -86,7 +86,7 @@ That means:
 In this repo, Boreal is configured to handle that ARM case because [`hosts/boreal/base.nix`](../hosts/boreal/base.nix) enables:
 
 ```nix
-boot.binfmt.emulatedSystems = ["aarch64-linux"];
+boot.binfmt.emulatedSystems = [“aarch64-linux”];
 ```
 
 So Boreal can build ARM-targeted outputs through binfmt/QEMU-style emulation when needed.
@@ -95,7 +95,7 @@ Important distinction:
 
 - `nrb <output>` does not choose a remote machine by itself
 - `nrb <output>` does not automatically mean “native build on that target device”
-- it simply runs `nixos-rebuild build` on the current machine for the selected output
+- it simply runs `nh os build . -H <output>` on the current machine for the selected output configuration
 
 That gives you four practical build-location models:
 
@@ -222,8 +222,8 @@ nship-remote rpi4-sway localhost gars@rpi4.local
 - `ndiff-system [from] [to]`: diff two system generations with `nix store diff-closures`; defaults to previous vs current
 - `nclean-roots`: print GC roots
 - `nclean-gc`: run `nix store gc`
-- `nclean-system`: delete old system and profile generations with `nix-collect-garbage -d`
-- `nclean-hm [age]`: expire old Home Manager generations, default `-7 days`
+- `nclean-system`: delete old system and profile generations with `nh clean all`
+- `nclean-hm [age]`: expire old Home Manager generations with `nh clean user`, default `-7 days`
 - `nclean-all [age]`: run the system cleanup, optional Home Manager cleanup, then store GC
 
 ## Recommended Sequences
@@ -294,15 +294,17 @@ ndiff-system 123 124
 - `nhms` and `nhmb` are for standalone Home Manager outputs.
 - `nout*`, `npath`, `nshow`, `fnix*`, `ncheck*`, `neval`, `nb`, `nbi`, `nchk`, `nmeta`, `nwhy`, `nrepl`, `nfu*`, and `nclean-*` are cross-platform as long as the underlying commands exist.
 
-## Why Native Nix Wrappers
+## About nh
 
-This helper surface uses native `nix`, `nixos-rebuild`, `darwin-rebuild`, and `home-manager` commands instead of adding `deploy-rs` or `colmena`.
+This helper surface uses `nh` (and native `nix`, `nix flake`, SSH) instead of adding `deploy-rs` or `colmena`.
 
-That keeps the workflows close to the repo’s explicit output model:
+`nh` provides:
 
-- one flake
-- named outputs
-- manual, high-clarity composition
-- no second orchestration layer to keep in sync
+- Human-friendly diffs (via `nvd`) before activation
+- No need to manually invoke `sudo` for NixOS operations
+- Cleaner ergonomics around flake-based operations
+- Works across NixOS, nix-darwin, and Home Manager
 
-If the repo grows into more frequent coordinated multi-host deploys, the command naming leaves room to swap some remote helpers behind the scenes later.
+The helpers validate output names against the live flake before running commands, keeping the workflow explicit and auditable.
+
+For more information, see the [nh project](https://github.com/viperml/nh).
