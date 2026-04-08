@@ -88,7 +88,6 @@ in {
       ncspot
       yt-dlp
       ffmpeg-full
-      cava
       wiki-tui
       #telescope # telescope and amfora are gemini browsers
       #amfora
@@ -113,6 +112,7 @@ in {
       s-tui
       systemctl-tui
       proton-vpn-cli
+      cava
       contact # Meshtastic TUI
       powertop
     ];
