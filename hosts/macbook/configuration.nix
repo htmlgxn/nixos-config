@@ -60,7 +60,7 @@
     };
 
     screencapture = {
-      location = "~/downloads/screenshots";
+      location = "~/Pictures/screenshots";
       type = "png";
       disable-shadow = true;
     };
