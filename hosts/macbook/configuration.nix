@@ -30,7 +30,7 @@ _: {
       "firefox"
       "font-symbols-only-nerd-font"
       "gram"
-      "mpv"
+      "stolendata-mpv"
       "rotki"
       "vscodium"
       "warp"
