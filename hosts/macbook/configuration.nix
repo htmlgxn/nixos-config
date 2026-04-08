@@ -118,6 +118,9 @@
     enable = true;
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
+    brews = [
+      "diskonaut"
+    ];
     casks = [
       "android-platform-tools"
       "cursor"
