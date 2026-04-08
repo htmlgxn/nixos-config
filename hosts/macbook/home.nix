@@ -73,13 +73,13 @@
         alt-shift-9 = "move-node-to-workspace 9";
 
         # ── Workspace navigation ─────────────────────────────────────
-        alt-bracketright = "workspace next";
-        alt-bracketleft = "workspace prev";
+        alt-period = "workspace next";
+        alt-comma = "workspace prev";
 
         # ── Window management ────────────────────────────────────────
         alt-q = "close";
         alt-shift-c = "reload-config";
-        alt-return = "exec-and-forget open -a kitty";
+        alt-enter = "exec-and-forget open -a kitty";
 
         # ── Resize mode ──────────────────────────────────────────────
         alt-r = "mode resize";
@@ -90,7 +90,7 @@
         j = "resize height +50";
         k = "resize height -50";
         l = "resize width +50";
-        escape = "mode main";
+        esc = "mode main";
         enter = "mode main";
       };
     };

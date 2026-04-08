@@ -18,10 +18,10 @@ _: {
     };
 
     dock = {
-      autohide = false;
+      autohide = true;
       static-only = true;
       mru-spaces = false;
-      tilesize = 48;
+      tilesize = 32;
       magnification = false;
       launchanim = false;
       mineffect = "scale";
@@ -64,8 +64,8 @@ _: {
   system.defaults.CustomUserPreferences."com.apple.symbolichotkeys" = {
     AppleSymbolicHotKeys = {
       # 64 = Spotlight search, 65 = Finder search window
-      "64" = { enabled = false; };
-      "65" = { enabled = false; };
+      "64" = {enabled = false;};
+      "65" = {enabled = false;};
     };
   };
 
