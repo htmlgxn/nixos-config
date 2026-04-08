@@ -5,6 +5,7 @@
 # are managed by the host OS.
 {config, ...}: {
   targets.genericLinux.enable = true;
+  my.terminal = "kitty";
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
