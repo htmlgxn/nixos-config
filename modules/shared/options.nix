@@ -17,7 +17,7 @@ in {
 
     terminal = mkOption {
       type = types.str;
-      default = "foot";
+      default = "kitty";
       description = "Terminal emulator command used by the compositor.";
     };
 
