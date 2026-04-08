@@ -1,5 +1,6 @@
 # Shared Home Manager CLI package set.
 {
+  config,
   pkgs,
   lib,
   inputs,
