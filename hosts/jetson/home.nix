@@ -25,7 +25,7 @@
     $env.PATH = ($env.PATH
       | prepend "/usr/local/cuda/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
-      | prepend ($env.HOME | path join ".nvm" "versions" "node" "v24.14.1" "bin")
+      | prepend (glob ($env.HOME | path join ".nvm" "versions" "node" "*" "bin") | first)
     )
   '';
 
