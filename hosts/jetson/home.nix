@@ -6,6 +6,6 @@ _: {
     PATH = "/usr/local/cuda/bin:$PATH";
   };
 
-  programs.bash.shellAliases.nrs = "nh home switch . -c jetson";
-  programs.nushell.shellAliases.nrs = "nh home switch . -c jetson";
+  programs.bash.shellAliases.nrs = "nh home switch ~/nixos-config -c jetson";
+  programs.nushell.shellAliases.nrs = "nh home switch ~/nixos-config -c jetson";
 }
