@@ -9,7 +9,6 @@ in {
     primaryUser = userName;
     repoRoot = "${homeDir}/nixos-config";
     containersRoot = "${homeDir}/nixos-config/containers";
-    wallpaper = "${homeDir}/nixos-config/modules/home/users/gars/wallpapers/default.jpg";
   };
 
   home = {
