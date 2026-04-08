@@ -26,6 +26,11 @@
       launchanim = false;
       mineffect = "scale";
       persistent-apps = [
+        "~/Applications/Home Manager Apps/Signal.app"
+        "~/Applications/Home Manager Apps/Brave Browser.app"
+        "~/Applications/Home Manager Apps/kitty.app"
+        "~/Applications/Home Manager Apps/Spotify.app"
+        "~/Applications/Home Manager Apps/Vesktop.app"
       ];
     };
 
