@@ -1,11 +1,10 @@
 # nixos-vm-specific home-manager configuration.
 # Included automatically for every nixos-vm output via hostHomeModules in flake.nix.
-_: {
-  programs.bash.shellAliases = {
-    nrs = "nh os switch . -H nixos-vm";
-  };
+# nixos-vm-specific home-manager configuration.
+# Included automatically for every nixos-vm output via hostHomeModules.
+{config, pkgs, ...}: {
+  home.packages = with pkgs; [yt-dlp];
 
-  programs.nushell.shellAliases = {
-    nrs = "nh os switch . -H nixos-vm";
-  };
+  programs.bash.shellAliases.nrs = "nh os switch ${config.my.repoRoot} -H nixos-vm";
+  programs.nushell.shellAliases.nrs = "nh os switch ${config.my.repoRoot} -H nixos-vm";
 }

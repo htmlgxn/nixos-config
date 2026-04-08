@@ -16,6 +16,7 @@
       homeProfile = "cli";
       system = "aarch64-linux";
       homeOverlays = [];
+      hostHomeModules = [(self + /hosts/fedora-mac/home.nix)];
     };
 
     jetson = {

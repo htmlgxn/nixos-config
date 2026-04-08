@@ -1,6 +1,8 @@
 # boreal-specific home-manager configuration.
 # Included automatically for every boreal output via hostHomeModules in flake.nix.
-{pkgs, ...}: {
+{config, pkgs, ...}: {
+  home.packages = with pkgs; [yt-dlp];
+
   # boreal connects to itself — use localhost instead of boreal.local.
   my = {
     borealHost = "localhost";
@@ -15,8 +17,8 @@
   programs.bash = {
     shellAliases = {
       # ── Boreal host shortcuts ────────────────────────────────────────
-      nrs = "nh os switch . -H boreal";
-      nrtty = "nh os switch . -H boreal-tty";
+      nrs = "nh os switch ${config.my.repoRoot} -H boreal";
+      nrtty = "nh os switch ${config.my.repoRoot} -H boreal-tty";
 
       # ── Mount navigation ─────────────────────────────────────────────
       cdarch = "cd /mnt/archive";
@@ -31,8 +33,8 @@
   programs.nushell = {
     shellAliases = {
       # ── Boreal host shortcuts ────────────────────────────────────────
-      nrs = "nh os switch . -H boreal";
-      nrtty = "nh os switch . -H boreal-tty";
+      nrs = "nh os switch ${config.my.repoRoot} -H boreal";
+      nrtty = "nh os switch ${config.my.repoRoot} -H boreal-tty";
 
       # ── Mount navigation ─────────────────────────────────────────────
       cdarch = "cd /mnt/archive";

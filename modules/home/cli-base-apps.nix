@@ -87,7 +87,6 @@ in {
 
       # ── Media ───────────────────────────────────────────────────────
       ncspot
-      yt-dlp
       ffmpeg-full
       wiki-tui
       #telescope # telescope and amfora are gemini browsers
