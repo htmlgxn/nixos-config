@@ -27,6 +27,7 @@
       | prepend "/etc/profiles/per-user/${config.home.username}/bin"
       | prepend "/run/current-system/sw/bin"
       | prepend "/nix/var/nix/profiles/default/bin"
+      | prepend "/opt/homebrew/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
     )
   '';
