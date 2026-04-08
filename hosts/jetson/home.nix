@@ -6,6 +6,9 @@
 {config, ...}: {
   targets.genericLinux.enable = true;
 
+  # Use system-installed sway — nix sway can't access Jetson's NVIDIA libraries
+  wayland.windowManager.sway.package = null;
+
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
     WLR_NO_HARDWARE_CURSORS = "1";
