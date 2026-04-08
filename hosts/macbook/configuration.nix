@@ -1,5 +1,5 @@
 # nix-darwin system configuration for macOS Apple Silicon.
-_: {
+{pkgs, ...}: {
   # nix-darwin state version
   system.stateVersion = 5;
   system.primaryUser = "htmlgxn";
@@ -70,5 +70,9 @@ _: {
   };
 
   # ── Security ───────────────────────────────────────────────────────
+  # ── Shell ───────────────────────────────────────────────────────────
+  environment.shells = with pkgs; [nushell bashInteractive];
+  users.users.htmlgxn.shell = pkgs.nushell;
+
   security.pam.services.sudo_local.touchIdAuth = true;
 }
