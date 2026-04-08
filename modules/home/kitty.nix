@@ -2,7 +2,7 @@
 # ~/nixos-config/modules/home/kitty.nix
 #
 # Kitty terminal emulator configuration managed by Home Manager.
-# Styling matches alacritty.nix using shared terminal-theme.nix.
+# Styling uses shared terminal-theme.nix.
 #
 {config, ...}: let
   theme = config.my.terminalThemeData;
@@ -11,7 +11,7 @@ in {
     enable = config.my.terminal == "kitty";
     font = {
       name = "Roboto Mono";
-      size = 11.0;
+      size = config.my.terminalFontSize;
     };
     settings = {
       # Padding (x y)

@@ -21,6 +21,12 @@ in {
       description = "Terminal emulator command used by the compositor.";
     };
 
+    terminalFontSize = mkOption {
+      type = types.number;
+      default = 11.0;
+      description = "Font size for terminal emulators (kitty, xterm, etc.).";
+    };
+
     dualKeyboardLayout = mkOption {
       type = types.bool;
       default = false;

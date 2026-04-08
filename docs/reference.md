@@ -117,7 +117,6 @@ Neovim helpers:
 
 - `foot` is the shared default (set in `modules/shared/options.nix`)
 - Boreal overrides to `kitty` in `hosts/boreal/home.nix`
-- `alacritty` is available as an alternative selection
 
 ## Host Notes
 

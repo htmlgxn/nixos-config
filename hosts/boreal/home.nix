@@ -2,15 +2,14 @@
 # Included automatically for every boreal output via hostHomeModules in flake.nix.
 {pkgs, ...}: {
   # boreal connects to itself — use localhost instead of boreal.local.
-  my.borealHost = "localhost";
-
-  # AMD ROCm variant for local AI inference.
-  my.ollamaPackage = pkgs.ollama-rocm;
-
-  # ── Boreal desktop defaults ──────────────────────────────────────
-  my.dualKeyboardLayout = true;
-  my.showRootDisk = true;
-  my.terminal = "kitty";
+  my = {
+    borealHost = "localhost";
+    ollamaPackage = pkgs.ollama-rocm;
+    dualKeyboardLayout = true;
+    showRootDisk = true;
+    terminal = "kitty";
+    terminalFontSize = 9.0;
+  };
 
   # ── Boreal shell aliases (shared across shells) ───────────────────
   programs.bash = {

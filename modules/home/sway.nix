@@ -37,7 +37,6 @@ in {
     ./gui-base-apps.nix
     ./gui-theme.nix
     ./terminal-theme.nix
-    ./alacritty.nix
     ./kitty.nix
     ./fuzzel.nix
     ./mako.nix

@@ -18,8 +18,8 @@ in {
     "XTerm.termName" = "xterm-256color";
 
     # ── Font ──────────────────────────────────────────────────────────
-    "XTerm.vt100.faceName" = "Roboto Mono:size=10";
-    "XTerm.vt100.faceSize" = 10;
+    "XTerm.vt100.faceName" = "Roboto Mono:size=${toString config.my.terminalFontSize}";
+    "XTerm.vt100.faceSize" = config.my.terminalFontSize;
 
     # ── Colors ────────────────────────────────────────────────────────
     "XTerm.vt100.background" = c.background;

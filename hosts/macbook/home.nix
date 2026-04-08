@@ -6,7 +6,10 @@
     ../../modules/home/terminal-theme.nix
   ];
 
-  my.terminal = "kitty";
+  my = {
+    terminal = "kitty";
+    terminalFontSize = 14.0;
+  };
   # macOS nushell looks in ~/Library/Application Support/nushell/ by default.
   # Symlink it to the XDG path so HM-managed config is picked up.
   home.file."Library/Application Support/nushell".source =
