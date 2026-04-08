@@ -25,8 +25,8 @@
     )
   '';
 
-  programs.bash.shellAliases.nrs = "nh darwin switch . -H macbook";
-  programs.nushell.shellAliases.nrs = "nh darwin switch . -H macbook";
+  programs.bash.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
+  programs.nushell.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
 
   # ── AeroSpace tiling window manager ──────────────────────────────────
   programs.aerospace = {

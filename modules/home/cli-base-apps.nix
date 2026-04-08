@@ -119,7 +119,7 @@ in {
 
   programs.nh = {
     enable = true;
-    flake = "config.my.repoRoot";
+    flake = config.my.repoRoot;
     # Automated GC via nh clean instead of nix.gc
     clean = {
       enable = true;
