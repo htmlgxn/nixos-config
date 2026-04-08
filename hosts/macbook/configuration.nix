@@ -9,12 +9,39 @@ _: {
 
   # ── macOS system preferences ───────────────────────────────────────
   system.defaults = {
-    dock.autohide = true;
-    dock.mru-spaces = false;
-    finder.AppleShowAllExtensions = true;
-    NSGlobalDomain.AppleShowAllExtensions = true;
-    NSGlobalDomain.InitialKeyRepeat = 15;
-    NSGlobalDomain.KeyRepeat = 2;
+    NSGlobalDomain = {
+      AppleShowAllExtensions = true;
+      AppleInterfaceStyle = "Dark";
+      NSAutomaticWindowAnimationsEnabled = false;
+      InitialKeyRepeat = 15;
+      KeyRepeat = 2;
+    };
+
+    dock = {
+      autohide = false;
+      static-only = true;
+      mru-spaces = false;
+      tilesize = 48;
+      magnification = false;
+      launchanim = false;
+      mineffect = "scale";
+      persistent-apps = [
+        "/Applications/Brave Browser.app"
+        "/Applications/kitty.app"
+        "/Applications/Signal.app"
+        "/System/Applications/Messages.app"
+        "/Applications/Adobe Photoshop 2025/Adobe Photoshop 2025.app"
+        "/Applications/DaVinci Resolve/DaVinci Resolve.app"
+        "/Applications/qBittorrent.app"
+        "/Applications/Spotify.app"
+      ];
+    };
+
+    finder = {
+      AppleShowAllExtensions = true;
+      ShowPathbar = true;
+      FXPreferredViewStyle = "Nlsv";
+    };
   };
 
   # ── Homebrew integration (GUI apps not in nixpkgs) ─────────────────
