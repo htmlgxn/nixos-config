@@ -106,6 +106,10 @@
 
     gui = [
       (self + /modules/home/gui-base-apps.nix)
+    ];
+
+    gui-sway = [
+      (self + /modules/home/gui-base-apps.nix)
       (self + /modules/home/sway.nix)
     ];
 

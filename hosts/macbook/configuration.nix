@@ -26,14 +26,6 @@ _: {
       launchanim = false;
       mineffect = "scale";
       persistent-apps = [
-        "/Applications/Brave Browser.app"
-        "/Applications/kitty.app"
-        "/Applications/Signal.app"
-        "/System/Applications/Messages.app"
-        "/Applications/Adobe Photoshop 2025/Adobe Photoshop 2025.app"
-        "/Applications/DaVinci Resolve/DaVinci Resolve.app"
-        "/Applications/qBittorrent.app"
-        "/Applications/Spotify.app"
       ];
     };
 
@@ -49,18 +41,20 @@ _: {
     enable = true;
     onActivation.cleanup = "zap";
     casks = [
-      "alacritty"
-      "amethyst"
       "android-platform-tools"
+      "cursor"
+      "freecad"
+      "protonvpn"
+      "codex"
+      "claude"
+      "kicad"
+      "jellyfin-media-player"
+      "zoom"
       "background-music"
-      "balenaetcher"
-      "firefox"
+      "steam"
+      "orcaslicer"
       "font-symbols-only-nerd-font"
-      "gram"
-      "stolendata-mpv"
-      "rotki"
-      "vscodium"
-      "warp"
+      "sol"
     ];
   };
 

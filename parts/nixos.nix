@@ -46,7 +46,7 @@
       hostName = "rpi4";
       userName = "gars";
       systemProfile = "gui";
-      homeProfile = "gui";
+      homeProfile = "gui-sway";
       homeOverlays = [];
     };
   };

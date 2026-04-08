@@ -54,11 +54,26 @@ in {
 
   home.packages = with pkgs;
     [
+      # ── Wayland / Sway ───────────────────────────────────────────────
       sway-contrib.grimshot
       clipdoc.clipdoc
       swaybg
       swaylock
       swayidle
+      wlsunset
+      wl-clipboard
+      grim
+
+      # ── Desktop Utilities (Linux) ────────────────────────────────────
+      thunar
+      pavucontrol
+      brightnessctl
+      polkit_gnome
+      networkmanagerapplet
+
+      # ── GTK Theming ──────────────────────────────────────────────────
+      gsettings-desktop-schemas
+      glib
     ]
     ++ lib.optionals (config.my.terminal == "foot") [
       foot

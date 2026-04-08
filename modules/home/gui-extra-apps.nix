@@ -6,9 +6,6 @@
 }: {
   home.packages = with pkgs;
     [
-      # ── Documents & Notes ───────────────────────────────────────────
-      obsidian
-
       # ── Video Editor ────────────────────────────────────────────────
       kdePackages.kdenlive
 

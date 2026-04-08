@@ -13,7 +13,7 @@
   darwinOutputDefs = {
     macbook = {
       userName = "htmlgxn";
-      homeProfile = "cli";
+      homeProfile = "gui";
       system = "aarch64-darwin";
       hostHomeModules = [(self + /hosts/macbook/home.nix)];
       homeOverlays = ["ai"];

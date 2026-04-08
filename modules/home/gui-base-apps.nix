@@ -1,43 +1,28 @@
-# Shared desktop packages for GUI profiles.
-{pkgs, ...}: {
+# Cross-platform GUI applications included in all gui/gui-full profiles.
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
+
   home.packages = with pkgs; [
-    # ── Launcher ────────────────────────────────────────────────────
-    fuzzel
+    # ── Media ──────────────────────────────────────────────────────
+    mpv
 
-    # ── File Manager ────────────────────────────────────────────────
-    thunar
-
-    # ── Wayland Utilities ───────────────────────────────────────────
-    wlsunset
-    wl-clipboard
-
-    # ── GTK Theming ─────────────────────────────────────────────────
-    gsettings-desktop-schemas
-    glib # provides gsettings binary
-
-    # ── Screenshot ──────────────────────────────────────────────────
-    grim
-
-    # ── Notifications ───────────────────────────────────────────────
-    mako
-
-    # ── Status Bar ──────────────────────────────────────────────────
-    waybar
-
-    # ── Image Viewer ────────────────────────────────────────────────
-
-    # ── System Utilities ────────────────────────────────────────────
-    polkit_gnome
-    brightnessctl
-    networkmanagerapplet
-    pavucontrol
-
-    # ── Messaging ────────────────────────────────────────────
+    # ── Messaging ──────────────────────────────────────────────────
     signal-desktop
     ayugram-desktop
+    vesktop
 
-    # ── alt-browser ────────────────────────────────────────────
+    # ── Browser ────────────────────────────────────────────────────
     librewolf
+
+    # ── Documents & Notes ───────────────────────────────────────────
+    obsidian
+    calibre-no-speech
   ];
 
   # ── Brave with Extensions ───────────────────────────────────────
@@ -51,5 +36,19 @@
       {id = "bhlhnicpbhignbdhedgjhgdocnmhomnp";} # ColorZilla
       {id = "ilehaonighjijnmpnagapkhpcdbhclfg";} # Grass Lite Node
     ];
+  };
+
+  # ── Spicetify (Spotify with theming) ────────────────────────────
+  programs.spicetify = let
+    spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  in {
+    enable = true;
+    enabledExtensions = with spicePkgs.extensions; [
+      adblockify
+      hidePodcasts
+      shuffle
+    ];
+    theme = spicePkgs.themes.catppuccin;
+    colorScheme = "mocha";
   };
 }
