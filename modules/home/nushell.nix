@@ -34,8 +34,8 @@
       # ── Config Navigation ──────────────────────────────────────────────
       cdn = "cd ${config.my.repoRoot}";
       ef = "nvim ${config.my.repoRoot}/flake.nix";
-      ecli = "nvim ${config.my.repoRoot}/modules/home/cli.nix";
-      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base.nix";
+      ecli = "nvim ${config.my.repoRoot}/modules/home/cli-base-apps.nix";
+      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base-apps.nix";
 
       # ── Misc Navigation ───────────────────────────────────────────────
       cdd = "cd ~/dev";

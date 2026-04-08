@@ -19,15 +19,15 @@
       userName = "gars";
       systemProfile = "tty";
       homeProfile = "cli";
-      homeOverlays = ["cli-extras" "ai-cli-all" "ai-ollama-rocm"];
+      homeOverlays = ["ai"];
     };
 
     boreal = {
       hostName = "boreal";
       userName = "gars";
-      systemProfile = "sway";
-      homeProfile = "sway";
-      homeOverlays = ["cli-extras" "boreal-gui" "boreal-desktop"];
+      systemProfile = "gui-full";
+      homeProfile = "gui-full";
+      homeOverlays = ["ai"];
       nixpkgsOverlays = [borealOverlay];
     };
   };
@@ -45,8 +45,8 @@
     rpi4-sway = {
       hostName = "rpi4";
       userName = "gars";
-      systemProfile = "sway-arm";
-      homeProfile = "sway-arm";
+      systemProfile = "gui";
+      homeProfile = "gui";
       homeOverlays = [];
     };
   };

@@ -34,7 +34,7 @@
       keys);
 in {
   imports = [
-    ./gui-base.nix
+    ./gui-base-apps.nix
     ./gui-theme.nix
     ./terminal-theme.nix
     ./alacritty.nix

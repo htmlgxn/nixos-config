@@ -1,8 +1,8 @@
 # Shared Home Manager CLI package set.
 {
-  config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   emojiTools = import ./emoji-tools.nix {inherit pkgs;};
@@ -60,7 +60,6 @@ in {
       fd
       ripgrep
       bat
-      emojiTools.emojiPickerCli
       eza
       fzf
       television
@@ -75,8 +74,6 @@ in {
       htop
       btop
       bottom
-      s-tui
-      systemctl-tui
       gdu
 
       # ── Networking ──────────────────────────────────────────────────
@@ -85,11 +82,7 @@ in {
       wireguard-tools
       mosh
       k9s
-      proton-vpn-cli
       # bluetui # when bluetooth support is added
-
-      # ── Mesh Networking ─────────────────────────────────────────────
-      contact # Meshtastic TUI
 
       # ── Media ───────────────────────────────────────────────────────
       ncspot
@@ -110,14 +103,18 @@ in {
 
       # ── Fetch ───────────────────────────────────────────────────────
       countryfetch
+
+      # ── Books ───────────────────────────────────────────────────────
+      inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]
     # ── Linux-only ──────────────────────────────────────────────────
     ++ lib.optionals pkgs.stdenv.isLinux [
+      emojiTools.emojiPickerCli
+      s-tui
+      systemctl-tui
+      proton-vpn-cli
+      contact # Meshtastic TUI
       powertop
-    ]
-    # ── Local Chat (host-selected variant) ──────────────────────────
-    ++ lib.optionals (config.my.ollamaPackage != null) [
-      config.my.ollamaPackage
     ];
 
   programs.nh = {

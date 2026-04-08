@@ -94,11 +94,14 @@
 
   emojiPickerCli = pkgs.writeShellApplication {
     name = "emoji-picker-cli";
-    runtimeInputs = [
-      pkgs.coreutils
-      pkgs.fzf
-      pkgs.wl-clipboard
-    ];
+    runtimeInputs =
+      [
+        pkgs.coreutils
+        pkgs.fzf
+      ]
+      ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+        pkgs.wl-clipboard
+      ];
     text = ''
       set -euo pipefail
 

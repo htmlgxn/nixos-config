@@ -4,6 +4,14 @@
   # boreal connects to itself — use localhost instead of boreal.local.
   my.borealHost = "localhost";
 
+  # AMD ROCm variant for local AI inference.
+  my.ollamaPackage = pkgs.ollama-rocm;
+
+  # ── Boreal desktop defaults ──────────────────────────────────────
+  my.dualKeyboardLayout = true;
+  my.showRootDisk = true;
+  my.terminal = "kitty";
+
   # ── Boreal shell aliases (shared across shells) ───────────────────
   programs.bash = {
     shellAliases = {
@@ -50,28 +58,51 @@
     identitiesOnly = true;
   };
 
-  # Brave Nightly auto-update timer
-  systemd.user.services.update-brave-nightly = {
-    Unit = {
-      Description = "Update Brave Nightly overlay and rebuild";
-      After = ["network-online.target"];
-      Wants = ["network-online.target"];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash %h/nixos-config/scripts/update-brave-nightly.sh";
-      ExecStartPost = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake %h/nixos-config#boreal";
-      Restart = "no";
-    };
-  };
+  # ── Systemd user services ─────────────────────────────────────────
+  systemd.user = {
+    services = {
+      brave-bookmarks-sync = {
+        Unit.Description = "Copy Brave bookmarks to ~/dev/raw-dots/brave/ and sync to git";
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cp %h/.config/BraveSoftware/Brave-Browser/Default/Bookmarks %h/dev/raw-dots/brave/Bookmarks && cd %h/dev/raw-dots && ${pkgs.git}/bin/git add brave/Bookmarks && ${pkgs.git}/bin/git diff --cached --quiet || (${pkgs.git}/bin/git commit -m \"sync brave bookmarks $(date)\" && ${pkgs.git}/bin/git push origin main)'";
+        };
+      };
 
-  systemd.user.timers.update-brave-nightly = {
-    Unit.Description = "Daily timer for Brave Nightly update";
-    Timer = {
-      OnCalendar = "daily";
-      Persistent = true;
-      RandomizedDelaySec = "10min";
+      update-brave-nightly = {
+        Unit = {
+          Description = "Update Brave Nightly overlay and rebuild";
+          After = ["network-online.target"];
+          Wants = ["network-online.target"];
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.bash}/bin/bash %h/nixos-config/scripts/update-brave-nightly.sh";
+          ExecStartPost = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake %h/nixos-config#boreal";
+          Restart = "no";
+        };
+      };
     };
-    Install.WantedBy = ["timers.target"];
+
+    timers = {
+      brave-bookmarks-sync = {
+        Unit.Description = "Run brave-bookmarks-sync every 24 hours";
+        Timer = {
+          OnCalendar = "daily";
+          Persistent = true;
+        };
+        Install.WantedBy = ["timers.target"];
+      };
+
+      update-brave-nightly = {
+        Unit.Description = "Daily timer for Brave Nightly update";
+        Timer = {
+          OnCalendar = "daily";
+          Persistent = true;
+          RandomizedDelaySec = "10min";
+        };
+        Install.WantedBy = ["timers.target"];
+      };
+    };
   };
 }

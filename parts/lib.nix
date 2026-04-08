@@ -18,28 +18,14 @@
   ];
 
   # ── Named home overlay groups (selected explicitly by outputs) ───
-  borealDesktopModule = _: {
-    my.dualKeyboardLayout = true;
-    my.showRootDisk = true;
-    my.terminal = "kitty";
-  };
-
-  homeOverlayGroups = rec {
-    ai-cli-orchestrators = [(self + /modules/home/ai-cli-orchestrators.nix)];
-    ai-cli-extras = [(self + /modules/home/ai-cli-extras.nix)];
-    ai-cli-agents = [(self + /modules/home/ai-cli-agents.nix)];
-    ai-cli-all = ai-cli-orchestrators ++ ai-cli-agents ++ ai-cli-extras;
-    ai-ollama = [(self + /modules/home/ai-ollama.nix)];
-    ai-ollama-rocm = ai-ollama ++ [(self + /modules/home/ai-ollama-rocm.nix)];
-    cli-extras = [(self + /modules/home/cli-extras.nix)];
-    boreal-gui = ai-cli-all ++ ai-ollama-rocm ++ [(self + /modules/home/brave-bookmarks-sync.nix)];
-    boreal-desktop = [borealDesktopModule];
+  homeOverlayGroups = {
+    ai = [(self + /modules/home/ai.nix)];
   };
 
   # ── Shared Home Manager modules (included in every HM output) ────
   sharedHomeModules = [
     (self + /modules/shared/options.nix)
-    (self + /modules/home/cli.nix)
+    (self + /modules/home/cli-base-apps.nix)
     (self + /modules/home/containers.nix)
     (self + /modules/home/fastfetch.nix)
     (self + /modules/home/packages)
@@ -91,17 +77,17 @@
   homeProfiles = {
     cli = [];
 
-    sway = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/gui-extras.nix)
+    gui = [
+      (self + /modules/home/gui-base-apps.nix)
+      (self + /modules/home/sway.nix)
+    ];
+
+    gui-full = [
+      (self + /modules/home/gui-base-apps.nix)
+      (self + /modules/home/gui-extra-apps.nix)
       (self + /modules/home/sway.nix)
       (self + /modules/home/flatpak.nix)
       (self + /modules/home/gaming.nix)
-    ];
-
-    sway-arm = [
-      (self + /modules/home/gui-base.nix)
-      (self + /modules/home/sway.nix)
     ];
   };
 
@@ -111,16 +97,16 @@
       (self + /modules/system/cli.nix)
     ];
 
-    sway = [
+    gui = [
+      (self + /modules/system/cli.nix)
+      (self + /modules/system/sway.nix)
+    ];
+
+    gui-full = [
       (self + /modules/system/cli.nix)
       (self + /modules/system/sway.nix)
       (self + /modules/system/flatpak.nix)
       (self + /modules/system/gaming.nix)
-    ];
-
-    sway-arm = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/sway.nix)
     ];
   };
 
@@ -217,6 +203,7 @@
           home-manager.extraSpecialArgs = {inherit inputs;};
           home-manager.users.${userName} = {
             imports = mkHomeImports {inherit userName homeProfile homeOverlays;};
+            home.homeDirectory = nixpkgs.lib.mkForce "/Users/${userName}";
           };
         }
       ];

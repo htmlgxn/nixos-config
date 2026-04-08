@@ -1,6 +1,10 @@
 # Home Manager user module for `htmlgxn` (macOS / Fedora hosts).
 # home.homeDirectory is set by the output builder (mkDarwinOutput / mkHomeOutput).
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   userName = "htmlgxn";
 in {
   imports = [./common.nix];
@@ -15,7 +19,16 @@ in {
   };
 
   home.username = userName;
+  home.homeDirectory = lib.mkDefault "/home/${userName}";
+  home.stateVersion = "26.05";
 
-  # Per-user SSH host entries (shared entries are in common.nix):
-  # programs.ssh.matchBlocks."myhost" = { ... };
+  # ── macOS SSH entries ───────────────────────────────────────────────
+  programs.ssh.matchBlocks."github.com" = {
+    hostname = "github.com";
+    extraOptions = {
+      AddKeysToAgent = "yes";
+      UseKeychain = "yes";
+    };
+    identityFile = "~/.ssh/id_ed25519";
+  };
 }

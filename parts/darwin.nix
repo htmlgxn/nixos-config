@@ -11,7 +11,7 @@
       userName = "htmlgxn";
       homeProfile = "cli";
       system = "aarch64-darwin";
-      homeOverlays = ["ai-cli-all"];
+      homeOverlays = ["ai"];
     };
   };
 in {

@@ -7,7 +7,7 @@
   waybar = import ./waybar-settings.nix {inherit pkgs config;};
 in {
   imports = [
-    ./gui-base.nix
+    ./gui-base-apps.nix
   ];
 
   programs.waybar.systemd = {
