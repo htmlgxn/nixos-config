@@ -3,11 +3,16 @@
 # The Jetson runs Ubuntu with proprietary NVIDIA/CUDA tooling — nix only
 # layers on shell, CLI tools, and WM.  Dev toolchains (cargo, nvm, etc.)
 # are managed by the host OS.
-{config, ...}: {
+{config, pkgs, inputs, ...}: {
   targets.genericLinux.enable = true;
 
-  # Use system-installed sway — nix sway can't access Jetson's NVIDIA libraries
-  wayland.windowManager.sway.package = null;
+  # Wrap nix GUI apps with nixGL so they can access the Jetson's NVIDIA libraries
+  targets.genericLinux.nixGL.packages = inputs.nixgl.packages;
+  targets.genericLinux.nixGL.defaultWrapper = "nvidia";
+
+  # Wrap GPU-dependent packages with nixGL
+  wayland.windowManager.sway.package = config.lib.nixGL.wrap pkgs.sway;
+  programs.kitty.package = config.lib.nixGL.wrap pkgs.kitty;
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
