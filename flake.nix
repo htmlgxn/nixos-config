@@ -18,7 +18,7 @@
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -45,6 +45,11 @@
     };
 
     bookokrat.url = "github:bugzmanov/bookokrat/7cf047d3b238c3d8be88e8a2fdc58890d86a1011";
+
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.3-2.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

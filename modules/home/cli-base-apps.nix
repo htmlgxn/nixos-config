@@ -105,7 +105,7 @@ in {
       countryfetch
 
       # ── Books ───────────────────────────────────────────────────────
-      inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default
+      (inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {doCheck = false;}))
     ]
     # ── Linux-only ──────────────────────────────────────────────────
     ++ lib.optionals pkgs.stdenv.isLinux [

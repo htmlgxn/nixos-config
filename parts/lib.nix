@@ -13,8 +13,30 @@
 
   # ── Shared system modules (included in every NixOS output) ───────
   sharedSystemModules = [
+    inputs.lix-module.nixosModules.default
     (self + /modules/shared/options.nix)
-    (self + /modules/system/defaults.nix)
+    ({pkgs, config, ...}: {
+      time.timeZone = "America/Halifax";
+      i18n.defaultLocale = "en_CA.UTF-8";
+      nix.settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        substituters = [
+          "https://cache.nixos.org/"
+          "https://nix-community.cachix.org"
+          "https://yazi.cachix.org"
+        ];
+        trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+          "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
+        ];
+      };
+      documentation.nixos.enable = false;
+      users.users.${config.my.primaryUser}.shell = pkgs.nushell;
+      environment.shells = with pkgs; [nushell bashInteractive];
+    })
   ];
 
   # ── Named home overlay groups (selected explicitly by outputs) ───
@@ -193,6 +215,7 @@
       inherit system;
       specialArgs = {inherit inputs;};
       modules = [
+        inputs.lix-module.nixosModules.default
         (self + /hosts/macbook/configuration.nix)
         home-manager.darwinModules.home-manager
         {
