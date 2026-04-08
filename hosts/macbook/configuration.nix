@@ -40,6 +40,7 @@ _: {
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
+    onActivation.autoUpdate = true;
     casks = [
       "android-platform-tools"
       "cursor"
