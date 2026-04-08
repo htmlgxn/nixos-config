@@ -33,6 +33,10 @@ The main layers are:
 | `fedora-mac` | Home Manager | Standalone Home Manager profile for Fedora/macOS ARM |
 | `jetson`     | Home Manager | Standalone Home Manager profile for Jetson Orin Nano |
 
+## Standalone Home Manager Hosts
+
+The standalone HM hosts (`fedora-mac`, `jetson`) run on non-NixOS systems where the nix daemon is managed by the host OS. These hosts need manual `/etc/nix/nix.conf` configuration for binary caches — see [`docs/sway-hm-prerequisites.md`](docs/sway-hm-prerequisites.md#nix-cache-configuration) for the required substituters and trusted public keys.
+
 ## Common Commands
 
 - `nr <output>`
