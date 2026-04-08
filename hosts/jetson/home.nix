@@ -41,11 +41,11 @@
 
   programs.bash.shellAliases = {
     sway = "sway --unsupported-gpu";
-    nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
+    nrs = "home-manager switch --flake ${config.my.repoRoot}#jetson -b bak --impure";
   };
 
   programs.nushell.shellAliases = {
     sway = "sway --unsupported-gpu";
-    nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
+    nrs = "home-manager switch --flake ${config.my.repoRoot}#jetson -b bak --impure";
   };
 }
