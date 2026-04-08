@@ -137,13 +137,29 @@ EOF
 
 ### Starting Sway Without greetd
 
-If installing a greeter is impractical, add to `~/.bash_profile`:
+If installing a greeter is impractical, auto-start sway from TTY1.
 
-```bash
-if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    exec sway
-fi
+**Bash** — via `programs.bash.profileExtra` in home-manager (writes to `~/.bash_profile`):
+
+```nix
+programs.bash.profileExtra = ''
+  if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+      exec sway
+  fi
+'';
 ```
+
+**Nushell** — via `programs.nushell.extraLogin` in home-manager (writes to `login.nu`):
+
+```nix
+programs.nushell.extraLogin = ''
+  if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") {
+      exec sway
+  }
+'';
+```
+
+> **Note:** Nushell's environment handling can cause issues launching Wayland compositors directly. If sway fails to create a backend, use `exec bash -c 'exec sway'` instead.
 
 ## Fontconfig
 

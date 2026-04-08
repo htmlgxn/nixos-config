@@ -30,6 +30,19 @@
     )
   '';
 
+  # Auto-start sway from TTY1 if no greeter is installed
+  programs.bash.profileExtra = ''
+    if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+        exec sway
+    fi
+  '';
+
+  programs.nushell.extraLogin = ''
+    if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") {
+        exec sway
+    }
+  '';
+
   programs.bash.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
   programs.nushell.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
 }
