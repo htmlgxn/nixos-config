@@ -32,7 +32,6 @@ _: {
       "gram"
       "mpv"
       "rotki"
-      "stolendata-mpv"
       "vscodium"
       "warp"
     ];
