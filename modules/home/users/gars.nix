@@ -16,7 +16,7 @@ in {
 
   home = {
     username = userName;
-    Directory = homeDir;
+    homeDirectory = homeDir;
   };
 
   home.stateVersion = "26.05";
