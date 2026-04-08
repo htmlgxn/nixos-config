@@ -3,6 +3,6 @@
 {config, pkgs, ...}: {
   home.packages = with pkgs; [yt-dlp];
 
-  programs.bash.shellAliases.nrs = "nh home switch ${config.my.repoRoot} -c fedora-mac";
-  programs.nushell.shellAliases.nrs = "nh home switch ${config.my.repoRoot} -c fedora-mac";
+  programs.bash.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c fedora-mac";
+  programs.nushell.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c fedora-mac";
 }

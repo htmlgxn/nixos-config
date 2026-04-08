@@ -29,6 +29,6 @@
     )
   '';
 
-  programs.bash.shellAliases.nrs = "nh home switch ${config.my.repoRoot} -c jetson";
-  programs.nushell.shellAliases.nrs = "nh home switch ${config.my.repoRoot} -c jetson";
+  programs.bash.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
+  programs.nushell.shellAliases.nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
 }
