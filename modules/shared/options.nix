@@ -50,17 +50,6 @@ in {
       description = "Absolute path to the nixos-config checkout.";
     };
 
-    dotfilesRoot = mkOption {
-      type = types.str;
-      example = "/home/gars/nixos-config/home/gars";
-      description = "Absolute path to the repo-managed user dotfiles root.";
-    };
-
-    dotfilesNixPath = mkOption {
-      type = types.path;
-      description = "Nix path to the repo-managed user dotfiles root (for store copies).";
-    };
-
     containersRoot = mkOption {
       type = types.str;
       example = "/home/gars/nixos-config/containers";
@@ -78,7 +67,7 @@ in {
       type = types.str;
       default = "gars-yellow-dark";
       example = "gars-yellow-light";
-      description = "GUI theme name for waybar, sway, niri, mako, fuzzel, etc.";
+      description = "GUI theme name for waybar, sway, mako, fuzzel, etc.";
     };
 
     nvimTheme = mkOption {

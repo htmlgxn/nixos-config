@@ -45,6 +45,5 @@
   environment.systemPackages = with pkgs; [
     wayland
     xwayland
-    wofi
   ];
 }

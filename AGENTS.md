@@ -9,9 +9,9 @@
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
 - `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target.
-- `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.dotfilesRoot`, `my.dotfilesNixPath`, `my.primaryUser`, `my.isNixOS`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
+- `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.isNixOS`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
-- `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio). `modules/system/gui-base.nix` is shared by the compositor modules.
+- `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio).
 - `modules/system/containers.nix` is the shared Podman-first container runtime module.
 - `modules/system/sway.nix` extends the GUI base with Sway-specific system services and packages.
 - `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages (included in the `sway` system profile).
@@ -21,9 +21,9 @@
 - `modules/home/cli-base-apps.nix`, `modules/home/gui-base-apps.nix`, `modules/home/sway.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
 - AI tooling is provided through the `ai` overlay group, which imports `modules/home/ai.nix`. This module installs claude-code, qwen-code, codex, opencode, and ollama, and sets `my.ollamaPackage` to `pkgs.ollama` (hosts can override via mkDefault).
 - `modules/home/containers.nix` adds shared container/npm user tooling and shell helpers.
-- `modules/home/users/common.nix` holds the shared shell, editor, SSH, and theme baseline. `modules/home/users/gars.nix` (NixOS/Linux user) and `modules/home/users/htmlgxn.nix` (macOS/Fedora user) both import it and set platform-specific paths.
+- `modules/home/users/common.nix` holds the shared shell, editor, SSH, and theme baseline. `modules/home/users/gars/` (NixOS/Linux user) and `modules/home/users/htmlgxn.nix` (macOS/Fedora user) both import it and set platform-specific paths.
 - `modules/home/flatpak/packages.nix` and `modules/home/packages/{go,python,rust}` maintain curated package sets imported by the shared Home Manager stack.
-- `home/gars/dots/` and `home/gars/nvim/` contain dotfiles and editor configuration referenced by Home Manager modules.
+- `modules/home/users/gars/` is a directory module containing the NixOS/Linux user definition plus shared assets (waybar text, wallpapers).
 
 ## Platform Abstraction
 
@@ -31,7 +31,7 @@
 - `my.ollamaPackage` (nullOr package, default `null`) selects the local AI runtime package per-output (e.g., `pkgs.ollama-rocm` through Boreal's `ai-ollama-rocm` overlay, `pkgs.ollama` through `ai-ollama`, `null` to skip).
 - `my.dualKeyboardLayout` (bool, default `false`) enables the dual us/graphite keyboard layout and waybar keyboard switcher. Set to `true` for boreal outputs.
 - `my.showRootDisk` (bool, default `false`) shows the root disk usage % module in waybar. Set to `true` for boreal outputs.
-- `my.wallpaper` (path) is the wallpaper image used by swaybg in sway and niri. Set in `gars.nix` to `home/gars/wallpapers/default.jpg` inside the repo.
+- `my.wallpaper` (path) is the wallpaper image used by swaybg in sway. Set in `modules/home/users/gars/default.nix`.
 - `modules/home/cli-base-apps.nix` uses `lib.optionals pkgs.stdenv.isLinux` for Linux-only packages (cava, powertop, etc.).
 - `modules/home/gui-base-apps.nix` and `modules/home/gui-extra-apps.nix` use `lib.optionals pkgs.stdenv.isLinux` for Linux-only GUI packages (freecac, libreoffice-fresh).
 - `modules/home/packages/python/default.nix` uses `lib.optionals pkgs.stdenv.isLinux` for `stdenv.cc.cc.lib`.

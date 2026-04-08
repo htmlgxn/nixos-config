@@ -1,4 +1,4 @@
-# Cross-platform GUI applications included in all gui/gui-full profiles.
+# Cross-platform GUI applications included in all gui/sway profiles.
 {
   pkgs,
   lib,
@@ -9,24 +9,25 @@
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
-  home.packages = with pkgs; [
-    # ── Media ──────────────────────────────────────────────────────
-    mpv
+  home.packages = with pkgs;
+    [
+      # ── Media ──────────────────────────────────────────────────────
+      mpv
 
-    # ── Messaging ──────────────────────────────────────────────────
-    signal-desktop
-    ayugram-desktop
-    vesktop
+      # ── Messaging ──────────────────────────────────────────────────
+      signal-desktop
+      ayugram-desktop
+      vesktop
 
-    # ── Browser ────────────────────────────────────────────────────
-    librewolf
+      # ── Browser ────────────────────────────────────────────────────
+      librewolf
 
-    # ── Documents & Notes ───────────────────────────────────────────
-    obsidian
-  ]
-  ++ lib.optionals pkgs.stdenv.isLinux [
-    calibre-no-speech
-  ];
+      # ── Documents & Notes ───────────────────────────────────────────
+      obsidian
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      calibre-no-speech
+    ];
 
   # ── Brave with Extensions ───────────────────────────────────────
   programs.brave = {

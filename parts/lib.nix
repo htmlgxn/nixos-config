@@ -59,7 +59,7 @@
 
   # ── User definitions ─────────────────────────────────────────────
   users = {
-    gars = {module = self + /modules/home/users/gars.nix;};
+    gars = {module = self + /modules/home/users/gars;};
     htmlgxn = {module = self + /modules/home/users/htmlgxn.nix;};
   };
 
@@ -108,15 +108,13 @@
       (self + /modules/home/gui-base-apps.nix)
     ];
 
-    gui-sway = [
-      (self + /modules/home/gui-base-apps.nix)
+    sway = [
       (self + /modules/home/sway.nix)
     ];
 
-    gui-full = [
-      (self + /modules/home/gui-base-apps.nix)
-      (self + /modules/home/gui-extra-apps.nix)
+    sway-full = [
       (self + /modules/home/sway.nix)
+      (self + /modules/home/gui-extra-apps.nix)
       (self + /modules/home/flatpak.nix)
       (self + /modules/home/gaming.nix)
     ];
@@ -128,12 +126,12 @@
       (self + /modules/system/cli.nix)
     ];
 
-    gui = [
+    sway = [
       (self + /modules/system/cli.nix)
       (self + /modules/system/sway.nix)
     ];
 
-    gui-full = [
+    sway-full = [
       (self + /modules/system/cli.nix)
       (self + /modules/system/sway.nix)
       (self + /modules/system/flatpak.nix)

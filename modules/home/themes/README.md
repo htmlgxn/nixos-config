@@ -1,6 +1,6 @@
 # GUI Themes
 
-Modular theme definitions for GUI applications (Sway, Waybar, Mako, Fuzzel, GTK, etc.).
+Modular theme definitions for GUI applications (Sway, Waybar, Mako, Fuzzel, GTK).
 
 ## Structure
 
@@ -14,7 +14,6 @@ gui/
     mako.nix    - Mako notification daemon colors
     fuzzel.nix  - Fuzzel launcher colors
     gtk.nix     - GTK/QT theme and cursor settings
-    niri.nix    - Niri compositor colors (optional)
 ```
 
 ## Adding a New Theme

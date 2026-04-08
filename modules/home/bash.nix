@@ -51,9 +51,6 @@
       # ── Misc Navigation ───────────────────────────────────────────────
       cdd = "cd ~/dev";
       cdp = "cd ~/dev/projects";
-      cdc = "cd ${config.my.dotfilesRoot}/dots";
-      edots = "cd ${config.my.dotfilesRoot}/dots";
-
       # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
     };

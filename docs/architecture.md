@@ -71,7 +71,6 @@ Host-local Home Manager modules are allowed when a host needs values or narrow b
 
 `modules/shared/options.nix` defines repo-local values used across NixOS and Home Manager:
 
-- `my.isNixOS`
 - `my.borealHost`
 - `my.ollamaPackage`
 - `my.terminal`
@@ -80,19 +79,14 @@ Host-local Home Manager modules are allowed when a host needs values or narrow b
 - `my.wallpaper`
 - `my.primaryUser`
 - `my.repoRoot`
-- `my.dotfilesRoot`
-- `my.dotfilesNixPath`
 - `my.containersRoot`
 - `my.terminalTheme`
-
-`my.terminal` is intended to be the single terminal-selection knob for GUI outputs. Shared GUI layers should install and configure only the selected terminal, with host or overlay layers overriding the value when they need a different terminal.
-
 - `my.guiTheme`
 - `my.nvimTheme`
-- `my.jellyfin.vaDriver`
-- `my.jellyfin.dataDir`
-- `my.jellyfin.mediaRoots`
-- `my.jellyfin.transcodeSize`
+- `my.borg.repoPath`, `my.borg.paths`, `my.borg.exclude`, `my.borg.startAt`, `my.borg.keep.*`
+- `my.jellyfin.vaDriver`, `my.jellyfin.dataDir`, `my.jellyfin.mediaRoots`, `my.jellyfin.transcodeSize`
+
+`my.terminal` is intended to be the single terminal-selection knob for GUI outputs. Shared GUI layers should install and configure only the selected terminal, with host or overlay layers overriding the value when they need a different terminal.
 
 `my.jellyfin.dataDir` and `my.jellyfin.mediaRoots` have safe defaults so shared HM-only targets can evaluate without host-level Jellyfin values.
 
@@ -130,17 +124,47 @@ Poor fits for host modules:
 - reusable desktop package sets
 - service logic that can be parameterized through `my.*`
 
-## Desktop and Gaming Profiles
+## Profiles
+
+### System Profiles
+
+| Profile     | Modules                                          |
+| ----------- | ------------------------------------------------ |
+| `tty`       | `cli.nix`                                        |
+| `sway`      | `cli.nix`, `sway.nix`                            |
+| `sway-full` | `cli.nix`, `sway.nix`, `flatpak.nix`, `gaming.nix` |
+
+### Home Profiles
+
+| Profile     | Modules                                                  |
+| ----------- | -------------------------------------------------------- |
+| `cli`       | (none — shared modules are always included)              |
+| `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)   |
+| `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)     |
+| `sway-full` | `sway.nix`, `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix` |
+
+System and home profiles are named symmetrically (`sway`/`sway`, `sway-full`/`sway-full`). The `gui` home profile exists for macOS where sway cannot run.
+
+### Standalone System Modules
+
+These are included per-host via `extraSystemModules`, not through profiles:
+
+- `modules/system/jellyfin.nix`
+- `modules/system/containers.nix`
+- `modules/system/borg.nix`
+- `modules/system/soft-serve.nix`
+- `modules/system/gamescope.nix` (minimal Steam-focused session, separate from the desktop path)
+
+## Desktop and Gaming
 
 Desktop-style outputs are assembled from:
 
 - `modules/system/cli.nix`
-- `modules/system/gui-base.nix` via the compositor system module
-- a compositor-specific system module
+- `modules/system/sway.nix` (the sole compositor system module)
 - optional system additions like gaming or Flatpak
-- matching Home Manager profile modules
+- matching Home Manager profile modules (`sway` or `sway-full`)
 
-`gamescope` is intentionally separate from the full GUI path. It uses Steam and gamescope without `modules/system/gui-base.nix` or the larger desktop package set.
+`gamescope` is intentionally separate from the full GUI path. It uses Steam and gamescope without the larger desktop package set.
 
 ## Documentation Policy
 
@@ -149,7 +173,7 @@ Markdown docs are the canonical place for:
 - architecture explanations
 - repo workflows
 - output and service reference
-- “how to add/change” guidance
+- "how to add/change" guidance
 - modularity rules and anti-patterns
 
 Keep docs split by purpose:

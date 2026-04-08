@@ -25,8 +25,8 @@
     boreal = {
       hostName = "boreal";
       userName = "gars";
-      systemProfile = "gui-full";
-      homeProfile = "gui-full";
+      systemProfile = "sway-full";
+      homeProfile = "sway-full";
       homeOverlays = ["ai"];
       nixpkgsOverlays = [borealOverlay];
     };
@@ -45,8 +45,8 @@
     rpi4-sway = {
       hostName = "rpi4";
       userName = "gars";
-      systemProfile = "gui";
-      homeProfile = "gui-sway";
+      systemProfile = "sway";
+      homeProfile = "sway";
       homeOverlays = [];
     };
   };

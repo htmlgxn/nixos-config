@@ -40,8 +40,6 @@
       # ── Misc Navigation ───────────────────────────────────────────────
       cdd = "cd ~/dev";
       cdp = "cd ~/dev/projects";
-      cdc = "cd ${config.my.dotfilesRoot}/dots";
-      edots = "cd ${config.my.dotfilesRoot}/dots";
     };
 
     environmentVariables = {

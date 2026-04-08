@@ -6,7 +6,7 @@ For shell helpers and command combos, see [`docs/nix-workflows.md`](nix-workflow
 
 1. Create `modules/home/users/<username>.nix`.
 2. Import `modules/home/users/common.nix` if the user should inherit the shared shell/editor/theme baseline.
-3. Set user-local values such as `my.repoRoot`, `my.dotfilesRoot`, `my.dotfilesNixPath`, and `my.containersRoot`.
+3. Set user-local values such as `my.repoRoot` and `my.containersRoot`.
 4. Set `my.isNixOS = false` in non-NixOS user modules.
 5. Register the user in the `users` attrset in `flake.nix`.
 6. Keep user-specific logic in the user module itself; if the extra behavior is optional, reusable, or output-specific, model it as an explicit home overlay group instead.
@@ -82,8 +82,8 @@ The target is that a new output should not require discovering unrelated implici
 
 ## Add or Change Dotfiles
 
-- Repo-managed user dotfiles live under `home/<user>/`
-- Home Manager user modules should refer to them through `config.my.dotfilesRoot` or `config.my.dotfilesNixPath` rather than hardcoded absolute paths
+- Shared assets (waybar text, wallpapers) live under `modules/home/users/<user>/`
+- Use Nix path literals (relative imports) to reference assets at build time
 
 ## Add or Change Service-Local Values
 

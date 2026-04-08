@@ -12,8 +12,6 @@ in {
   my = {
     primaryUser = userName;
     repoRoot = "${config.home.homeDirectory}/nixos-config";
-    dotfilesRoot = "${config.home.homeDirectory}/nixos-config/home/gars";
-    dotfilesNixPath = ../../../home/gars;
     containersRoot = "${config.home.homeDirectory}/nixos-config/containers";
   };
 

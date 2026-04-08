@@ -1,7 +1,7 @@
 #
 # ~/nixos-config/modules/home/waybar-settings.nix
 #
-# Shared Waybar settings (used by sway + niri + hyprland).
+# Shared Waybar settings (used by sway).
 # Colors are imported from shared gui-theme.nix.
 #
 {
@@ -71,7 +71,7 @@
         ;;
     esac
   '';
-  quebecText = config.my.dotfilesNixPath + "/dots/waybar/quebec.txt";
+  quebecText = ./users/gars/dots/waybar/quebec.txt;
   brandColor = theme.colors.brand;
 in {
   style = theme.css;

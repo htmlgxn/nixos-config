@@ -223,7 +223,6 @@
 
       npath() {
         printf 'repoRoot=%s\n' "${config.my.repoRoot}"
-        printf 'dotfilesRoot=%s\n' "${config.my.dotfilesRoot}"
         printf 'containersRoot=%s\n' "${config.my.containersRoot}"
         printf 'flakeRef=%s\n' "$_nixcfg_repo"
       }

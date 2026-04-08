@@ -5,10 +5,10 @@
 | Output       | Type         | Host/User           | System Profile | Home Profile | Home Overlays |
 | ------------ | ------------ | ------------------- | -------------- | ------------ | ------------- |
 | `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`        | `ai`          |
-| `boreal`     | NixOS        | `boreal` / `gars`   | `gui-full`     | `gui-full`   | `ai`          |
+| `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`   | `sway-full`  | `ai`          |
 | `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`        | none          |
 | `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`        | none          |
-| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `gui`          | `gui`        | none          |
+| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`       | none          |
 | `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`        | `ai`          |
 | `fedora-mac` | Home Manager | `htmlgxn`           | n/a            | `cli`        | none          |
 | `jetson`     | Home Manager | `gars`              | n/a            | `cli`        | none          |
@@ -100,8 +100,6 @@ Neovim helpers:
 - `my.wallpaper`
 - `my.primaryUser`
 - `my.repoRoot`
-- `my.dotfilesRoot`
-- `my.dotfilesNixPath`
 - `my.containersRoot`
 - `my.terminalTheme`
 - `my.guiTheme`

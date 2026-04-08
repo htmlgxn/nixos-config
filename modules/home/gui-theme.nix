@@ -16,7 +16,6 @@
       fuzzel = import ./themes/gui/gars-yellow-dark/fuzzel.nix;
       mako = import ./themes/gui/gars-yellow-dark/mako.nix;
       sway = import ./themes/gui/gars-yellow-dark/sway.nix;
-      niri = import ./themes/gui/gars-yellow-dark/niri.nix;
       waybar = import ./themes/gui/gars-yellow-dark/waybar.nix;
       gtk = import ./themes/gui/gars-yellow-dark/gtk.nix;
     };
@@ -24,7 +23,6 @@
       fuzzel = import ./themes/gui/gars-yellow-light/fuzzel.nix;
       mako = import ./themes/gui/gars-yellow-light/mako.nix;
       sway = import ./themes/gui/gars-yellow-light/sway.nix;
-      niri = import ./themes/gui/gars-yellow-light/niri.nix;
       waybar = import ./themes/gui/gars-yellow-light/waybar.nix;
       gtk = import ./themes/gui/gars-yellow-light/gtk.nix;
     };
@@ -33,7 +31,6 @@
     #   fuzzel = import ./themes/gui/catppuccin-mocha/fuzzel.nix;
     #   mako = import ./themes/gui/catppuccin-mocha/mako.nix;
     #   sway = import ./themes/gui/catppuccin-mocha/sway.nix;
-    #   niri = import ./themes/gui/catppuccin-mocha/niri.nix;
     #   waybar = import ./themes/gui/catppuccin-mocha/waybar.nix;
     #   gtk = import ./themes/gui/catppuccin-mocha/gtk.nix;
     # };
@@ -41,7 +38,6 @@
     #   fuzzel = import ./themes/gui/gruvbox-dark/fuzzel.nix;
     #   mako = import ./themes/gui/gruvbox-dark/mako.nix;
     #   sway = import ./themes/gui/gruvbox-dark/sway.nix;
-    #   niri = import ./themes/gui/gruvbox-dark/niri.nix;
     #   waybar = import ./themes/gui/gruvbox-dark/waybar.nix;
     #   gtk = import ./themes/gui/gruvbox-dark/gtk.nix;
     # };

@@ -3,15 +3,13 @@ _: let
   userName = "gars";
   homeDir = "/home/${userName}";
 in {
-  imports = [./common.nix];
+  imports = [../common.nix];
 
   my = {
     primaryUser = userName;
     repoRoot = "${homeDir}/nixos-config";
-    dotfilesRoot = "${homeDir}/nixos-config/home/${userName}";
-    dotfilesNixPath = ../../../home/gars;
     containersRoot = "${homeDir}/nixos-config/containers";
-    wallpaper = "${homeDir}/nixos-config/home/${userName}/wallpapers/default.jpg";
+    wallpaper = "${homeDir}/nixos-config/modules/home/users/gars/wallpapers/default.jpg";
   };
 
   home = {
