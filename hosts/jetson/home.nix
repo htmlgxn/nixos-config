@@ -8,6 +8,7 @@
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   # Preserve host-managed dev toolchains and CUDA in PATH
@@ -33,13 +34,13 @@
   # Auto-start sway from TTY1 if no greeter is installed
   programs.bash.profileExtra = ''
     if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-        exec sway
+        exec sway --unsupported-gpu
     fi
   '';
 
   programs.nushell.extraLogin = ''
     if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") {
-        exec sway
+        exec sway --unsupported-gpu
     }
   '';
 
