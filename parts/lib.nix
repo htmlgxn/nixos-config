@@ -72,7 +72,10 @@
         (self + /modules/system/jellyfin.nix)
         (self + /modules/system/containers.nix)
       ];
-      hostHomeModules = [(self + /hosts/boreal/home.nix)];
+      hostHomeModules = [
+        (self + /hosts/boreal/home.nix)
+        (self + /modules/home/packages)
+      ];
     };
 
     nixos-vm = {
@@ -108,12 +111,18 @@
       (self + /modules/home/gui-base-apps.nix)
     ];
 
+    sway-config = [
+      (self + /modules/home/sway.nix)
+    ];
+
     sway = [
       (self + /modules/home/sway.nix)
+      (self + /modules/home/sway-apps.nix)
     ];
 
     sway-full = [
       (self + /modules/home/sway.nix)
+      (self + /modules/home/sway-apps.nix)
       (self + /modules/home/gui-extra-apps.nix)
       (self + /modules/home/flatpak.nix)
       (self + /modules/home/gaming.nix)
@@ -172,8 +181,7 @@
       extraSpecialArgs = {inherit inputs;};
       users.${userName} = {
         imports =
-          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
-          ++ [(self + /modules/home/packages)];
+          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
       };
     };
   };
@@ -259,6 +267,7 @@
         mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
         ++ [
           {
+            nixpkgs.config.allowUnfree = true;
             home.username = userName;
             home.homeDirectory = "/home/${userName}";
             home.stateVersion = "26.05";

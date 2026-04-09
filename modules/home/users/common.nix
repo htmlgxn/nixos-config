@@ -31,6 +31,7 @@
   my = {
     terminalTheme = "gars-yellow-dark";
     guiTheme = "gars-yellow-dark";
+    wallpaper = "${config.my.repoRoot}/modules/home/users/gars/wallpapers/default.jpg";
   };
 
   programs.home-manager.enable = true;

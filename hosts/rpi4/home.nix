@@ -3,6 +3,7 @@
 # rpi4-specific home-manager configuration.
 # Included automatically for every rpi4 output via hostHomeModules.
 {config, ...}: {
+  my.terminal = "foot";
   # home.packages = with pkgs; [yt-dlp];
 
   programs.bash.shellAliases = {

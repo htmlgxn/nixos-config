@@ -13,7 +13,6 @@
     ollamaPackage = pkgs.ollama-rocm;
     dualKeyboardLayout = true;
     showRootDisk = true;
-    terminal = "kitty";
     terminalFontSize = 9.0;
   };
 

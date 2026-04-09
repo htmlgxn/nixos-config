@@ -2,6 +2,17 @@
 
 On NixOS, the `sway` system profile handles all system-level requirements automatically. On standalone Home Manager hosts (Fedora, Ubuntu), the host OS must provide these manually before switching to a `sway` or `sway-full` home profile.
 
+## Nix Cache Configuration
+
+On NixOS hosts, substituters and trusted public keys are set automatically by `parts/lib.nix`. On standalone Home Manager hosts, the system `/etc/nix/nix.conf` must include them manually or builds will skip the binary cache and compile from source:
+
+```ini
+substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://yazi.cachix.org
+trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=
+```
+
+After editing, restart the nix daemon (`sudo systemctl restart nix-daemon.service`). If the service file is missing on Fedora, you may need to copy the unit files into `/etc/systemd/system/` from `/nix/var/nix/profiles/default/lib/systemd/system/`.
+
 ## What Home Manager Handles
 
 Once the system prerequisites are in place, the `sway` home profile provides everything else:
@@ -130,20 +141,73 @@ EOF
 
 ### Jetson-Specific Notes
 
-- The Jetson runs JetPack Ubuntu with NVIDIA drivers. Sway requires the `nvidia-drm` kernel module loaded with `modeset=1`. Add `nvidia-drm.modeset=1` to kernel boot parameters if not already set.
-- Sway does not officially support NVIDIA proprietary drivers. If the Jetson uses the proprietary NVIDIA stack, set `WLR_NO_HARDWARE_CURSORS=1` in the environment and expect potential rendering issues.
-- If using the open-source nouveau driver (unlikely on Jetson), sway should work without extra configuration.
-- The `CUDA_PATH` and `LD_LIBRARY_PATH` variables set in `hosts/jetson/home.nix` are for compute workloads and do not conflict with sway.
+The Jetson uses proprietary NVIDIA (tegra) drivers that are incompatible with nix-built GUI applications. Nix packages link against nix's mesa/EGL, which cannot access the Jetson's NVIDIA libraries. nixGL's nvidia wrapper requires `--impure` and fails to auto-detect the Jetson's non-standard driver layout. **The jetson uses `homeProfile = "sway-config"` — HM generates all config files (sway, kitty, waybar, fuzzel, mako) but GUI packages are installed via `apt`.** The `package = null` overrides in `hosts/jetson/home.nix` prevent HM from installing the binaries.
+
+Kernel module setup (required once):
+
+```bash
+echo nvidia-drm | sudo tee /etc/modules-load.d/nvidia-drm.conf
+echo 'options nvidia-drm modeset=1' | sudo tee /etc/modprobe.d/nvidia-drm.conf
+```
+
+Environment variables set by `hosts/jetson/home.nix`:
+
+- `WLR_NO_HARDWARE_CURSORS=1` (required for NVIDIA proprietary drivers)
+- `CUDA_PATH=/usr/local/cuda` (compute workloads, does not conflict with sway)
+
+A shell alias maps `sway` to `sway --unsupported-gpu` since sway does not officially support proprietary NVIDIA drivers.
+
+#### GUI packages to install via apt
+
+These replace what the `sway` and `gui-base-apps` home profiles would provide on NixOS:
+
+```bash
+# Sway ecosystem
+sudo apt install sway swaybg swaylock swayidle wlsunset wl-clipboard grim
+sudo apt install fuzzel waybar mako-notifier
+
+# Desktop utilities
+sudo apt install kitty thunar pavucontrol brightnessctl
+sudo apt install policykit-1-gnome network-manager-gnome
+
+# Media and apps
+sudo apt install mpv
+# brave, librewolf, obsidian, signal-desktop — install from their official repos/debs
+```
+
+Home Manager generates all config files (sway, kitty, waybar, fuzzel, mako, shell, starship, neovim) via the `sway-config` profile with `package = null` overrides in `hosts/jetson/home.nix`.
 
 ### Starting Sway Without greetd
 
-If installing a greeter is impractical, add to `~/.bash_profile`:
+If installing a greeter is impractical, auto-start sway from TTY1.
 
-```bash
-if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    exec sway
-fi
+A flag file prevents a login loop if sway exits or crashes.
+
+**Bash** — via `programs.bash.profileExtra` in home-manager (writes to `~/.bash_profile`):
+
+```nix
+programs.bash.profileExtra = ''
+  if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && [ ! -f /tmp/.sway-exited ]; then
+      touch /tmp/.sway-exited
+      exec sway
+  fi
+'';
 ```
+
+**Nushell** — via `programs.nushell.extraLogin` in home-manager (writes to `login.nu`):
+
+```nix
+programs.nushell.extraLogin = ''
+  if ($env.WAYLAND_DISPLAY? | is-empty) and ((tty) == "/dev/tty1") and (not ("/tmp/.sway-exited" | path exists)) {
+      touch /tmp/.sway-exited
+      exec sway
+  }
+'';
+```
+
+The flag file (`/tmp/.sway-exited`) is cleared on reboot since `/tmp` is tmpfs. To relaunch sway manually after it exits, delete the flag: `rm /tmp/.sway-exited`.
+
+> **Note:** Nushell's environment handling can cause issues launching Wayland compositors directly. If sway fails to create a backend, use `exec bash -c 'exec sway'` instead.
 
 ## Fontconfig
 

@@ -12,7 +12,7 @@
   home.packages = with pkgs;
     [
       # ── Media ──────────────────────────────────────────────────────
-      mpv
+      (mpv.override { youtubeSupport = false; })
 
       # ── Messaging ──────────────────────────────────────────────────
       ayugram-desktop

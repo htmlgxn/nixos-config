@@ -24,7 +24,7 @@
         FOREGROUND="${theme.colors.text}"
         DISABLED="${theme.colors.gold-dark}"
         output=""
-        for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk"{print $1}'); do
+        for disk in $(${pkgs.util-linux}/bin/lsblk -ndo NAME,TYPE | ${pkgs.gawk}/bin/awk '$2=="disk" && $1!~/^zram/{print $1}'); do
           size=$(${pkgs.util-linux}/bin/lsblk -bndo SIZE /dev/$disk)
           parts=$(${pkgs.util-linux}/bin/lsblk -lnpo NAME,TYPE /dev/$disk | ${pkgs.gawk}/bin/awk '$2=="part"{print $1}')
           free=0
