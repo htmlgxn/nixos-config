@@ -5,13 +5,10 @@
 # are managed by the host OS.
 {config, ...}: {
   targets.genericLinux.enable = true;
+  my.terminal = "foot";
 
-  # Use system-installed GUI apps — nix versions can't access Jetson's NVIDIA libraries.
-  # HM generates configs only; install sway, kitty, fuzzel via apt.
-  # sway and kitty accept package = null; waybar, fuzzel, and mako don't,
-  # so they install the nix binary (unused) but the system binary reads the HM config.
+  # Use system-installed sway — nix version can't access Jetson's NVIDIA libraries.
   wayland.windowManager.sway.package = null;
-  programs.kitty.package = null;
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
@@ -20,7 +17,7 @@
 
   # Preserve host-managed dev toolchains and CUDA in PATH
   programs.bash.initExtra = ''
-    export PATH="$HOME/.local/kitty.app/bin:$HOME/.local/bin:/snap/bin:/usr/local/cuda/bin:$PATH"
+    export PATH="$HOME/.local/bin:/snap/bin:/usr/local/cuda/bin:$PATH"
     [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -35,7 +32,6 @@
       | prepend "/usr/local/cuda/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
       | prepend (glob ($env.HOME | path join ".nvm" "versions" "node" "*" "bin") | first)
-      | prepend ($env.HOME | path join ".local" "kitty.app" "bin")
       | prepend ($env.HOME | path join ".local" "bin")
       | prepend "/snap/bin"
     )

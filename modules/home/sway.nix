@@ -36,6 +36,7 @@ in {
     ./gui-theme.nix
     ./terminal-theme.nix
     ./kitty.nix
+    ./foot.nix
     ./fuzzel.nix
     ./mako.nix
   ];
