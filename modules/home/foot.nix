@@ -4,7 +4,11 @@
 # Foot terminal emulator configuration managed by Home Manager.
 # Styling uses shared terminal-theme.nix (same source as kitty.nix).
 #
-{config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   theme = config.my.terminalThemeData;
   # Foot uses RRGGBB without the '#' prefix
   strip = s: lib.removePrefix "#" s;

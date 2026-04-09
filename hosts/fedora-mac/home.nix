@@ -2,7 +2,6 @@
 # Included automatically for every fedora-mac output via hostHomeModules.
 {
   config,
-  pkgs,
   ...
 }: {
   # home.packages = with pkgs; [yt-dlp];

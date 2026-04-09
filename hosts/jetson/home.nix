@@ -3,7 +3,11 @@
 # The Jetson runs Ubuntu with proprietary NVIDIA/CUDA tooling — nix only
 # layers on shell, CLI tools, and WM.  Dev toolchains (cargo, nvm, etc.)
 # are managed by the host OS.
-{config, lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   targets.genericLinux.enable = true;
   my.terminal = "foot";
 
