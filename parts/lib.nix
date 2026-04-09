@@ -72,7 +72,10 @@
         (self + /modules/system/jellyfin.nix)
         (self + /modules/system/containers.nix)
       ];
-      hostHomeModules = [(self + /hosts/boreal/home.nix)];
+      hostHomeModules = [
+        (self + /hosts/boreal/home.nix)
+        (self + /modules/home/packages)
+      ];
     };
 
     nixos-vm = {
@@ -178,8 +181,7 @@
       extraSpecialArgs = {inherit inputs;};
       users.${userName} = {
         imports =
-          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
-          ++ [(self + /modules/home/packages)];
+          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
       };
     };
   };
