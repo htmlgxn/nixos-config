@@ -20,7 +20,7 @@
 
   # Preserve host-managed dev toolchains and CUDA in PATH
   programs.bash.initExtra = ''
-    export PATH="/usr/local/cuda/bin:$PATH"
+    export PATH="$HOME/.local/kitty.app/bin:$HOME/.local/bin:/snap/bin:/usr/local/cuda/bin:$PATH"
     [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -35,6 +35,9 @@
       | prepend "/usr/local/cuda/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
       | prepend (glob ($env.HOME | path join ".nvm" "versions" "node" "*" "bin") | first)
+      | prepend ($env.HOME | path join ".local" "kitty.app" "bin")
+      | prepend ($env.HOME | path join ".local" "bin")
+      | prepend "/snap/bin"
     )
   '';
 
