@@ -113,13 +113,14 @@
     };
   };
 
-  # ── Homebrew integration (GUI apps not in nixpkgs) ─────────────────
+  # ── Homebrew integration (GUI apps not in nxpkgs) ─────────────────
   homebrew = {
     enable = true;
-    onActivation.cleanup = "zap";
+    onActvation.cleanup = "zap";
     onActivation.autoUpdate = true;
     brews = [
       "diskonaut"
+      "blueutil"
     ];
     casks = [
       "android-platform-tools"
