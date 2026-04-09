@@ -116,7 +116,7 @@
   # ── Homebrew integration (GUI apps not in nxpkgs) ─────────────────
   homebrew = {
     enable = true;
-    onActvation.cleanup = "zap";
+    onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
     brews = [
       "diskonaut"
