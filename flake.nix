@@ -46,11 +46,6 @@
 
     bookokrat.url = "github:bugzmanov/bookokrat/7cf047d3b238c3d8be88e8a2fdc58890d86a1011";
 
-    nixgl = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";

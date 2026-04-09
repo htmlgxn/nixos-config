@@ -141,10 +141,41 @@ EOF
 
 ### Jetson-Specific Notes
 
-- The Jetson runs JetPack Ubuntu with NVIDIA drivers. Sway requires the `nvidia-drm` kernel module loaded with `modeset=1`. Add `nvidia-drm.modeset=1` to kernel boot parameters if not already set.
-- Sway does not officially support NVIDIA proprietary drivers. If the Jetson uses the proprietary NVIDIA stack, set `WLR_NO_HARDWARE_CURSORS=1` in the environment and expect potential rendering issues.
-- If using the open-source nouveau driver (unlikely on Jetson), sway should work without extra configuration.
-- The `CUDA_PATH` and `LD_LIBRARY_PATH` variables set in `hosts/jetson/home.nix` are for compute workloads and do not conflict with sway.
+The Jetson uses proprietary NVIDIA (tegra) drivers that are incompatible with nix-built GUI applications. Nix packages link against nix's mesa/EGL, which cannot access the Jetson's NVIDIA libraries. nixGL's nvidia wrapper requires `--impure` and fails to auto-detect the Jetson's non-standard driver layout. **The jetson stays on `homeProfile = "cli"` — all GUI applications must be installed via `apt`.**
+
+Kernel module setup (required once):
+
+```bash
+echo nvidia-drm | sudo tee /etc/modules-load.d/nvidia-drm.conf
+echo 'options nvidia-drm modeset=1' | sudo tee /etc/modprobe.d/nvidia-drm.conf
+```
+
+Environment variables set by `hosts/jetson/home.nix`:
+
+- `WLR_NO_HARDWARE_CURSORS=1` (required for NVIDIA proprietary drivers)
+- `CUDA_PATH=/usr/local/cuda` (compute workloads, does not conflict with sway)
+
+A shell alias maps `sway` to `sway --unsupported-gpu` since sway does not officially support proprietary NVIDIA drivers.
+
+#### GUI packages to install via apt
+
+These replace what the `sway` and `gui-base-apps` home profiles would provide on NixOS:
+
+```bash
+# Sway ecosystem
+sudo apt install sway swaybg swaylock swayidle wlsunset wl-clipboard grim
+sudo apt install fuzzel waybar mako-notifier
+
+# Desktop utilities
+sudo apt install kitty thunar pavucontrol brightnessctl
+sudo apt install policykit-1-gnome network-manager-gnome
+
+# Media and apps
+sudo apt install mpv
+# brave, librewolf, obsidian, signal-desktop — install from their official repos/debs
+```
+
+Home Manager still manages dotfiles (sway config, kitty config, waybar config, shell, starship, neovim) via the `cli` profile and `hosts/jetson/home.nix`.
 
 ### Starting Sway Without greetd
 
