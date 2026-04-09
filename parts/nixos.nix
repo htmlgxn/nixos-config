@@ -39,7 +39,7 @@
       userName = "gars";
       systemProfile = "tty";
       homeProfile = "cli";
-      homeOverlays = [];
+      homeOverlays = ["ai"];
     };
 
     rpi4-sway = {
@@ -47,7 +47,7 @@
       userName = "gars";
       systemProfile = "sway";
       homeProfile = "sway";
-      homeOverlays = [];
+      homeOverlays = ["ai"];
     };
   };
 
