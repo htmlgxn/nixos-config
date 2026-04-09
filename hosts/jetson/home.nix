@@ -7,11 +7,11 @@
   targets.genericLinux.enable = true;
 
   # Use system-installed GUI apps — nix versions can't access Jetson's NVIDIA libraries.
-  # HM generates configs only; install sway, kitty, waybar, fuzzel, mako via apt.
+  # HM generates configs only; install sway, kitty, fuzzel via apt.
+  # sway and kitty accept package = null; waybar, fuzzel, and mako don't,
+  # so they install the nix binary (unused) but the system binary reads the HM config.
   wayland.windowManager.sway.package = null;
   programs.kitty.package = null;
-  programs.waybar.package = null;
-  programs.fuzzel.package = null;
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
