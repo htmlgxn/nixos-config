@@ -11,7 +11,7 @@
 | `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`       | none          |
 | `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`        | `ai`          |
 | `fedora-mac` | Home Manager | `htmlgxn`           | n/a            | `sway`       | none          |
-| `jetson`     | Home Manager | `gars`              | n/a            | `cli`        | none          |
+| `jetson`     | Home Manager | `gars`              | n/a            | `sway-config`| none          |
 
 ## Home Overlay Groups
 
@@ -161,8 +161,7 @@ Neovim helpers:
 
 - Standalone Home Manager target for Jetson Orin Nano (no NixOS system configuration)
 - `hosts/jetson/home.nix` enables `targets.genericLinux.enable` and sets CUDA environment variables and library paths
-- **Must stay on `cli` profile** — proprietary NVIDIA tegra drivers are incompatible with nix-built GUI apps (nixGL nvidia wrapper also fails on Jetson). All GUI apps installed via `apt` instead
-- HM manages dotfiles only (shell, neovim, starship, sway/kitty/waybar configs if sway config is generated)
+- Uses `sway-config` profile — proprietary NVIDIA tegra drivers are incompatible with nix-built GUI apps (nixGL nvidia wrapper also fails on Jetson). All GUI apps installed via `apt`; HM generates configs only (sway, kitty, waybar, fuzzel, mako) with `package = null` overrides
 - apply with `nhms jetson` or `nh home switch .#jetson`
 - requires manual `/etc/nix/nix.conf` cache configuration — see [`sway-hm-prerequisites.md`](sway-hm-prerequisites.md#nix-cache-configuration)
 - see [`sway-hm-prerequisites.md`](sway-hm-prerequisites.md#jetson-specific-notes) for the full list of apt packages needed for sway

@@ -6,7 +6,6 @@
   ...
 }: let
   waybar = import ./waybar-settings.nix {inherit pkgs config;};
-  clipdoc = import ./clipdoc.nix {inherit pkgs;};
   guiTheme = config.my.guiThemeData;
   theme = guiTheme.sway;
   resolvePkg = path: builtins.foldl' (pkg: attr: pkg.${attr}) pkgs path;
@@ -34,7 +33,6 @@
       keys);
 in {
   imports = [
-    ./gui-base-apps.nix
     ./gui-theme.nix
     ./terminal-theme.nix
     ./kitty.nix
@@ -50,33 +48,6 @@ in {
       targets = ["sway-session.target"];
     };
   };
-
-  home.packages = with pkgs;
-    [
-      # ── Wayland / Sway ───────────────────────────────────────────────
-      sway-contrib.grimshot
-      clipdoc.clipdoc
-      swaybg
-      swaylock
-      swayidle
-      wlsunset
-      wl-clipboard
-      grim
-
-      # ── Desktop Utilities (Linux) ────────────────────────────────────
-      thunar
-      pavucontrol
-      brightnessctl
-      polkit_gnome
-      networkmanagerapplet
-
-      # ── GTK Theming ──────────────────────────────────────────────────
-      gsettings-desktop-schemas
-      glib
-    ]
-    ++ lib.optionals (config.my.terminal == "foot") [
-      foot
-    ];
 
   # ── GTK / QT Theming ──────────────────────────────────────────────
   gtk = {

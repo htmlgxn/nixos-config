@@ -108,12 +108,18 @@
       (self + /modules/home/gui-base-apps.nix)
     ];
 
+    sway-config = [
+      (self + /modules/home/sway.nix)
+    ];
+
     sway = [
       (self + /modules/home/sway.nix)
+      (self + /modules/home/sway-apps.nix)
     ];
 
     sway-full = [
       (self + /modules/home/sway.nix)
+      (self + /modules/home/sway-apps.nix)
       (self + /modules/home/gui-extra-apps.nix)
       (self + /modules/home/flatpak.nix)
       (self + /modules/home/gaming.nix)

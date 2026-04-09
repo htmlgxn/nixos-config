@@ -141,7 +141,7 @@ EOF
 
 ### Jetson-Specific Notes
 
-The Jetson uses proprietary NVIDIA (tegra) drivers that are incompatible with nix-built GUI applications. Nix packages link against nix's mesa/EGL, which cannot access the Jetson's NVIDIA libraries. nixGL's nvidia wrapper requires `--impure` and fails to auto-detect the Jetson's non-standard driver layout. **The jetson stays on `homeProfile = "cli"` — all GUI applications must be installed via `apt`.**
+The Jetson uses proprietary NVIDIA (tegra) drivers that are incompatible with nix-built GUI applications. Nix packages link against nix's mesa/EGL, which cannot access the Jetson's NVIDIA libraries. nixGL's nvidia wrapper requires `--impure` and fails to auto-detect the Jetson's non-standard driver layout. **The jetson uses `homeProfile = "sway-config"` — HM generates all config files (sway, kitty, waybar, fuzzel, mako) but GUI packages are installed via `apt`.** The `package = null` overrides in `hosts/jetson/home.nix` prevent HM from installing the binaries.
 
 Kernel module setup (required once):
 
@@ -175,7 +175,7 @@ sudo apt install mpv
 # brave, librewolf, obsidian, signal-desktop — install from their official repos/debs
 ```
 
-Home Manager still manages dotfiles (sway config, kitty config, waybar config, shell, starship, neovim) via the `cli` profile and `hosts/jetson/home.nix`.
+Home Manager generates all config files (sway, kitty, waybar, fuzzel, mako, shell, starship, neovim) via the `sway-config` profile with `package = null` overrides in `hosts/jetson/home.nix`.
 
 ### Starting Sway Without greetd
 
