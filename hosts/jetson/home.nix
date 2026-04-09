@@ -12,7 +12,6 @@
   programs.kitty.package = null;
   programs.waybar.package = null;
   programs.fuzzel.package = null;
-  services.mako.package = null;
 
   home.sessionVariables = {
     CUDA_PATH = "/usr/local/cuda";
