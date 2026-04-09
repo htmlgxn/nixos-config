@@ -36,6 +36,14 @@
 
   programs.home-manager.enable = true;
 
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name = "htmlgxn";
+      email = "htmlgxn@pm.me";
+    };
+  };
+
   # ── SSH client config ───────────────────────────────────────────────
   programs.ssh = {
     enable = true;
