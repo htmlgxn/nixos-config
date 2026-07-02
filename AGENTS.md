@@ -9,6 +9,7 @@
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
 - `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target.
+- `modules/shared/nix-settings.nix` holds the shared `nix.settings` (flakes, binary caches) imported by both the NixOS and nix-darwin builders in `parts/lib.nix`. The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/lib.nix` and is applied by all three output builders.
 - `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.isNixOS`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
 - `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio).
