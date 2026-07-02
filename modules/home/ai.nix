@@ -8,9 +8,7 @@
   my.ollamaPackage = lib.mkDefault pkgs.ollama;
 
   home.packages =
-    [
-      config.my.ollamaPackage
-    ]
+    (lib.optional (config.my.ollamaPackage != null) config.my.ollamaPackage)
     ++ (with pkgs; [
       # Core coding agents
       claude-code

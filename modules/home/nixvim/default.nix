@@ -2,6 +2,7 @@
 {
   inputs,
   config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -15,6 +16,23 @@
 
   programs.nixvim = {
     enable = true;
+    # Build nixvim against its own pinned nixpkgs rather than the system one.
+    # nixvim relies on recently-added `lib` features, so it ships a matching
+    # nixpkgs pin; using it (instead of `follows`/the system pkgs) is the
+    # upstream-recommended setup and silences the "nixpkgs.source default
+    # affected by follows" warning.
+    #
+    # We import that nixpkgs ourselves and pass it via `nixpkgs.pkgs`. We must
+    # NOT use `nixpkgs.source` here: in home-manager nixvim re-imports the
+    # source with the *host* nixpkgs' already-elaborated `hostPlatform`. Feeding
+    # a platform elaborated by one nixpkgs version into a different version's
+    # stdenv bootstrap triggers a `runtimeShell`/`bashNonInteractive` infinite
+    # recursion. Importing with a plain-string `system` lets this nixpkgs
+    # elaborate the platform itself, avoiding the cross-version cycle.
+    nixpkgs.pkgs = import inputs.nixvim.inputs.nixpkgs {
+      inherit (pkgs.stdenv.hostPlatform) system;
+      config.allowUnfree = true;
+    };
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;

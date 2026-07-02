@@ -24,7 +24,9 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # Intentionally NOT following nixpkgs: nixvim's release tracks the latest
+      # unstable (26.11) while our nixpkgs pin lags (26.05). Letting nixvim use
+      # its own matching nixpkgs pin avoids the version-mismatch warnings.
     };
 
     nix-yazi-plugins = {
@@ -52,8 +54,19 @@
     };
 
     lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.3-2.tar.gz";
+      # We consume this via its `lixFromNixpkgs` module variant (see parts/lib.nix),
+      # so lix itself comes prebuilt from nixpkgs (cache.nixos.org) and is never
+      # compiled from source — avoiding the crates.io-403 vendoring failure.
+      #
+      # Pinned to the last 2.95-compatible commit (parent of the 2.96 version bump);
+      # its version.json selects nixpkgs' lixPackageSets.lix_2_95. Bump this commit
+      # only when nixpkgs' lix major moves.
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/1688100bba140492658d597f6b307c327f35c780.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
+      # The lix source input is unused by lixFromNixpkgs; pin it to a release tag
+      # (not the drifting `main`) so `nix flake update` stays stable.
+      inputs.lix.url = "https://git.lix.systems/lix-project/lix/archive/2.95.3.tar.gz";
+      inputs.lix.flake = false;
     };
 
     treefmt-nix = {

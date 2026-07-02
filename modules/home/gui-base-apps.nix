@@ -13,15 +13,16 @@
     [
       # ── Media ──────────────────────────────────────────────────────
       (mpv.override {youtubeSupport = false;})
+      qbittorrent
 
-      # ── Messaging ──────────────────────────────────────────────────
-      ayugram-desktop
+      # ── Social ─────────────────────────────────────────────────────
+      #ayugram-desktop
       vesktop
 
       # ── Browser ────────────────────────────────────────────────────
       librewolf
 
-      # ── Documents & Notes ───────────────────────────────────────────
+      # ── Documents & Notes ──────────────────────────────────────────
       obsidian
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
@@ -29,7 +30,7 @@
       calibre-no-speech
     ];
 
-  # ── Brave with Extensions ───────────────────────────────────────
+  # ── Brave with Extensions ──────────────────────────────────────────
   programs.brave = {
     enable = true;
     extensions = [
@@ -42,7 +43,7 @@
     ];
   };
 
-  # ── Spicetify (Spotify with theming) ────────────────────────────
+  # ── Spicetify (Spotify with theming) ───────────────────────────────
   # Spotify is only available on x86_64-linux, x86_64-darwin, and aarch64-darwin.
   programs.spicetify = let
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};

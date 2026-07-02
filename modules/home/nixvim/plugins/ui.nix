@@ -198,7 +198,7 @@ _: {
       };
 
       # ── Inline color previews (great for editing your themes) ────
-      nvim-colorizer = {
+      colorizer = {
         enable = true;
         settings = {
           filetypes = ["*"];

@@ -53,7 +53,7 @@
     };
   };
 
-  programs.ssh.matchBlocks."rpi4" = {
+  programs.ssh.settings."rpi4" = {
     hostname = "rpi4.local";
     port = 2200;
     user = "gars";

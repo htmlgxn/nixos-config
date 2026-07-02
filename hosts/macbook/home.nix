@@ -6,6 +6,11 @@
   ...
 }: {
   home.packages = with pkgs; [yt-dlp];
+
+  # Go binaries from `go install ...@latest` land in ~/go/bin. The `go` compiler
+  # itself is installed via Homebrew (see configuration.nix). This keeps Go fully
+  # imperative on the macbook, matching the rustup/uv setup — no Nix-managed Go.
+  home.sessionPath = ["$HOME/go/bin"];
   imports = [
     ../../modules/home/kitty.nix
     ../../modules/home/terminal-theme.nix
@@ -14,6 +19,9 @@
   my = {
     terminal = "kitty";
     terminalFontSize = 14.0;
+    # ollama 0.30.x requires Xcode's Metal toolchain to build on darwin; skip
+    # local inference here and use boreal (ollama-rocm) instead.
+    ollamaPackage = null;
   };
   # macOS nushell looks in ~/Library/Application Support/nushell/ by default.
   # Symlink it to the XDG path so HM-managed config is picked up.
@@ -29,6 +37,7 @@
       | prepend "/nix/var/nix/profiles/default/bin"
       | prepend "/opt/homebrew/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
+      | prepend ($env.HOME | path join "go" "bin")
     )
   '';
 
@@ -131,12 +140,10 @@
   };
 
   # ── macOS SSH entries ────────────────────────────────────────────────
-  programs.ssh.matchBlocks."github.com" = {
+  programs.ssh.settings."github.com" = {
     hostname = "github.com";
-    extraOptions = {
-      AddKeysToAgent = "yes";
-      UseKeychain = "yes";
-    };
+    AddKeysToAgent = "yes";
+    UseKeychain = "yes";
     identityFile = "~/.ssh/id_ed25519";
   };
 }

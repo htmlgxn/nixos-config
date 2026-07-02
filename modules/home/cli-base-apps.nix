@@ -69,7 +69,7 @@ in {
       tree
       ranger
       dust
-      browsr
+      # browsr
 
       # ── System Monitoring ───────────────────────────────────────────
       htop
@@ -87,7 +87,7 @@ in {
 
       # ── Media ───────────────────────────────────────────────────────
       ncspot
-      ffmpeg-full
+      ffmpeg
       wiki-tui
       #telescope # telescope and amfora are gemini browsers
       #amfora

@@ -1,5 +1,16 @@
 # Bash shell configuration.
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  # On macOS the Nix yt-dlp wrapper doesn't reliably surface its bundled
+  # ffmpeg, so pin it explicitly. Other platforms work fine without this.
+  ytdlpFfmpegArg =
+    if pkgs.stdenv.isDarwin
+    then "--ffmpeg-location ${pkgs.ffmpeg}/bin/ffmpeg "
+    else "";
+in {
   programs.bash = {
     enable = true;
 
@@ -52,7 +63,7 @@
       cdd = "cd ~/dev";
       cdp = "cd ~/dev/projects";
       # ── yt-dlp ────────────────────────────────────────────────────────
-      ytdl = "yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
+      ytdl = "yt-dlp ${ytdlpFfmpegArg}-f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
     };
 
     sessionVariables = {

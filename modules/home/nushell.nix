@@ -1,5 +1,16 @@
 # Nushell configuration.
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  # On macOS the Nix yt-dlp wrapper doesn't reliably surface its bundled
+  # ffmpeg, so pin it explicitly. Other platforms work fine without this.
+  ytdlpFfmpegArg =
+    if pkgs.stdenv.isDarwin
+    then "--ffmpeg-location ${pkgs.ffmpeg}/bin/ffmpeg "
+    else "";
+in {
   programs.nushell = {
     enable = true;
 
@@ -55,7 +66,7 @@
       def gcm [message: string] { git add -A; git commit -m $message }
       def gpall [] { git push origin main; git push soft main }
       def ipcheck [] { (http get https://ipinfo.io/ip | str trim) + "\n" + (http get https://ipinfo.io/country | str trim) }
-      def ytdl [url: string] { yt-dlp -f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg $url }
+      def ytdl [url: string] { yt-dlp ${ytdlpFfmpegArg}-f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg $url }
       def ff [] { fastfetch }
       def ff-min [] { fastfetch --config minimal }
 
