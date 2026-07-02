@@ -13,7 +13,12 @@
   ];
   system.primaryUser = "htmlgxn";
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  # Stable hostname so `macbook.local` resolves via mDNS (matches the
+  # boreal.local pattern used in the shared SSH config).
+  networking.hostName = "macbook";
+  networking.localHostName = "macbook";
+  networking.computerName = "macbook";
+
   nixpkgs.config.allowUnfree = true;
   # librewolf is flagged insecure in nixpkgs (lacks an active committer).
   # Match by name prefix so both the wrapped "librewolf" and the
@@ -137,8 +142,12 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
-    onActivation.autoUpdate = true;
-    onActivation.upgrade = true;
+    # Keep activation reproducible and fast: no implicit `brew update`/`brew
+    # upgrade` on every switch. Upgrade deliberately with `brew update && brew
+    # upgrade` instead. (Silent cask upgrades were also re-signing Snapzy and
+    # invalidating its TCC grants back when it was ad-hoc signed.)
+    onActivation.autoUpdate = false;
+    onActivation.upgrade = false;
     # Homebrew >=5.1 refuses `brew bundle --cleanup` without an explicit force
     # flag; pass it so non-interactive activation can perform the zap cleanup.
     onActivation.extraFlags = ["--force-cleanup"];
@@ -174,19 +183,6 @@
       "snapzy"
     ];
   };
-
-  # ── Post-activation fixups ─────────────────────────────────────────
-  # Snapzy is only ad-hoc signed (no Developer ID), so it ships with a
-  # quarantine flag. Combined with Sparkle auto-updates changing its
-  # code-hash, that breaks its Screen Recording grant (capture greys out,
-  # hotkeys silently do nothing). Stripping quarantine keeps its identity
-  # stable so the TCC grant sticks. Screen Recording itself still has to
-  # be granted once by hand — TCC is SIP-protected and can't be set here.
-  system.activationScripts.postActivation.text = ''
-    if [ -d /Applications/Snapzy.app ]; then
-      /usr/bin/xattr -cr /Applications/Snapzy.app || true
-    fi
-  '';
 
   # ── Shell ───────────────────────────────────────────────────────────
   environment.shells = with pkgs; [nushell bashInteractive];

@@ -51,7 +51,6 @@
     settings = {
       "*" = {
         serverAliveInterval = 0;
-        serverAliveCountMax = 3;
       };
       # ── Shared infrastructure ──────────────────────────────────────
       "soft" = {
@@ -71,7 +70,7 @@
         identitiesOnly = true;
       };
       "macbook" = {
-        hostname = "192.168.2.102";
+        hostname = "macbook.local";
         user = "htmlgxn";
         addressFamily = "inet";
         identityFile = "~/.ssh/id_ed25519";

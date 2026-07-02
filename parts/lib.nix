@@ -18,6 +18,7 @@
     # crates.io API URL, which now 403s; the prebuilt path avoids it entirely.
     inputs.lix-module.nixosModules.lixFromNixpkgs
     (self + /modules/shared/options.nix)
+    (self + /modules/shared/nix-settings.nix)
     ({
       pkgs,
       config,
@@ -25,23 +26,6 @@
     }: {
       time.timeZone = "America/Halifax";
       i18n.defaultLocale = "en_CA.UTF-8";
-      nix.settings = {
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        substituters = [
-          "https://cache.nixos.org/"
-          "https://nix-community.cachix.org"
-          "https://cache.lix.systems"
-          "https://yazi.cachix.org"
-        ];
-        trusted-public-keys = [
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-          "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
-        ];
-      };
       documentation.nixos.enable = false;
       users.users.${config.my.primaryUser}.shell = pkgs.nushell;
       environment.shells = with pkgs; [nushell bashInteractive];
@@ -240,6 +224,7 @@
       modules = [
         # lixFromNixpkgs: prebuilt lix from cache.nixos.org (see sharedSystemModules).
         inputs.lix-module.darwinModules.lixFromNixpkgs
+        (self + /modules/shared/nix-settings.nix)
         (self + /hosts/macbook/configuration.nix)
         home-manager.darwinModules.home-manager
         {
