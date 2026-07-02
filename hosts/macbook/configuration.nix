@@ -19,12 +19,8 @@
   networking.localHostName = "macbook";
   networking.computerName = "macbook";
 
-  nixpkgs.config.allowUnfree = true;
-  # librewolf is flagged insecure in nixpkgs (lacks an active committer).
-  # Match by name prefix so both the wrapped "librewolf" and the
-  # "librewolf-unwrapped" derivation are covered, and so the allowance
-  # survives version bumps instead of pinning a "librewolf-<version>" string.
-  nixpkgs.config.allowInsecurePredicate = pkg: pkgs.lib.hasPrefix "librewolf" (pkgs.lib.getName pkg);
+  # allowUnfree and the insecure allowances (librewolf, pnpm) come from the
+  # shared nixpkgsConfig in parts/lib.nix.
 
   # ── Firewall ──────────────────────────────────────────────────────
   networking.applicationFirewall = {

@@ -11,6 +11,19 @@
 }: let
   inherit (inputs) nixpkgs home-manager nix-darwin nixos-hardware;
 
+  # ── Shared nixpkgs config (applied by every output builder) ──────
+  # Insecure allowances, matched by name prefix so they survive version bumps:
+  #  - librewolf: flagged insecure in nixpkgs (lacks an active committer).
+  #  - pnpm: build-time dependency of vesktop; flagged for npm CVEs that don't
+  #    apply to sandboxed nix builds with a fixed lockfile.
+  nixpkgsConfig = {
+    allowUnfree = true;
+    allowInsecurePredicate = pkg:
+      builtins.any
+      (prefix: nixpkgs.lib.hasPrefix prefix (nixpkgs.lib.getName pkg))
+      ["librewolf" "pnpm"];
+  };
+
   # ── Shared system modules (included in every NixOS output) ───────
   sharedSystemModules = [
     # lixFromNixpkgs: use nixpkgs' prebuilt lix (cache.nixos.org) instead of
@@ -193,7 +206,7 @@
           (_: {
             nixpkgs = {
               hostPlatform = host.system;
-              config.allowUnfree = true;
+              config = nixpkgsConfig;
               overlays = nixpkgsOverlays;
             };
           })
@@ -228,7 +241,7 @@
         (self + /hosts/macbook/configuration.nix)
         home-manager.darwinModules.home-manager
         {
-          nixpkgs.config.allowUnfree = true;
+          nixpkgs.config = nixpkgsConfig;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "bak";
@@ -258,7 +271,7 @@
         mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
         ++ [
           {
-            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config = nixpkgsConfig;
             home.username = userName;
             home.homeDirectory = "/home/${userName}";
             home.stateVersion = "26.05";
