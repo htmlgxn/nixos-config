@@ -1,6 +1,6 @@
 # Shared nix.settings for NixOS and nix-darwin outputs:
 # flakes enabled plus the binary caches used across hosts.
-{...}: {
+_: {
   nix.settings = {
     experimental-features = [
       "nix-command"

@@ -25,7 +25,7 @@
       # ── Documents & Notes ──────────────────────────────────────────
       obsidian
     ]
-    ++ lib.optionals pkgs.stdenv.isLinux [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       signal-desktop
       calibre-no-speech
     ];

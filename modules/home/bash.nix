@@ -7,7 +7,7 @@
   # On macOS the Nix yt-dlp wrapper doesn't reliably surface its bundled
   # ffmpeg, so pin it explicitly. Other platforms work fine without this.
   ytdlpFfmpegArg =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then "--ffmpeg-location ${pkgs.ffmpeg}/bin/ffmpeg "
     else "";
 in {

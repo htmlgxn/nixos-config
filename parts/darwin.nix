@@ -10,6 +10,8 @@
 }: let
   inherit (flakeLib) mkDarwinOutput;
 
+  kittyOverlay = import (self + /overlays/kitty-launchservices.nix);
+
   darwinOutputDefs = {
     macbook = {
       userName = "htmlgxn";
@@ -17,6 +19,7 @@
       system = "aarch64-darwin";
       hostHomeModules = [(self + /hosts/macbook/home.nix)];
       homeOverlays = ["ai"];
+      nixpkgsOverlays = [kittyOverlay];
     };
   };
 in {

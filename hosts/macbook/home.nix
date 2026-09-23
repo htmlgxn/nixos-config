@@ -2,9 +2,13 @@
 # Included automatically for every macbook output via hostHomeModules.
 {
   config,
+  lib,
   pkgs,
   ...
-}: {
+}: let
+  hmAppsDir = "${config.home.homeDirectory}/${config.targets.darwin.copyApps.directory}";
+  lsregister = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
+in {
   home.packages = with pkgs; [yt-dlp];
 
   # Go binaries from `go install ...@latest` land in ~/go/bin. The `go` compiler
@@ -44,12 +48,35 @@
   programs.bash.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
   programs.nushell.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
 
+  # LaunchServices remembers every .app bundle it has ever seen, including ones
+  # inside /nix/store from old generations or ad-hoc builds. Several bundles
+  # sharing one bundle id (e.g. an unpatched kitty) make Spotlight/Dock/`open -a`
+  # launch an arbitrary one, so after each switch drop registrations for store
+  # bundles outside the new generation (AeroSpace itself runs from the store).
+  home.activation.lsUnregisterNixStoreApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    live=$(/run/current-system/sw/bin/nix-store -qR "$newGenPath" 2>/dev/null || true)
+    ${lsregister} -dump 2>/dev/null \
+      | sed -n 's|^path: *\(/nix/store/[^/]*/.*\.app\) (0x[0-9a-f]*)$|\1|p' \
+      | sort -u \
+      | while IFS= read -r app; do
+          storePath=$(echo "$app" | cut -d/ -f1-4)
+          if ! grep -qxF "$storePath" <<<"$live"; then
+            run ${lsregister} -u "$app" || true
+          fi
+        done
+  '';
+
   # ── AeroSpace tiling window manager ──────────────────────────────────
   programs.aerospace = {
     enable = true;
     launchd.enable = true;
     settings = {
+      config-version = 2;
+
       after-startup-command = ["layout tiling"];
+
+      # v1 inferred these from the alt-1..9 bindings; v2 requires them explicit
+      persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
 
       gaps = {
         outer.left = 8;
@@ -108,7 +135,10 @@
         # ── Window management ────────────────────────────────────────
         alt-q = "close";
         alt-shift-c = "reload-config";
-        alt-enter = "exec-and-forget open -a kitty";
+        # Launch the HM Apps copy by path: `open -a kitty` lets LaunchServices
+        # pick any registered bundle with kitty's id, including stale unpatched
+        # ones in /nix/store (see overlays/kitty-launchservices.nix).
+        alt-enter = "exec-and-forget open -a '${hmAppsDir}/kitty.app'";
 
         # ── Resize mode ──────────────────────────────────────────────
         alt-r = "mode resize";

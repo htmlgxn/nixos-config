@@ -71,6 +71,7 @@ in {
 
   # ── Cursor Theme ──────────────────────────────────────────────────
   home.pointerCursor = {
+    enable = true;
     gtk.enable = true;
     package = resolvePkg guiTheme.gtk.cursor.package;
     inherit (guiTheme.gtk.cursor) name;

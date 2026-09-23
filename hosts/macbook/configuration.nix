@@ -140,21 +140,23 @@
     onActivation.cleanup = "zap";
     # Keep activation reproducible and fast: no implicit `brew update`/`brew
     # upgrade` on every switch. Upgrade deliberately with `brew update && brew
-    # upgrade` instead. (Silent cask upgrades were also re-signing Snapzy and
-    # invalidating its TCC grants back when it was ad-hoc signed.)
+    # upgrade` instead.
     onActivation.autoUpdate = false;
     onActivation.upgrade = false;
     # Homebrew >=5.1 refuses `brew bundle --cleanup` without an explicit force
     # flag; pass it so non-interactive activation can perform the zap cleanup.
     onActivation.extraFlags = ["--force-cleanup"];
     taps = [
+      # Homebrew >=5 refuses to load formulae from third-party taps unless the
+      # tap is explicitly trusted; `brew bundle` has no prompt to accept it.
       {
-        name = "duongductrong/snapzy";
-        clone_target = "https://github.com/duongductrong/Snapzy";
+        name = "lajosdeme/watchtower";
+        trusted = true;
       }
     ];
     brews = [
       "diskonaut"
+      "watchtower"
       "blueutil"
       "apfel"
       "mdfried"
@@ -165,6 +167,7 @@
       "freecad"
       "protonvpn"
       "codex"
+      "chatgpt"
       "claude"
       "kicad"
       "jellyfin-media-player"
@@ -177,6 +180,7 @@
       "cmux"
       "beeper"
       "snapzy"
+      "blender"
     ];
   };
 

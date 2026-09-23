@@ -106,7 +106,7 @@ in {
       (inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {doCheck = false;}))
     ]
     # ── Linux-only ──────────────────────────────────────────────────
-    ++ lib.optionals pkgs.stdenv.isLinux [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       emojiTools.emojiPickerCli
       s-tui
       systemctl-tui

@@ -59,6 +59,22 @@
     };
   };
 
+  # ── `is-not?` predicate shim ──────────────────────────────────
+  # Several grammars (nix, javascript) ship highlight queries written
+  # for nvim-treesitter's master branch, which used `(#is-not? local)`
+  # to skip highlighting nodes shadowed by a local binding. The main
+  # branch dropped the locals machinery and now registers only
+  # `kind-eq?`/`any-kind-eq?`, so those queries raise "No handler for
+  # is-not?" on every redraw of a .nix or .js buffer.
+  #
+  # Returning true keeps the capture — i.e. the pre-locals behaviour,
+  # which is what upstream settled on when it rewrote these queries.
+  programs.nixvim.extraConfigLua = ''
+    vim.treesitter.query.add_predicate("is-not?", function()
+      return true
+    end, {force = true, all = false})
+  '';
+
   # ── Textobjects keymaps (new keymap-API style) ────────────────
   # select_textobject derives the mode (visual/operator-pending) at call
   # time, so a single mapping in modes "x" + "o" covers va/vi and da/di.

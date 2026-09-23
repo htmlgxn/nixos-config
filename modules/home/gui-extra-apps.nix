@@ -16,7 +16,7 @@
       # kicad-unstable
     ]
     # ── Linux-only (not available on Darwin) ──────────────────────────
-    ++ lib.optionals pkgs.stdenv.isLinux [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       # More CAD
       freecad
       # Docs

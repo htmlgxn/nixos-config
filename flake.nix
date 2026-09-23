@@ -24,9 +24,9 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      # Intentionally NOT following nixpkgs: nixvim's release tracks the latest
-      # unstable (26.11) while our nixpkgs pin lags (26.05). Letting nixvim use
-      # its own matching nixpkgs pin avoids the version-mismatch warnings.
+      # Intentionally NOT following nixpkgs: upstream recommends against it, and
+      # letting nixvim use its own nixpkgs pin avoids version-mismatch warnings
+      # whenever our pin and nixvim's release land on different unstable snapshots.
     };
 
     nix-yazi-plugins = {

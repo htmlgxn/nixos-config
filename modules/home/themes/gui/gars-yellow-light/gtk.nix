@@ -16,7 +16,7 @@
   };
 
   qt = {
-    platformTheme = "gtk";
+    platformTheme = "gtk3";
     style = "adwaita";
   };
 

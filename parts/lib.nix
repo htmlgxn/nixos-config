@@ -230,6 +230,7 @@
     system,
     hostHomeModules ? [],
     homeOverlays ? [],
+    nixpkgsOverlays ? [],
   }:
     nix-darwin.lib.darwinSystem {
       inherit system;
@@ -242,6 +243,7 @@
         home-manager.darwinModules.home-manager
         {
           nixpkgs.config = nixpkgsConfig;
+          nixpkgs.overlays = nixpkgsOverlays;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "bak";

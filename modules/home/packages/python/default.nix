@@ -13,26 +13,26 @@ in {
       uv # Python package/toolchain manager
     ]
     # GCC runtime lib for native Python packages -- Linux only
-    ++ lib.optionals pkgs.stdenv.isLinux [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       stdenv.cc.cc.lib
     ]
-    ++ lib.optionals pkgs.stdenv.isx86_64 [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
       # ── Libraries ────────────────────────────────────────────────────
       playwright-driver # Playwright CLI and Python package
       playwright-driver.browsers # Pre-built browsers for Playwright
     ];
 
-  programs.bash.sessionVariables = lib.mkIf pkgs.stdenv.isx86_64 {
+  programs.bash.sessionVariables = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 {
     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
-  programs.nushell.environmentVariables = lib.mkIf pkgs.stdenv.isx86_64 {
+  programs.nushell.environmentVariables = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 {
     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
-  home.activation.installUvTools = lib.mkIf pkgs.stdenv.isx86_64 (lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
+  home.activation.installUvTools = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 (lib.hm.dag.entryAfter ["writeBoundary" "linkGeneration"] ''
     for tool in ${lib.concatStringsSep " " uvTools}; do
       echo "uv: (re)installing $tool..."
       ${pkgs.uv}/bin/uv tool install "$tool" --force \
