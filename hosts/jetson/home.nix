@@ -49,12 +49,7 @@
     $env.WLR_NO_HARDWARE_CURSORS = "1"
   '';
 
-  programs.bash.shellAliases = {
-    sway = "sway --unsupported-gpu";
-    nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
-  };
-
-  programs.nushell.shellAliases = {
+  my.shellAliases = {
     sway = "sway --unsupported-gpu";
     nrs = "nh home switch -b bak ${config.my.repoRoot} -c jetson";
   };

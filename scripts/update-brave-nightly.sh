@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Resolve overlay path relative to this script
+# Overlay path: $OVERLAY if set (systemd timer), else the enclosing git checkout
+# (`nix run .#update-brave-nightly`), else relative to this script.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OVERLAY="${SCRIPT_DIR}/../overlays/brave-nightly.nix"
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "${SCRIPT_DIR}/..")"
+OVERLAY="${OVERLAY:-${REPO_ROOT}/overlays/brave-nightly.nix}"
 
 echo "==> Fetching latest Brave Nightly version..."
 VERSION=$(curl -s https://api.github.com/repos/brave/brave-browser/releases |

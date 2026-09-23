@@ -4,11 +4,11 @@ On NixOS, the `sway` system profile handles all system-level requirements automa
 
 ## Nix Cache Configuration
 
-On NixOS hosts, substituters and trusted public keys are set automatically by `parts/lib.nix`. On standalone Home Manager hosts, the system `/etc/nix/nix.conf` must include them manually or builds will skip the binary cache and compile from source:
+On NixOS and nix-darwin hosts, substituters and trusted public keys are set automatically by `modules/shared/nix-settings.nix`. On standalone Home Manager hosts, the system `/etc/nix/nix.conf` must include them manually or builds will skip the binary cache and compile from source:
 
 ```ini
-substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://cache.lix.systems https://yazi.cachix.org
-trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o= yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=
+substituters = https://cache.nixos.org/ https://nix-community.cachix.org
+trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
 ```
 
 After editing, restart the nix daemon (`sudo systemctl restart nix-daemon.service`). If the service file is missing on Fedora, you may need to copy the unit files into `/etc/systemd/system/` from `/nix/var/nix/profiles/default/lib/systemd/system/`.
@@ -39,7 +39,6 @@ Once the system prerequisites are in place, the `sway` home profile provides eve
 | **gnome-keyring** (+ PAM integration)      | SSH key agent, credential storage. PAM must start the keyring daemon at login | `services.gnome.gnome-keyring` + `security.pam.services.login.enableGnomeKeyring` |
 | **wayland + xwayland**                     | Wayland libraries and X11 compat layer                                        | `environment.systemPackages`                                                      |
 | **PipeWire** (+ wireplumber)               | Audio — pactl/wpctl commands in sway config depend on this                    | `modules/system/cli.nix`                                                          |
-| **GTK_THEME=Adwaita-dark**                 | System-wide dark theme default for GTK apps                                   | `environment.variables`                                                           |
 | **PAM swaylock entry**                     | swaylock needs PAM auth to unlock the screen                                  | implicit on NixOS                                                                 |
 
 ### Fonts (System-Level)
@@ -70,9 +69,6 @@ sudo dnf install gnome-keyring
 
 # Audio (likely already present)
 sudo dnf install pipewire pipewire-pulseaudio wireplumber
-
-# GTK dark theme default
-echo 'GTK_THEME=Adwaita-dark' | sudo tee -a /etc/environment
 
 # Fonts
 sudo dnf install google-roboto-mono-fonts
@@ -122,9 +118,6 @@ sudo apt install gnome-keyring
 
 # Audio
 sudo apt install pipewire pipewire-pulse wireplumber
-
-# GTK dark theme default
-echo 'GTK_THEME=Adwaita-dark' | sudo tee -a /etc/environment
 
 # Fonts
 sudo apt install fonts-roboto-unhinted  # includes Roboto Mono

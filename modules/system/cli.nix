@@ -2,8 +2,10 @@
 _: {
   services.openssh = {
     enable = true;
+    # `ports` (not settings.Port) drives both sshd's Port lines and openFirewall;
+    # setting only settings.Port left the default port 22 listening and open.
+    ports = [2200];
     settings = {
-      Port = 2200;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;

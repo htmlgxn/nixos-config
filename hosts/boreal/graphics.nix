@@ -20,6 +20,8 @@
   environment.variables = {
     RUSTICL_ENABLE = "radeonsi";
     ROC_ENABLE_PRE_VEGA = "1";
+    # Forces Qt apps onto XWayland. Drop this to run Qt natively on Wayland
+    # if nothing on boreal depends on the X11 backend any more.
     QT_QPA_PLATFORM = "xcb";
   };
 }

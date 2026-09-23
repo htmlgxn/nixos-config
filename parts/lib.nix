@@ -10,6 +10,7 @@
   ...
 }: let
   inherit (inputs) nixpkgs home-manager nix-darwin nixos-hardware;
+  inherit (nixpkgs) lib;
 
   # ── Shared nixpkgs config (applied by every output builder) ──────
   # Insecure allowances, matched by name prefix so they survive version bumps:
@@ -24,12 +25,14 @@
       ["librewolf" "pnpm"];
   };
 
+  # ── Shared nixpkgs overlays (applied by every output builder) ────
+  # Per-output overlays are appended via `nixpkgsOverlays`.
+  sharedOverlays = [
+    (import (self + /overlays/lix.nix))
+  ];
+
   # ── Shared system modules (included in every NixOS output) ───────
   sharedSystemModules = [
-    # lixFromNixpkgs: use nixpkgs' prebuilt lix (cache.nixos.org) instead of
-    # compiling lix from source. The source build vendors crates via the legacy
-    # crates.io API URL, which now 403s; the prebuilt path avoids it entirely.
-    inputs.lix-module.nixosModules.lixFromNixpkgs
     (self + /modules/shared/options.nix)
     (self + /modules/shared/nix-settings.nix)
     ({
@@ -42,6 +45,18 @@
       documentation.nixos.enable = false;
       users.users.${config.my.primaryUser}.shell = pkgs.nushell;
       environment.shells = with pkgs; [nushell bashInteractive];
+
+      # System-level nh: `nh clean all` also prunes system generations, which
+      # the Home Manager `nh clean user` timer never touches (see mkHomeModule).
+      programs.nh = {
+        enable = true;
+        flake = "/home/${config.my.primaryUser}/nixos-config";
+        clean = {
+          enable = true;
+          dates = "weekly";
+          extraArgs = "--keep 5 --keep-since 7d";
+        };
+      };
     })
   ];
 
@@ -103,6 +118,15 @@
     #     jetpack-nixos.nixosModules.default
     #   ];
     # };
+  };
+
+  # ── nix-darwin host definitions ───────────────────────────────────
+  darwinHosts = {
+    macbook = {
+      system = "aarch64-darwin";
+      module = self + /hosts/macbook/configuration.nix;
+      hostHomeModules = [(self + /hosts/macbook/home.nix)];
+    };
   };
 
   # ── Home Manager profiles ─────────────────────────────────────────
@@ -169,22 +193,22 @@
     ++ hostHomeModules
     ++ resolveHomeOverlays homeOverlays;
 
-  # ── Builder: NixOS Home Manager sub-module ────────────────────────
+  # ── Builder: Home Manager as a NixOS / nix-darwin module ──────────
   mkHomeModule = {
     userName,
     homeProfile,
     hostHomeModules ? [],
     homeOverlays ? [],
+    extraHomeModules ? [],
   }: {
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "bak";
       extraSpecialArgs = {inherit inputs;};
-      users.${userName} = {
-        imports =
-          mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
-      };
+      users.${userName}.imports =
+        mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
+        ++ extraHomeModules;
     };
   };
 
@@ -200,6 +224,7 @@
     host = hosts.${hostName};
   in
     nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
       modules =
         sharedSystemModules
         ++ [
@@ -207,7 +232,7 @@
             nixpkgs = {
               hostPlatform = host.system;
               config = nixpkgsConfig;
-              overlays = nixpkgsOverlays;
+              overlays = sharedOverlays ++ nixpkgsOverlays;
             };
           })
           host.module
@@ -219,40 +244,40 @@
           (mkHomeModule {
             inherit userName homeProfile homeOverlays;
             hostHomeModules = host.hostHomeModules or [];
+            # The system-level nh clean (sharedSystemModules) already covers user profiles.
+            extraHomeModules = [{programs.nh.clean.enable = lib.mkForce false;}];
           })
         ];
     };
 
   # ── Builder: nix-darwin output ────────────────────────────────────
   mkDarwinOutput = {
+    hostName,
     userName,
     homeProfile,
-    system,
-    hostHomeModules ? [],
     homeOverlays ? [],
     nixpkgsOverlays ? [],
-  }:
+  }: let
+    host = darwinHosts.${hostName};
+  in
     nix-darwin.lib.darwinSystem {
-      inherit system;
       specialArgs = {inherit inputs;};
       modules = [
-        # lixFromNixpkgs: prebuilt lix from cache.nixos.org (see sharedSystemModules).
-        inputs.lix-module.darwinModules.lixFromNixpkgs
+        (self + /modules/shared/options.nix)
         (self + /modules/shared/nix-settings.nix)
-        (self + /hosts/macbook/configuration.nix)
-        home-manager.darwinModules.home-manager
         {
-          nixpkgs.config = nixpkgsConfig;
-          nixpkgs.overlays = nixpkgsOverlays;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "bak";
-          home-manager.extraSpecialArgs = {inherit inputs;};
-          home-manager.users.${userName} = {
-            imports = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
-            home.homeDirectory = nixpkgs.lib.mkForce "/Users/${userName}";
+          nixpkgs = {
+            hostPlatform = host.system;
+            config = nixpkgsConfig;
+            overlays = sharedOverlays ++ nixpkgsOverlays;
           };
         }
+        host.module
+        home-manager.darwinModules.home-manager
+        (mkHomeModule {
+          inherit userName homeProfile homeOverlays;
+          hostHomeModules = host.hostHomeModules or [];
+        })
       ];
     };
 
@@ -263,22 +288,17 @@
     system,
     hostHomeModules ? [],
     homeOverlays ? [],
-  }: let
-    pkgs = nixpkgs.legacyPackages.${system};
-  in
+  }:
     home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+      # Configure nixpkgs once here; setting nixpkgs.config inside the HM
+      # modules would make Home Manager re-import nixpkgs a second time.
+      pkgs = import nixpkgs {
+        inherit system;
+        config = nixpkgsConfig;
+        overlays = sharedOverlays;
+      };
       extraSpecialArgs = {inherit inputs;};
-      modules =
-        mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
-        ++ [
-          {
-            nixpkgs.config = nixpkgsConfig;
-            home.username = userName;
-            home.homeDirectory = "/home/${userName}";
-            home.stateVersion = "26.05";
-          }
-        ];
+      modules = mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;};
     };
 in {
   # Expose builder functions to all other parts modules.

@@ -53,6 +53,11 @@ in {
   # ── GTK / QT Theming ──────────────────────────────────────────────
   gtk = {
     enable = true;
+    # Written to dconf (org.gnome.desktop.interface color-scheme) along with the theme.
+    colorScheme =
+      if lib.hasSuffix "-light" config.my.guiTheme
+      then "light"
+      else "dark";
     theme = {
       inherit (guiTheme.gtk.gtk.theme) name;
       package = resolvePkg guiTheme.gtk.gtk.theme.package;
@@ -231,25 +236,24 @@ in {
       # Start on workspace 1
       workspace 1
 
-      exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-      exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-
       exec_always pkill swaybg; swaybg -i ${config.my.wallpaper} -m fill
-      exec wlsunset -t 2500 -T 3000
 
       exec_always ${pkgs.systemd}/bin/systemctl --user restart waybar
       exec eval $(gnome-keyring-daemon --start)
-      exec export SSH_AUTH_SOCK
-      exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
-      exec nm-applet --indicator
       exec grass
-
-      exec swayidle -w \
-          -c ~/.config/swayidle/config \
-          timeout 600 'swaylock -f -c 000000' \
-          timeout 900 'swaymsg "output * power off"' \
-          resume 'swaymsg "output * power on"' \
-          before-sleep 'swaylock -f -c 000000'
+      ${lib.optionalString (!config.services.wlsunset.enable) ''
+        exec wlsunset -t 2500 -T 3000
+      ''}${lib.optionalString (!config.services.polkit-gnome.enable) ''
+        exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
+      ''}${lib.optionalString (!config.services.network-manager-applet.enable) ''
+        exec nm-applet --indicator
+      ''}${lib.optionalString (!config.services.swayidle.enable) ''
+        exec swayidle -w \
+            timeout 600 'swaylock -f -c 000000' \
+            timeout 900 'swaymsg "output * power off"' \
+            resume 'swaymsg "output * power on"' \
+            before-sleep 'swaylock -f -c 000000'
+      ''}
 
       bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
       bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%

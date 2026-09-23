@@ -7,9 +7,10 @@
     ./hardware-configuration.nix # uncomment after generating on hardware
   ];
 
+  # Root may log in with a key (e.g. for remote nixos-rebuild), never a password.
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = lib.mkForce "yes";
+    settings.PermitRootLogin = lib.mkForce "prohibit-password";
   };
 
   # RPi4 uses U-Boot via extlinux

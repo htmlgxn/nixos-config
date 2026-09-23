@@ -7,10 +7,9 @@ For shell helpers and command combos, see [`docs/nix-workflows.md`](nix-workflow
 1. Create `modules/home/users/<username>.nix`.
 2. Import `modules/home/users/common.nix` if the user should inherit the shared shell/editor/theme baseline.
 3. Set user-local values such as `my.repoRoot` and `my.containersRoot`.
-4. Set `my.isNixOS = false` in non-NixOS user modules.
-5. Register the user in the `users` attrset in `flake.nix`.
-6. Keep user-specific logic in the user module itself; if the extra behavior is optional, reusable, or output-specific, model it as an explicit home overlay group instead.
-7. Reference the user from one or more output maps.
+4. Register the user in the `users` attrset in `flake.nix`.
+5. Keep user-specific logic in the user module itself; if the extra behavior is optional, reusable, or output-specific, model it as an explicit home overlay group instead.
+6. Reference the user from one or more output maps.
 
 Rule of thumb: user definitions should describe the user, not silently expand unrelated outputs.
 

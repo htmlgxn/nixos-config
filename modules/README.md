@@ -20,7 +20,8 @@
 
 - `modules/system/*`: services, compositor plumbing, system-wide packages, host-agnostic integration
 - `modules/home/*`: user packages, dotfiles, application config, shell aliases, user-facing UX
-- `modules/home/nix-workflows.nix`: shared shell helpers for evaluation, rebuilds, remote deploys, and repo validation
+- `modules/home/nix-workflows.nix`: packages `scripts/nixcfg.sh` as the `nixcfg` CLI (evaluation, rebuilds, remote deploys, repo validation) and aliases each subcommand
+- `modules/home/shell-aliases.nix`: `my.shellAliases`, mirrored into both bash and nushell
 - `modules/shared/*`: custom options or helpers shared by both NixOS and Home Manager modules
 
 ## User Module Pattern

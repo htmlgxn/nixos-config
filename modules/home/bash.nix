@@ -1,9 +1,5 @@
 # Bash shell configuration.
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   # On macOS the Nix yt-dlp wrapper doesn't reliably surface its bundled
   # ffmpeg, so pin it explicitly. Other platforms work fine without this.
   ytdlpFfmpegArg =
@@ -14,55 +10,18 @@ in {
   programs.bash = {
     enable = true;
 
+    # Aliases valid in both shells live in my.shellAliases (nushell.nix);
+    # these need bash syntax or only make sense in bash.
     shellAliases = {
-      # ── General ───────────────────────────────────────────────────────
-      c = "clear";
-      h = "history";
-      l = "ls -l";
-      la = "ls -a";
-      ll = "ls -la";
       ".." = "cd ..";
       "..." = "cd ../..";
       mkdir = "mkdir -pv";
       grep = "grep --color=auto";
       egrep = "egrep --color=auto";
       fgrep = "fgrep --color=auto";
-      edit = "nvim";
-      e = "nvim";
-      calc = "fend";
-      code = "codium";
-      weather = "outside -o detailed";
-      music = "ncspot";
-      br = "broot";
-      wiki = "wiki-tui";
-      emo = "emoji-picker-cli";
-      soft = "ssh soft"; # SSH config and key are managed by home-manager (programs.ssh below)
-      softrc = "ssh soft repo create";
-
-      # ── cURL ─────────────────────────────────────────────────
       ipcheck = "curl ipinfo.io/ip && echo '' && curl ipinfo.io/country";
-
-      # ── Git ───────────────────────────────────────────────────────────
-      ga = "git add .";
-      gaa = "git add -A";
-      gs = "git status";
-      gc = "git commit";
       gcm = "git add -A && git commit -m";
-      gp = "git push";
-      gpom = "git push origin main";
-      gpsm = "git push soft main";
       gpall = "git push origin main && git push soft main";
-
-      # ── Config Navigation ──────────────────────────────────────────────
-      cdn = "cd ${config.my.repoRoot}";
-      ef = "nvim ${config.my.repoRoot}/flake.nix";
-      ecli = "nvim ${config.my.repoRoot}/modules/home/cli-base-apps.nix";
-      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base-apps.nix";
-
-      # ── Misc Navigation ───────────────────────────────────────────────
-      cdd = "cd ~/dev";
-      cdp = "cd ~/dev/projects";
-      # ── yt-dlp ────────────────────────────────────────────────────────
       ytdl = "yt-dlp ${ytdlpFfmpegArg}-f 'bestvideo*+bestaudio' -S 'res,br,fps' -t mp4 -o '~/Downloads/output.mp4' --write-thumbnail --convert-thumbnails jpg";
     };
 

@@ -1,11 +1,12 @@
 # Jellyfin service module driven by host-provided `my.jellyfin.*` values.
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   jellyfinCfg = config.my.jellyfin;
+  # Jellyfin's default transcode path is <cacheDir>/transcodes.
+  transcodeDir = "${config.services.jellyfin.cacheDir}/transcodes";
   aclRules =
     lib.concatMap
     (path: [
@@ -23,7 +24,6 @@ in {
 
   services.jellyfin = {
     enable = true;
-    package = pkgs.jellyfin;
 
     # Open port 8096 (firewall rules to be added separately)
     openFirewall = false;
@@ -40,7 +40,7 @@ in {
   # and transcode directory (tmpfs will mount over it)
   systemd.tmpfiles.rules =
     [
-      "d /var/lib/jellyfin/transcodes 0750 jellyfin jellyfin - -"
+      "d ${transcodeDir} 0750 jellyfin jellyfin - -"
     ]
     ++ aclRules;
 
@@ -48,7 +48,7 @@ in {
   systemd.mounts = [
     {
       what = "tmpfs";
-      where = "/var/lib/jellyfin/transcodes";
+      where = transcodeDir;
       type = "tmpfs";
       options = "size=${jellyfinCfg.transcodeSize},mode=0750,uid=jellyfin,gid=jellyfin";
       wantedBy = ["jellyfin.service"];

@@ -29,24 +29,24 @@ Host-level Home Manager modules are applied per-output through the host descript
 
 Shared aliases and SSH baseline live in [`modules/home/users/common.nix`](../modules/home/users/common.nix). The dedicated Nix helper surface lives in [`modules/home/nix-workflows.nix`](../modules/home/nix-workflows.nix). The full command guide is in [`docs/nix-workflows.md`](nix-workflows.md).
 
-Rebuild helpers:
+Rebuild helpers (`<repo>` is `my.repoRoot`, so they work from any directory):
 
-- `nr <output>` runs `nh os switch . -H <output>` (applies and diffs NixOS configurations)
-- `nrb <output>` runs `nh os build . -H <output>` (builds without applying)
-- `nrt <output>` runs `nh os test . -H <output>` (test the new system without rebooting)
-- `nrd <output>` runs `nh os build -d . -H <output>` (dry-run with diff)
-- `nrs` overrides `nr` for `boreal`, using `nh os switch . -H boreal`
-- `nrtty` overrides `nr` for `boreal-tty`, using `nh os switch . -H boreal-tty`
+- `nr <output>` runs `nh os switch <repo> -H <output>` (applies and diffs NixOS configurations)
+- `nrb <output>` runs `nh os build <repo> -H <output>` (builds without applying)
+- `nrt <output>` runs `nh os test <repo> -H <output>` (test the new system without rebooting)
+- `nrd <output>` runs `nh os build --dry <repo> -H <output>` (dry-run)
+- `nrs` overrides `nr` for `boreal`, using `nh os switch <repo> -H boreal`
+- `nrtty` overrides `nr` for `boreal-tty`, using `nh os switch <repo> -H boreal-tty`
 
 Darwin helpers:
 
-- `ndrs [output]` runs `nh darwin switch . -H <output>` (default: `macbook`)
-- `ndrb [output]` runs `nh darwin build . -H <output>`
+- `ndrs [output]` runs `nh darwin switch <repo> -H <output>` (default: `macbook`)
+- `ndrb [output]` runs `nh darwin build <repo> -H <output>`
 
 Home Manager helpers:
 
-- `nhms [output]` runs `nh home switch . -c <output>` (default: `fedora-mac`)
-- `nhmb [output]` runs `nh home build . -c <output>`
+- `nhms [output]` runs `nh home switch <repo> -c <output>` (default: `fedora-mac`)
+- `nhmb [output]` runs `nh home build <repo> -c <output>`
 
 Other helpers:
 
@@ -91,7 +91,7 @@ Neovim helpers:
 
 `modules/shared/options.nix` defines:
 
-- `my.isNixOS`
+- `my.shellAliases` (Home Manager only, `modules/home/shell-aliases.nix`: aliases mirrored into bash and nushell)
 - `my.borealHost`
 - `my.ollamaPackage`
 - `my.terminal`

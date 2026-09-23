@@ -3,33 +3,34 @@
 ## Project Structure & Module Organization
 
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
-- `flake.nix` defines outputs through descriptor attrsets for `users`, `hosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
+- `flake.nix` defines outputs through descriptor attrsets (in `parts/lib.nix`) for `users`, `hosts`, `darwinHosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager). `parts/checks.nix` exposes every output as `checks.<system>.<kind>-<name>`, so `nix flake check` builds all hosts for the current platform.
 - Current NixOS outputs are `boreal-tty`, `boreal`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`. Darwin output: `macbook`. Standalone HM outputs: `fedora-mac` and `jetson`.
-- Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, `bookokrat`, `flake-parts`, `nixvim`, `nix-yazi-plugins`, `crane`, `fenix`, `lix-module`, `spicetify-nix`, and `treefmt-nix`.
+- Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, `bookokrat`, `flake-parts`, `nixvim`, `nix-flatpak`, `crane`, `fenix`, `spicetify-nix`, and `treefmt-nix`. Lix comes from nixpkgs (`lixPackageSets.stable`), not a separate input.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
 - `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target.
-- `modules/shared/nix-settings.nix` holds the shared `nix.settings` (flakes, binary caches) imported by both the NixOS and nix-darwin builders in `parts/lib.nix`. The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/lib.nix` and is applied by all three output builders.
+- `modules/shared/nix-settings.nix` holds the shared Nix daemon config (`nix.package` = nixpkgs Lix, scheduled `nix.optimise`, flakes, binary caches) imported by both the NixOS and nix-darwin builders in `parts/lib.nix`. The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/lib.nix` and is applied by all three output builders, together with `sharedOverlays` (`overlays/lix.nix`, which points nixpkgs-review/nix-eval-jobs/nix-fast-build/colmena at the same Lix). NixOS outputs also get a system-level `programs.nh` with a weekly `nh clean all` timer; their Home Manager `nh clean` timer is forced off.
 - `overlays/` holds per-output nixpkgs overlays, passed through the `nixpkgsOverlays` argument of `mkOutput` (NixOS) and `mkDarwinOutput` (nix-darwin). `brave-nightly.nix` is applied to `boreal`; `kitty-launchservices.nix` is applied to `macbook` and unwraps kitty's `.app` bundle so LaunchServices-started kitty keeps a real pid under macOS 27 (otherwise AeroSpace never sees it and its windows stay floating).
-- `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.isNixOS`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
+- `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
 - `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio).
 - `modules/system/containers.nix` is the shared Podman-first container runtime module.
 - `modules/system/sway.nix` extends the GUI base with Sway-specific system services and packages.
-- `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages (included in the `sway` system profile).
+- `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages (included in the `sway-full` system profile).
 - `modules/system/jellyfin.nix` is now driven by `my.jellyfin.*` values supplied by the host layer instead of hardcoding boreal paths.
 - `modules/system/soft-serve.nix` enables the Soft Serve git server (`services.soft-serve`) and opens ports 23231 (SSH) and 23232 (HTTP). Imported by `hosts/boreal/services.nix`.
-- `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` handles the user-level remote + installs.
+- `modules/system/flatpak.nix` enables the system-level Flatpak stack; `modules/home/flatpak.nix` uses the nix-flatpak Home Manager module for the user-level Flathub remote + installs (idempotent systemd user unit, unmanaged apps are left alone).
 - `modules/home/cli-base-apps.nix`, `modules/home/gui-base-apps.nix`, `modules/home/sway.nix`, and `modules/home/gaming.nix` define shared Home Manager layers.
+- Sway session daemons (swayidle, wlsunset, polkit-gnome, nm-applet) are Home Manager systemd user services in `modules/home/sway-apps.nix`; `modules/home/sway.nix` falls back to `exec` lines only when those services are disabled (the jetson `sway-config` profile, which uses host-OS binaries). GTK dark/light preference comes from `gtk.colorScheme` (derived from `my.guiTheme`), not a global `GTK_THEME`.
 - AI tooling is provided through the `ai` overlay group, which imports `modules/home/ai.nix`. This module installs claude-code, qwen-code, codex, opencode, and ollama, and sets `my.ollamaPackage` to `pkgs.ollama` (hosts can override via mkDefault).
 - `modules/home/containers.nix` adds shared container/npm user tooling and shell helpers.
+- `modules/home/shell-aliases.nix` defines `my.shellAliases`, mirrored into both bash and nushell (Home Manager's `home.shellAliases` does not reach nushell). Put shell-agnostic aliases there; bash-only ones stay in `bash.nix`, nushell custom commands in `nushell.nix`.
 - `modules/home/users/common.nix` holds the shared shell, editor, SSH, and theme baseline. `modules/home/users/gars/` (NixOS/Linux user) and `modules/home/users/htmlgxn.nix` (macOS/Fedora user) both import it and set platform-specific paths.
 - `modules/home/flatpak/packages.nix` and `modules/home/packages/{go,python,rust}` maintain curated package sets imported by the shared Home Manager stack.
 - `modules/home/users/gars/` is a directory module containing the NixOS/Linux user definition plus shared assets (waybar text, wallpapers).
 
 ## Platform Abstraction
 
-- `my.isNixOS` (bool, default `true`) signals whether the host is NixOS. Set to `false` in nix-darwin and standalone HM user modules.
 - `my.ollamaPackage` (nullOr package, default `null`) selects the local AI runtime package per-output (e.g., `pkgs.ollama-rocm` through Boreal's `ai-ollama-rocm` overlay, `pkgs.ollama` through `ai-ollama`, `null` to skip).
 - `my.dualKeyboardLayout` (bool, default `false`) enables the dual us/graphite keyboard layout and waybar keyboard switcher. Set to `true` for boreal outputs.
 - `my.showRootDisk` (bool, default `false`) shows the root disk usage % module in waybar. Set to `true` for boreal outputs.
@@ -50,7 +51,7 @@
 - For nix-darwin: `darwin-rebuild switch --flake .#macbook`.
 - For standalone HM: `nhms` (default fedora-mac) or `home-manager switch --flake .#<output>`.
 - `nix flake update` refreshes `flake.lock` inputs.
-- Shared navigation and SSH aliases live in `modules/home/users/common.nix`. The main Nix helper surface (`nr`, `nrb`, `ns`, `ncheck`, `nboh`, `nclean-all`, etc.) lives in `modules/home/nix-workflows.nix`.
+- Shared navigation and SSH aliases live in `modules/home/users/common.nix`. The main Nix helper surface (`nr`, `nrb`, `ns`, `ncheck`, `nboh`, `nclean-all`, etc.) is the `nixcfg` CLI: `scripts/nixcfg.sh`, packaged and aliased (bash + nushell) by `modules/home/nix-workflows.nix`. Add new helpers as functions there and list them in the `_nixcfg_commands` dispatcher array.
 - `swapstat` (defined in `modules/home/users/gars.nix`) shows swap usage plus zram status.
 
 ## Coding Style & Naming Conventions

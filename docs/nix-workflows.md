@@ -1,6 +1,6 @@
 # Nix Workflows
 
-This repo now exposes a dedicated Nix helper surface through `modules/home/nix-workflows.nix`. The commands are grouped by task so daily work, validation, and remote deployment stay explicit and tab-completable.
+This repo exposes its Nix helpers as the `nixcfg` CLI: the script lives in `scripts/nixcfg.sh` and is packaged by `modules/home/nix-workflows.nix`. Every subcommand is also a bare alias in both bash and nushell (`nr` → `nixcfg nr`), so the commands below work from either shell and from any directory. Run `nixcfg` with no arguments for the full list.
 
 ## Daily Commands
 
@@ -53,24 +53,24 @@ These wrappers validate output names against the live flake before running the n
 
 ### NixOS
 
-- `nr <output>`: `nh os switch . -H <output>`
-- `nrb <output>`: `nh os build . -H <output>`
-- `nrt <output>`: `nh os test . -H <output>`
-- `nrd <output>`: `nh os build -d . -H <output>` (dry-run with diff)
-- `nrs`: `nh os switch . -H boreal`
-- `nrtty`: `nh os switch . -H boreal-tty`
+- `nr <output>`: `nh os switch <repo> -H <output>`
+- `nrb <output>`: `nh os build <repo> -H <output>`
+- `nrt <output>`: `nh os test <repo> -H <output>`
+- `nrd <output>`: `nh os build --dry <repo> -H <output>` (dry-run with diff)
+- `nrs`: `nh os switch <repo> -H boreal`
+- `nrtty`: `nh os switch <repo> -H boreal-tty`
 - `npre <output>`: `fnixc` then `nrd <output>`
 - `nship <output>`: `npre <output>` then `nr <output>`
 
 ### nix-darwin
 
-- `ndrs [output]`: `nh darwin switch . -H <output>`, default `macbook`
-- `ndrb [output]`: `nh darwin build . -H <output>`, default `macbook`
+- `ndrs [output]`: `nh darwin switch <repo> -H <output>`, default `macbook`
+- `ndrb [output]`: `nh darwin build <repo> -H <output>`, default `macbook`
 
 ### Standalone Home Manager
 
-- `nhms [output]`: `nh home switch . -c <output>`, default `fedora-mac`
-- `nhmb [output]`: `nh home build . -c <output>`, default `fedora-mac`
+- `nhms [output]`: `nh home switch <repo> -c <output>`, default `fedora-mac`
+- `nhmb [output]`: `nh home build <repo> -c <output>`, default `fedora-mac`
 
 ## Where The Build Happens
 
@@ -223,8 +223,10 @@ nship-remote rpi4-sway localhost gars@rpi4.local
 - `nclean-roots`: print GC roots
 - `nclean-gc`: run `nix store gc`
 - `nclean-system`: delete old system and profile generations with `nh clean all`
-- `nclean-hm [age]`: expire old Home Manager generations with `nh clean user`, default `-7 days`
-- `nclean-all [age]`: run the system cleanup, optional Home Manager cleanup, then store GC
+- `nclean-hm`: expire old Home Manager generations with `nh clean user`
+- `nclean-all [gc args]`: run the system cleanup, optional Home Manager cleanup, then store GC
+
+Automatic cleanup: NixOS hosts run the system `programs.nh.clean` timer (weekly, keep 5 / 7 days, covers system and user profiles); nix-darwin and standalone Home Manager outputs run the Home Manager `nh clean user` timer instead. All Nix-managed hosts also run `nix.optimise` on a schedule.
 
 ## Recommended Sequences
 

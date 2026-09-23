@@ -34,19 +34,21 @@ in {
 
   # nix-darwin injects PATH via /etc/zshenv and /etc/bashrc, which nushell
   # doesn't source.  Add the nix profile paths explicitly.
+  # Each `prepend` lands in front of the previous one, so the last Nix entry
+  # wins: per-user > system > the installer's default profile (whose nix is
+  # the Lix the installer shipped, not the one nix-darwin manages).
   programs.nushell.extraEnv = ''
     $env.PATH = ($env.PATH
-      | prepend "/etc/profiles/per-user/${config.home.username}/bin"
-      | prepend "/run/current-system/sw/bin"
       | prepend "/nix/var/nix/profiles/default/bin"
+      | prepend "/run/current-system/sw/bin"
+      | prepend "/etc/profiles/per-user/${config.home.username}/bin"
       | prepend "/opt/homebrew/bin"
       | prepend ($env.HOME | path join ".cargo" "bin")
       | prepend ($env.HOME | path join "go" "bin")
     )
   '';
 
-  programs.bash.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
-  programs.nushell.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
+  my.shellAliases.nrs = "nh darwin switch ${config.my.repoRoot} -H macbook";
 
   # LaunchServices remembers every .app bundle it has ever seen, including ones
   # inside /nix/store from old generations or ad-hoc builds. Several bundles

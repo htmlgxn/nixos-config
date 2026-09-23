@@ -7,10 +7,10 @@
   ...
 }: let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+  updateBraveNightly = pkgs.callPackage (self + /scripts/update-brave-nightly.nix) {};
 in {
   flake.apps.x86_64-linux.update-brave-nightly = {
     type = "app";
-    program = "${pkgs.writeShellScriptBin "update-brave-nightly"
-      (builtins.readFile (self + /scripts/update-brave-nightly.sh))}/bin/update-brave-nightly";
+    program = "${updateBraveNightly}/bin/update-brave-nightly";
   };
 }

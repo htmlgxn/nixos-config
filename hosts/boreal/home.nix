@@ -14,52 +14,34 @@
     dualKeyboardLayout = true;
     showRootDisk = true;
     terminalFontSize = 9.0;
-  };
 
-  # ── Boreal shell aliases (shared across shells) ───────────────────
-  programs.bash = {
+    # ── Boreal shell aliases (bash + nushell) ───────────────────────
     shellAliases = {
-      # ── Boreal host shortcuts ────────────────────────────────────────
+      # ── Boreal host shortcuts ──────────────────────────────────────
       nrs = "nh os switch ${config.my.repoRoot} -H boreal";
       nrtty = "nh os switch ${config.my.repoRoot} -H boreal-tty";
 
-      # ── Mount navigation ─────────────────────────────────────────────
+      # ── Mount navigation ───────────────────────────────────────────
       cdarch = "cd /mnt/archive";
       cdsea = "cd /mnt/seagate6";
       cdevo = "cd /mnt/evo";
     };
-    sessionVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-    };
   };
 
-  programs.nushell = {
-    shellAliases = {
-      # ── Boreal host shortcuts ────────────────────────────────────────
-      nrs = "nh os switch ${config.my.repoRoot} -H boreal";
-      nrtty = "nh os switch ${config.my.repoRoot} -H boreal-tty";
+  programs = {
+    # libstdc++ for native wheels loaded by nixpkgs' python (uv tools). nix-ld
+    # does not cover these: the interpreter is a Nix binary, not an FHS one.
+    bash.sessionVariables.LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    nushell.environmentVariables.LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
 
-      # ── Mount navigation ─────────────────────────────────────────────
-      cdarch = "cd /mnt/archive";
-      cdsea = "cd /mnt/seagate6";
-      cdevo = "cd /mnt/evo";
+    ssh.settings."rpi4" = {
+      hostname = "rpi4.local";
+      port = 2200;
+      user = "gars";
+      addressFamily = "inet";
+      identityFile = "~/.ssh/id_ed25519";
+      identitiesOnly = true;
     };
-    extraConfig = ''
-      # Add Boreal-specific commands
-
-    '';
-    environmentVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-    };
-  };
-
-  programs.ssh.settings."rpi4" = {
-    hostname = "rpi4.local";
-    port = 2200;
-    user = "gars";
-    addressFamily = "inet";
-    identityFile = "~/.ssh/id_ed25519";
-    identitiesOnly = true;
   };
 
   # ── Systemd user services ─────────────────────────────────────────
@@ -73,16 +55,18 @@
         };
       };
 
+      # Bumps overlays/brave-nightly.nix only; the new version lands on the
+      # next manual switch (a user unit cannot run nixos-rebuild as root).
       update-brave-nightly = {
         Unit = {
-          Description = "Update Brave Nightly overlay and rebuild";
+          Description = "Update Brave Nightly overlay";
           After = ["network-online.target"];
           Wants = ["network-online.target"];
         };
         Service = {
           Type = "oneshot";
-          ExecStart = "${pkgs.bash}/bin/bash %h/nixos-config/scripts/update-brave-nightly.sh";
-          ExecStartPost = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake %h/nixos-config#boreal";
+          Environment = "OVERLAY=${config.my.repoRoot}/overlays/brave-nightly.nix";
+          ExecStart = "${pkgs.callPackage ../../scripts/update-brave-nightly.nix {}}/bin/update-brave-nightly";
           Restart = "no";
         };
       };

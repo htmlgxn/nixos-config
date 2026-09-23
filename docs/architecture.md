@@ -32,10 +32,11 @@ The flake uses four descriptor attrsets plus three output maps:
 - `homeProfiles`: reusable Home Manager module lists
 - `systemProfiles`: reusable NixOS module lists
 - `nixosOutputDefs`: final NixOS outputs that select a host, user, system profile, home profile, and optional home overlay groups
-- `darwinOutputDefs`: final nix-darwin outputs that select a user, home profile, Darwin system, and optional home overlay groups
+- `darwinHosts`: nix-darwin host descriptors (system, host module, host Home Manager modules), mirroring `hosts`
+- `darwinOutputDefs`: final nix-darwin outputs that select a darwin host, user, home profile, and optional home overlay groups
 - `homeOutputDefs`: final standalone Home Manager outputs that select a user, home profile, target system, and optional home overlay groups
 
-Three builders turn these maps into flake outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager).
+Three builders turn these maps into flake outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager). All three apply the same `nixpkgsConfig` and `sharedOverlays` (currently `overlays/lix.nix`), and `parts/checks.nix` exposes every output as `checks.<system>.<kind>-<name>` so `nix flake check` builds all hosts for the current platform.
 
 ## Output Assembly Rules
 
@@ -153,7 +154,6 @@ These are included per-host via `extraSystemModules`, not through profiles:
 - `modules/system/containers.nix`
 - `modules/system/borg.nix`
 - `modules/system/soft-serve.nix`
-- `modules/system/gamescope.nix` (minimal Steam-focused session, separate from the desktop path)
 
 ## Desktop and Gaming
 
@@ -163,8 +163,6 @@ Desktop-style outputs are assembled from:
 - `modules/system/sway.nix` (the sole compositor system module)
 - optional system additions like gaming or Flatpak
 - matching Home Manager profile modules (`sway` or `sway-full`)
-
-`gamescope` is intentionally separate from the full GUI path. It uses Steam and gamescope without the larger desktop package set.
 
 ## Documentation Policy
 

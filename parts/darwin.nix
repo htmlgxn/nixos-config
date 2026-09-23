@@ -1,8 +1,8 @@
 # parts/darwin.nix
 #
 # nix-darwin output definitions.
-# Each entry selects a user, home profile, target system,
-# and optional home overlay groups.
+# Each entry selects a darwin host (darwinHosts in parts/lib.nix), user,
+# home profile, and optional home overlay groups.
 {
   flakeLib,
   self,
@@ -14,10 +14,9 @@
 
   darwinOutputDefs = {
     macbook = {
+      hostName = "macbook";
       userName = "htmlgxn";
       homeProfile = "gui";
-      system = "aarch64-darwin";
-      hostHomeModules = [(self + /hosts/macbook/home.nix)];
       homeOverlays = ["ai"];
       nixpkgsOverlays = [kittyOverlay];
     };

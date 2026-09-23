@@ -6,6 +6,7 @@
   ...
 }: {
   imports = [
+    ../shell-aliases.nix
     ../nix-workflows.nix
     ../bash.nix
     ../nushell.nix

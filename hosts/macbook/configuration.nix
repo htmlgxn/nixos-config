@@ -3,14 +3,6 @@
   # nix-darwin state version
   system.stateVersion = 5;
 
-  # ── Nixpkgs overlays ──────────────────────────────────────────────
-  nixpkgs.overlays = [
-    (_final: prev: {
-      nushell = prev.nushell.overrideAttrs (_old: {
-        doCheck = false;
-      });
-    })
-  ];
   system.primaryUser = "htmlgxn";
 
   # Stable hostname so `macbook.local` resolves via mDNS (matches the
@@ -186,7 +178,10 @@
 
   # ── Shell ───────────────────────────────────────────────────────────
   environment.shells = with pkgs; [nushell bashInteractive];
-  users.users.htmlgxn.shell = pkgs.nushell;
+  users.users.htmlgxn = {
+    home = "/Users/htmlgxn"; # Home Manager derives home.homeDirectory from this
+    shell = pkgs.nushell;
+  };
 
   # ── Security ───────────────────────────────────────────────────────
   security.pam.services.sudo_local.touchIdAuth = true;

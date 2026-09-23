@@ -11,47 +11,48 @@
     then "--ffmpeg-location ${pkgs.ffmpeg}/bin/ffmpeg "
     else "";
 in {
+  # Shared with bash via modules/home/shell-aliases.nix.
+  my.shellAliases = {
+    # ── General ───────────────────────────────────────────────────────
+    c = "clear";
+    h = "history";
+    l = "ls -l";
+    la = "ls -a";
+    ll = "ls -la";
+    edit = "nvim";
+    e = "nvim";
+    calc = "fend";
+    code = "codium";
+    weather = "outside -o detailed";
+    music = "ncspot";
+    br = "broot";
+    wiki = "wiki-tui";
+    emo = "emoji-picker-cli";
+    soft = "ssh soft"; # SSH config and key are managed by home-manager (users/common.nix)
+    softrc = "ssh soft repo create";
+
+    # ── Git ───────────────────────────────────────────────────────────
+    ga = "git add .";
+    gaa = "git add -A";
+    gs = "git status";
+    gc = "git commit";
+    gp = "git push";
+    gpom = "git push origin main";
+    gpsm = "git push soft main";
+
+    # ── Config Navigation ──────────────────────────────────────────────
+    cdn = "cd ${config.my.repoRoot}";
+    ef = "nvim ${config.my.repoRoot}/flake.nix";
+    ecli = "nvim ${config.my.repoRoot}/modules/home/cli-base-apps.nix";
+    egui = "nvim ${config.my.repoRoot}/modules/home/gui-base-apps.nix";
+
+    # ── Misc Navigation ───────────────────────────────────────────────
+    cdd = "cd ~/dev";
+    cdp = "cd ~/dev/projects";
+  };
+
   programs.nushell = {
     enable = true;
-
-    shellAliases = {
-      # ── General ───────────────────────────────────────────────────────
-      c = "clear";
-      h = "history";
-      l = "ls -l";
-      la = "ls -a";
-      ll = "ls -la";
-      edit = "nvim";
-      e = "nvim";
-      calc = "fend";
-      code = "codium";
-      weather = "outside -o detailed";
-      music = "ncspot";
-      br = "broot";
-      wiki = "wiki-tui";
-      emo = "emoji-picker-cli";
-      soft = "ssh soft";
-      softrc = "ssh soft repo create";
-
-      # ── Git ───────────────────────────────────────────────────────────
-      ga = "git add .";
-      gaa = "git add -A";
-      gs = "git status";
-      gc = "git commit";
-      gp = "git push";
-      gpom = "git push origin main";
-      gpsm = "git push soft main";
-
-      # ── Config Navigation ──────────────────────────────────────────────
-      cdn = "cd ${config.my.repoRoot}";
-      ef = "nvim ${config.my.repoRoot}/flake.nix";
-      ecli = "nvim ${config.my.repoRoot}/modules/home/cli-base-apps.nix";
-      egui = "nvim ${config.my.repoRoot}/modules/home/gui-base-apps.nix";
-
-      # ── Misc Navigation ───────────────────────────────────────────────
-      cdd = "cd ~/dev";
-      cdp = "cd ~/dev/projects";
-    };
 
     environmentVariables = {
       EDITOR = "nvim";
