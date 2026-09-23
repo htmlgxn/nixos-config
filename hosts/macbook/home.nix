@@ -23,8 +23,8 @@ in {
   my = {
     terminal = "kitty";
     terminalFontSize = 14.0;
-    # ollama 0.30.x requires Xcode's Metal toolchain to build on darwin; skip
-    # local inference here and use boreal (ollama-rocm) instead.
+    # ollama 0.30.x requires Xcode's Metal toolchain to build on darwin, so the
+    # Nix package is skipped; the Homebrew cask in configuration.nix provides it.
     ollamaPackage = null;
   };
   # macOS nushell looks in ~/Library/Application Support/nushell/ by default.

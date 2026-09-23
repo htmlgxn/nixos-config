@@ -173,6 +173,7 @@
       "beeper"
       "snapzy"
       "blender"
+      "ollama" # prebuilt app with Metal; the nixpkgs build needs Xcode's Metal toolchain
     ];
   };
 
