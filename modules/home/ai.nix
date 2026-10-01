@@ -13,7 +13,7 @@
       # Core coding agents
       claude-code
       qwen-code
-      codex
+      #codex
       opencode
 
       # Extra AI CLI tools

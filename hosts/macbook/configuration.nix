@@ -158,7 +158,7 @@
       "android-platform-tools"
       "freecad"
       "protonvpn"
-      #"codex"
+      "codex"
       "chatgpt"
       "claude"
       "kicad"
