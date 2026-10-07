@@ -8,8 +8,14 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "${SCRIPT_DIR}/..
 OVERLAY="${OVERLAY:-${REPO_ROOT}/overlays/brave-nightly.nix}"
 
 echo "==> Fetching latest Brave Nightly version..."
-VERSION=$(curl -s https://api.github.com/repos/brave/brave-browser/releases |
-  jq -r '[.[] | select(.prerelease == true) | select(.name != null) | select(.name | test("Nightly"; "i"))] | first | .tag_name | ltrimstr("v")')
+# Many nightly tags never get a Linux .deb (or get it hours later), so take the
+# newest nightly that actually ships the amd64 .deb, not just the newest tag.
+VERSION=$(curl -sf https://api.github.com/repos/brave/brave-browser/releases |
+  jq -r '[.[]
+    | select(.prerelease == true and .name != null and (.name | test("Nightly"; "i")))
+    | (.tag_name | ltrimstr("v")) as $v
+    | select(any(.assets[]; .name == "brave-browser-nightly_\($v)_amd64.deb"))
+    | $v] | first // empty')
 
 if [[ -z $VERSION ]]; then
   echo "ERROR: Could not determine latest nightly version." >&2

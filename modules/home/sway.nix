@@ -86,8 +86,9 @@ in {
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false;
+    # Flatpak's exports dir (for fuzzel) comes from the NixOS flatpak module
+    # and xdg.systemDirs.data in flatpak.nix; don't re-prepend it here.
     extraSessionCommands = ''
-      export XDG_DATA_DIRS="${config.home.homeDirectory}/.local/share/flatpak/exports/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
       ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
     '';
     config = {
@@ -236,7 +237,9 @@ in {
       # Start on workspace 1
       workspace 1
 
-      exec_always pkill swaybg; swaybg -i ${config.my.wallpaper} -m fill
+      # Wallpaper: sway spawns and manages swaybg itself (respawned on reload,
+      # works with host swaybg on the jetson sway-config profile too).
+      output * bg ${config.my.wallpaper} fill
 
       exec_always ${pkgs.systemd}/bin/systemctl --user restart waybar
       exec eval $(gnome-keyring-daemon --start)

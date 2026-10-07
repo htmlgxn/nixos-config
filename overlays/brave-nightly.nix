@@ -2,11 +2,11 @@ final: prev: {
   brave = prev.stdenv.mkDerivation (finalAttrs: {
     pname = "brave-browser-nightly";
     # DO NOT edit version/sha256 manually — managed by scripts/update-brave-nightly.sh
-    version = "1.91.92";
+    version = "1.99.16";
 
     src = prev.fetchurl {
       url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-browser-nightly_${finalAttrs.version}_amd64.deb";
-      sha256 = "sha256-YJjrT4MwK/iNEL9czfLRWfKTlll49jUehw6rT2eQywk=";
+      sha256 = "sha256-w053iG68kxP7E1AzCyuKncyKwaN6FTHn6vr0mwEsVPA=";
     };
 
     nativeBuildInputs = [prev.dpkg prev.makeWrapper prev.patchelf];
@@ -80,21 +80,34 @@ final: prev: {
         --set CHROME_WRAPPER brave \
         --prefix PATH : "${prev.lib.makeBinPath [prev.xdg-utils prev.coreutils]}"
 
-      # Fix desktop file paths
-      substituteInPlace $out/share/applications/brave-browser-nightly.desktop \
-        --replace-fail /usr/bin/brave-browser-nightly brave
+      # Fix desktop file paths (newer debs also ship a hidden reverse-DNS
+      # com.brave.Browser.nightly.desktop alongside the classic one)
+      for desktop in $out/share/applications/*.desktop; do
+        substituteInPlace "$desktop" \
+          --replace-quiet /usr/bin/brave-browser-nightly brave
+      done
+      grep -q '^Exec=brave' $out/share/applications/brave-browser-nightly.desktop
 
       # Fix default apps XML path
       substituteInPlace $out/share/gnome-control-center/default-apps/brave-browser-nightly.xml \
         --replace-fail /opt/brave.com/brave-nightly $out/opt/brave.com/brave-nightly
 
-      # Set up icons
+      # Set up icons. The desktop files use Icon=brave-browser-nightly; the
+      # logos are product_logo_<N>_nightly.png (product_logo_<N>.png in older
+      # debs). brave-browser.png is kept for anything using the old name.
       for icon in 16 24 32 48 64 128 256; do
-        mkdir -p $out/share/icons/hicolor/''${icon}x''${icon}/apps
-        if [ -f $out/opt/brave.com/brave-nightly/product_logo_$icon.png ]; then
-          ln -s $out/opt/brave.com/brave-nightly/product_logo_$icon.png $out/share/icons/hicolor/''${icon}x''${icon}/apps/brave-browser.png
-        fi
+        dir=$out/share/icons/hicolor/''${icon}x''${icon}/apps
+        for logo in product_logo_''${icon}_nightly.png product_logo_''${icon}.png; do
+          src=$out/opt/brave.com/brave-nightly/$logo
+          if [ -f "$src" ]; then
+            mkdir -p "$dir"
+            ln -s "$src" "$dir/brave-browser-nightly.png"
+            ln -s "$src" "$dir/brave-browser.png"
+            break
+          fi
+        done
       done
+      [ -e $out/share/icons/hicolor/256x256/apps/brave-browser-nightly.png ]
 
       runHook postInstall
     '';

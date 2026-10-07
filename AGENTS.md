@@ -34,7 +34,7 @@
 - `my.ollamaPackage` (nullOr package, default `null`) selects the local AI runtime package per-output (e.g., `pkgs.ollama-vulkan` set in `hosts/boreal/home.nix`, `pkgs.ollama` by default from `modules/home/ai.nix`, `null` to skip).
 - `my.dualKeyboardLayout` (bool, default `false`) enables the dual us/graphite keyboard layout and waybar keyboard switcher. Set to `true` for boreal outputs.
 - `my.showRootDisk` (bool, default `false`) shows the root disk usage % module in waybar. Set to `true` for boreal outputs.
-- `my.wallpaper` (path) is the wallpaper image used by swaybg in sway. Set in `modules/home/users/gars/default.nix`.
+- `my.wallpaper` (path) is the wallpaper image set via sway's native `output * bg` in `modules/home/sway.nix` (sway spawns swaybg itself; do not also run a separate swaybg). Set in `modules/home/users/gars/default.nix`. Sway ≥1.12 splits `exec` lines on `;`, so don't chain shell commands in sway `exec`/`exec_always`.
 - `modules/home/cli-base-apps.nix` uses `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for Linux-only packages (cava, powertop, etc.).
 - `modules/home/gui-base-apps.nix` and `modules/home/gui-extra-apps.nix` use `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for Linux-only GUI packages (freecad, libreoffice).
 - `modules/home/packages/python/default.nix` uses `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for `stdenv.cc.cc.lib`.

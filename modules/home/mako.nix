@@ -4,8 +4,28 @@
 # Mako configuration managed by Home Manager.
 # Colors are imported from shared gui-theme.nix.
 #
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   theme = config.my.guiThemeData.mako;
+
+  # Themes key styles by urgency level; mako needs criteria sections named
+  # [urgency=<level>] (bare [high] is rejected). [hidden] is a special
+  # section of its own and keeps its name.
+  urgencySections =
+    lib.mapAttrs' (
+      level: style:
+        lib.nameValuePair
+        (
+          if level == "hidden"
+          then level
+          else "urgency=${level}"
+        )
+        style
+    )
+    theme.urgency;
 in {
   services.mako = {
     enable = true;
@@ -35,6 +55,6 @@ in {
         # ── Font ──────────────────────────────────────────────────────
         font = "Roboto Mono 11";
       }
-      // theme.urgency;
+      // urgencySections;
   };
 }
