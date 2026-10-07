@@ -145,6 +145,10 @@
         name = "lajosdeme/watchtower";
         trusted = true;
       }
+      {
+        name = "duongductrong/snapzy";
+        trusted = true;
+      }
     ];
     brews = [
       "diskonaut"
@@ -171,7 +175,7 @@
       "sol"
       "cmux"
       "beeper"
-      "snapzy"
+      "duongductrong/snapzy/snapzy"
       "blender"
       "ollama" # prebuilt app with Metal; the nixpkgs build needs Xcode's Metal toolchain
     ];
