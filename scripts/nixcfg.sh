@@ -576,12 +576,12 @@ nclean-gc() {
 
 nclean-system() {
   _nixcfg_require_command nh || return 1
-  nh clean all
+  nh clean all --keep 3
 }
 
 nclean-hm() {
   _nixcfg_require_command nh || return 1
-  nh clean user
+  nh clean user --keep 3
 }
 
 nclean-all() {

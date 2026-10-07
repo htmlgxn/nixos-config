@@ -222,11 +222,11 @@ nship-remote rpi4-sway localhost gars@rpi4.local
 - `ndiff-system [from] [to]`: diff two system generations with `nix store diff-closures`; defaults to previous vs current
 - `nclean-roots`: print GC roots
 - `nclean-gc`: run `nix store gc`
-- `nclean-system`: delete old system and profile generations with `nh clean all`
-- `nclean-hm`: expire old Home Manager generations with `nh clean user`
+- `nclean-system`: delete old system and profile generations with `nh clean all --keep 3`
+- `nclean-hm`: expire old Home Manager generations with `nh clean user --keep 3`
 - `nclean-all [gc args]`: run the system cleanup, optional Home Manager cleanup, then store GC
 
-Automatic cleanup: NixOS hosts run the system `programs.nh.clean` timer (weekly, keep 5 / 7 days, covers system and user profiles); nix-darwin and standalone Home Manager outputs run the Home Manager `nh clean user` timer instead. All Nix-managed hosts also run `nix.optimise` on a schedule.
+Automatic cleanup: NixOS hosts run the system `programs.nh.clean` timer (weekly, keeps the newest 3 generations, covers system and user profiles); nix-darwin and standalone Home Manager outputs run the Home Manager `nh clean user` timer instead. All Nix-managed hosts also run `nix.optimise` on a schedule.
 
 ## Recommended Sequences
 
