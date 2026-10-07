@@ -12,7 +12,7 @@ in {
     ollamaPackage = mkOption {
       type = types.nullOr types.package;
       default = null;
-      description = "Ollama package variant to install (ollama-rocm, ollama, or null to skip).";
+      description = "Ollama package variant to install (ollama, ollama-vulkan, ollama-rocm, or null to skip).";
     };
 
     terminal = mkOption {

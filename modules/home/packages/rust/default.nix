@@ -11,14 +11,16 @@
 
   fenix = inputs.fenix.packages.${system};
 
-  inherit (fenix.stable) toolchain;
-  # Or for a minimal footprint:
-  # toolchain = fenix.combine [
-  #   fenix.stable.rustc
-  #   fenix.stable.cargo
-  #   fenix.stable.rustfmt
-  #   fenix.stable.clippy
-  # ];
+  # Explicit components instead of fenix.stable.toolchain (the "complete"
+  # profile), which also pulls ~1 GB of rust-docs plus llvm-tools and friends.
+  toolchain = fenix.combine (with fenix.stable; [
+    rustc
+    cargo
+    rustfmt
+    clippy
+    rust-src
+    rust-analyzer
+  ]);
 
   # ── Crane ─────────────────────────────────────────────────────────
   craneLib = (inputs.crane.mkLib pkgs).overrideToolchain toolchain;

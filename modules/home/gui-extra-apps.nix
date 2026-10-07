@@ -20,13 +20,12 @@
       # More CAD
       freecad
       # Docs
-      libreoffice-fresh
+      libreoffice
     ];
 
-  # vscode
-  programs.vscode = {
+  # VSCodium (programs.vscode now always writes to VS Code's own paths)
+  programs.vscodium = {
     enable = true;
-    package = pkgs.vscodium;
     profiles.default.extensions =
       (with pkgs.vscode-extensions; [
         bbenoist.nix

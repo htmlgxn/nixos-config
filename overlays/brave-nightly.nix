@@ -90,9 +90,9 @@ final: prev: {
 
       # Set up icons
       for icon in 16 24 32 48 64 128 256; do
-        mkdir -p $out/share/icons/hicolor/$iconx$icon/apps
+        mkdir -p $out/share/icons/hicolor/''${icon}x''${icon}/apps
         if [ -f $out/opt/brave.com/brave-nightly/product_logo_$icon.png ]; then
-          ln -s $out/opt/brave.com/brave-nightly/product_logo_$icon.png $out/share/icons/hicolor/$iconx$icon/apps/brave-browser.png
+          ln -s $out/opt/brave.com/brave-nightly/product_logo_$icon.png $out/share/icons/hicolor/''${icon}x''${icon}/apps/brave-browser.png
         fi
       done
 

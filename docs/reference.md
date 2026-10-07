@@ -17,11 +17,11 @@
 
 Home Manager outputs may include explicit overlay groups for feature composition:
 
-- `ai`: `modules/home/ai.nix` — installs claude-code, qwen-code, codex, opencode, ollama runtime and development tools. Sets `my.ollamaPackage` to `pkgs.ollama` (hosts can override to `pkgs.ollama-rocm` or another variant via mkDefault).
+- `ai`: `modules/home/ai.nix` — installs claude-code, qwen-code, codex, opencode, ollama runtime and development tools. Sets `my.ollamaPackage` to `pkgs.ollama` (hosts can override to `pkgs.ollama-vulkan` or another variant via mkDefault).
 
 Host-level Home Manager modules are applied per-output through the host descriptor:
 
-- `hosts/boreal/home.nix` adds Boreal-specific overrides (e.g., `my.ollamaPackage = pkgs.ollama-rocm`, `my.terminal = "kitty"`) for `boreal` and `boreal-tty` outputs
+- `hosts/boreal/home.nix` adds Boreal-specific overrides (e.g., `my.ollamaPackage = pkgs.ollama-vulkan`, `my.terminal = "kitty"`) for `boreal` and `boreal-tty` outputs
 - `hosts/macbook/home.nix` adds macOS-specific configuration
 - `hosts/jetson/home.nix` enables `targets.genericLinux.enable` and sets CUDA paths
 
@@ -111,7 +111,7 @@ Neovim helpers:
 
 `my.ollamaPackage` defaults to `pkgs.ollama` (via `ai.nix` overlay). Individual hosts can override via mkDefault:
 
-- Boreal sets `my.ollamaPackage = pkgs.ollama-rocm` in `hosts/boreal/home.nix`
+- Boreal sets `my.ollamaPackage = pkgs.ollama-vulkan` in `hosts/boreal/home.nix`
 
 `my.terminal` acts as the terminal selector for GUI outputs:
 

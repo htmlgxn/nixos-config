@@ -10,7 +10,8 @@
   # boreal connects to itself — use localhost instead of boreal.local.
   my = {
     borealHost = "localhost";
-    ollamaPackage = pkgs.ollama-rocm;
+    # Vulkan backend: ROCm no longer supports the RX 570 (gfx803/Polaris).
+    ollamaPackage = pkgs.ollama-vulkan;
     dualKeyboardLayout = true;
     showRootDisk = true;
     terminalFontSize = 9.0;
