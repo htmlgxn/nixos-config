@@ -131,9 +131,9 @@ Poor fits for host modules:
 
 | Profile     | Modules                                            |
 | ----------- | -------------------------------------------------- |
-| `tty`       | `cli.nix`                                          |
-| `sway`      | `cli.nix`, `sway.nix`                              |
-| `sway-full` | `cli.nix`, `sway.nix`, `flatpak.nix`, `gaming.nix` |
+| `tty`       | `cli.nix`, `nix-ld.nix`                                          |
+| `sway`      | `cli.nix`, `nix-ld.nix`, `sway.nix`                              |
+| `sway-full` | `cli.nix`, `nix-ld.nix`, `sway.nix`, `flatpak.nix`, `gaming.nix` |
 
 ### Home Profiles
 

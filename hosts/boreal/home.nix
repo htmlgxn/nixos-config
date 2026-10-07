@@ -30,10 +30,9 @@
   };
 
   programs = {
-    # libstdc++ for native wheels loaded by nixpkgs' python (uv tools). nix-ld
-    # does not cover these: the interpreter is a Nix binary, not an FHS one.
-    bash.sessionVariables.LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-    nushell.environmentVariables.LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    # Do NOT export a session-wide LD_LIBRARY_PATH (e.g. stdenv.cc.cc.lib): it
+    # overrides the RUNPATH of every Nix binary, so anything built against a
+    # newer libstdc++ (Lix itself, home-manager activation) fails to load.
 
     ssh.settings."rpi4" = {
       hostname = "rpi4.local";

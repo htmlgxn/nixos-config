@@ -28,7 +28,6 @@ in {
     sessionVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
-      UV_PYTHON_DOWNLOADS = "never";
       PATH = "$HOME/.local/bin:$PATH"; # uv tools location
     };
 

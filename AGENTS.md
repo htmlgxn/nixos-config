@@ -14,6 +14,7 @@
 - `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
 - `modules/system/cli.nix` provides the shared TTY/system baseline (SSH on port 2200, Avahi mDNS for `.local` resolution, PipeWire audio).
+- `modules/system/nix-ld.nix` enables nix-ld in every NixOS system profile. uv runs on uv-managed CPython (`UV_MANAGED_PYTHON=1`, set in `modules/home/packages/python/default.nix`), whose native wheels get libstdc++ from nix-ld. Never export a session-wide `LD_LIBRARY_PATH`: it overrides the RUNPATH of every Nix binary and broke Lix/nix itself.
 - `modules/system/containers.nix` is the shared Podman-first container runtime module.
 - `modules/system/sway.nix` extends the GUI base with Sway-specific system services and packages.
 - `modules/system/gaming.nix` adds system-level gaming support such as Steam and Proton compatibility packages (included in the `sway-full` system profile).
@@ -37,7 +38,6 @@
 - `my.wallpaper` (path) is the wallpaper image set via sway's native `output * bg` in `modules/home/sway.nix` (sway spawns swaybg itself; do not also run a separate swaybg). Set in `modules/home/users/gars/default.nix`. Sway ≥1.12 splits `exec` lines on `;`, so don't chain shell commands in sway `exec`/`exec_always`.
 - `modules/home/cli-base-apps.nix` uses `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for Linux-only packages (cava, powertop, etc.).
 - `modules/home/gui-base-apps.nix` and `modules/home/gui-extra-apps.nix` use `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for Linux-only GUI packages (freecad, libreoffice).
-- `modules/home/packages/python/default.nix` uses `lib.optionals pkgs.stdenv.hostPlatform.isLinux` for `stdenv.cc.cc.lib`.
 - ARM profiles (`gui`) omit Flatpak, gaming, and heavier desktop extras compared to x86_64 variants.
 
 ## Build, Test, and Development Commands

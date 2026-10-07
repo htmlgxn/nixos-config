@@ -159,15 +159,18 @@
   systemProfiles = {
     tty = [
       (self + /modules/system/cli.nix)
+      (self + /modules/system/nix-ld.nix)
     ];
 
     sway = [
       (self + /modules/system/cli.nix)
+      (self + /modules/system/nix-ld.nix)
       (self + /modules/system/sway.nix)
     ];
 
     sway-full = [
       (self + /modules/system/cli.nix)
+      (self + /modules/system/nix-ld.nix)
       (self + /modules/system/sway.nix)
       (self + /modules/system/flatpak.nix)
       (self + /modules/system/gaming.nix)

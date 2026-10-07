@@ -57,7 +57,6 @@ in {
     environmentVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
-      UV_PYTHON_DOWNLOADS = "never";
     };
 
     extraConfig = ''
