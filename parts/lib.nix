@@ -40,7 +40,7 @@
       config,
       ...
     }: {
-      time.timeZone = "America/Halifax";
+      time.timeZone = "America/Toronto";
       i18n.defaultLocale = "en_CA.UTF-8";
       documentation.nixos.enable = false;
       users.users.${config.my.primaryUser}.shell = pkgs.nushell;

@@ -62,14 +62,14 @@ in {
 
       latitude = mkOption {
         type = types.float;
-        default = 44.6;
-        description = "Latitude for sunrise/sunset (Halifax, matching time.timeZone).";
+        default = 43.7;
+        description = "Latitude for sunrise/sunset (Toronto, matching time.timeZone).";
       };
 
       longitude = mkOption {
         type = types.float;
-        default = -63.6;
-        description = "Longitude for sunrise/sunset (Halifax, matching time.timeZone).";
+        default = -79.4;
+        description = "Longitude for sunrise/sunset (Toronto, matching time.timeZone).";
       };
     };
 
