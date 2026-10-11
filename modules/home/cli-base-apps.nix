@@ -104,6 +104,9 @@ in {
 
       # ── Books ───────────────────────────────────────────────────────
       (inputs.bookokrat.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {doCheck = false;}))
+
+      # ── Fun ─────────────────────────────────────────────────────────
+      pipes-rs
     ]
     # ── Linux-only ──────────────────────────────────────────────────
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [

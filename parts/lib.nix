@@ -159,6 +159,7 @@
 
     gnome = [
       (self + /modules/home/gnome.nix)
+      (self + /modules/home/gnome-theme.nix)
     ];
 
     sway-config = [
@@ -231,7 +232,7 @@
     home-manager.users =
       builtins.mapAttrs (userName: user: {
         imports =
-          [users.${userName}.module]
+          [(self + /modules/shared/options.nix) users.${userName}.module]
           ++ homeProfiles.${user.homeProfile}
           ++ (user.hostHomeModules or []);
       })

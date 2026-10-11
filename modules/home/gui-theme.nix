@@ -18,6 +18,7 @@
       sway = import ./themes/gui/gars-yellow-dark/sway.nix;
       waybar = import ./themes/gui/gars-yellow-dark/waybar.nix;
       gtk = import ./themes/gui/gars-yellow-dark/gtk.nix;
+      gnome = import ./themes/gui/gars-yellow-dark/gnome.nix;
     };
     "gars-yellow-light" = {
       fuzzel = import ./themes/gui/gars-yellow-light/fuzzel.nix;

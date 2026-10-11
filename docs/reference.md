@@ -151,7 +151,7 @@ Neovim helpers:
 - Janine's laptop (Intel Core 5, x86_64) running GNOME via the `gnome` system profile
 - `nixos-hardware` `common-cpu-intel`, `common-pc-laptop`, and `common-pc-laptop-ssd` are imported through the host descriptor
 - `gars` is the admin user (SSH on 2200, `cli` home, hidden from the GDM user list); `janine` is the desktop user without sudo
-- `janine`'s Home Manager config comes from the host descriptor's `extraHomeUsers`: `modules/home/users/janine.nix` + the `gnome` home profile + `hosts/jtop/janine-home.nix` (stable Brave, Signal, LibreOffice, dock favorites, Brave as default browser). The shared gars modules (nixvim, containers, CLI baseline) are not applied to her
+- `janine`'s Home Manager config comes from the host descriptor's `extraHomeUsers`: `modules/home/users/janine.nix` + the `gnome` home profile + `hosts/jtop/janine-home.nix` (stable Brave, Signal, LibreOffice, dock favorites, Brave as default browser). The `gnome` profile also themes GNOME with `my.guiTheme` (default `gars-yellow-dark`) via `modules/home/gnome-theme.nix`. The shared gars modules (nixvim, containers, CLI baseline) are not applied to her
 - `hosts/jtop/hardware-configuration.nix` must be generated on the laptop during install; until it is committed, `jtop` (and `nix flake check` on x86_64) fails to evaluate
 
 ### macbook

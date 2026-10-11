@@ -14,6 +14,8 @@ gui/
     mako.nix    - Mako notification daemon colors
     fuzzel.nix  - Fuzzel launcher colors
     gtk.nix     - GTK/QT theme and cursor settings
+    gnome.nix   - GNOME colours: libadwaita variables, GTK3 named colours,
+                  GNOME Shell accent + grey ramp (optional; dark only so far)
 ```
 
 ## Adding a New Theme
@@ -131,6 +133,14 @@ gui/
   };
 }
 ```
+
+### gnome.nix
+
+Consumed by `modules/home/gnome-theme.nix` (the `gnome` home profile, used on jtop):
+
+- `adwaita`: libadwaita CSS variables (without the `--`), written to `~/.config/gtk-4.0/gtk.css`
+- `gtk3`: GTK3 `@define-color` named colours on top of Adwaita-dark, written to `~/.config/gtk-3.0/gtk.css`
+- `shell`: `base` (`dark`/`light` upstream stylesheet), `accent`/`accentFg` (replace `-st-accent-color`/`-st-accent-fg-color`), and `greyRamp` (`[[level "#rrggbb"] ...]`). The GNOME Shell theme is generated at build time by extracting the installed gnome-shell's own stylesheet and mapping every neutral grey through the ramp (`modules/home/gnome-shell-recolor.py`), so it always matches the GNOME version. It is loaded through the User Themes extension.
 
 ## Available Themes
 

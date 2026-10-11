@@ -142,7 +142,7 @@ Poor fits for host modules:
 | ----------- | ------------------------------------------------------------- |
 | `cli`       | (none — shared modules are always included)                   |
 | `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)         |
-| `gnome`     | `gnome.nix` (dock + simple GNOME Shell defaults; used by jtop's `janine`) |
+| `gnome`     | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours for libadwaita, GTK3 and a generated GNOME Shell theme); used by jtop's `janine` |
 | `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)           |
 | `sway-full` | `sway.nix`, `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix` |
 
