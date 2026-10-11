@@ -41,7 +41,10 @@ in {
 
     wallpaper = mkOption {
       type = types.path;
-      description = "Absolute path to the wallpaper image used by swaybg.";
+      # Store copy of the shared wallpaper, so users without access to the
+      # repo checkout (e.g. janine on jtop) get the same image.
+      default = ../home/users/gars/wallpapers/default.jpg;
+      description = "Wallpaper image used by sway (output bg) and GNOME (background + lock screen).";
     };
 
     primaryUser = mkOption {

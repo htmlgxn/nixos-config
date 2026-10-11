@@ -38,6 +38,12 @@ in {
     "org/gnome/shell".enabled-extensions = ["user-theme@gnome-shell-extensions.gcampax.github.com"];
     "org/gnome/shell/extensions/user-theme".name = themeName;
     "org/gnome/desktop/interface".accent-color = "yellow";
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://${config.my.wallpaper}";
+      picture-uri-dark = "file://${config.my.wallpaper}";
+      picture-options = "zoom";
+    };
+    "org/gnome/desktop/screensaver".picture-uri = "file://${config.my.wallpaper}";
   };
 
   gtk = {
