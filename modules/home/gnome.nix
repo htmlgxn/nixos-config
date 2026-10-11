@@ -17,7 +17,9 @@ in {
       dock-position = "BOTTOM";
       dock-fixed = true;
       extend-height = false;
-      dash-max-icon-size = 56;
+      dash-max-icon-size = 40;
+      # Trim the dock's padding around the icons.
+      custom-theme-shrink = true;
       show-trash = false;
       show-mounts = false;
       disable-overview-on-startup = true;
