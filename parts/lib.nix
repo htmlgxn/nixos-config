@@ -78,6 +78,7 @@
   users = {
     gars = {module = self + /modules/home/users/gars;};
     htmlgxn = {module = self + /modules/home/users/htmlgxn.nix;};
+    janine = {module = self + /modules/home/users/janine.nix;};
   };
 
   # ── NixOS host definitions ────────────────────────────────────────
@@ -111,6 +112,25 @@
       hostHomeModules = [(self + /hosts/rpi4/home.nix)];
     };
 
+    jtop = {
+      system = "x86_64-linux";
+      module = self + /hosts/jtop/configuration.nix;
+      extraSystemModules = [
+        nixos-hardware.nixosModules.common-cpu-intel
+        nixos-hardware.nixosModules.common-pc-laptop
+        nixos-hardware.nixosModules.common-pc-laptop-ssd
+      ];
+      hostHomeModules = [(self + /hosts/jtop/home.nix)];
+      # Additional desktop users: only their user module, home profile and
+      # host modules are applied (no sharedHomeModules).
+      extraHomeUsers = {
+        janine = {
+          homeProfile = "gnome";
+          hostHomeModules = [(self + /hosts/jtop/janine-home.nix)];
+        };
+      };
+    };
+
     # cyberdeck = {
     #   system = "aarch64-linux";
     #   module = self + /hosts/cyberdeck/configuration.nix;
@@ -137,6 +157,10 @@
       (self + /modules/home/gui-base-apps.nix)
     ];
 
+    gnome = [
+      (self + /modules/home/gnome.nix)
+    ];
+
     sway-config = [
       (self + /modules/home/sway.nix)
     ];
@@ -160,6 +184,12 @@
     tty = [
       (self + /modules/system/cli.nix)
       (self + /modules/system/nix-ld.nix)
+    ];
+
+    gnome = [
+      (self + /modules/system/cli.nix)
+      (self + /modules/system/nix-ld.nix)
+      (self + /modules/system/gnome.nix)
     ];
 
     sway = [
@@ -195,6 +225,18 @@
     ++ homeProfiles.${homeProfile}
     ++ hostHomeModules
     ++ resolveHomeOverlays homeOverlays;
+
+  # ── Helper: Home Manager config for a host's extra desktop users ──
+  mkExtraHomeUsers = extraHomeUsers: {
+    home-manager.users =
+      builtins.mapAttrs (userName: user: {
+        imports =
+          [users.${userName}.module]
+          ++ homeProfiles.${user.homeProfile}
+          ++ (user.hostHomeModules or []);
+      })
+      extraHomeUsers;
+  };
 
   # ── Builder: Home Manager as a NixOS / nix-darwin module ──────────
   mkHomeModule = {
@@ -250,6 +292,7 @@
             # The system-level nh clean (sharedSystemModules) already covers user profiles.
             extraHomeModules = [{programs.nh.clean.enable = lib.mkForce false;}];
           })
+          (mkExtraHomeUsers (host.extraHomeUsers or {}))
         ];
     };
 

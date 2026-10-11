@@ -6,6 +6,7 @@
 | ------------ | ------------ | ------------------- | -------------- | ------------- | ------------- |
 | `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`         | `ai`          |
 | `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`    | `sway-full`   | `ai`          |
+| `jtop`       | NixOS        | `jtop` / `gars`     | `gnome`        | `cli`         | none          |
 | `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`         | none          |
 | `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`         | none          |
 | `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`        | none          |
@@ -144,6 +145,14 @@ Neovim helpers:
 - `nixos-hardware.nixosModules.raspberry-pi-4` is imported through the host descriptor
 - `rpi4-tty` and `rpi4-sway` use the shared ARM profile set (`tty`/`cli` and `gui`/`gui`), which omit Flatpak and gaming
 - port `2200/tcp` is explicitly opened in the firewall
+
+### jtop
+
+- Janine's laptop (Intel Core 5, x86_64) running GNOME via the `gnome` system profile
+- `nixos-hardware` `common-cpu-intel`, `common-pc-laptop`, and `common-pc-laptop-ssd` are imported through the host descriptor
+- `gars` is the admin user (SSH on 2200, `cli` home, hidden from the GDM user list); `janine` is the desktop user without sudo
+- `janine`'s Home Manager config comes from the host descriptor's `extraHomeUsers`: `modules/home/users/janine.nix` + the `gnome` home profile + `hosts/jtop/janine-home.nix` (stable Brave, Signal, LibreOffice, dock favorites, Brave as default browser). The shared gars modules (nixvim, containers, CLI baseline) are not applied to her
+- `hosts/jtop/hardware-configuration.nix` must be generated on the laptop during install; until it is committed, `jtop` (and `nix flake check` on x86_64) fails to evaluate
 
 ### macbook
 

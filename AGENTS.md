@@ -4,11 +4,11 @@
 
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
 - `flake.nix` defines outputs through descriptor attrsets (in `parts/lib.nix`) for `users`, `hosts`, `darwinHosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager). `parts/checks.nix` exposes every output as `checks.<system>.<kind>-<name>`, so `nix flake check` builds all hosts for the current platform.
-- Current NixOS outputs are `boreal-tty`, `boreal`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`. Darwin output: `macbook`. Standalone HM outputs: `fedora-mac` and `jetson`.
+- Current NixOS outputs are `boreal-tty`, `boreal`, `jtop`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`. Darwin output: `macbook`. Standalone HM outputs: `fedora-mac` and `jetson`.
 - Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, `bookokrat`, `flake-parts`, `nixvim`, `nix-flatpak`, `crane`, `fenix`, `spicetify-nix`, and `treefmt-nix`. Lix comes from nixpkgs (`lixPackageSets.stable`), not a separate input.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
-- `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target.
+- `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target. `hosts/jtop/` is Janine's Intel laptop (GNOME, `gnome` system profile); her Home Manager config is wired through the host descriptor's `extraHomeUsers` and does not get `sharedHomeModules`.
 - `modules/shared/nix-settings.nix` holds the shared Nix daemon config (`nix.package` = nixpkgs Lix, scheduled `nix.optimise`, flakes, binary caches) imported by both the NixOS and nix-darwin builders in `parts/lib.nix`. The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/lib.nix` and is applied by all three output builders, together with `sharedOverlays` (`overlays/lix.nix`, which points nixpkgs-review/nix-eval-jobs/nix-fast-build/colmena at the same Lix). NixOS outputs also get a system-level `programs.nh` with a weekly `nh clean all` timer; their Home Manager `nh clean` timer is forced off.
 - `overlays/` holds per-output nixpkgs overlays, passed through the `nixpkgsOverlays` argument of `mkOutput` (NixOS) and `mkDarwinOutput` (nix-darwin). `brave-nightly.nix` is applied to `boreal`; `kitty-launchservices.nix` is applied to `macbook` and unwraps kitty's `.app` bundle so LaunchServices-started kitty keeps a real pid under macOS 27 (otherwise AeroSpace never sees it and its windows stay floating).
 - `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
@@ -81,7 +81,7 @@
 
 - Agents must not run `nixos-rebuild`, `darwin-rebuild`, or `home-manager switch` operations.
 - Agents must never edit `hosts/*/hardware-configuration.nix`.
-- Primary compositor is Sway. Do not add support for other compositors unless explicitly requested.
+- Primary compositor is Sway. Do not add support for other compositors unless explicitly requested. Exception: jtop runs GNOME (`modules/system/gnome.nix`, `modules/home/gnome.nix`) for a non-technical user.
 
 ## Commit Guidelines
 

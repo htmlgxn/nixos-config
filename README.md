@@ -26,6 +26,7 @@ The main layers are:
 | ------------ | ------------ | ---------------------------------------------------- |
 | `boreal-tty` | NixOS        | CLI/server profile on boreal with AI CLI overlays    |
 | `boreal`     | NixOS        | Full Sway desktop with gaming and AI CLI             |
+| `jtop`       | NixOS        | Janine's laptop: simple GNOME desktop                |
 | `nixos-vm`   | NixOS        | Minimal VM profile                                   |
 | `rpi4-tty`   | NixOS        | Raspberry Pi 4 TTY profile                           |
 | `rpi4-sway`  | NixOS        | Raspberry Pi 4 Sway profile (lean ARM variant)       |

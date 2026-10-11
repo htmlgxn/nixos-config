@@ -51,6 +51,19 @@
     };
   };
 
+  # ── jtop outputs (Janine's laptop) ────────────────────────────────
+  # gars is the admin user (cli home); janine's GNOME home comes from the
+  # host's extraHomeUsers.
+  jtopOutputDefs = {
+    jtop = {
+      hostName = "jtop";
+      userName = "gars";
+      systemProfile = "gnome";
+      homeProfile = "cli";
+      homeOverlays = [];
+    };
+  };
+
   # ── Other outputs ─────────────────────────────────────────────────
   otherOutputDefs = {
     nixos-vm = {
@@ -70,7 +83,7 @@
     # };
   };
 
-  nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // otherOutputDefs;
+  nixosOutputDefs = borealOutputDefs // rpi4OutputDefs // jtopOutputDefs // otherOutputDefs;
 in {
   flake.nixosConfigurations = builtins.mapAttrs (_: mkOutput) nixosOutputDefs;
 }
