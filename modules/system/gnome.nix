@@ -15,7 +15,15 @@
     gnome-music
     gnome-weather
     gnome-connections
+    gnome-console
   ];
+
+  # Kitty (installed per user by modules/home/kitty.nix) is the terminal
+  # GNOME and GLib launch for Terminal=true apps.
+  xdg.terminal-exec = {
+    enable = true;
+    settings.GNOME = ["kitty.desktop"];
+  };
 
   # Shell extensions used by modules/home/gnome.nix (dock, tray icons).
   environment.systemPackages = with pkgs.gnomeExtensions; [

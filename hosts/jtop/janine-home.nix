@@ -4,7 +4,10 @@
 in {
   # Stable Brave from nixpkgs (boreal's nightly overlay is not applied here),
   # with the same extensions as every other host.
-  imports = [../../modules/home/brave.nix];
+  imports = [
+    ../../modules/home/brave.nix
+    ../../modules/home/spicetify.nix
+  ];
 
   home.packages = with pkgs; [
     signal-desktop

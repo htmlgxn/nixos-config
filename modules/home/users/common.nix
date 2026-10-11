@@ -1,27 +1,12 @@
-# Shared user settings imported by both gars.nix and htmlgxn.nix.
+# gars/htmlgxn identity on top of the per-user baseline (../user-base.nix):
+# git user, SSH hosts and key, theme and wallpaper selection.
 {
   config,
   pkgs,
   lib,
   ...
 }: {
-  imports = [../shell.nix];
-
-  xdg = {
-    enable = true;
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-      desktop = "${config.home.homeDirectory}/desktop";
-      documents = "${config.home.homeDirectory}/documents";
-      download = "${config.home.homeDirectory}/downloads";
-      music = "${config.home.homeDirectory}/music";
-      pictures = "${config.home.homeDirectory}/pictures";
-      publicShare = "${config.home.homeDirectory}/public";
-      templates = "${config.home.homeDirectory}/templates";
-      videos = "${config.home.homeDirectory}/videos";
-    };
-  };
+  imports = [../user-base.nix];
 
   my = {
     terminalTheme = "gars-yellow-dark";
@@ -29,10 +14,7 @@
     wallpaper = "${config.my.repoRoot}/modules/home/users/gars/wallpapers/default.jpg";
   };
 
-  programs.home-manager.enable = true;
-
   programs.git = {
-    enable = true;
     settings.user = {
       name = "htmlgxn";
       email = "htmlgxn@pm.me";
@@ -41,12 +23,7 @@
 
   # ── SSH client config ───────────────────────────────────────────────
   programs.ssh = {
-    enable = true;
-    enableDefaultConfig = false;
     settings = {
-      "*" = {
-        serverAliveInterval = 0;
-      };
       # ── Shared infrastructure ──────────────────────────────────────
       "soft" = {
         hostname = config.my.borealHost;

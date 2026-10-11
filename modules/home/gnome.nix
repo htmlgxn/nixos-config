@@ -7,8 +7,25 @@
   ...
 }: let
   inherit (lib.hm.gvariant) mkUint32;
+  customKeys = "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings";
 in {
+  # Kitty (my.terminal) with the shared terminal theme replaces GNOME Console;
+  # modules/system/gnome.nix makes it the xdg-terminal-exec default.
+  imports = [
+    ./terminal-theme.nix
+    ./kitty.nix
+  ];
+
   dconf.settings = {
+    "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
+      "/${customKeys}/terminal/"
+    ];
+    "${customKeys}/terminal" = {
+      name = "Terminal";
+      command = config.my.terminal;
+      binding = "<Control><Alt>t";
+    };
+
     "org/gnome/shell" = {
       disable-user-extensions = false;
       enabled-extensions = [
