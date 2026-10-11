@@ -7,6 +7,7 @@
 }: {
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
+    ./brave.nix
   ];
 
   home.packages = with pkgs;
@@ -29,19 +30,6 @@
       signal-desktop
       calibre-no-speech
     ];
-
-  # ── Brave with Extensions ──────────────────────────────────────────
-  programs.brave = {
-    enable = true;
-    extensions = [
-      {id = "nngceckbapebfimnlniiiahkandclblb";} # Bitwarden
-      {id = "aapbdbdomjkkjkaonfhkkikfgjllcleb";} # Google Translate
-      {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # SponsorBlock (YouTube)
-      {id = "cclelndahbckbenkjhflpdbgdldlbecc";} # Get cookies.txt LOCALLY
-      {id = "bhlhnicpbhignbdhedgjhgdocnmhomnp";} # ColorZilla
-      {id = "ilehaonighjijnmpnagapkhpcdbhclfg";} # Grass Lite Node
-    ];
-  };
 
   # ── Spicetify (Spotify with theming) ───────────────────────────────
   # Spotify is only available on x86_64-linux, x86_64-darwin, and aarch64-darwin.

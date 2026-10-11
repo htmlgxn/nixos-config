@@ -2,8 +2,9 @@
 {pkgs, ...}: let
   browser = "brave-browser.desktop";
 in {
-  # Stable Brave from nixpkgs (boreal's nightly overlay is not applied here).
-  programs.brave.enable = true;
+  # Stable Brave from nixpkgs (boreal's nightly overlay is not applied here),
+  # with the same extensions as every other host.
+  imports = [../../modules/home/brave.nix];
 
   home.packages = with pkgs; [
     signal-desktop
