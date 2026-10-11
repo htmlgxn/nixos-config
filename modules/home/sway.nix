@@ -245,7 +245,7 @@ in {
       exec eval $(gnome-keyring-daemon --start)
       exec grass
       ${lib.optionalString (!config.services.wlsunset.enable) ''
-        exec wlsunset -t 2500 -T 3000
+        exec wlsunset -t ${toString config.my.nightLight.nightTemperature} -T ${toString config.my.nightLight.dayTemperature}
       ''}${lib.optionalString (!config.services.polkit-gnome.enable) ''
         exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
       ''}${lib.optionalString (!config.services.network-manager-applet.enable) ''

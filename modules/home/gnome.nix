@@ -1,7 +1,11 @@
 # GNOME Shell layout for non-technical users: an always-visible dock,
 # normal minimize/maximize/close buttons, and no surprise overview on
 # hot corners or at login. Pinned apps (favorite-apps) are set per host.
-{lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (lib.hm.gvariant) mkUint32;
 in {
   dconf.settings = {
@@ -33,6 +37,18 @@ in {
     "org/gnome/desktop/interface" = {
       enable-hot-corners = false;
       show-battery-percentage = true;
+    };
+
+    # Night Light, always on (from == to means the full 24h in
+    # gnome-settings-daemon) at the same daytime temperature as wlsunset on the
+    # sway hosts. GNOME applies a single temperature, so there is no separate
+    # warmer night step.
+    "org/gnome/settings-daemon/plugins/color" = {
+      night-light-enabled = true;
+      night-light-temperature = mkUint32 config.my.nightLight.dayTemperature;
+      night-light-schedule-automatic = false;
+      night-light-schedule-from = 0.0;
+      night-light-schedule-to = 0.0;
     };
 
     # Blank the screen after 10 minutes idle.

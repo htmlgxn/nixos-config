@@ -58,14 +58,13 @@ in {
       events.before-sleep = swaylock;
     };
 
-    # Halifax (matches time.timeZone); wlsunset needs a location or fixed times.
+    # Values shared with GNOME Night Light via my.nightLight.
     wlsunset = {
       enable = true;
-      latitude = 44.6;
-      longitude = -63.6;
+      inherit (config.my.nightLight) latitude longitude;
       temperature = {
-        day = 3000;
-        night = 2500;
+        day = config.my.nightLight.dayTemperature;
+        night = config.my.nightLight.nightTemperature;
       };
     };
 

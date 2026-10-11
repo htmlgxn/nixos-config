@@ -47,6 +47,32 @@ in {
       description = "Wallpaper image used by sway (output bg) and GNOME (background + lock screen).";
     };
 
+    nightLight = {
+      dayTemperature = mkOption {
+        type = types.int;
+        default = 3000;
+        description = "Screen colour temperature (K) during the day (wlsunset -T; GNOME Night Light).";
+      };
+
+      nightTemperature = mkOption {
+        type = types.int;
+        default = 2500;
+        description = "Screen colour temperature (K) at night (wlsunset -t).";
+      };
+
+      latitude = mkOption {
+        type = types.float;
+        default = 44.6;
+        description = "Latitude for sunrise/sunset (Halifax, matching time.timeZone).";
+      };
+
+      longitude = mkOption {
+        type = types.float;
+        default = -63.6;
+        description = "Longitude for sunrise/sunset (Halifax, matching time.timeZone).";
+      };
+    };
+
     primaryUser = mkOption {
       type = types.str;
       example = "gars";
