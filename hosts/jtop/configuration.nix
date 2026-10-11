@@ -1,8 +1,8 @@
-# jtop: Janine's laptop (Intel Core 5), GNOME desktop.
+# jtop: Janine's laptop (Intel Panther Lake), GNOME desktop.
 # nixos-hardware Intel/laptop modules are added via extraSystemModules in parts/lib.nix.
 # Generate hardware-configuration.nix during install (from the NixOS installer):
 #   nixos-generate-config --root /mnt --show-hardware-config > hosts/jtop/hardware-configuration.nix
-{
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
     ./users.nix
@@ -10,9 +10,11 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Panther Lake is newer than the default LTS kernel (6.18): its Wi-Fi never
+  # binds there, while the installer's 7.x kernel brings it up.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Intel Wi-Fi (iwlwifi) and GPU (GuC/HuC/DMC) need linux-firmware; without
-  # it there is no wlan device and GDM never comes up.
+  # Intel GPU (xe GuC/HuC), audio (SOF) and Wi-Fi firmware come from linux-firmware.
   hardware.enableRedistributableFirmware = true;
 
   networking.hostName = "jtop";
