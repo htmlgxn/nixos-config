@@ -1,6 +1,6 @@
 # jtop local users: gars is the admin (SSH, rebuilds, hidden from the
 # login screen); janine is the everyday desktop user without sudo.
-_: {
+{pkgs, ...}: {
   my.primaryUser = "gars";
 
   users.users.gars = {
@@ -12,6 +12,7 @@ _: {
   users.users.janine = {
     isNormalUser = true;
     description = "Janine";
+    shell = pkgs.nushell;
     extraGroups = ["networkmanager"];
     initialPassword = "changeme";
   };

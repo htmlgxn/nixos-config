@@ -28,7 +28,7 @@ The repo is intentionally split into four layers:
 The flake uses four descriptor attrsets plus three output maps:
 
 - `users`: per-user Home Manager entrypoints and user-local values
-- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, optional `extraHomeUsers` (additional desktop users that get only their user module, a home profile, and host modules, without `sharedHomeModules`), and the target platform
+- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, optional `extraHomeUsers` (additional desktop users that get their user module, a home profile and host modules, plus `sharedHomeModules` when `withSharedHomeModules = true`), and the target platform
 - `homeProfiles`: reusable Home Manager module lists
 - `systemProfiles`: reusable NixOS module lists
 - `nixosOutputDefs`: final NixOS outputs that select a host, user, system profile, home profile, and optional home overlay groups

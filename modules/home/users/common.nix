@@ -5,13 +5,7 @@
   lib,
   ...
 }: {
-  imports = [
-    ../shell-aliases.nix
-    ../nix-workflows.nix
-    ../bash.nix
-    ../nushell.nix
-    ../starship.nix
-  ];
+  imports = [../shell.nix];
 
   xdg = {
     enable = true;

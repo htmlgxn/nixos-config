@@ -121,11 +121,12 @@
         nixos-hardware.nixosModules.common-pc-laptop-ssd
       ];
       hostHomeModules = [(self + /hosts/jtop/home.nix)];
-      # Additional desktop users: only their user module, home profile and
-      # host modules are applied (no sharedHomeModules).
+      # Additional desktop users: their user module, home profile and host
+      # modules, plus sharedHomeModules only when withSharedHomeModules is set.
       extraHomeUsers = {
         janine = {
           homeProfile = "gnome";
+          withSharedHomeModules = true;
           hostHomeModules = [(self + /hosts/jtop/janine-home.nix)];
         };
       };
@@ -232,7 +233,13 @@
     home-manager.users =
       builtins.mapAttrs (userName: user: {
         imports =
-          [(self + /modules/shared/options.nix) users.${userName}.module]
+          [(self + /modules/shared/options.nix)]
+          ++ lib.optionals (user.withSharedHomeModules or false) sharedHomeModules
+          ++ [
+            users.${userName}.module
+            # The system-level nh clean (sharedSystemModules) already covers user profiles.
+            {programs.nh.clean.enable = lib.mkForce false;}
+          ]
           ++ homeProfiles.${user.homeProfile}
           ++ (user.hostHomeModules or []);
       })
