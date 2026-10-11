@@ -11,6 +11,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Intel Wi-Fi (iwlwifi) and GPU (GuC/HuC/DMC) need linux-firmware; without
+  # it there is no wlan device and GDM never comes up.
+  hardware.enableRedistributableFirmware = true;
+
   networking.hostName = "jtop";
   networking.networkmanager.enable = true;
 
