@@ -1,4 +1,4 @@
-# janine's apps on jtop: Brave, Signal, LibreOffice, pinned to the dock.
+# janine's apps on jtop: Brave, Signal, Spotify, LibreOffice, pinned to the dock.
 {pkgs, ...}: let
   browser = "brave-browser.desktop";
 in {
@@ -19,6 +19,7 @@ in {
   dconf.settings."org/gnome/shell".favorite-apps = [
     browser
     "signal.desktop"
+    "spotify.desktop"
     "startcenter.desktop"
     "org.gnome.Nautilus.desktop"
   ];
