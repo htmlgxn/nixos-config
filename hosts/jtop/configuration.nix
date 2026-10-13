@@ -25,5 +25,10 @@
   services.printing.enable = true;
   services.fwupd.enable = true;
 
+  # Waking from idle suspend with the lid open is unreliable on this machine,
+  # so only closing the lid sleeps it: the login screen never suspends on idle.
+  # Her sessions turn off idle suspend in janine-gnome.nix / janine-cosmic.nix.
+  services.displayManager.gdm.autoSuspend = false;
+
   system.stateVersion = "26.05";
 }
