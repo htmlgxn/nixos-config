@@ -1,5 +1,14 @@
 # nix-darwin system configuration for macOS Apple Silicon.
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  braveExtensionDir = "/Library/Application Support/BraveSoftware/Brave-Browser/External Extensions";
+  braveExtensionJson = builtins.toJSON {
+    external_update_url = "https://clients2.google.com/service/update2/crx";
+  };
+in {
   # nix-darwin state version
   system.stateVersion = 5;
 
@@ -177,9 +186,26 @@
       "beeper"
       "duongductrong/snapzy/snapzy"
       "blender"
-      "ollama" # prebuilt app with Metal; the nixpkgs build needs Xcode's Metal toolchain
+      "ollama-app" # prebuilt app with Metal; the nixpkgs build needs Xcode's Metal toolchain
     ];
   };
+
+  # ── Brave extensions ───────────────────────────────────────────────
+  # Installed system-wide rather than through Home Manager: the per-user
+  # ~/Library/Application Support/BraveSoftware is TCC-protected, so HM's
+  # symlinks there fail every time kitty's ad-hoc signature changes (see
+  # modules/home/brave.nix). Chromium only trusts this directory when it is
+  # root-owned and not world-writable, hence real files rather than symlinks.
+  system.activationScripts.postActivation.text = ''
+    echo "installing Brave extensions..." >&2
+    mkdir -p "${braveExtensionDir}"
+    rm -f "${braveExtensionDir}"/*.json
+    ${lib.concatMapStrings (id: ''
+      printf '%s' ${lib.escapeShellArg braveExtensionJson} > "${braveExtensionDir}/${id}.json"
+    '') (import ../../modules/shared/brave-extensions.nix)}
+    chown -R root:wheel "/Library/Application Support/BraveSoftware"
+    chmod -R go-w "/Library/Application Support/BraveSoftware"
+  '';
 
   # ── Shell ───────────────────────────────────────────────────────────
   environment.shells = with pkgs; [nushell bashInteractive];
