@@ -1,4 +1,5 @@
-# janine's apps on jtop: Brave, Signal, Spotify, LibreOffice, pinned to the dock.
+# janine's apps on jtop (both desktops): Brave, Signal, Spotify, LibreOffice.
+# Dock pins are per desktop: janine-gnome.nix / janine-cosmic.nix.
 {pkgs, ...}: let
   browser = "brave-browser.desktop";
 in {
@@ -14,14 +15,6 @@ in {
     libreoffice
     hunspell
     hunspellDicts.en_CA
-  ];
-
-  dconf.settings."org/gnome/shell".favorite-apps = [
-    browser
-    "signal.desktop"
-    "spotify.desktop"
-    "startcenter.desktop"
-    "org.gnome.Nautilus.desktop"
   ];
 
   xdg.mimeApps = {

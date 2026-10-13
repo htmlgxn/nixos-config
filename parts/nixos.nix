@@ -52,8 +52,19 @@
   };
 
   # ── jtop outputs (Janine's laptop) ────────────────────────────────
-  # gars is the admin user (cli home); janine's GNOME home comes from the
-  # host's extraHomeUsers.
+  # gars is the admin user (cli home); janine is the desktop user, with the
+  # same apps on either desktop. `jtop` (GNOME) is the default; `jtop-cosmic`
+  # is a COSMIC trial on the same machine (switch with `nr jtop-cosmic`,
+  # back with `nrs`; reboot after switching so the login screen changes).
+  janine = desktop: {
+    homeProfile = desktop;
+    withSharedHomeModules = true;
+    hostHomeModules = [
+      (self + /hosts/jtop/janine-home.nix)
+      (self + /hosts/jtop/janine-${desktop}.nix)
+    ];
+  };
+
   jtopOutputDefs = {
     jtop = {
       hostName = "jtop";
@@ -61,6 +72,16 @@
       systemProfile = "gnome";
       homeProfile = "cli";
       homeOverlays = [];
+      extraHomeUsers.janine = janine "gnome";
+    };
+
+    jtop-cosmic = {
+      hostName = "jtop";
+      userName = "gars";
+      systemProfile = "cosmic";
+      homeProfile = "cli";
+      homeOverlays = [];
+      extraHomeUsers.janine = janine "cosmic";
     };
   };
 

@@ -28,7 +28,7 @@ The repo is intentionally split into four layers:
 The flake uses four descriptor attrsets plus three output maps:
 
 - `users`: per-user Home Manager entrypoints and user-local values
-- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, optional `extraHomeUsers` (additional desktop users that get their user module, a home profile and host modules, plus `sharedHomeModules` when `withSharedHomeModules = true`), and the target platform
+- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, and the target platform. NixOS output definitions may add `extraHomeUsers` (additional desktop users that get their user module, a home profile and host modules, plus `sharedHomeModules` when `withSharedHomeModules = true`), so the same host can carry different desktops per output
 - `homeProfiles`: reusable Home Manager module lists
 - `systemProfiles`: reusable NixOS module lists
 - `nixosOutputDefs`: final NixOS outputs that select a host, user, system profile, home profile, and optional home overlay groups
@@ -142,7 +142,8 @@ Poor fits for host modules:
 | ----------- | ------------------------------------------------------------- |
 | `cli`       | (none — shared modules are always included)                   |
 | `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)         |
-| `gnome`     | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours for libadwaita, GTK3 and a generated GNOME Shell theme); used by jtop's `janine` |
+| `gnome`     | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours: GTK via `gtk-theme.nix` plus a generated GNOME Shell theme); used by jtop's `janine` |
+| `cosmic`    | `cosmic.nix` (cosmic-manager, kitty as terminal), `cosmic-theme.nix` (`my.guiTheme` COSMIC theme builder + wallpaper, GTK via `gtk-theme.nix`); used by `jtop-cosmic`'s `janine` |
 | `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)           |
 | `sway-full` | `sway.nix`, `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix` |
 

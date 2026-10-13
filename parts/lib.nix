@@ -121,15 +121,6 @@
         nixos-hardware.nixosModules.common-pc-laptop-ssd
       ];
       hostHomeModules = [(self + /hosts/jtop/home.nix)];
-      # Additional desktop users: their user module, home profile and host
-      # modules, plus sharedHomeModules only when withSharedHomeModules is set.
-      extraHomeUsers = {
-        janine = {
-          homeProfile = "gnome";
-          withSharedHomeModules = true;
-          hostHomeModules = [(self + /hosts/jtop/janine-home.nix)];
-        };
-      };
     };
 
     # cyberdeck = {
@@ -163,6 +154,11 @@
       (self + /modules/home/gnome-theme.nix)
     ];
 
+    cosmic = [
+      (self + /modules/home/cosmic.nix)
+      (self + /modules/home/cosmic-theme.nix)
+    ];
+
     sway-config = [
       (self + /modules/home/sway.nix)
     ];
@@ -192,6 +188,12 @@
       (self + /modules/system/cli.nix)
       (self + /modules/system/nix-ld.nix)
       (self + /modules/system/gnome.nix)
+    ];
+
+    cosmic = [
+      (self + /modules/system/cli.nix)
+      (self + /modules/system/nix-ld.nix)
+      (self + /modules/system/cosmic.nix)
     ];
 
     sway = [
@@ -228,7 +230,9 @@
     ++ hostHomeModules
     ++ resolveHomeOverlays homeOverlays;
 
-  # ── Helper: Home Manager config for a host's extra desktop users ──
+  # ── Helper: Home Manager config for an output's extra desktop users ──
+  # Each user gets their user module, a home profile and host modules, plus
+  # sharedHomeModules only when withSharedHomeModules is set.
   mkExtraHomeUsers = extraHomeUsers: {
     home-manager.users =
       builtins.mapAttrs (userName: user: {
@@ -273,6 +277,7 @@
     homeProfile,
     homeOverlays ? [],
     nixpkgsOverlays ? [],
+    extraHomeUsers ? {},
   }: let
     host = hosts.${hostName};
   in
@@ -300,7 +305,7 @@
             # The system-level nh clean (sharedSystemModules) already covers user profiles.
             extraHomeModules = [{programs.nh.clean.enable = lib.mkForce false;}];
           })
-          (mkExtraHomeUsers (host.extraHomeUsers or {}))
+          (mkExtraHomeUsers extraHomeUsers)
         ];
     };
 

@@ -7,6 +7,7 @@
 | `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`         | `ai`          |
 | `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`    | `sway-full`   | `ai`          |
 | `jtop`       | NixOS        | `jtop` / `gars`     | `gnome`        | `cli`         | none          |
+| `jtop-cosmic`| NixOS        | `jtop` / `gars`     | `cosmic`       | `cli`         | none          |
 | `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`         | none          |
 | `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`         | none          |
 | `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`        | none          |
@@ -151,7 +152,8 @@ Neovim helpers:
 - Janine's laptop (Intel Core 5, x86_64) running GNOME via the `gnome` system profile
 - `nixos-hardware` `common-cpu-intel`, `common-pc-laptop`, and `common-pc-laptop-ssd` are imported through the host descriptor
 - `gars` is the admin user (SSH on 2200, `cli` home, hidden from the GDM user list); `janine` is the desktop user without sudo
-- `janine`'s Home Manager config comes from the host descriptor's `extraHomeUsers`: `modules/home/users/janine.nix` + the `gnome` home profile + `hosts/jtop/janine-home.nix` (stable Brave, Signal, LibreOffice, dock favorites, Brave as default browser). The `gnome` profile also themes GNOME with `my.guiTheme` (default `gars-yellow-dark`) via `modules/home/gnome-theme.nix`. She also gets the shared home modules (`withSharedHomeModules = true`) and the per-user baseline (`modules/home/user-base.nix`: shell layer, XDG dirs, git/ssh defaults), so her aliases, nushell (her login shell), CLI tools and defaults match gars, plus Spicetify and kitty as her terminal; gars's git identity, SSH hosts and key generation (`users/common.nix`) are not applied
+- `janine`'s Home Manager config comes from the output's `extraHomeUsers` (`parts/nixos.nix`): `modules/home/users/janine.nix` + the desktop's home profile (`gnome` or `cosmic`) + `hosts/jtop/janine-home.nix` (stable Brave, Signal, Spotify, LibreOffice, Brave as default browser) + `hosts/jtop/janine-<desktop>.nix` (dock pins). The `gnome` profile also themes GNOME with `my.guiTheme` (default `gars-yellow-dark`) via `modules/home/gnome-theme.nix`. She also gets the shared home modules (`withSharedHomeModules = true`) and the per-user baseline (`modules/home/user-base.nix`: shell layer, XDG dirs, git/ssh defaults), so her aliases, nushell (her login shell), CLI tools and defaults match gars, plus Spicetify and kitty as her terminal; gars's git identity, SSH hosts and key generation (`users/common.nix`) are not applied
+- `jtop-cosmic` is a COSMIC trial on the same machine: `nr jtop-cosmic` to switch, `nrs` to go back to GNOME, reboot after either so the login screen changes. It uses the `cosmic` system profile (`modules/system/cosmic.nix`: cosmic-greeter, COSMIC Terminal swapped for kitty) and home profile (`modules/home/cosmic.nix` + `cosmic-theme.nix`, written through the `cosmic-manager` flake input). Same apps, dock pins, wallpaper, cursor and GTK colours as GNOME. Gaps: COSMIC 1.9 has no night light and its compositor lacks wlr-gamma-control (no wlsunset), and cosmic-greeter lists every uid ≥ 1000 account, so `gars` shows on its login screen
 - `hosts/jtop/hardware-configuration.nix` must be generated on the laptop during install; until it is committed, `jtop` (and `nix flake check` on x86_64) fails to evaluate
 
 ### macbook
