@@ -54,6 +54,10 @@ in {
   programs.nushell = {
     enable = true;
 
+    # Load home.sessionVariables (NH_FLAKE, XDG dirs, STARSHIP_CONFIG, ...)
+    # into nushell, which is the login shell and never sources hm-session-vars.sh.
+    loadSessionVariables = true;
+
     environmentVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
