@@ -11,6 +11,7 @@
   inherit (flakeLib) mkDarwinOutput;
 
   kittyOverlay = import (self + /overlays/kitty-launchservices.nix);
+  qbittorrentOverlay = import (self + /overlays/qbittorrent-q-os-mac.nix);
 
   darwinOutputDefs = {
     macbook = {
@@ -18,7 +19,7 @@
       userName = "htmlgxn";
       homeProfile = "gui";
       homeOverlays = ["ai"];
-      nixpkgsOverlays = [kittyOverlay];
+      nixpkgsOverlays = [kittyOverlay qbittorrentOverlay];
     };
   };
 in {
