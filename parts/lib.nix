@@ -1,261 +1,63 @@
 # parts/lib.nix
 #
-# Shared profiles, users, hosts, overlay groups, and output builder functions.
-# Everything is captured in plain Nix let-bindings and exposed to the other
-# parts modules through _module.args.flakeLib so they stay independent files
-# with a clear, named contract instead of one monolithic outputs block.
+# Output builders. They turn the descriptors in parts/inventory.nix into
+# NixOS, nix-darwin and standalone Home Manager configurations, and are
+# exposed to the other parts modules through _module.args.flakeLib.
 {
   inputs,
+  inventory,
   self,
   ...
 }: let
-  inherit (inputs) nixpkgs home-manager nix-darwin nixos-hardware;
+  inherit (inputs) nixpkgs home-manager nix-darwin;
   inherit (nixpkgs) lib;
+  inherit
+    (inventory)
+    nixpkgsConfig
+    sharedOverlays
+    sharedModules
+    sharedSystemModules
+    sharedHomeModules
+    homeOverlayGroups
+    users
+    hosts
+    darwinHosts
+    homeProfiles
+    systemProfiles
+    ;
 
-  # ── Shared nixpkgs config (applied by every output builder) ──────
-  # Insecure allowances, matched by name prefix so they survive version bumps:
-  #  - librewolf: flagged insecure in nixpkgs (lacks an active committer).
-  #  - pnpm: build-time dependency of vesktop; flagged for npm CVEs that don't
-  #    apply to sandboxed nix builds with a fixed lockfile.
-  nixpkgsConfig = {
-    allowUnfree = true;
-    allowInsecurePredicate = pkg:
-      builtins.any
-      (prefix: nixpkgs.lib.hasPrefix prefix (nixpkgs.lib.getName pkg))
-      ["librewolf" "pnpm"];
-  };
-
-  # ── Shared nixpkgs overlays (applied by every output builder) ────
-  # Per-output overlays are appended via `nixpkgsOverlays`.
-  sharedOverlays = [
-    (import (self + /overlays/lix.nix))
-  ];
-
-  # ── Shared system modules (included in every NixOS output) ───────
-  sharedSystemModules = [
-    (self + /modules/shared/options.nix)
-    (self + /modules/shared/nix-settings.nix)
-    ({
-      pkgs,
-      config,
-      ...
-    }: {
-      time.timeZone = "America/Toronto";
-      i18n.defaultLocale = "en_CA.UTF-8";
-      documentation.nixos.enable = false;
-      users.users.${config.my.primaryUser}.shell = pkgs.nushell;
-      environment.shells = with pkgs; [nushell bashInteractive];
-
-      # System-level nh: `nh clean all` also prunes system generations, which
-      # the Home Manager `nh clean user` timer never touches (see mkHomeModule).
-      programs.nh = {
-        enable = true;
-        flake = "/home/${config.my.primaryUser}/nixos-config";
-        clean = {
-          enable = true;
-          dates = "weekly";
-          extraArgs = "--keep 3";
-        };
-      };
-    })
-  ];
-
-  # ── Named home overlay groups (selected explicitly by outputs) ───
-  homeOverlayGroups = {
-    ai = [(self + /modules/home/ai.nix)];
-  };
-
-  # ── Shared Home Manager modules (included in every HM output) ────
-  sharedHomeModules = [
-    (self + /modules/shared/options.nix)
-    (self + /modules/home/cli-base-apps.nix)
-    (self + /modules/home/containers.nix)
-    (self + /modules/home/fastfetch.nix)
-    (self + /modules/home/nixvim)
-  ];
-
-  # ── User definitions ─────────────────────────────────────────────
-  users = {
-    gars = {module = self + /modules/home/users/gars;};
-    htmlgxn = {module = self + /modules/home/users/htmlgxn.nix;};
-    janine = {module = self + /modules/home/users/janine.nix;};
-  };
-
-  # ── NixOS host definitions ────────────────────────────────────────
-  hosts = {
-    boreal = {
-      system = "x86_64-linux";
-      module = self + /hosts/boreal/configuration.nix;
-      extraSystemModules = [
-        (self + /modules/system/jellyfin.nix)
-        (self + /modules/system/containers.nix)
-      ];
-      hostHomeModules = [
-        (self + /hosts/boreal/home.nix)
-        (self + /modules/home/packages)
-      ];
-    };
-
-    nixos-vm = {
-      system = "x86_64-linux";
-      module = self + /hosts/nixos-vm/configuration.nix;
-      extraSystemModules = [];
-      hostHomeModules = [(self + /hosts/nixos-vm/home.nix)];
-    };
-
-    rpi4 = {
-      system = "aarch64-linux";
-      module = self + /hosts/rpi4/configuration.nix;
-      extraSystemModules = [
-        nixos-hardware.nixosModules.raspberry-pi-4
-      ];
-      hostHomeModules = [(self + /hosts/rpi4/home.nix)];
-    };
-
-    jtop = {
-      system = "x86_64-linux";
-      module = self + /hosts/jtop/configuration.nix;
-      extraSystemModules = [
-        nixos-hardware.nixosModules.common-cpu-intel
-        nixos-hardware.nixosModules.common-pc-laptop
-        nixos-hardware.nixosModules.common-pc-laptop-ssd
-      ];
-      hostHomeModules = [(self + /hosts/jtop/home.nix)];
-    };
-
-    # cyberdeck = {
-    #   system = "aarch64-linux";
-    #   module = self + /hosts/cyberdeck/configuration.nix;
-    #   extraSystemModules = [
-    #     jetpack-nixos.nixosModules.default
-    #   ];
-    # };
-  };
-
-  # ── nix-darwin host definitions ───────────────────────────────────
-  darwinHosts = {
-    macbook = {
-      system = "aarch64-darwin";
-      module = self + /hosts/macbook/configuration.nix;
-      hostHomeModules = [(self + /hosts/macbook/home.nix)];
+  # ── Helper: nixpkgs instance for a NixOS / nix-darwin output ──────
+  mkNixpkgsModule = {
+    system,
+    overlays ? [],
+  }: {
+    nixpkgs = {
+      hostPlatform = system;
+      config = nixpkgsConfig;
+      overlays = sharedOverlays ++ overlays;
     };
   };
 
-  # ── Home Manager profiles ─────────────────────────────────────────
-  homeProfiles = {
-    cli = [];
-
-    gui = [
-      (self + /modules/home/gui-base-apps.nix)
-    ];
-
-    gnome = [
-      (self + /modules/home/gnome.nix)
-      (self + /modules/home/gnome-theme.nix)
-    ];
-
-    cosmic = [
-      (self + /modules/home/cosmic.nix)
-      (self + /modules/home/cosmic-theme.nix)
-    ];
-
-    sway-config = [
-      (self + /modules/home/sway.nix)
-    ];
-
-    sway = [
-      (self + /modules/home/sway.nix)
-      (self + /modules/home/sway-apps.nix)
-    ];
-
-    sway-full = [
-      (self + /modules/home/sway.nix)
-      (self + /modules/home/sway-apps.nix)
-      (self + /modules/home/gui-extra-apps.nix)
-      (self + /modules/home/flatpak.nix)
-      (self + /modules/home/gaming.nix)
-    ];
-  };
-
-  # ── NixOS system profiles ─────────────────────────────────────────
-  systemProfiles = {
-    tty = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/nix-ld.nix)
-    ];
-
-    gnome = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/nix-ld.nix)
-      (self + /modules/system/gnome.nix)
-    ];
-
-    cosmic = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/nix-ld.nix)
-      (self + /modules/system/cosmic.nix)
-    ];
-
-    sway = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/nix-ld.nix)
-      (self + /modules/system/sway.nix)
-    ];
-
-    sway-full = [
-      (self + /modules/system/cli.nix)
-      (self + /modules/system/nix-ld.nix)
-      (self + /modules/system/sway.nix)
-      (self + /modules/system/flatpak.nix)
-      (self + /modules/system/gaming.nix)
-    ];
-  };
-
-  # ── Helper: resolve overlay names to module lists ─────────────────
-  resolveHomeOverlays = overlayNames:
-    builtins.concatLists (map (name: homeOverlayGroups.${name}) overlayNames);
-
-  # ── Helper: assemble the full home imports list ───────────────────
+  # ── Helper: assemble the full home imports list for one user ──────
   mkHomeImports = {
     userName,
     homeProfile,
     hostHomeModules ? [],
     homeOverlays ? [],
-  }: let
-    user = users.${userName};
-  in
-    sharedHomeModules
-    ++ [user.module]
+    withSharedHomeModules ? true,
+  }:
+    [(self + /modules/shared/options.nix)]
+    ++ lib.optionals withSharedHomeModules sharedHomeModules
+    ++ [users.${userName}.module]
     ++ homeProfiles.${homeProfile}
     ++ hostHomeModules
-    ++ resolveHomeOverlays homeOverlays;
-
-  # ── Helper: Home Manager config for an output's extra desktop users ──
-  # Each user gets their user module, a home profile and host modules, plus
-  # sharedHomeModules only when withSharedHomeModules is set.
-  mkExtraHomeUsers = extraHomeUsers: {
-    home-manager.users =
-      builtins.mapAttrs (userName: user: {
-        imports =
-          [(self + /modules/shared/options.nix)]
-          ++ lib.optionals (user.withSharedHomeModules or false) sharedHomeModules
-          ++ [
-            users.${userName}.module
-            # The system-level nh clean (sharedSystemModules) already covers user profiles.
-            {programs.nh.clean.enable = lib.mkForce false;}
-          ]
-          ++ homeProfiles.${user.homeProfile}
-          ++ (user.hostHomeModules or []);
-      })
-      extraHomeUsers;
-  };
+    ++ lib.concatMap (name: homeOverlayGroups.${name}) homeOverlays;
 
   # ── Builder: Home Manager as a NixOS / nix-darwin module ──────────
+  # `homeUsers` maps user names to mkHomeImports arguments (minus userName),
+  # so an output's extra desktop users are wired exactly like its primary one.
   mkHomeModule = {
-    userName,
-    homeProfile,
-    hostHomeModules ? [],
-    homeOverlays ? [],
+    homeUsers,
     extraHomeModules ? [],
   }: {
     home-manager = {
@@ -263,9 +65,11 @@
       useUserPackages = true;
       backupFileExtension = "bak";
       extraSpecialArgs = {inherit inputs;};
-      users.${userName}.imports =
-        mkHomeImports {inherit userName homeProfile hostHomeModules homeOverlays;}
-        ++ extraHomeModules;
+      users =
+        lib.mapAttrs (userName: spec: {
+          imports = mkHomeImports (spec // {inherit userName;}) ++ extraHomeModules;
+        })
+        homeUsers;
     };
   };
 
@@ -277,6 +81,8 @@
     homeProfile,
     homeOverlays ? [],
     nixpkgsOverlays ? [],
+    # Additional desktop users: name -> { homeProfile, hostHomeModules ? [],
+    # homeOverlays ? [], withSharedHomeModules ? true }.
     extraHomeUsers ? {},
   }: let
     host = hosts.${hostName};
@@ -286,26 +92,29 @@
       modules =
         sharedSystemModules
         ++ [
-          (_: {
-            nixpkgs = {
-              hostPlatform = host.system;
-              config = nixpkgsConfig;
-              overlays = sharedOverlays ++ nixpkgsOverlays;
-            };
+          (mkNixpkgsModule {
+            inherit (host) system;
+            overlays = nixpkgsOverlays;
           })
           host.module
         ]
         ++ systemProfiles.${systemProfile}
-        ++ host.extraSystemModules
+        ++ host.extraSystemModules or []
         ++ [
           home-manager.nixosModules.home-manager
           (mkHomeModule {
-            inherit userName homeProfile homeOverlays;
-            hostHomeModules = host.hostHomeModules or [];
-            # The system-level nh clean (sharedSystemModules) already covers user profiles.
+            homeUsers =
+              {
+                ${userName} = {
+                  inherit homeProfile homeOverlays;
+                  hostHomeModules = host.hostHomeModules or [];
+                };
+              }
+              // extraHomeUsers;
+            # The system-level nh clean (modules/system/base.nix) already
+            # covers user profiles.
             extraHomeModules = [{programs.nh.clean.enable = lib.mkForce false;}];
           })
-          (mkExtraHomeUsers extraHomeUsers)
         ];
     };
 
@@ -321,23 +130,22 @@
   in
     nix-darwin.lib.darwinSystem {
       specialArgs = {inherit inputs;};
-      modules = [
-        (self + /modules/shared/options.nix)
-        (self + /modules/shared/nix-settings.nix)
-        {
-          nixpkgs = {
-            hostPlatform = host.system;
-            config = nixpkgsConfig;
-            overlays = sharedOverlays ++ nixpkgsOverlays;
-          };
-        }
-        host.module
-        home-manager.darwinModules.home-manager
-        (mkHomeModule {
-          inherit userName homeProfile homeOverlays;
-          hostHomeModules = host.hostHomeModules or [];
-        })
-      ];
+      modules =
+        sharedModules
+        ++ [
+          (mkNixpkgsModule {
+            inherit (host) system;
+            overlays = nixpkgsOverlays;
+          })
+          host.module
+          home-manager.darwinModules.home-manager
+          (mkHomeModule {
+            homeUsers.${userName} = {
+              inherit homeProfile homeOverlays;
+              hostHomeModules = host.hostHomeModules or [];
+            };
+          })
+        ];
     };
 
   # ── Builder: standalone Home Manager output ───────────────────────

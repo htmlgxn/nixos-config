@@ -56,9 +56,10 @@
   # same apps on either desktop. `jtop` (GNOME) is the default; `jtop-cosmic`
   # is a COSMIC trial on the same machine (switch with `nr jtop-cosmic`,
   # back with `nrs`; reboot after switching so the login screen changes).
+  # Extra users take the same arguments as the primary user (see mkOutput);
+  # she gets the shared home modules like everyone else.
   janine = desktop: {
     homeProfile = desktop;
-    withSharedHomeModules = true;
     hostHomeModules = [
       (self + /hosts/jtop/janine-home.nix)
       (self + /hosts/jtop/janine-${desktop}.nix)

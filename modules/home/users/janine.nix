@@ -1,6 +1,6 @@
 # Home Manager user module for `janine` (desktop user on jtop).
 # Same shell, aliases, CLI tools and defaults as gars (user-base.nix, plus the
-# shared modules via withSharedHomeModules on the jtop host descriptor), but
+# shared home modules every user gets from mkHomeImports in parts/lib.nix), but
 # none of gars's identity: no git user, SSH hosts or SSH key from common.nix.
 _: let
   userName = "janine";
