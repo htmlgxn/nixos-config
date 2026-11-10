@@ -1,7 +1,7 @@
 # parts/darwin.nix
 #
 # nix-darwin output definitions.
-# Each entry selects a darwin host (darwinHosts in parts/lib.nix), user,
+# Each entry selects a darwin host (darwinHosts in parts/inventory.nix), user,
 # home profile, and optional home overlay groups.
 {
   flakeLib,

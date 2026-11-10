@@ -1,5 +1,5 @@
 # jtop: Janine's laptop (Intel Panther Lake), GNOME desktop.
-# nixos-hardware Intel/laptop modules are added via extraSystemModules in parts/lib.nix.
+# nixos-hardware Intel/laptop modules are added via extraSystemModules in parts/inventory.nix.
 # Generate hardware-configuration.nix during install (from the NixOS installer):
 #   nixos-generate-config --root /mnt --show-hardware-config > hosts/jtop/hardware-configuration.nix
 {pkgs, ...}: {

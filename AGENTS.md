@@ -3,13 +3,13 @@
 ## Project Structure & Module Organization
 
 - Canonical operator docs now live in `README.md`, `docs/architecture.md`, `docs/workflows.md`, `docs/reference.md`, `hosts/README.md`, and `modules/README.md`.
-- `flake.nix` defines outputs through descriptor attrsets (in `parts/lib.nix`) for `users`, `hosts`, `darwinHosts`, `homeProfiles`, `systemProfiles`, and three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. Three builder functions produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager). `parts/checks.nix` exposes every output as `checks.<system>.<kind>-<name>`, so `nix flake check` builds all hosts for the current platform.
+- `flake.nix` is the input manifest plus the list of `parts/` modules. `parts/inventory.nix` holds the descriptor attrsets (`users`, `hosts`, `darwinHosts`, `homeProfiles`, `systemProfiles`, `homeOverlayGroups`, plus the shared module lists, `nixpkgsConfig` and `sharedOverlays`); this is the file to edit when adding a user, host or profile. `parts/nixos.nix`, `parts/darwin.nix` and `parts/home.nix` hold the three output maps: `nixosOutputDefs`, `darwinOutputDefs`, and `homeOutputDefs`. `parts/lib.nix` holds the three builder functions that produce outputs: `mkOutput` (NixOS), `mkDarwinOutput` (nix-darwin), and `mkHomeOutput` (standalone Home Manager). Richer profiles are built from leaner ones (`sway-full = sway ++ [...]`), so each module is named once; module order inside those lists is significant. `parts/checks.nix` exposes every output as `checks.<system>.<kind>-<name>`, so `nix flake check` builds all hosts for the current platform. `.github/workflows/check.yml` evaluates every output on each push and checks formatting; `.github/workflows/update-flake-lock.yml` opens a weekly `flake.lock` update PR. `parts/devshell.nix` provides `nix develop`.
 - Current NixOS outputs are `boreal-tty`, `boreal`, `jtop`, `jtop-cosmic`, `nixos-vm`, `rpi4-tty`, and `rpi4-sway`. Darwin output: `macbook`. Standalone HM outputs: `fedora-mac` and `jetson`.
 - Flake inputs include `nixpkgs`, `home-manager`, `nix-darwin`, `nixos-hardware`, `jetpack-nixos`, `bookokrat`, `flake-parts`, `nixvim`, `nix-flatpak`, `crane`, `fenix`, `spicetify-nix`, `cosmic-manager`, and `treefmt-nix`. Lix comes from nixpkgs (`lixPackageSets.stable`), not a separate input.
 - `hosts/<name>/configuration.nix` contains per-host system settings.
 - `hosts/<name>/hardware-configuration.nix` is generated; do not edit it manually or via automation.
-- `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target. `hosts/jtop/` is Janine's Intel laptop (GNOME, `gnome` system profile); her Home Manager config is wired through each output's `extraHomeUsers` (`parts/nixos.nix`) with `withSharedHomeModules = true` (same CLI tools, aliases and defaults as gars via `modules/home/user-base.nix`, but not `users/common.nix`). Her login shell is nushell; kitty is her terminal (GNOME Console is excluded, `xdg.terminal-exec` points GNOME at kitty, Ctrl+Alt+T opens it).
-- `modules/shared/nix-settings.nix` holds the shared Nix daemon config (`nix.package` = nixpkgs Lix, scheduled `nix.optimise`, flakes, binary caches) imported by both the NixOS and nix-darwin builders in `parts/lib.nix`. The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/lib.nix` and is applied by all three output builders, together with `sharedOverlays` (`overlays/lix.nix`, which points nixpkgs-review/nix-eval-jobs/nix-fast-build/colmena at the same Lix). NixOS outputs also get a system-level `programs.nh` with a weekly `nh clean all` timer; their Home Manager `nh clean` timer is forced off.
+- `hosts/boreal/configuration.nix` is now a thin import list; the boreal host is split into `base.nix`, `graphics.nix`, `storage.nix`, `networking.nix`, `users.nix`, and `services.nix`. `hosts/cyberdeck/configuration.nix` is the aarch64 Jetson target. `hosts/nixos-vm/configuration.nix` is the VM profile. `hosts/rpi4/configuration.nix` is the Raspberry Pi 4 target. `hosts/macbook/configuration.nix` is the nix-darwin target. `hosts/jtop/` is Janine's Intel laptop (GNOME, `gnome` system profile); her Home Manager config is wired through each output's `extraHomeUsers` (`parts/nixos.nix`), which takes the same arguments as the primary user and gets the shared home modules by default (same CLI tools, aliases and defaults as gars via `modules/home/user-base.nix`, but not `users/common.nix`; set `withSharedHomeModules = false` to opt a user out). Her login shell is nushell; kitty is her terminal (GNOME Console is excluded, `xdg.terminal-exec` points GNOME at kitty, Ctrl+Alt+T opens it).
+- `modules/shared/nix-settings.nix` holds the shared Nix daemon config (`nix.package` = nixpkgs Lix, scheduled `nix.optimise`, flakes, binary caches) imported by both the NixOS and nix-darwin builders (`sharedModules` in `parts/inventory.nix`). The shared `nixpkgsConfig` (allowUnfree + insecure allowances for librewolf/pnpm) also lives in `parts/inventory.nix` and is applied by all three output builders, together with `sharedOverlays` (`overlays/lix.nix`, which points nixpkgs-review/nix-eval-jobs/nix-fast-build/colmena at the same Lix). `modules/system/base.nix` is the baseline for every NixOS output (timezone, locale, login shells, and a system-level `programs.nh` with a weekly `nh clean all` timer); their Home Manager `nh clean` timer is forced off by `mkOutput`.
 - `overlays/` holds per-output nixpkgs overlays, passed through the `nixpkgsOverlays` argument of `mkOutput` (NixOS) and `mkDarwinOutput` (nix-darwin). `brave-nightly.nix` is applied to `boreal`; `kitty-launchservices.nix` is applied to `macbook` and unwraps kitty's `.app` bundle so LaunchServices-started kitty keeps a real pid under macOS 27 (otherwise AeroSpace never sees it and its windows stay floating).
 - `modules/shared/options.nix` defines the repo-local `my.*` namespace used for values like `my.repoRoot`, `my.primaryUser`, `my.borealHost`, `my.ollamaPackage`, `my.wallpaper`, `my.terminal`, `my.dualKeyboardLayout`, `my.showRootDisk`, `my.containersRoot`, `my.terminalTheme`, `my.guiTheme`, `my.nvimTheme`, and `my.jellyfin.*`.
 - `containers/` is the repo-managed workspace for Podman/Quadlet, compose-style apps, and direct npm app experiments.
@@ -53,17 +53,14 @@
 - For standalone HM: `nhms` (default fedora-mac) or `home-manager switch --flake .#<output>`.
 - `nix flake update` refreshes `flake.lock` inputs.
 - Shared navigation and SSH aliases live in `modules/home/users/common.nix`. The main Nix helper surface (`nr`, `nrb`, `ns`, `ncheck`, `nboh`, `nclean-all`, etc.) is the `nixcfg` CLI: `scripts/nixcfg.sh`, packaged and aliased (bash + nushell) by `modules/home/nix-workflows.nix`. Add new helpers as functions there and list them in the `_nixcfg_commands` dispatcher array.
-- `swapstat` (defined in `modules/home/users/gars.nix`) shows swap usage plus zram status.
 
 ## Coding Style & Naming Conventions
 
 - Use 2-space indentation and align braces with existing Nix style.
-- Prefer lower-case, hyphenated filenames (for example `gui-base.nix`, `waybar-settings.nix`).
+- Prefer lower-case, hyphenated filenames (for example `gui-base-apps.nix`, `waybar-settings.nix`).
 - Keep module names descriptive and scoped to their layer: `modules/system/<feature>.nix` vs `modules/home/<feature>.nix`.
-- Keep host names stable; they are referenced directly in `flake.nix` output keys.
-- Format Nix with `alejandra`.
-- Format all Nix files except hardware configs:
-- `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`
+- Keep host names stable; they are referenced directly by the output keys in `parts/nixos.nix`, `parts/darwin.nix` and `parts/home.nix`.
+- Format with `nix fmt` (treefmt: alejandra, deadnix and statix for Nix, plus stylua, shfmt and prettier; hardware configs are excluded in `parts/treefmt.nix`). `nix fmt -- --ci` checks without modifying.
 
 ## System Services & Storage Notes
 
@@ -74,7 +71,8 @@
 
 ## Testing Guidelines
 
-- There are no automated tests in this repository.
+- There are no behavioural tests in this repository. CI evaluates every output (`nix flake check --no-build --all-systems`) and checks formatting, which catches option typos, missing imports and type errors but not runtime behaviour.
+- A pure refactor should leave every output's derivation unchanged: compare `nix eval --raw .#nixosConfigurations.<name>.config.system.build.toplevel.drvPath` before and after (`darwinConfigurations.<name>.system.drvPath`, `homeConfigurations.<name>.activationPackage.drvPath`).
 - Validate changes by building the target: `sudo nixos-rebuild build --flake .#boreal` or another affected output.
 - For GUI changes (Waybar/Sway), do a local switch and visually confirm behavior.
 

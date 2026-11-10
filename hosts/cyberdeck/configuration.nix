@@ -1,7 +1,8 @@
 #
 # ~/nixos-config/hosts/cyberdeck/configuration.nix
 #
-# jetpack-nixos module is added via extraSystemModules in flake.nix.
+# jetpack-nixos module is added via extraSystemModules in parts/inventory.nix
+# (currently commented out there and in parts/nixos.nix).
 # Requires hardware-configuration.nix when physical hardware is acquired.
 # Currently configured for NVIDIA Jetson Orin Nano (aarch64).
 _: {

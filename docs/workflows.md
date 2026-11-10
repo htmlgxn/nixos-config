@@ -7,7 +7,7 @@ For shell helpers and command combos, see [`docs/nix-workflows.md`](nix-workflow
 1. Create `modules/home/users/<username>.nix`.
 2. Import `modules/home/users/common.nix` if the user should inherit the shared shell/editor/theme baseline.
 3. Set user-local values such as `my.repoRoot` and `my.containersRoot`.
-4. Register the user in the `users` attrset in `flake.nix`.
+4. Register the user in the `users` attrset in `parts/inventory.nix`.
 5. Keep user-specific logic in the user module itself; if the extra behavior is optional, reusable, or output-specific, model it as an explicit home overlay group instead.
 6. Reference the user from one or more output maps.
 
@@ -18,14 +18,14 @@ Rule of thumb: user definitions should describe the user, not silently expand un
 1. Create `hosts/<hostname>/configuration.nix`.
 2. Keep it thin if the host is non-trivial.
 3. Split host-local concerns into focused files under `hosts/<hostname>/` when that improves readability or ownership clarity.
-4. Register the host in the `hosts` attrset in `flake.nix`.
+4. Register the host in the `hosts` attrset in `parts/inventory.nix` (`darwinHosts` for nix-darwin).
 5. Add `extraSystemModules` only for shared modules that are still host-scoped by values or hardware.
 6. Add `hostHomeModules` only for host-local Home Manager behavior or values that do not belong in shared profiles.
 7. Add one or more `nixosOutputDefs` entries for that host.
 
 ## Add a Profile
 
-1. Add a module list to `homeProfiles` and/or `systemProfiles` in `flake.nix`.
+1. Add a module list to `homeProfiles` and/or `systemProfiles` in `parts/inventory.nix`. Build it from an existing profile (`sway ++ [...]`) when it is a superset, so each module is named once.
 2. Reuse existing shared modules where possible.
 3. Keep profiles capability-oriented: TTY, Sway, gaming, lean ARM desktop, and so on.
 4. Add output entries in the relevant map:
@@ -54,7 +54,7 @@ The target is that a new output should not require discovering unrelated implici
 - Shared baseline: `modules/home/cli-base-apps.nix`
 - Optional AI tooling: `modules/home/ai.nix` (via `ai` overlay group in output definition)
 - Shared container/npm tooling: `modules/home/containers.nix`
-- Output-level optional extras: explicit home overlay groups in `flake.nix` (currently just `ai`)
+- Output-level optional extras: explicit home overlay groups (`homeOverlayGroups` in `parts/inventory.nix`, currently just `ai`)
 - Device/profile-specific CLI additions: place in a dedicated module and add to the relevant home profile
 
 ### Desktop packages
@@ -109,3 +109,5 @@ Check for avoidable modularity regressions:
 - is a host-local value hardcoded in a shared module
 - is a heavyweight feature included by default when it could be opt-in
 - does adding a new output require changing multiple unrelated inventories or helper lists
+
+Then run `nix fmt` and `nix flake check --no-build` (evaluates every output for this platform without building). For a pure refactor, confirm the affected outputs' derivation paths did not change (see `AGENTS.md`, Testing Guidelines).

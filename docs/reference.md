@@ -2,18 +2,18 @@
 
 ## Outputs
 
-| Output       | Type         | Host/User           | System Profile | Home Profile  | Home Overlays |
-| ------------ | ------------ | ------------------- | -------------- | ------------- | ------------- |
-| `boreal-tty` | NixOS        | `boreal` / `gars`   | `tty`          | `cli`         | `ai`          |
-| `boreal`     | NixOS        | `boreal` / `gars`   | `sway-full`    | `sway-full`   | `ai`          |
-| `jtop`       | NixOS        | `jtop` / `gars`     | `gnome`        | `cli`         | none          |
-| `jtop-cosmic`| NixOS        | `jtop` / `gars`     | `cosmic`       | `cli`         | none          |
-| `nixos-vm`   | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`         | none          |
-| `rpi4-tty`   | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`         | none          |
-| `rpi4-sway`  | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`        | none          |
-| `macbook`    | nix-darwin   | `htmlgxn`           | n/a            | `cli`         | `ai`          |
-| `fedora-mac` | Home Manager | `htmlgxn`           | n/a            | `sway`        | none          |
-| `jetson`     | Home Manager | `gars`              | n/a            | `sway-config` | none          |
+| Output        | Type         | Host/User           | System Profile | Home Profile  | Home Overlays |
+| ------------- | ------------ | ------------------- | -------------- | ------------- | ------------- |
+| `boreal-tty`  | NixOS        | `boreal` / `gars`   | `tty`          | `cli`         | `ai`          |
+| `boreal`      | NixOS        | `boreal` / `gars`   | `sway-full`    | `sway-full`   | `ai`          |
+| `jtop`        | NixOS        | `jtop` / `gars`     | `gnome`        | `cli`         | none          |
+| `jtop-cosmic` | NixOS        | `jtop` / `gars`     | `cosmic`       | `cli`         | none          |
+| `nixos-vm`    | NixOS        | `nixos-vm` / `gars` | `tty`          | `cli`         | none          |
+| `rpi4-tty`    | NixOS        | `rpi4` / `gars`     | `tty`          | `cli`         | `ai`          |
+| `rpi4-sway`   | NixOS        | `rpi4` / `gars`     | `sway`         | `sway`        | `ai`          |
+| `macbook`     | nix-darwin   | `htmlgxn`           | n/a            | `gui`         | `ai`          |
+| `fedora-mac`  | Home Manager | `htmlgxn`           | n/a            | `sway`        | none          |
+| `jetson`      | Home Manager | `gars`              | n/a            | `sway-config` | none          |
 
 ## Home Overlay Groups
 
@@ -23,7 +23,7 @@ Home Manager outputs may include explicit overlay groups for feature composition
 
 Host-level Home Manager modules are applied per-output through the host descriptor:
 
-- `hosts/boreal/home.nix` adds Boreal-specific overrides (e.g., `my.ollamaPackage = pkgs.ollama-vulkan`, `my.terminal = "kitty"`) for `boreal` and `boreal-tty` outputs
+- `hosts/boreal/home.nix` adds Boreal-specific overrides (e.g., `my.ollamaPackage = pkgs.ollama-vulkan`, `my.dualKeyboardLayout`, `my.showRootDisk`) for `boreal` and `boreal-tty` outputs
 - `hosts/macbook/home.nix` adds macOS-specific configuration
 - `hosts/jetson/home.nix` enables `targets.genericLinux.enable` and sets CUDA paths
 
@@ -117,8 +117,8 @@ Neovim helpers:
 
 `my.terminal` acts as the terminal selector for GUI outputs:
 
-- `foot` is the shared default (set in `modules/shared/options.nix`)
-- Boreal overrides to `kitty` in `hosts/boreal/home.nix`
+- `kitty` is the shared default (set in `modules/shared/options.nix`)
+- `rpi4` and `jetson` override to `foot` in their `hosts/<name>/home.nix`
 
 ## Host Notes
 
@@ -136,7 +136,7 @@ Neovim helpers:
 
 ### cyberdeck
 
-- Jetson Orin Nano target configuration (currently disabled in `parts/lib.nix` and `parts/nixos.nix`)
+- Jetson Orin Nano target configuration (currently disabled in `parts/inventory.nix` and `parts/nixos.nix`)
 - `hosts/cyberdeck/configuration.nix` targets the Jetson via `hardware.nvidia-jetpack`
 - the JetPack module comes from `jetpack-nixos` input
 

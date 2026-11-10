@@ -21,14 +21,28 @@ The repo is intentionally split into four layers:
 - home profiles: Home Manager module sets that define CLI tools, desktop packages, dotfiles, and user-facing defaults
 - shared local options: repo-specific values exposed through `my.*`
 
-`flake.nix` composes those layers instead of hardcoding each final output by hand.
+`flake.nix` itself is only the input manifest and the list of `parts/` modules; the parts compose those layers instead of hardcoding each final output by hand.
 
 ## Flake Composition
 
-The flake uses four descriptor attrsets plus three output maps:
+The parts are split by how often and why they change:
+
+| File                  | Holds                                                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| `parts/inventory.nix` | what exists: descriptor attrsets, shared module lists, `nixpkgsConfig`, `sharedOverlays` |
+| `parts/lib.nix`       | how it is assembled: the three output builders                                           |
+| `parts/nixos.nix`     | which NixOS outputs exist (`nixosOutputDefs`)                                            |
+| `parts/darwin.nix`    | which nix-darwin outputs exist (`darwinOutputDefs`)                                      |
+| `parts/home.nix`      | which standalone Home Manager outputs exist (`homeOutputDefs`)                           |
+| `parts/checks.nix`    | every output as a `nix flake check` target                                               |
+| `parts/treefmt.nix`   | `nix fmt` and the formatting check                                                       |
+| `parts/devshell.nix`  | `nix develop`                                                                            |
+| `parts/apps.nix`      | `nix run` helpers                                                                        |
+
+The inventory holds the descriptor attrsets and the parts above hold three output maps:
 
 - `users`: per-user Home Manager entrypoints and user-local values
-- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, and the target platform. NixOS output definitions may add `extraHomeUsers` (additional desktop users that get their user module, a home profile and host modules, plus `sharedHomeModules` when `withSharedHomeModules = true`), so the same host can carry different desktops per output
+- `hosts`: per-host system, entry module, host-local extra system modules, optional host-level Home Manager modules, and the target platform. NixOS output definitions may add `extraHomeUsers` (additional desktop users, described with the same arguments as the primary user: a home profile, host modules, overlay groups, and `withSharedHomeModules = false` to opt out of `sharedHomeModules`), so the same host can carry different desktops per output
 - `homeProfiles`: reusable Home Manager module lists
 - `systemProfiles`: reusable NixOS module lists
 - `nixosOutputDefs`: final NixOS outputs that select a host, user, system profile, home profile, and optional home overlay groups
@@ -129,34 +143,38 @@ Poor fits for host modules:
 
 ### System Profiles
 
-| Profile     | Modules                                            |
-| ----------- | -------------------------------------------------- |
-| `tty`       | `cli.nix`, `nix-ld.nix`                                          |
-| `gnome`     | `cli.nix`, `nix-ld.nix`, `gnome.nix`                             |
-| `sway`      | `cli.nix`, `nix-ld.nix`, `sway.nix`                              |
-| `sway-full` | `cli.nix`, `nix-ld.nix`, `sway.nix`, `flatpak.nix`, `gaming.nix` |
+Every NixOS output also gets `sharedSystemModules` (`modules/shared/options.nix`, `modules/shared/nix-settings.nix`, `modules/system/base.nix`). Profiles build on each other, so each module is named once in `parts/inventory.nix`:
+
+| Profile     | Definition                           |
+| ----------- | ------------------------------------ |
+| `tty`       | `cli.nix`, `nix-ld.nix`              |
+| `gnome`     | `tty` + `gnome.nix`                  |
+| `cosmic`    | `tty` + `cosmic.nix`                 |
+| `sway`      | `tty` + `sway.nix`                   |
+| `sway-full` | `sway` + `flatpak.nix`, `gaming.nix` |
 
 ### Home Profiles
 
-| Profile     | Modules                                                       |
-| ----------- | ------------------------------------------------------------- |
-| `cli`       | (none — shared modules are always included)                   |
-| `gui`       | `gui-base-apps.nix` (macOS — apps without compositor)         |
-| `gnome`     | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours: GTK via `gtk-theme.nix` plus a generated GNOME Shell theme); used by jtop's `janine` |
-| `cosmic`    | `cosmic.nix` (cosmic-manager, kitty as terminal), `cosmic-theme.nix` (`my.guiTheme` COSMIC theme builder + wallpaper, GTK via `gtk-theme.nix`); used by `jtop-cosmic`'s `janine` |
-| `sway`      | `sway.nix` (imports `gui-base-apps.nix` internally)           |
-| `sway-full` | `sway.nix`, `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix` |
+| Profile       | Modules                                                                                                                                                                          |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cli`         | (none — shared modules are always included)                                                                                                                                      |
+| `gui`         | `gui-base-apps.nix` (macOS — apps without compositor)                                                                                                                            |
+| `gnome`       | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours: GTK via `gtk-theme.nix` plus a generated GNOME Shell theme); used by jtop's `janine` |
+| `cosmic`      | `cosmic.nix` (cosmic-manager, kitty as terminal), `cosmic-theme.nix` (`my.guiTheme` COSMIC theme builder + wallpaper, GTK via `gtk-theme.nix`); used by `jtop-cosmic`'s `janine` |
+| `sway-config` | `sway.nix` only: declarative sway config for hosts that use the host OS's sway binaries (jetson)                                                                                 |
+| `sway`        | `sway-config` + `sway-apps.nix` (which imports `gui-base-apps.nix`)                                                                                                              |
+| `sway-full`   | `sway` + `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix`                                                                                                                       |
 
 System and home profiles are named symmetrically (`sway`/`sway`, `sway-full`/`sway-full`). The `gui` home profile exists for macOS where sway cannot run.
 
 ### Standalone System Modules
 
-These are included per-host via `extraSystemModules`, not through profiles:
+These are included per-host, not through profiles: either via `extraSystemModules` in the host descriptor or imported by a host file.
 
-- `modules/system/jellyfin.nix`
-- `modules/system/containers.nix`
-- `modules/system/borg.nix`
-- `modules/system/soft-serve.nix`
+- `modules/system/jellyfin.nix` (boreal, `extraSystemModules`)
+- `modules/system/containers.nix` (boreal, `extraSystemModules`)
+- `modules/system/borg.nix` (imported by `hosts/boreal/services.nix`)
+- `modules/system/soft-serve.nix` (imported by `hosts/boreal/services.nix`)
 
 ## Desktop and Gaming
 

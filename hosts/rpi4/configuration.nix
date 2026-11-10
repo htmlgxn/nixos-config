@@ -1,10 +1,10 @@
 # Raspberry Pi 4 NixOS host configuration.
-# nixos-hardware module is added via extraSystemModules in flake.nix.
+# nixos-hardware module is added via extraSystemModules in parts/inventory.nix.
 # Generate hardware-configuration.nix after initial install:
 #   nixos-generate-config --show-hardware-config > hosts/rpi4/hardware-configuration.nix
 {lib, ...}: {
   imports = [
-    ./hardware-configuration.nix # uncomment after generating on hardware
+    ./hardware-configuration.nix
   ];
 
   # Root may log in with a key (e.g. for remote nixos-rebuild), never a password.

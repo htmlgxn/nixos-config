@@ -21,7 +21,7 @@ in {
   networking.computerName = "macbook";
 
   # allowUnfree and the insecure allowances (librewolf, pnpm) come from the
-  # shared nixpkgsConfig in parts/lib.nix.
+  # shared nixpkgsConfig in parts/inventory.nix.
 
   # ── Firewall ──────────────────────────────────────────────────────
   networking.applicationFirewall = {

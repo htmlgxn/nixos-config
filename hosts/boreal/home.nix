@@ -1,5 +1,5 @@
 # boreal-specific home-manager configuration.
-# Included automatically for every boreal output via hostHomeModules in flake.nix.
+# Included automatically for every boreal output via hostHomeModules in parts/inventory.nix.
 {
   config,
   pkgs,

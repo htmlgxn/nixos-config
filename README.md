@@ -9,7 +9,7 @@ The main layers are:
 - shared Home Manager modules in [`modules/home/`](modules/home)
 - repo-local shared options in [`modules/shared/`](modules/shared)
 
-`flake.nix` assembles those layers through descriptor attrsets for users, hosts, home profiles, system profiles, and explicit home-module overlay groups. Final outputs are then mapped into `nixosConfigurations`, `darwinConfigurations`, and `homeConfigurations`.
+`flake.nix` is only the input manifest plus a list of `parts/` modules. [`parts/inventory.nix`](parts/inventory.nix) holds the descriptor attrsets for users, hosts, home profiles, system profiles, and explicit home-module overlay groups; [`parts/lib.nix`](parts/lib.nix) holds the builders; `parts/nixos.nix`, `parts/darwin.nix`, and `parts/home.nix` select the outputs. Final outputs are then mapped into `nixosConfigurations`, `darwinConfigurations`, and `homeConfigurations`.
 
 ## Start Here
 
@@ -22,18 +22,18 @@ The main layers are:
 
 ## Current Outputs
 
-| Output       | Type         | Purpose                                              |
-| ------------ | ------------ | ---------------------------------------------------- |
-| `boreal-tty` | NixOS        | CLI/server profile on boreal with AI CLI overlays    |
-| `boreal`     | NixOS        | Full Sway desktop with gaming and AI CLI             |
-| `jtop`       | NixOS        | Janine's laptop: simple GNOME desktop                |
-| `jtop-cosmic`| NixOS        | Janine's laptop: COSMIC trial (same apps and theme)  |
-| `nixos-vm`   | NixOS        | Minimal VM profile                                   |
-| `rpi4-tty`   | NixOS        | Raspberry Pi 4 TTY profile                           |
-| `rpi4-sway`  | NixOS        | Raspberry Pi 4 Sway profile (lean ARM variant)       |
-| `macbook`    | nix-darwin   | Apple Silicon nix-darwin host with AI CLI overlay    |
-| `fedora-mac` | Home Manager | Standalone Home Manager profile for Fedora/macOS ARM |
-| `jetson`     | Home Manager | Standalone Home Manager profile for Jetson Orin Nano |
+| Output        | Type         | Purpose                                              |
+| ------------- | ------------ | ---------------------------------------------------- |
+| `boreal-tty`  | NixOS        | CLI/server profile on boreal with AI CLI overlays    |
+| `boreal`      | NixOS        | Full Sway desktop with gaming and AI CLI             |
+| `jtop`        | NixOS        | Janine's laptop: simple GNOME desktop                |
+| `jtop-cosmic` | NixOS        | Janine's laptop: COSMIC trial (same apps and theme)  |
+| `nixos-vm`    | NixOS        | Minimal VM profile                                   |
+| `rpi4-tty`    | NixOS        | Raspberry Pi 4 TTY profile                           |
+| `rpi4-sway`   | NixOS        | Raspberry Pi 4 Sway profile (lean ARM variant)       |
+| `macbook`     | nix-darwin   | Apple Silicon nix-darwin host with AI CLI overlay    |
+| `fedora-mac`  | Home Manager | Standalone Home Manager profile for Fedora on ARM    |
+| `jetson`      | Home Manager | Standalone Home Manager profile for Jetson Orin Nano |
 
 ## Standalone Home Manager Hosts
 
@@ -46,6 +46,7 @@ The standalone HM hosts (`fedora-mac`, `jetson`) run on non-NixOS systems where 
 - `ns [query]`
 - `ndrs` (macbook)
 - `nhms` (fedora-mac)
-- `rg --files -g '*.nix' -g '!hosts/*/hardware-configuration.nix' | xargs alejandra`
+- `nix fmt` (treefmt: alejandra, deadnix, statix, stylua, shfmt, prettier)
+- `nix develop` (formatter, nixd, nh, nvd, nix-output-monitor without installing them)
 
 See [`docs/nix-workflows.md`](docs/nix-workflows.md) for the full helper surface, [`docs/reference.md`](docs/reference.md) for the exact output matrix, and [`docs/workflows.md`](docs/workflows.md) for how to add or change composition pieces safely.

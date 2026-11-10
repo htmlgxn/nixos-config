@@ -18,6 +18,7 @@
 
 ## Typical Split
 
+- `modules/system/base.nix`: baseline for every NixOS output (timezone, locale, login shells, system-level `nh`)
 - `modules/system/*`: services, compositor plumbing, system-wide packages, host-agnostic integration
 - `modules/home/*`: user packages, dotfiles, application config, shell aliases, user-facing UX
 - `modules/home/nix-workflows.nix`: packages `scripts/nixcfg.sh` as the `nixcfg` CLI (evaluation, rebuilds, remote deploys, repo validation) and aliases each subcommand
@@ -27,7 +28,7 @@
 ## User Module Pattern
 
 - `modules/home/users/common.nix` is the shared user baseline for shell, SSH, editor, and theme behavior
-- platform-specific user modules such as `gars.nix` and `htmlgxn.nix` import that baseline and provide host/platform paths and overrides
+- platform-specific user modules such as `gars/default.nix` and `htmlgxn.nix` import that baseline and provide host/platform paths and overrides
 
 ## Modularity Rules
 
