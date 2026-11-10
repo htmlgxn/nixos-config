@@ -1,0 +1,43 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Evaluates every NixOS, nix-darwin and Home Manager output (all three
+  # platforms evaluate fine from one Linux runner) without building any of
+  # them. Catches option typos, missing imports, type errors and removed
+  # nixpkgs options before a host ever sees the change.
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            extra-substituters = https://nix-community.cachix.org
+            extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
+      - name: Evaluate all outputs
+        run: nix flake check --no-build --all-systems --show-trace
+
+  # Same formatters as `nix fmt` (parts/treefmt.nix).
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check formatting
+        run: nix build .#checks.x86_64-linux.treefmt --print-build-logs

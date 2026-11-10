@@ -1,0 +1,28 @@
+name: update-flake-lock
+
+on:
+  schedule:
+    - cron: "17 9 * * 1" # Mondays 09:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      # Opens (or updates) one PR with the refreshed flake.lock. PRs opened
+      # with the default GITHUB_TOKEN do not trigger other workflows, so run
+      # `check` on the PR by hand (workflow_dispatch) or close/reopen it;
+      # pass a personal access token via `token:` to have it run on its own.
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "flake.lock: update inputs"
+          commit-msg: "flake.lock: update inputs"
+          pr-labels: dependencies
