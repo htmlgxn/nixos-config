@@ -78,6 +78,7 @@
         ./parts/darwin.nix
         ./parts/home.nix
         ./parts/apps.nix
+        ./parts/devshell.nix
         ./parts/checks.nix
         ./parts/treefmt.nix
       ];
