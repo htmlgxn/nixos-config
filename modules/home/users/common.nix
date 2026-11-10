@@ -50,7 +50,8 @@
       };
 
       # ── Per-user / per-host blocks ─────────────────────────────────
-      # Add additional Host entries in gars.nix or htmlgxn.nix.
+      # Add additional Host entries in gars/default.nix, htmlgxn.nix or a
+      # host's home.nix.
       # Do NOT edit ~/.ssh/config directly — home-manager owns it.
     };
   };
@@ -64,7 +65,4 @@
         -N ""
     fi
   '';
-
-  # ── User packages available everywhere ─────────────────────────────
-  home.packages = [];
 }

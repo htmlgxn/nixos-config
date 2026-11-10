@@ -1,6 +1,7 @@
 # Aggregates language toolchains and development package sets.
-# Included in all Home Manager profiles via sharedHomeModules in flake.nix.
-{...}: {
+# Host-scoped: included through a host's hostHomeModules in parts/inventory.nix
+# (currently boreal only).
+_: {
   imports = [
     ./go
     ./rust

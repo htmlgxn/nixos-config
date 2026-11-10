@@ -6,7 +6,7 @@
 # `#ifdef Q_OS_MAC` uses break the build. Q_OS_MACOS is the drop-in
 # replacement. Drop this once nixpkgs ships a qBittorrent that no longer uses it.
 #
-final: prev:
+_final: prev:
 prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
   qbittorrent = prev.qbittorrent.overrideAttrs (old: {
     postPatch =

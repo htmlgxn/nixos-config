@@ -10,10 +10,4 @@
     # Enable Steam Play (Proton) for all games
     extraCompatPackages = [pkgs.proton-ge-bin];
   };
-
-  # Gaming packages
-  # Note: Steam itself is installed via programs.steam above
-  environment.systemPackages = with pkgs; [
-    # Add more gaming packages here
-  ];
 }
