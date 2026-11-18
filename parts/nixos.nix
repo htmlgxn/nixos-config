@@ -65,10 +65,7 @@
       homeOverlays = [];
       extraHomeUsers.janine = {
         homeProfile = "cosmic";
-        hostHomeModules = [
-          (self + /hosts/jtop/janine-home.nix)
-          (self + /hosts/jtop/janine-cosmic.nix)
-        ];
+        hostHomeModules = [(self + /hosts/jtop/desktop.nix)];
       };
     };
   };

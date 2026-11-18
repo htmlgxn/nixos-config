@@ -1,5 +1,5 @@
-# Night light settings for every COSMIC user on jtop (gars via home.nix,
-# janine via janine-cosmic.nix); the app itself is set up in nightlight.nix.
+# Night light settings for every COSMIC user on jtop (imported by desktop.nix);
+# the app itself is set up in nightlight.nix.
 # On all day at the same daytime temperature as wlsunset on the sway hosts:
 # no schedule, forced on. Written with cosmic-ctl on each switch, so changes
 # made in its settings window last until the next rebuild.

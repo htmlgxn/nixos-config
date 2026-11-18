@@ -1,7 +1,8 @@
-# jtop-specific home-manager configuration for the admin user (gars).
-# janine's Home Manager config lives in janine-home.nix (extraHomeUsers).
+# jtop-specific home-manager configuration for the admin user (gars). The
+# desktop itself (apps, dock, idle, night light) is shared with janine in
+# desktop.nix.
 {config, ...}: {
-  imports = [./nightlight-home.nix];
+  imports = [./desktop.nix];
 
   my.shellAliases.nrs = "nh os switch ${config.my.repoRoot} -H jtop";
 }

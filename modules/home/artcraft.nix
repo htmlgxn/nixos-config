@@ -1,6 +1,6 @@
 # ArtCraft apps (https://getartcraft.com, github.com/storytold): native Rust
 # creative/office suite. Imported by gui-base-apps.nix and jtop's
-# janine-home.nix, so every graphical output gets the same set.
+# desktop.nix, so every graphical output gets the same set.
 #
 # Only the apps packaged in nixpkgs are listed. Not packaged yet: FilmCraft,
 # EffectCraft, AniCraft, DesignCraft, FigCraft, TextureCraft, MaterialCraft,

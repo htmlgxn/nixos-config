@@ -27,8 +27,8 @@
   services.fwupd.enable = true;
 
   # Waking from idle suspend with the lid open is unreliable on this machine,
-  # so only closing the lid sleeps it: her session turns off idle suspend in
-  # janine-cosmic.nix.
+  # so only closing the lid sleeps it: every COSMIC session turns off idle
+  # suspend in desktop.nix.
 
   system.stateVersion = "26.05";
 }
