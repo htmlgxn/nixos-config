@@ -6,6 +6,7 @@ in {
   # Stable Brave from nixpkgs (boreal's nightly overlay is not applied here),
   # with the same extensions as every other host.
   imports = [
+    ../../modules/home/artcraft.nix
     ../../modules/home/brave.nix
     ../../modules/home/spicetify.nix
   ];

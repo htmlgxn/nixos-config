@@ -27,7 +27,7 @@
 - `modules/home/containers.nix` adds shared container/npm user tooling and shell helpers.
 - `modules/home/shell-aliases.nix` defines `my.shellAliases`, mirrored into both bash and nushell (Home Manager's `home.shellAliases` does not reach nushell). Put shell-agnostic aliases there; bash-only ones stay in `bash.nix`, nushell custom commands in `nushell.nix`.
 - `modules/home/user-base.nix` is the per-user baseline for every interactive user (shell layer via `modules/home/shell.nix`, XDG base/user dirs, home-manager CLI, git/ssh client defaults). `modules/home/users/common.nix` imports it and adds the gars/htmlgxn identity (git user, SSH hosts and key generation, theme and wallpaper). `modules/home/users/gars/` (NixOS/Linux user) and `modules/home/users/htmlgxn.nix` (macOS/Fedora user) both import `common.nix`; `modules/home/users/janine.nix` imports only `user-base.nix`.
-- `modules/home/brave.nix` (Brave + shared extension list) and `modules/home/spicetify.nix` are shared GUI app modules imported by `gui-base-apps.nix` and by jtop's `janine-home.nix`.
+- `modules/home/artcraft.nix` (the ArtCraft apps packaged in nixpkgs), `modules/home/brave.nix` (Brave + shared extension list) and `modules/home/spicetify.nix` are shared GUI app modules imported by `gui-base-apps.nix` and by jtop's `janine-home.nix`.
 - `modules/home/flatpak/packages.nix` and `modules/home/packages/{go,python,rust}` maintain curated package sets imported by the shared Home Manager stack.
 - `modules/home/users/gars/` is a directory module containing the NixOS/Linux user definition plus shared assets (waybar text, wallpapers).
 

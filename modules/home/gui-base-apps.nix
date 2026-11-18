@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ./artcraft.nix
     ./brave.nix
     ./spicetify.nix
   ];
