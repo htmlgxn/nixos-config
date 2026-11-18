@@ -46,6 +46,27 @@
         "type": "github"
       }
     },
+    "cosmic-nightlight": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794262759,
+        "narHash": "sha256-c2pn2RKYemJFIfWgqAigHgkvzQels0lXBiNIiWkvqXM=",
+        "owner": "cosmic-nightlight",
+        "repo": "cosmic-nightlight",
+        "rev": "10860f8600d2f63d04b573115e6663dcc25bff9e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cosmic-nightlight",
+        "ref": "v0.6.1",
+        "repo": "cosmic-nightlight",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1794870543,
@@ -336,6 +357,7 @@
       "inputs": {
         "bookokrat": "bookokrat",
         "cosmic-manager": "cosmic-manager",
+        "cosmic-nightlight": "cosmic-nightlight",
         "crane": "crane",
         "fenix": "fenix",
         "flake-parts": "flake-parts",
