@@ -51,7 +51,7 @@ in {
       dayTemperature = mkOption {
         type = types.int;
         default = 3000;
-        description = "Screen colour temperature (K) during the day (wlsunset -T; cosmic-nightlight on jtop).";
+        description = "Screen colour temperature (K) during the day (wlsunset -T).";
       };
 
       nightTemperature = mkOption {

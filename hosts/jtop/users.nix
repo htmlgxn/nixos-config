@@ -1,6 +1,5 @@
 # jtop local users: gars is the admin (SSH, rebuilds); janine is the everyday
-# desktop user without sudo. cosmic-greeter lists every uid >= 1000 account,
-# so gars still shows on the login screen.
+# desktop user without sudo. Both log into COSMIC from cosmic-greeter.
 {pkgs, ...}: {
   my.primaryUser = "gars";
 

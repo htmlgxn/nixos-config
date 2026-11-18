@@ -57,13 +57,6 @@
       inputs.flake-parts.follows = "flake-parts";
     };
 
-    # Night light for COSMIC, which has none built in (jtop output). Pinned to a
-    # release tag; it writes the gamma ramps itself through a root helper.
-    cosmic-nightlight = {
-      url = "github:cosmic-nightlight/cosmic-nightlight/v0.6.1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";

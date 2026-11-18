@@ -52,15 +52,16 @@
   };
 
   # ── jtop outputs (Janine's laptop) ────────────────────────────────
-  # gars is the admin user (cli home); janine is the COSMIC desktop user.
-  # Extra users take the same arguments as the primary user (see mkOutput);
-  # she gets the shared home modules like everyone else.
+  # gars is the admin user and janine the everyday user; both can log into
+  # COSMIC from cosmic-greeter. Extra users take the same arguments as the
+  # primary user (see mkOutput); she gets the shared home modules like everyone
+  # else.
   jtopOutputDefs = {
     jtop = {
       hostName = "jtop";
       userName = "gars";
       systemProfile = "cosmic";
-      homeProfile = "cli";
+      homeProfile = "cosmic";
       homeOverlays = [];
       extraHomeUsers.janine = {
         homeProfile = "cosmic";

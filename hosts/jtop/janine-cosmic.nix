@@ -1,20 +1,6 @@
 # janine's COSMIC session on jtop: idle settings and dock pins.
 # COSMIC pins apps by desktop-entry id (the .desktop name without suffix).
-{config, ...}: {
-  # Night light (hosts/jtop/nightlight.nix) on all day at the same daytime
-  # temperature as wlsunset on the sway hosts: no schedule, forced on. Written
-  # with cosmic-ctl on each switch, so changes made in its settings window
-  # last until the next rebuild.
-  wayland.desktopManager.cosmic.configFile."io.github.cosmic_nightlight" = {
-    version = 1;
-    entries = {
-      schedule = "manual";
-      override = "on";
-      temperature = config.my.nightLight.dayTemperature;
-      brightness = 1.0;
-    };
-  };
-
+_: {
   # No idle suspend (see configuration.nix); lid close still sleeps. The screen
   # turns off after 10 minutes.
   wayland.desktopManager.cosmic.idle = {
