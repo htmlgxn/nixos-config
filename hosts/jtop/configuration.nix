@@ -6,6 +6,7 @@
   imports = [
     ./hardware-configuration.nix
     ./users.nix
+    ./nightlight.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

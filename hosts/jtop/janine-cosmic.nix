@@ -1,6 +1,8 @@
 # janine's COSMIC session on jtop: idle settings and dock pins.
 # COSMIC pins apps by desktop-entry id (the .desktop name without suffix).
 _: {
+  imports = [./nightlight-home.nix];
+
   # No idle suspend (see configuration.nix); lid close still sleeps. The screen
   # turns off after 10 minutes.
   wayland.desktopManager.cosmic.idle = {
