@@ -139,11 +139,6 @@
       (self + /modules/home/gui-base-apps.nix)
     ];
 
-    gnome = [
-      (self + /modules/home/gnome.nix)
-      (self + /modules/home/gnome-theme.nix)
-    ];
-
     cosmic = [
       (self + /modules/home/cosmic.nix)
       (self + /modules/home/cosmic-theme.nix)
@@ -176,8 +171,6 @@
       (self + /modules/system/cli.nix)
       (self + /modules/system/nix-ld.nix)
     ];
-
-    gnome = tty ++ [(self + /modules/system/gnome.nix)];
 
     cosmic = tty ++ [(self + /modules/system/cosmic.nix)];
 

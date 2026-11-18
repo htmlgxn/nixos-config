@@ -58,7 +58,7 @@ in {
       events.before-sleep = swaylock;
     };
 
-    # Values shared with GNOME Night Light via my.nightLight.
+    # Values from my.nightLight (modules/shared/options.nix).
     wlsunset = {
       enable = true;
       inherit (config.my.nightLight) latitude longitude;

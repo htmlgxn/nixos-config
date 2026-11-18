@@ -52,37 +52,23 @@
   };
 
   # ── jtop outputs (Janine's laptop) ────────────────────────────────
-  # gars is the admin user (cli home); janine is the desktop user, with the
-  # same apps on either desktop. `jtop` (GNOME) is the default; `jtop-cosmic`
-  # is a COSMIC trial on the same machine (switch with `nr jtop-cosmic`,
-  # back with `nrs`; reboot after switching so the login screen changes).
+  # gars is the admin user (cli home); janine is the COSMIC desktop user.
   # Extra users take the same arguments as the primary user (see mkOutput);
   # she gets the shared home modules like everyone else.
-  janine = desktop: {
-    homeProfile = desktop;
-    hostHomeModules = [
-      (self + /hosts/jtop/janine-home.nix)
-      (self + /hosts/jtop/janine-${desktop}.nix)
-    ];
-  };
-
   jtopOutputDefs = {
     jtop = {
-      hostName = "jtop";
-      userName = "gars";
-      systemProfile = "gnome";
-      homeProfile = "cli";
-      homeOverlays = [];
-      extraHomeUsers.janine = janine "gnome";
-    };
-
-    jtop-cosmic = {
       hostName = "jtop";
       userName = "gars";
       systemProfile = "cosmic";
       homeProfile = "cli";
       homeOverlays = [];
-      extraHomeUsers.janine = janine "cosmic";
+      extraHomeUsers.janine = {
+        homeProfile = "cosmic";
+        hostHomeModules = [
+          (self + /hosts/jtop/janine-home.nix)
+          (self + /hosts/jtop/janine-cosmic.nix)
+        ];
+      };
     };
   };
 

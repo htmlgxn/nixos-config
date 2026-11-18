@@ -1,5 +1,5 @@
-# janine's apps on jtop (both desktops): Brave, Signal, Spotify, LibreOffice.
-# Dock pins are per desktop: janine-gnome.nix / janine-cosmic.nix.
+# janine's apps on jtop: Brave, Signal, Spotify, the ArtCraft apps.
+# Dock pins live in janine-cosmic.nix.
 {pkgs, ...}: let
   browser = "brave-browser.desktop";
 in {
@@ -11,12 +11,7 @@ in {
     ../../modules/home/spicetify.nix
   ];
 
-  home.packages = with pkgs; [
-    signal-desktop
-    libreoffice
-    hunspell
-    hunspellDicts.en_CA
-  ];
+  home.packages = [pkgs.signal-desktop];
 
   xdg.mimeApps = {
     enable = true;

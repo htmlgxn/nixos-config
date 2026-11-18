@@ -49,7 +49,7 @@
     # Declarative Flatpak installs (Home Manager module); `latest` = newest release tag.
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
-    # Declarative COSMIC settings for Home Manager (jtop-cosmic output).
+    # Declarative COSMIC settings for Home Manager (jtop output).
     cosmic-manager = {
       url = "github:HeitorAugustoLN/cosmic-manager";
       inputs.nixpkgs.follows = "nixpkgs";

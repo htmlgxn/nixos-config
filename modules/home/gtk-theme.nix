@@ -1,7 +1,7 @@
 # GTK theming from the shared GUI theme (my.guiTheme), for any desktop that
-# runs GTK apps (GNOME, COSMIC): libadwaita CSS variables, GTK3 named colours
-# on top of Adwaita-dark, icon theme and cursor. The colours live in
-# themes/gui/<theme>/gnome.nix (adwaita/gtk3), shared with gnome-theme.nix.
+# runs GTK apps (COSMIC): libadwaita CSS variables, GTK3 named colours on top
+# of Adwaita-dark, icon theme and cursor. The colours live in
+# themes/gui/<theme>/gnome.nix (adwaita/gtk3, shell.base for dark/light).
 {
   config,
   lib,

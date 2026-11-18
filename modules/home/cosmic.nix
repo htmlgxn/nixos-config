@@ -1,5 +1,4 @@
-# COSMIC for non-technical users, mirroring modules/home/gnome.nix: COSMIC's
-# default top panel + bottom dock, kitty (my.terminal) as the terminal on
+# COSMIC for non-technical users: COSMIC's default top panel + bottom dock, kitty (my.terminal) as the terminal on
 # Super+T and Ctrl+Alt+T, settings managed through cosmic-manager (written with
 # cosmic-ctl, so COSMIC Settings can still change them). Dock pins are per host.
 {

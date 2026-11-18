@@ -1,4 +1,4 @@
-# jtop: Janine's laptop (Intel Panther Lake), GNOME desktop.
+# jtop: Janine's laptop (Intel Panther Lake), COSMIC desktop.
 # nixos-hardware Intel/laptop modules are added via extraSystemModules in parts/inventory.nix.
 # Generate hardware-configuration.nix during install (from the NixOS installer):
 #   nixos-generate-config --root /mnt --show-hardware-config > hosts/jtop/hardware-configuration.nix
@@ -20,15 +20,14 @@
   networking.hostName = "jtop";
   networking.networkmanager.enable = true;
 
-  # Printers (discovered over mDNS via the shared Avahi config) and
-  # firmware updates surfaced in GNOME Software.
+  # Printers (discovered over mDNS via the shared Avahi config) and firmware
+  # updates (fwupd).
   services.printing.enable = true;
   services.fwupd.enable = true;
 
   # Waking from idle suspend with the lid open is unreliable on this machine,
-  # so only closing the lid sleeps it: the login screen never suspends on idle.
-  # Her sessions turn off idle suspend in janine-gnome.nix / janine-cosmic.nix.
-  services.displayManager.gdm.autoSuspend = false;
+  # so only closing the lid sleeps it: her session turns off idle suspend in
+  # janine-cosmic.nix.
 
   system.stateVersion = "26.05";
 }

@@ -148,22 +148,20 @@ Every NixOS output also gets `sharedSystemModules` (`modules/shared/options.nix`
 | Profile     | Definition                           |
 | ----------- | ------------------------------------ |
 | `tty`       | `cli.nix`, `nix-ld.nix`              |
-| `gnome`     | `tty` + `gnome.nix`                  |
 | `cosmic`    | `tty` + `cosmic.nix`                 |
 | `sway`      | `tty` + `sway.nix`                   |
 | `sway-full` | `sway` + `flatpak.nix`, `gaming.nix` |
 
 ### Home Profiles
 
-| Profile       | Modules                                                                                                                                                                          |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cli`         | (none — shared modules are always included)                                                                                                                                      |
-| `gui`         | `gui-base-apps.nix` (macOS — apps without compositor)                                                                                                                            |
-| `gnome`       | `gnome.nix` (dock + simple GNOME Shell defaults), `gnome-theme.nix` (`my.guiTheme` colours: GTK via `gtk-theme.nix` plus a generated GNOME Shell theme); used by jtop's `janine` |
-| `cosmic`      | `cosmic.nix` (cosmic-manager, kitty as terminal), `cosmic-theme.nix` (`my.guiTheme` COSMIC theme builder + wallpaper, GTK via `gtk-theme.nix`); used by `jtop-cosmic`'s `janine` |
-| `sway-config` | `sway.nix` only: declarative sway config for hosts that use the host OS's sway binaries (jetson)                                                                                 |
-| `sway`        | `sway-config` + `sway-apps.nix` (which imports `gui-base-apps.nix`)                                                                                                              |
-| `sway-full`   | `sway` + `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix`                                                                                                                       |
+| Profile       | Modules                                                                                                                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cli`         | (none — shared modules are always included)                                                                                                                             |
+| `gui`         | `gui-base-apps.nix` (macOS — apps without compositor)                                                                                                                   |
+| `cosmic`      | `cosmic.nix` (cosmic-manager, kitty as terminal), `cosmic-theme.nix` (`my.guiTheme` COSMIC theme builder + wallpaper, GTK via `gtk-theme.nix`); used by jtop's `janine` |
+| `sway-config` | `sway.nix` only: declarative sway config for hosts that use the host OS's sway binaries (jetson)                                                                        |
+| `sway`        | `sway-config` + `sway-apps.nix` (which imports `gui-base-apps.nix`)                                                                                                     |
+| `sway-full`   | `sway` + `gui-extra-apps.nix`, `flatpak.nix`, `gaming.nix`                                                                                                              |
 
 System and home profiles are named symmetrically (`sway`/`sway`, `sway-full`/`sway-full`). The `gui` home profile exists for macOS where sway cannot run.
 

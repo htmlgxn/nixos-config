@@ -1,7 +1,7 @@
 #
 # ~/nixos-config/modules/home/themes/gui/gars-yellow-dark/gnome.nix
 #
-# GNOME theme: gars-yellow-dark
+# GTK colours: gars-yellow-dark (libadwaita + GTK3, used by gtk-theme.nix)
 #
 {
   # libadwaita (GTK4) CSS variables, written to ~/.config/gtk-4.0/gtk.css.
@@ -32,7 +32,7 @@
     thumbnail-fg-color = "#F6EEC9";
   };
 
-  # GTK3 Adwaita-dark named colours (LibreOffice and other GTK3 apps),
+  # GTK3 Adwaita-dark named colours (GTK3 apps),
   # written to ~/.config/gtk-3.0/gtk.css.
   gtk3 = {
     theme_bg_color = "#262418";
@@ -45,22 +45,6 @@
     borders = "#826F11";
   };
 
-  # GNOME Shell: the upstream stylesheet variant to recolour, the accent that
-  # replaces -st-accent-color, and a grey ramp mapping each neutral grey
-  # (by level 0–255) onto the palette. Coloured hexes (reds, oranges) are kept.
-  shell = {
-    base = "dark";
-    accent = "#E3C220";
-    accentFg = "#1E1904";
-    greyRamp = [
-      [0 "#1E1904"]
-      [34 "#1E1904"]
-      [46 "#262418"]
-      [54 "#322F1F"]
-      [64 "#3B3724"]
-      [90 "#5B5742"]
-      [160 "#A29C7F"]
-      [255 "#F6EEC9"]
-    ];
-  };
+  # Dark or light variant; sets gtk.colorScheme in gtk-theme.nix.
+  shell.base = "dark";
 }

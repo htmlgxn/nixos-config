@@ -19,8 +19,6 @@
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       # More CAD
       freecad
-      # Docs
-      libreoffice
     ];
 
   # VSCodium (programs.vscode now always writes to VS Code's own paths)

@@ -44,14 +44,14 @@ in {
       # Store copy of the shared wallpaper, so users without access to the
       # repo checkout (e.g. janine on jtop) get the same image.
       default = ../home/users/gars/wallpapers/default.jpg;
-      description = "Wallpaper image used by sway (output bg) and GNOME (background + lock screen).";
+      description = "Wallpaper image used by sway (output bg) and COSMIC (background).";
     };
 
     nightLight = {
       dayTemperature = mkOption {
         type = types.int;
         default = 3000;
-        description = "Screen colour temperature (K) during the day (wlsunset -T; GNOME Night Light).";
+        description = "Screen colour temperature (K) during the day (wlsunset -T).";
       };
 
       nightTemperature = mkOption {
