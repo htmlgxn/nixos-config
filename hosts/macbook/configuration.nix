@@ -168,6 +168,7 @@ in {
       "go" # Go compiler; apps installed imperatively via `go install ...@latest`
     ];
     casks = [
+      "brave-browser" # nixpkgs dropped brave on 2026-11-03; the cask self-updates
       "android-platform-tools"
       "freecad"
       "protonvpn"

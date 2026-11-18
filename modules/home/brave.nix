@@ -10,10 +10,8 @@
   pkgs,
   ...
 }: {
-  programs.brave = {
+  programs.brave = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     enable = true;
-    extensions = lib.optionals pkgs.stdenv.hostPlatform.isLinux (
-      map (id: {inherit id;}) (import ../shared/brave-extensions.nix)
-    );
+    extensions = map (id: {inherit id;}) (import ../shared/brave-extensions.nix);
   };
 }
